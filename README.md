@@ -1,6 +1,6 @@
 <div align="center">
 <!-- Title: -->
-  <img src="./nuoquan-client/static/Nottinghome-logo.jpg" height="150">
+  <img src="./nuoquan-client/static/Nottinghome-logo.jpg" height="100">
   <h1>Nottinghome - 诺圈</h1>
 
   <h3>The exclusive social platform for UNNC students. </h3>
