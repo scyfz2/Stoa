@@ -8,11 +8,13 @@
 </div>
 
 
+
+
 ## Nottinghome项目环境配置（以Mac电脑为例）
 
 ### VSCode
 
-###### [点击前往下载]（https://code.visualstudio.com/）
+###### [点击前往下载](https://code.visualstudio.com/)
 
 vscode用于git操作
 
@@ -23,7 +25,7 @@ vscode用于git操作
 
 ### IntelliJ IDEA
 
-###### [点击前往下载]（https://www.jetbrains.com/idea/download/#section=mac)
+###### [点击前往下载](https://www.jetbrains.com/idea/download/#section=mac)
 
 IntelliJ IDEA用于后端代码编辑及操作
 
@@ -35,7 +37,7 @@ IntelliJ IDEA用于后端代码编辑及操作
 
 ### <span id="sql">MySQL</span>
 
-###### [点击前往下载]（https://dev.mysql.com/downloads/mysql/)
+###### [点击前往下载](https://dev.mysql.com/downloads/mysql/)
 
 配置：
 
@@ -47,7 +49,7 @@ IntelliJ IDEA用于后端代码编辑及操作
 
 ### MySQL Workbench
 
-###### [点击前往下载]（https://dev.mysql.com/downloads/workbench/)
+###### [点击前往下载](https://dev.mysql.com/downloads/workbench/)
 
 MySQL Workbench用于数据库操作
 
@@ -62,7 +64,7 @@ MySQL Workbench用于数据库操作
 
 ### Hbuilder
 
-##### [点击前往下载]（https://www.dcloud.io/hbuilderx.html)
+##### [点击前往下载](https://www.dcloud.io/hbuilderx.html)
 
 配置：打开Hbuilder， 点击 运行-运行到小程序模拟器-微信开发者工具
 
@@ -70,14 +72,14 @@ MySQL Workbench用于数据库操作
 
 ### 微信开发者工具
 
-##### [点击前往下载]（https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
+##### [点击前往下载](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
 配置：打开微信开发者工具， 设置-安全设置-打开服务端口 （此操作目的为允许Hbuilder打开微信开发者工具）
 
 
 
 ### Redis
 
-###### [点击前往下载]（https://redis.io/download/)
+###### [点击前往下载](https://redis.io/download/)
 
 配置：
 
