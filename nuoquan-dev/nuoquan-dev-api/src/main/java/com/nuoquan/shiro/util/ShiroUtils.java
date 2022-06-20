@@ -27,7 +27,7 @@ public class ShiroUtils {
      * @author fuce
      * @Date 2019年11月21日 上午10:00:55
      */
-    public static Subject getSubjct()
+    public static Subject getSubject()
     {
         return SecurityUtils.getSubject();
     }
@@ -50,7 +50,7 @@ public class ShiroUtils {
      */
     public static void logout()
     {
-        getSubjct().logout();
+        getSubject().logout();
     }
     
     /**
@@ -62,7 +62,7 @@ public class ShiroUtils {
     public static AdminUser getUser()
     {
     	AdminUser user = null;
-        Object obj = getSubjct().getPrincipal();
+        Object obj = getSubject().getPrincipal();
         if (StringUtils.isNotNull(obj))
         {
             user = new AdminUser();
@@ -79,7 +79,7 @@ public class ShiroUtils {
      */
     public static void setUser(AdminUser user)
     {
-        Subject subject = getSubjct();
+        Subject subject = getSubject();
         PrincipalCollection principalCollection = subject.getPrincipals();
         String realmName = principalCollection.getRealmNames().iterator().next();
         PrincipalCollection newPrincipalCollection = new SimplePrincipalCollection(user, realmName);
@@ -137,7 +137,7 @@ public class ShiroUtils {
      */
     public static String getIp()
     {
-        return getSubjct().getSession().getHost();
+        return getSubject().getSession().getHost();
     }
     
     /**
@@ -148,6 +148,6 @@ public class ShiroUtils {
      */
     public static String getSessionId()
     {
-        return String.valueOf(getSubjct().getSession().getId());
+        return String.valueOf(getSubject().getSession().getId());
     }
 }

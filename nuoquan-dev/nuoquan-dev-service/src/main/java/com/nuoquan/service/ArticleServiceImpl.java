@@ -423,18 +423,18 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
-	public void upadtePopByFunction() {
+	public void updatePopByFunction() {
 		//TODO:测试java代码实现和sql语句实现更新效率对比
 //		Example likeExample = new Example(UserLike.class);
 //		Criteria likeCriteria = likeExample.createCriteria();
 //		likeCriteria.andGreaterThan();
 //		userLikeMapper
-		articleMapperCustom.upadtePopByFunction();
+		articleMapperCustom.updatePopByFunction();
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
-	public PagedResult getArticleByPopurity(Integer page, Integer pageSize, String userId) {
+	public PagedResult getArticleByPopularity(Integer page, Integer pageSize, String userId) {
 		PageHelper.startPage(page, pageSize);
 		List<ArticleVO> list = articleMapperCustom.getArticleByPopularity();
 		for (ArticleVO a : list) {

@@ -27,7 +27,7 @@ public class WSServerInitializer extends ChannelInitializer<SocketChannel>{
 	@Autowired
 	ResourceConfig resourceConfig;
 	
-	//2. @PostContruct是spring框架的注解，在方法上加该注解会在项目启动的时候执行该方法，
+	//2. @PostConstruct是spring框架的注解，在方法上加该注解会在项目启动的时候执行该方法，
 	//	也可以理解为在spring容器初始化的时候执行该方法。用这种方式获取@Autowired的值
 	@PostConstruct 
     public void init(){

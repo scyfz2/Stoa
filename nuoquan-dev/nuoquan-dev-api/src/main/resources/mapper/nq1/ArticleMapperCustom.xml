@@ -86,7 +86,7 @@
   	order by a.create_date desc
   </select>
   
-  <update id="upadtePopByFunction">
+  <update id="updatePopByFunction">
   	update nuoquan.article as a left join 
 		(select target_id, count(target_id) as c_in24h from nuoquan.user_comment
 		where 
@@ -105,7 +105,7 @@
 							if(l.target_id is null, c.c_in24h, c.c_in24h+l.l_in24h));
   </update>
   
-<!-- 【勿删】upadtePopByFunction 的数据库测试用例 mysql代码：查看 c_in24h + l_in24h = popularity? by Jerrio
+<!-- 【勿删】updatePopByFunction 的数据库测试用例 mysql代码：查看 c_in24h + l_in24h = popularity? by Jerrio
 select * from nuoquan.article as a left join
 	(select target_id, count(target_id) as c_in24h from nuoquan.user_comment
 	where

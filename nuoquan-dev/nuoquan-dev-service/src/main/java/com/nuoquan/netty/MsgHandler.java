@@ -50,8 +50,8 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
 
 		// 2. 判断消息类型
 		if (action == MsgActionEnum.CONNECT.type) {
-			// 2.1 当 websocket 第一次连接时，初始化Channel，把用的Channel和useid关联起来。
-			String senderId = dataContent.getExtand();
+			// 2.1 当 websocket 第一次连接时，初始化Channel，把用的Channel和userid关联起来。
+			String senderId = dataContent.getExtend();
 			UserChannelRel.put(senderId, currentChannel);
 
 			// 测试
@@ -76,7 +76,7 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
 		} else if (action == MsgActionEnum.SIGNED.type) {
 			// 2.3 签收消息类型，修改数据库对应消息的签收状态[已签收]
 			// 扩展字段在 signed 类型的消息中，代表需要去签收的消息 id，逗号间隔
-			String msgIdsStr = dataContent.getExtand();
+			String msgIdsStr = dataContent.getExtend();
 			String[] msgIds = msgIdsStr.split(",");
 
 			List<String> msgIdList = new ArrayList<>();
@@ -95,7 +95,7 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
 //		} else if (action == MsgActionEnum.LIKEARTICLE_SIGN.type) {
 //			// 2.4 签收点赞文章消息类型，修改数据库对应消息的签收状态[已签收]
 //			// 扩展字段在 signed 类型的消息中，代表需要去签收的消息 id，逗号间隔
-//			String msgIdsStr = dataContent.getExtand();
+//			String msgIdsStr = dataContent.getExtend();
 //			String[] msgIds = msgIdsStr.split(",");
 //
 //			List<String> msgIdList = new ArrayList<>();
@@ -114,7 +114,7 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
 //		} else if (action == MsgActionEnum.LIKECOMMENT_SIGN.type) {
 //			// 2.5 签收点赞评论消息类型，修改数据库对应消息的签收状态[已签收]
 //			// 扩展字段在 signed 类型的消息中，代表需要去签收的消息 id，逗号间隔
-//			String msgIdsStr = dataContent.getExtand();
+//			String msgIdsStr = dataContent.getExtend();
 //			String[] msgIds = msgIdsStr.split(",");
 //
 //			List<String> msgIdList = new ArrayList<>();
@@ -133,7 +133,7 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
 //		} else if (action == MsgActionEnum.COMMENT_SIGN.type) {
 //			// 2.6 签收评论消息类型，修改数据库对应消息的签收状态[已签收]
 //			// 扩展字段在 signed 类型的消息中，代表需要去签收的消息 id，逗号间隔
-//			String msgIdsStr = dataContent.getExtand();
+//			String msgIdsStr = dataContent.getExtend();
 //			String[] msgIds = msgIdsStr.split(",");
 //
 //			List<String> msgIdList = new ArrayList<>();

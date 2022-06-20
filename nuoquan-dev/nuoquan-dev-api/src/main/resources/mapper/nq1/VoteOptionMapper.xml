@@ -23,7 +23,7 @@
     order by nuoquan.vote_option.index
   </select>
   
-  <update id="addCoorespondingOptionCount" parameterType="String">
+  <update id="addCorrespondingOptionCount" parameterType="String">
   	update nuoquan.vote_option set count=count+1 where id=#{optionId}
   </update>
   

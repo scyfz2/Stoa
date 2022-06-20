@@ -272,7 +272,7 @@ public class VoteServiceImpl implements VoteService {
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("id", voteId);
 		Vote vote = new Vote();
-		vote.setStatus(VoteStatusEnum.UNVOTABLE.type);
+		vote.setStatus(VoteStatusEnum.UNVOTEABLE.type);
 		voteMapper.updateByExampleSelective(vote, example);
 	}
 
@@ -322,7 +322,7 @@ public class VoteServiceImpl implements VoteService {
 		Integer totalVoteNum = voteVO.getSumVote();
 //		System.out.println(totalVoteNum);
 		// 3.vote_option表中的对应选项的count+1
-		voteOptionMapper.addCoorespondingOptionCount(voteUser.getOptionId());
+		voteOptionMapper.addCorrespondingOptionCount(voteUser.getOptionId());
 		// 4.更新vote_option表中该投票的每个选项的percent值
 		Example example = new Example(VoteOption.class);
 		Criteria criteria = example.createCriteria();

@@ -77,7 +77,7 @@ public interface ArticleService {
 	/**
 	 * 根据公式更新文章热度
 	 */
-	public void upadtePopByFunction();
+	public void updatePopByFunction();
 	
 	/**
 	 * 获取热度值前三的文章
@@ -85,7 +85,7 @@ public interface ArticleService {
 	 * @param page 
 	 * @return
 	 */
-	public PagedResult getArticleByPopurity(Integer page, Integer pageSize, String userId);
+	public PagedResult getArticleByPopularity(Integer page, Integer pageSize, String userId);
 	
 	/**
 	 * Set the status to unreadable
@@ -126,7 +126,7 @@ public interface ArticleService {
 	public int updateArticleStatus(String articleIds, int status);
 
 	/**
-	 * QueryAritcle接口的方法
+	 * QueryArticle接口的方法
 	 * @param page
 	 * @param pageSize
 	 * @param queryType
@@ -144,7 +144,7 @@ public interface ArticleService {
 //	 * @param userId
 //	 * @return
 //	 */
-//	public PagedResult getMainCommentsByPopilarity(Integer page, Integer pageSize, String articleId, String userId);
+//	public PagedResult getMainCommentsByPopularity(Integer page, Integer pageSize, String articleId, String userId);
 //
 //	/**
 //	 * 通过热度查询次ping

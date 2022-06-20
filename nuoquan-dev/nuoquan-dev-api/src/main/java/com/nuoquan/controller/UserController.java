@@ -205,7 +205,7 @@ public class UserController extends BasicController {
 		//被关注者影响力--
 		userService.updateReputation(userId, ReputeWeight.FOLLOW.weight, -1);
 
-		return JSONResult.ok("Cancle follow success");
+		return JSONResult.ok("Cancel follow success");
 	}
 	
 	@ApiOperation(value = "Query a user's fans and follow lists")

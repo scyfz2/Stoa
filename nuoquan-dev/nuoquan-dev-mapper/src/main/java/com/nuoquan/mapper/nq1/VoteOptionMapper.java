@@ -13,7 +13,7 @@ public interface VoteOptionMapper extends MyMapper<VoteOption> {
 	 * 选项的count++
 	 * @param optionId
 	 */
-	public void addCoorespondingOptionCount(String optionId);
+	public void addCorrespondingOptionCount(String optionId);
 
 	public void updatePercent(String id, Double percent);	
 	

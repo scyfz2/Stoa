@@ -10,7 +10,7 @@ public enum VoteStatusEnum {
 	/**
 	 * 投票结束/不可投票
 	 */
-	UNVOTABLE(0, "unvotable"),
+	UNVOTEABLE(0, "unvoteable"),
 	VOTABLE(1, "votable"),
 	CHECKING(2, "checking"),
 	/**

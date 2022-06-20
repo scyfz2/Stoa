@@ -9,7 +9,7 @@ public class DataContent implements Serializable {
 	private Integer action = -1;							// 动作类型(枚举在MsgActionEnum)
 	private Object data;
 //	private ChatMessage chatMessage = new ChatMessage();	// 用户的聊天内容 entity
-	private String extand = "";								// 扩展字段
+	private String extend = "";								// 扩展字段
 	
 	public Integer getAction() {
 		return action;
@@ -27,12 +27,12 @@ public class DataContent implements Serializable {
 		this.data = data;
 	}
 	
-	public String getExtand() {
-		return extand;
+	public String getExtend() {
+		return extend;
 	}
 	
-	public void setExtand(String extand) {
-		this.extand = extand;
+	public void setExtend(String extend) {
+		this.extend = extend;
 	}
 
 }

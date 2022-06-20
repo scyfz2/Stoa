@@ -163,7 +163,7 @@ public class VoteController extends BasicController{
 		return JSONResult.ok();
 	}
 	
-	@ApiOperation(value = "更改投票的状态为unvotable")
+	@ApiOperation(value = "更改投票的状态为unvoteable")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "voteId", value = "投票id", required = true, dataType = "String", paramType = "form")
 	})

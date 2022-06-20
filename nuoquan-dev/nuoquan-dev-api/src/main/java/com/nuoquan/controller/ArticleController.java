@@ -129,7 +129,7 @@ public class ArticleController extends BasicController {
 		
 	}
 
-	@ApiOperation(value = "更改文章状态为unreadble")
+	@ApiOperation(value = "更改文章状态为unreadable")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String", paramType = "form")
 	})
@@ -150,111 +150,6 @@ public class ArticleController extends BasicController {
 		return JSONResult.ok(articleService.getArticleById(articleId, userId));
 	}
 
-//	@Deprecated //解耦业务
-//	@ApiOperation(value = "点赞文章")
-//	@ApiImplicitParams({
-//			// uniapp使用formData时，paramType要改成form
-//			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "articleCreaterId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
-//	@PostMapping(value = "/userLikeArticle")
-//	public JSONResult userLikeArticle(String userId, String articleId, String articleCreaterId) throws Exception {
-//
-//		if (userId.equals(articleCreaterId)) {
-//			// 点赞自己，标记已签收存入数据
-//			articleService.userLikeArticle(userId, articleId, articleCreaterId, MsgSignFlagEnum.SIGNED.type);
-//		}else {
-//			// 标记未签收，储存到数据库 返回数据库对象
-//			UserLikeArticle like = articleService.userLikeArticle(userId, articleId, articleCreaterId, MsgSignFlagEnum.UNSIGN.type);
-//			// 加上点赞人的信息
-//			UserLikeVO likeVO = ConvertLikeToLikeVO(like);
-//			UserVO user = userService.queryUserById(likeVO.getUserId());
-//			likeVO.setNickname(user.getNickname());
-//			likeVO.setFaceImg(user.getFaceImg());
-//			likeVO.setFaceImgThumb(user.getFaceImgThumb());
-//
-//			// 给目标作者发推送
-//			DataContent dataContent = new DataContent();
-//			dataContent.setAction(MsgActionEnum.NOTIFY.type);
-//			dataContent.setData(new NoticeCard(likeVO, articleService.getArticleById(articleId, userId)));
-//
-//			MsgHandler.sendMsgTo(articleCreaterId, dataContent);
-//
-//			//作者影响力++
-//			userService.updateReputation(articleCreaterId, ReputeWeight.LIKE.weight, 1);
-//
-//		}
-//
-//		return JSONResult.ok();
-//	}
-//
-//	@Deprecated //解耦业务
-//	@ApiOperation(value = "点赞评论")
-//	@ApiImplicitParams({
-//			// uniapp使用formData时，paramType要改成form
-//			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "commentId", value = "评论id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "createrId", value = "作者id", required = true, dataType = "String", paramType = "form") })
-//	@PostMapping(value = "/userLikeComment")
-//	public JSONResult userLikeComment(String userId, String commentId, String createrId) throws Exception {
-//
-//		if (userId.equals(createrId)) {
-//			// 点赞自己，标记已签收存入数据
-//			articleService.userLikeComment(userId, commentId, createrId, MsgSignFlagEnum.SIGNED.type);
-//		} else {
-//			// 标记未签收，储存到数据库 返回数据库对象
-//			UserLikeComment like = articleService.userLikeComment(userId, commentId, createrId, MsgSignFlagEnum.UNSIGN.type);
-//			// 加上点赞人的信息
-//			UserLikeVO likeVO = ConvertLikeToLikeVO(like);
-//			UserVO user = userService.queryUserById(likeVO.getUserId());
-//			likeVO.setNickname(user.getNickname());
-//			likeVO.setFaceImg(user.getFaceImg());
-//			likeVO.setFaceImgThumb(user.getFaceImgThumb());
-//
-//			// 给作者发推送
-//			DataContent dataContent = new DataContent();
-//			dataContent.setAction(MsgActionEnum.NOTIFY.type);
-//			dataContent.setData(new NoticeCard(likeVO, articleService.getCommentById(commentId, userId)));
-//
-//			MsgHandler.sendMsgTo(createrId, dataContent);
-//
-//			//作者影响力++
-//			userService.updateReputation(createrId, ReputeWeight.LIKE.weight, 1);
-//		}
-//
-//		return JSONResult.ok();
-//	}
-//
-//	@Deprecated //解耦业务
-//	@ApiOperation(value = "取消点赞文章")
-//	@ApiImplicitParams({
-//			// uniapp使用formData时，paramType要改成form
-//			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "articleCreaterId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
-//	@PostMapping(value = "/userUnLikeArticle")
-//	public JSONResult userUnLikeArticle(String userId, String articleId, String articleCreaterId) throws Exception {
-//		articleService.userUnLikeArticle(userId, articleId, articleCreaterId);
-//
-//		//文章作者影响力--
-//		userService.updateReputation(articleCreaterId, ReputeWeight.LIKE.weight, -1);
-//		return JSONResult.ok();
-//	}
-//
-//	@Deprecated //解耦业务
-//	@ApiOperation(value = "取消点赞评论")
-//	@ApiImplicitParams({
-//			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "commentId", value = "评论id", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "createrId", value = "作者id", required = true, dataType = "String", paramType = "form") })
-//	@PostMapping(value = "/userUnLikeComment")
-//	public JSONResult userUnLikeComment(String userId, String commentId, String createrId) throws Exception {
-//		articleService.userUnLikeComment(userId, commentId, createrId);
-//
-//		//作者影响力--
-//		userService.updateReputation(createrId, ReputeWeight.LIKE.weight, -1);
-//		return JSONResult.ok();
-//	}
 
 	/**
 	 * 分页和搜索文章 isSaveRecord：1 = 需要保存 0/null = 不需要保存
@@ -370,145 +265,6 @@ public class ArticleController extends BasicController {
 		}
 	}
 
-//	@Deprecated //解耦业务
-//	@ApiOperation(value = "保存评论")
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name = "fromUserId", value = "评论人", required = true, dataType = "String", paramType = "form"),
-//		@ApiImplicitParam(name = "toUserId", value = "被评论人", required = true, dataType = "String", paramType = "form"),
-////		@ApiImplicitParam(name = "targetType", value = "评论对象类型", required = true, dataType = "String", paramType = "form"),
-//		@ApiImplicitParam(name = "targetId", value = "评论对象ID", required = true, dataType = "String", paramType = "form"),
-//		@ApiImplicitParam(name = "comment", value = "评论内容", required = true, dataType = "String", paramType = "form"),
-//		@ApiImplicitParam(name = "underCommentId", value = "主评论id", required = false, dataType = "String", paramType = "form")
-//	})
-//	@PostMapping("/saveComment")
-//	public JSONResult saveComment(String fromUserId,
-//								  String toUserId, //更方便判断是否为自己点赞，以及查询对方昵称
-////								  PostType targetType,
-//								  String targetId,
-//								  String comment,
-//								  String underCommentId) throws Exception {
-//		// 内容安全检测
-//		if (weChatService.msgSecCheck(comment) ) {
-//
-//			if(toUserId.equals(fromUserId)) {
-//				// 给自己评论，设为已签收存入数据库
-//				commentService.insertComment(fromUserId,
-//											 toUserId,
-//											 PostType.ARTICLE,
-//											 targetId,
-//											 comment,
-//										     underCommentId,
-//											 MsgSignFlagEnum.SIGNED.type);
-//
-//			}else {
-//				// 给他人评论，设为未签收存入数据库
-//				commentService.insertComment(fromUserId,
-//								 			 toUserId,
-//											 PostType.ARTICLE,
-//											 targetId,
-//											 comment,
-//											 underCommentId,
-//											 MsgSignFlagEnum.UNSIGN.type);
-//
-////				// 给作者发推送
-////				DataContent dataContent = new DataContent();
-////
-////				UserArticleCommentVO commentVO = articleService.getCommentById(commentId, null); // 无需查询用户点赞关系
-////				if (StringUtils.isBlank(comment.getFatherCommentId())) {
-////					// 给文章评论
-////					ArticleVO targetArticle = articleService.getArticleById(comment.getArticleId(), null);
-////					dataContent.setData(new NoticeCard(commentVO, targetArticle));
-////					dataContent.setAction(MsgActionEnum.NOTIFY.type);
-////				}else {
-////					// 给评论评论
-////					UserArticleCommentVO targetComment = articleService.getCommentById(comment.getFatherCommentId(), null);
-////					dataContent.setData(new NoticeCard(commentVO, targetComment));
-////					dataContent.setAction(MsgActionEnum.NOTIFY.type);
-////				}
-////				MsgHandler.sendMsgTo(comment.getToUserId(), dataContent);
-//
-//				//文章作者影响力++
-////				String author = articleService.getArticleById(comment.getArticleId(), null).getUserId();
-////				userService.updateReputation(author, ReputeWeight.COMMENT.weight, 1);
-//			}
-//
-//			return JSONResult.ok();
-//		}else {
-//			return JSONResult.errorMsg("内容不合法");
-//		}
-//
-//	}
-//
-//	@Deprecated //解耦业务
-//	@ApiImplicitParams({
-//			@ApiImplicitParam(name = "page", required = false, dataType = "Integer", paramType = "form"),
-//			@ApiImplicitParam(name = "pageSize", required = false, dataType = "Integer", paramType = "form"),
-//			@ApiImplicitParam(name = "type", value = "0=按时间查询, 1=按热度查询", required = true, dataType = "Integer", paramType = "form"),
-//			@ApiImplicitParam(name = "targetId", required = true, dataType = "String", paramType = "form"),
-//			@ApiImplicitParam(name = "userId", required = false, dataType = "String", paramType = "form")})
-//	@PostMapping("/getMainComments")
-//	public JSONResult getMainComments(Integer page, Integer pageSize, Integer type, String targetId, String userId) throws Exception {
-//
-//		if (StringUtils.isBlank(targetId)) {
-//			return JSONResult.errorMsg("targetId can't be null");
-//		}
-//
-//		if (page == null) {
-//			page = 1;
-//		}
-//
-//		if (pageSize == null) {
-//			pageSize = PAGE_SIZE;
-//		}
-//
-//		// type: 0 -- 按时间查询, 1 -- 按热度查询
-//		PagedResult list = commentService.getMainComments(page,
-//														  pageSize,
-//													 	  type,
-//													      PostType.ARTICLE,
-//													      targetId,
-//													      userId);
-//
-//		return JSONResult.ok(list);
-//	}
-//
-//	/**
-//	 *
-//	 * @param page
-//	 * @param pageSize
-//	 * @param type  0 -- 按时间查询, 1 -- 按热度查询
-//	 * @param underCommentId
-//	 * @param userId
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	@Deprecated //解耦业务
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name = "page", required = false, dataType = "Integer", paramType = "form"),
-//		@ApiImplicitParam(name = "pageSize", required = false, dataType = "Integer", paramType = "form"),
-//		@ApiImplicitParam(name = "type", value = "0=按时间查询, 1=按热度查询", required = true, dataType = "Integer", paramType = "form"),
-//		@ApiImplicitParam(name = "underCommentId", required = true, dataType = "String", paramType = "form"),
-//		@ApiImplicitParam(name = "userId", required = false, dataType = "String", paramType = "form")})
-//	@PostMapping("/getSubComments")
-//	public JSONResult getSonArticleComments(Integer page, Integer pageSize, Integer type, String underCommentId, String userId) throws Exception {
-//
-//		if (StringUtils.isBlank(underCommentId)) {
-//			return JSONResult.errorMsg("underCommentId can't be null");
-//		}
-//
-//		if (page == null) {
-//			page = 1;
-//		}
-//
-//		if (pageSize == null) {
-//			pageSize = PAGE_SIZE;
-//		}
-//
-//		// type: 0 -- 按时间查询, 1 -- 按热度查询
-//		PagedResult reCommentList = commentService.getSonComments(page, pageSize, type, underCommentId, userId);
-//
-//		return JSONResult.ok(reCommentList);
-//	}
 	
 	/**
 	 * 根据热度查询文章
@@ -529,7 +285,7 @@ public class ArticleController extends BasicController {
 			pageSize = PAGE_SIZE;
 		}
 		
-		PagedResult result = articleService.getArticleByPopurity(page, pageSize, userId);
+		PagedResult result = articleService.getArticleByPopularity(page, pageSize, userId);
 //		List<ArticleVO> list = articleService.getTop3ByPopularity(userId);
 		return JSONResult.ok(result);
 	}

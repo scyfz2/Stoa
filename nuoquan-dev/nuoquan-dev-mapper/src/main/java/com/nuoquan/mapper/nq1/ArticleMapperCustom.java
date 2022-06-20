@@ -71,7 +71,7 @@ public interface ArticleMapperCustom extends MyMapper<Article> {
 	 * 按公式更新热度
 	 * (24小时内的点赞数+24小时内的评论数)
 	 */
-	public void upadtePopByFunction();
+	public void updatePopByFunction();
 	
 	/**
 	 * 根据热度获取文章

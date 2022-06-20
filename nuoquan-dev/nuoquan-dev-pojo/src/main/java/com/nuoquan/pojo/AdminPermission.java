@@ -18,7 +18,7 @@ public class AdminPermission {
     /**
      * 权限描述
      */
-    private String descripion;
+    private String description;
 
     /**
      * 授权链接
@@ -104,19 +104,19 @@ public class AdminPermission {
     /**
      * 获取权限描述
      *
-     * @return descripion - 权限描述
+     * @return description - 权限描述
      */
-    public String getDescripion() {
-        return descripion;
+    public String getDescription() {
+        return description;
     }
 
     /**
      * 设置权限描述
      *
-     * @param descripion 权限描述
+     * @param description 权限描述
      */
-    public void setDescripion(String descripion) {
-        this.descripion = descripion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**

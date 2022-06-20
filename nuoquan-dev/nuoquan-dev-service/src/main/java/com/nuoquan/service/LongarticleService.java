@@ -58,7 +58,7 @@ public interface LongarticleService {
 	/**
 	 * 根据公式更新文章热度
 	 */
-	public void upadtePopByFunction();
+	public void updatePopByFunction();
 	
 	/**
 	 * 获取热度值前三的文章
@@ -66,7 +66,7 @@ public interface LongarticleService {
 	 * @param page 
 	 * @return
 	 */
-	public PagedResult getArticleByPopurity(Integer page, Integer pageSize, String userId);
+	public PagedResult getArticleByPopularity(Integer page, Integer pageSize, String userId);
 	
 	/**
 	 * 操作者本人查看自己发布过的所有文章

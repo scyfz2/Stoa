@@ -37,9 +37,9 @@ public class AdminServiceImpl implements AdminService {
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("username", username);
 		
-		List<AdminUser> reslut = adminUserMapper.selectByExample(example);
-		if (reslut.size() >= 0) {
-			return reslut.get(0); // Return the first one, although it should have only one.
+		List<AdminUser> result = adminUserMapper.selectByExample(example);
+		if (result.size() >= 0) {
+			return result.get(0); // Return the first one, although it should have only one.
 		}
 		return null;
 	}

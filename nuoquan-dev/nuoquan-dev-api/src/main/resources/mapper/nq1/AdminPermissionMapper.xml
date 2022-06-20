@@ -7,7 +7,7 @@
     -->
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="descripion" property="descripion" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="is_blank" property="isBlank" jdbcType="INTEGER" />
     <result column="pid" property="pid" jdbcType="VARCHAR" />
@@ -80,7 +80,7 @@
   </sql>
   
   <sql id="Base_Column_List">
-    id, name, descripion, url, is_blank, pid, perms, type, icon, order_num, visible, (select count(1) from admin_permission where pid=a.id) child_count
+    id, name, description, url, is_blank, pid, perms, type, icon, order_num, visible, (select count(1) from admin_permission where pid=a.id) child_count
   </sql>
   
   <select id="findByAdminUserId" parameterType="String" resultMap="BaseResultMap">
@@ -122,7 +122,7 @@
   <update id="updateByPrimaryKey" parameterType="com.nuoquan.pojo.AdminPermission">
     update admin_permission
     set name = #{name,jdbcType=VARCHAR},
-      descripion = #{descripion,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       is_blank = #{isBlank,jdbcType=INTEGER},
       pid = #{pid,jdbcType=VARCHAR},

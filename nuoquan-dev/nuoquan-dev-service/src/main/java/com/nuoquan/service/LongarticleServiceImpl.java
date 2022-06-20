@@ -190,13 +190,13 @@ public class LongarticleServiceImpl implements LongarticleService {
 	}
 
 	@Override
-	public void upadtePopByFunction() {
+	public void updatePopByFunction() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public PagedResult getArticleByPopurity(Integer page, Integer pageSize, String userId) {
+	public PagedResult getArticleByPopularity(Integer page, Integer pageSize, String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

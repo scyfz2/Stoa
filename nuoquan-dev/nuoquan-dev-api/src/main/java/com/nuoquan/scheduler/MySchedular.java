@@ -49,9 +49,9 @@ public class MySchedular {
 
 	@Async
 	@Scheduled(cron = "0 */10 * * * ?") // 间隔10分钟
-	public void articlePupulorityAutoUpdate() {
+	public void articlePopularityAutoUpdate() {
 		System.err.println("按公式更新文章热度值... " + LocalDateTime.now());
-		articleService.upadtePopByFunction();
+		articleService.updatePopByFunction();
 	}
 	
 	@Async
