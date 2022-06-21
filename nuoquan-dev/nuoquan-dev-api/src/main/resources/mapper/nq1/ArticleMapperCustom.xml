@@ -158,16 +158,17 @@ select * from nuoquan.article as a left join
   </select>
   
   <select id="queryCollectArticle" resultMap="BaseResultMap" parameterType="String">
-  	select TableA.* from nuoquan.user_collect_article uca left join
+  	select TableA.* from nuoquan.user_collect uc left join
 		(select a.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.article a
 	  	left join nuoquan.user u on u.id = a.user_id
 	  	where
 	  		 1 = 1
-	  	order by a.create_date desc) TableA on uca.article_id = TableA.id 
+	  	order by a.create_date desc) TableA on uc.target_id = TableA.id
 	where
 		1 = 1
         and TableA.status = 1
-	    and uca.user_id = #{targetId}
+	  	and uc.target_type = 'article'
+	  	and uc.user_id = #{targetId}
   </select>
   
   <update id="addViewCount" parameterType="String">
