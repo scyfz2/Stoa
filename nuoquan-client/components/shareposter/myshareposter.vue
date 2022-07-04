@@ -55,12 +55,12 @@ export default {
 	},
 	data() {
 		return {
-			// postersData: {},
-			// posterImg: {},
+			postersData: {},
+			posterImg: {},
 
-			// width: 320, // 画布宽度
-			// height: 320, // 画布长度
-			// context: '', // canvas 环境
+			width: 320, // 画布宽度
+			height: 320, // 画布长度
+			context: '', // canvas 环境
 
 			painting: {},
 			shareImage: ''
@@ -126,6 +126,7 @@ export default {
 		 * @param {Object} width 二维码尺寸
 		 * @param {Object} isHyaline 底色是否透明
 		 */
+		
 		getQrcodeUnlimit(page, scene, width, isHyaline) {
 			var that = this;
 			return new Promise((resolve, reject) => {
@@ -143,7 +144,7 @@ export default {
 						'content-type': 'application/x-www-form-urlencoded'
 					},
 					success: res => {
-						// console.log(res);
+						console.log("QRCode Success");
 						var QrCode = 'data:image/png;base64,' + res.data.data;
 						base64ToPath(QrCode)
 							.then(path => {
@@ -290,7 +291,7 @@ export default {
 				const objectWeight = 266; //常用对象宽度
 				var objectTop = 28; //计算当前对象长度
 				var paintObjects = []; //要画的对象
-
+				// debugger
 				// 加入标题
 				var titleLineHeight = 25;
 				var titleLines = this.getLines(this.voteCard.voteTitle, 22, objectWeight);
