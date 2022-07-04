@@ -191,7 +191,7 @@
 			this.getArticleById(articleId, this.userInfo.id).then(() => {
 				this.getComments(this.currentPage);
 				// 添加浏览量
-				this.addViewCount();
+				// this.addViewCount();
 			})
 			
 			// uni.$on("flashSubComment", mainCommentId => {
@@ -673,7 +673,7 @@
 				var that = this;
 				uni.request({
 					method: 'POST',
-					url: that.$serverUrl + '/social/userUnlike',
+					url: that.$serverUrl + '/social/userUnLike',
 					data: {
 						userId: that.userInfo.id,
 						targetType: "ARTICLE",

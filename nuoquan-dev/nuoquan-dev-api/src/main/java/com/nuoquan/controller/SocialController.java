@@ -51,8 +51,8 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetType", value = "对象类型", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetId", value = "对象id", required = true, dataType = "String", paramType = "form") })
-	@PostMapping(value = "/userUnlike")
-	public JSONResult userUnlike(String userId, PostType targetType, String targetId) throws Exception {
+	@PostMapping(value = "/userUnLike")
+	public JSONResult userUnLike(String userId, PostType targetType, String targetId) throws Exception {
 		socialService.userUnlike(userId, targetType, targetId);
 		return JSONResult.ok();
 	}

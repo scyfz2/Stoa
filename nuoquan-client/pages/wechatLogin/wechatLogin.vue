@@ -15,9 +15,9 @@
 		<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" withCredentials="true">微信登陆授权</button>
 
 		<!-- 用于开发阶段清除用户信息的缓存，发布时需要注释掉 -->
-		<button type="primary" @tap="removeUserInfo">[dev]清除用户信息缓存</button>
+		<!-- <button type="primary" @tap="removeUserInfo">[dev]清除用户信息缓存</button> -->
 		<!-- 用于开发阶段清除所有缓存，发布时需要注释掉 -->
-		<button type="primary" @tap="clearStorage">[dev]清除缓存</button>
+		<!-- <button type="primary" @tap="clearStorage">[dev]清除缓存</button> -->
 
 		userId：<input v-model="userId" />
 		<button @tap="testLogIn">测试用登陆</button>

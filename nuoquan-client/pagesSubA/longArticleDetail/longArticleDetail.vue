@@ -192,7 +192,7 @@ yao
 				var that = this;
 				uni.request({
 					method: 'POST',
-					url: that.$serverUrl + '/social/userUnlike',
+					url: that.$serverUrl + '/social/userUnLike',
 					data: {
 						targetType: "LONGARTICLE",
 						userId: that.userInfo.id,
