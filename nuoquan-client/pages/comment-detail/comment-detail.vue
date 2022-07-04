@@ -334,7 +334,7 @@ export default {
 			console.log('取消点赞评论');
 			uni.request({
 				method: 'POST',
-				url: this.$serverUrl + "/social/userUnlike",
+				url: this.$serverUrl + "/social/userUnLike",
 				data: {
 					userId: this.userInfo.id,
 					targetType: "COMMENT",

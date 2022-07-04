@@ -22,6 +22,7 @@
 					<modify-article v-for="article in myArticleList" :key="article.id" :thisArticle="article" :lang="lang"
 					 @modifySwipedId="receiveSwiped" :messageIndex="messageIndex">
 					</modify-article>
+					<!-- <h1>111111</h1> -->
 				</view>
 
 				<!-- </swiper-item>
