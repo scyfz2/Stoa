@@ -28,8 +28,8 @@ public class HelloController extends BasicController{
 	
 	@Autowired
 	private EmailTool emailTool;
-	@Autowired
-	private LongarticleMapper longarticleMapper;
+//	@Autowired
+//	private LongarticleMapper longarticleMapper;
 	@Autowired
 	private MySchedular mySchedular;
 
