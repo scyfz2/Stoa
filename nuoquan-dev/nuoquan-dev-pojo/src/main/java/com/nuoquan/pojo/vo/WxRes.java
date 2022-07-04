@@ -7,6 +7,14 @@ package com.nuoquan.pojo.vo;
 public class WxRes {
 	private String session_key;
 	private String openid;
+	private String unionid;
+	public String getUnionid(){
+		return unionid;
+	}
+
+	public void setUnionid(String unionid){
+		this.unionid = unionid;
+	}
 	
 	public String getSession_key() {
 		return session_key;

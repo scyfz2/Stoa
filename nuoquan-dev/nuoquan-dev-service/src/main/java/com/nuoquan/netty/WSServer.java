@@ -35,8 +35,11 @@ public class WSServer {
 	}
 	
 	public void start() {
-		this.future = server.bind(8088); //这里无需同步
-		System.err.println("netty webSocket server 启动完毕，Binding Port：8088");
+		Integer port = 8088;
+//		System.out.println(port);
+//		this.future = server.bind(8088); //这里无需同步
+		this.future = server.bind(port);
+		System.err.println("netty webSocket server 启动完毕，Binding Port：" + port);
 	}
 	
 	// 其实已经把 netty 依托给了 Springboot，此方法无需使用

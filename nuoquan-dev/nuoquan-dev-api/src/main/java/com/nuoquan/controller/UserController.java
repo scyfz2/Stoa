@@ -2,6 +2,7 @@ package com.nuoquan.controller;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -106,45 +107,46 @@ public class UserController extends BasicController {
 			System.out.println("Delete failed");
 		}
 	}
-	
-	@Deprecated
-	@ApiOperation(value = "User uploads face image")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"), })
-	@PostMapping("/uploadFaceOld")
-	public JSONResult uploadFaceOld(String userId, @ApiParam(value = "face image", required = true) MultipartFile file)
-			throws Exception {
-				
-		if (StringUtils.isNoneBlank(userId) && file != null) {
-			// 判断是否超出大小限制
-			if (file.getSize() > MAX_IMAGE_SIZE) {
-				return JSONResult.errorException("Uploaded file size exceed server's limit (10MB)");
-			}
-			// 暂时不用删除用户旧头像 @Jerrio
-			
-			// 上传文件
-			String fileName = file.getOriginalFilename();
-			if (StringUtils.isNotBlank(fileName)) {
-				// 保存到数据库中的相对路径
-				String uploadPathDB = "/" + userId + "/face" + "/" + fileName;
-				String fileSpace = resourceConfig.getFileSpace();	// 文件保存空间地址
-				// 文件上传的最终保存路径
-				String finalVideoPath = fileSpace + uploadPathDB;
-				// 保存图片
-				uploadFile(file, finalVideoPath);	// 调用 BasicController 里的方法
 
-				User user = new User();
-				user.setId(userId);
-				user.setFaceImg(uploadPathDB);
-				userService.updateUserInfo(user);
-				return JSONResult.ok(uploadPathDB);
-			}else {
-				return JSONResult.errorMsg("File name is blank");
-			}	
-		}else {
-			return JSONResult.errorMsg("Upload error");
-		}
-	}
+//	老版本更新用户头像功能，已停用
+//	@Deprecated
+//	@ApiOperation(value = "User uploads face image")
+//	@ApiImplicitParams({
+//			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"), })
+//	@PostMapping("/uploadFaceOld")
+//	public JSONResult uploadFaceOld(String userId, @ApiParam(value = "face image", required = true) MultipartFile file)
+//			throws Exception {
+//
+//		if (StringUtils.isNoneBlank(userId) && file != null) {
+//			// 判断是否超出大小限制
+//			if (file.getSize() > MAX_IMAGE_SIZE) {
+//				return JSONResult.errorException("Uploaded file size exceed server's limit (10MB)");
+//			}
+//			// 暂时不用删除用户旧头像 @Jerrio
+//
+//			// 上传文件
+//			String fileName = file.getOriginalFilename();
+//			if (StringUtils.isNotBlank(fileName)) {
+//				// 保存到数据库中的相对路径
+//				String uploadPathDB = "/" + userId + "/face" + "/" + fileName;
+//				String fileSpace = resourceConfig.getFileSpace();	// 文件保存空间地址
+//				// 文件上传的最终保存路径
+//				String finalVideoPath = fileSpace + uploadPathDB;
+//				// 保存图片
+//				uploadFile(file, finalVideoPath);	// 调用 BasicController 里的方法
+//
+//				User user = new User();
+//				user.setId(userId);
+//				user.setFaceImg(uploadPathDB);
+//				userService.updateUserInfo(user);
+//				return JSONResult.ok(uploadPathDB);
+//			}else {
+//				return JSONResult.errorMsg("File name is blank");
+//			}
+//		}else {
+//			return JSONResult.errorMsg("Upload error");
+//		}
+//	}
 
 	@ApiOperation(value = "User uploads face image to COS")
 	@ApiImplicitParams({
@@ -165,6 +167,7 @@ public class UserController extends BasicController {
 			User user = new User();
 			user.setId(userId);
 			user.setFaceImg(uploadPathDB);
+			user.setFaceImgThumb(uploadPathDB);
 			userService.updateUserInfo(user);
 			return JSONResult.ok(uploadPathDB);
 		}else {
@@ -375,12 +378,15 @@ public class UserController extends BasicController {
 			requestUrlParam.put("secret", appSecret); //开发者设置中的appSecret  
 			requestUrlParam.put("js_code", code);	//小程序调用wx.login返回的code 
 
+//			ObjectMapper objectMapper = new ObjectMapper();
+//			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
 			//发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识  
 			String res = UrlUtil.sendPost(wxGetOpenIdUrl, requestUrlParam);
 			WxRes wxRes= JsonUtils.jsonToPojo(res, WxRes.class);
-//			System.out.println(res);
-//			System.out.println(wxRes.getOpenid());
-			
+			System.out.println("res:" + res);
+			System.out.println(wxRes.getOpenid());
+
 			User user = new User();
 			user.setId(wxRes.getOpenid());
 			user.setNickname(nickname);

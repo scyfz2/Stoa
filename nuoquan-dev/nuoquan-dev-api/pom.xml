@@ -9,8 +9,8 @@
 	</parent>
 	<artifactId>nuoquan-dev-api</artifactId>
 
-	<!-- 打包成war包 -->
-	<packaging>war</packaging>
+	<!-- 打包成jar包 -->
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
@@ -41,11 +41,11 @@
 		</dependency>
 
 		<!-- 添加 servlet，为了打包成 war 包 -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>javax.servlet</groupId>-->
+<!--			<artifactId>javax.servlet-api</artifactId>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
 	</dependencies>
 	
 	<build>
@@ -75,6 +75,13 @@
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

@@ -27,6 +27,8 @@ public class UserFansVO {
 		return faceImg;
 	}
 	public void setFaceImg(String faceImg) {
+		//TODO: 用户头像在调用的时候url有重复（对应前端path = app.$resServerUrl + path;）。此问题需要在后端进行修改。
+//		this.faceImg = faceImg.replace("nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/","");
 		this.faceImg = faceImg;
 	}
 	public String getFaceImgThumb() {

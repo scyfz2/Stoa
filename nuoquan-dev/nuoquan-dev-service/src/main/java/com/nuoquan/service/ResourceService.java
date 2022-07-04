@@ -125,7 +125,8 @@ public class ResourceService {
 	 */
 	public String composeUrl(String url) {
 		if (!StringUtils.isBlank(url) && !url.startsWith("http")) {
-			url = cosProperties.getDomain() + "/" + url;
+//			url = cosProperties.getDomain() + "/" + url;
+			url = "/" + url;
 		}
 		return url;
 	}
