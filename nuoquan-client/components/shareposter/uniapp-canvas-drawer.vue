@@ -59,7 +59,6 @@
 				const inter = setInterval(() => {
 					if (this.ctx) {
 						clearInterval(inter)
-						console.log(this.ctx);
 						this.ctx.clearActions()
 						this.ctx.save()
 						this.getImagesInfo(views)
@@ -67,7 +66,6 @@
 				}, 100)
 			},
 			getImagesInfo(views) {
-				// debugger
 				const imageList = []
 				for (let i = 0; i < views.length; i++) {
 					if (views[i].type === 'image') {
@@ -98,7 +96,7 @@
 			 * 开始画图
 			 */
 		    startPainting () {
-				// debugger
+				
 				const tempFileList = this.tempFileList
 				const views = this.painting.views
 				
@@ -132,17 +130,22 @@
 					}
 				}
 				this.ctx.draw(false, () => {
-					// debugger
 					uni.setStorageSync('canvasdrawer_pic_cache', this.cache)
 					const system = uni.getSystemInfoSync().system
-					// if (/ios/i.test(system)) {
-						// this.saveImageToLocal()
-					// } else {
+					// Description:  ios和安卓机型都需要延迟保存图片，以解决异步问题--还是解决不了...
+					// Author: Yifei
+					// Date: 4 July, 2022
+					debugger
+					if (/ios/i.test(system)) {
+						setTimeout(()=>{
+							this.saveImageToLocal()
+						},800)
+					} else {
 						// 延迟保存图片，解决安卓生成图片错位bug。
 						setTimeout(() => {
 							this.saveImageToLocal()
-						}, 800)
-					// }
+						}, 1600)
+					}
 				})
 		    },
 			drawImage (params) {

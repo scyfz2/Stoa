@@ -316,6 +316,7 @@
 	.singleImg image {
 		position: relative;
 		height: 200px;
+		width: 100%;
 	}
 
 	.singleVideo video {

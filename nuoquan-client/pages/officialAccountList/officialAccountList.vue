@@ -131,7 +131,7 @@
 					url: this.$serverUrl + '/longarticle/getArticlesFromOA',
 					method: 'POST',
 					data: {
-						page: 1,
+						page: page,
 						pageSize: 8,
 						userId: userId,
 					},

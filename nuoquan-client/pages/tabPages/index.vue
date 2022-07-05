@@ -70,15 +70,15 @@
 
 		onLoad() {
 			console.log('this.getnavbarHeight()=' + this.getnavbarHeight());
-			// var userInfo = this.getGlobalUserInfo();
-			// if (this.isNull(userInfo)) {
-			// 	uni.redirectTo({
-			// 		url: '../signin/signin'
-			// 	});
-			// 	return;
-			// } else {
-			// 	this.userInfo = userInfo; // 刷去默认值(若有)
-			// }
+			var userInfo = this.getGlobalUserInfo();
+			if (this.isNull(userInfo)) {
+				uni.redirectTo({
+					url: '../signin/signin'
+				});
+				return;
+			} else {
+				this.userInfo = userInfo; // 刷去默认值(若有)
+			}
 			this.updateLatestLoginTime(); //更新登陆时间
 
 			this.mySocket.init(); // 初始化 Socket, 离线调试请注释掉

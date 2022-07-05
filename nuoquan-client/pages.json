@@ -83,7 +83,16 @@
 			"style": {}
 		}
 
-	],
+	    ,{
+            "path" : "pages/authLogin/authLogin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 
 	"subPackages": [{
 	        "root": "pagesSubA",

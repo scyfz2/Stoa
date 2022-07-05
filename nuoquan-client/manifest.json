@@ -88,16 +88,16 @@
         /* 小程序特有相关 */
         "appid" : "wxebb29e9646be657f",
         "setting" : {
-            "urlCheck" : false,
+            "urlCheck" : true,
             "postcss" : true,
             "minified" : true,
             "es6" : false
         },
         "usingComponents" : true,
         "permission" : {},
-        // 小程序配置开启优化分包
-        "optimization" : {
-            "subPackages" : true
-        }
+		// 小程序配置开启优化分包
+		"optimization" : {
+			"subPackages" : true
+		}
     }
 }

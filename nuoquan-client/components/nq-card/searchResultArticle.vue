@@ -3,7 +3,7 @@
 		<view class="title" v-html="$markdownParse.parse(articleCard.articleTitle)"></view>
 		
 		<view class="picturearea" v-if="articleCard.imgList.length">
-			<image :src="pathFilter(articleCard.imgList[0].imagePath)"></image>
+			<image :src="serverUrl + articleCard.imgList[0].imagePath"></image>
 			<view class="picNum" v-if="articleCard.imgList.length > 1">{{articleCard.imgList.length}}</view>
 		</view>
 		
