@@ -23,7 +23,7 @@
 								// console.log('-------获取sessionKey、openid(unionid)-------')
 								 console.log(info);
 								// 后端获取openid 并设置用户信息
-								debugger;
+								// debugger;
 								uni.request({
 									url: that.$serverUrl + '/user/getWxUserInfo',
 									method: "POST",
@@ -52,7 +52,7 @@
 													console.log('成功授权，成功跳转回原小程序')
 												},
 											})
-											debugger;
+											// debugger;
 
 										}
 									}//sendToServer.success
