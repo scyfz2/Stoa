@@ -73,6 +73,12 @@ public interface SocialService {
     public UserCommentVO getCommentById(String commentId, String userId);
 
     /**
+     * Set the status to unreadable
+     * @param commentId
+     */
+    public void fDeleteComment(String commentId);
+
+    /**
      * 用户点赞对象
      * @param userId
      * @param targetType
@@ -87,7 +93,7 @@ public interface SocialService {
      * @param targetType
      * @param targetId
      */
-    public void userUnlike(String userId, PostType targetType, String targetId);
+    public void userUnLike(String userId, PostType targetType, String targetId);
 
     /**
      * 查询用户是否点赞了对象

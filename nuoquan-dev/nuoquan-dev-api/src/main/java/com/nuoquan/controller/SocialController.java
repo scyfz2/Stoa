@@ -53,7 +53,7 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "对象id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping(value = "/userUnLike")
 	public JSONResult userUnLike(String userId, PostType targetType, String targetId) throws Exception {
-		socialService.userUnlike(userId, targetType, targetId);
+		socialService.userUnLike(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
 
@@ -181,6 +181,16 @@ public class SocialController extends BasicController {
 		PagedResult reCommentList = socialService.getSubComments(page, pageSize, type, underCommentId, userId);
 		
 		return JSONResult.ok(reCommentList);
+	}
+
+	@ApiOperation(value = "更改评论状态为unreadable")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "commentId", value = "评论id", required = true, dataType = "String", paramType = "form")
+	})
+	@PostMapping(value="/fDeleteComment")
+	public JSONResult fDeleteComment(String commentId) throws Exception {
+		socialService.fDeleteComment(commentId);
+		return JSONResult.ok();
 	}
 
 	@ApiOperation(value = "收藏文章")
