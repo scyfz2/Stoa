@@ -303,7 +303,11 @@ public class ArticleServiceImpl implements ArticleService {
 //	@Override
 //	public void deleteArticle(String articleId, String userId) {
 //		// 1. 删除文章图片数据库路径
-//		// 1.1 删除实际图片
+//		// 1.1
+
+
+
+
 //		// 2. 删除文章评论
 //		// 2.1 删除文章评论的点赞
 //		// 3. 删除文章的点赞

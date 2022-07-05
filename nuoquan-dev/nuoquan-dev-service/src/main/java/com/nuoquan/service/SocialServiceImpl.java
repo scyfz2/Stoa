@@ -248,6 +248,23 @@ public class SocialServiceImpl implements SocialService {
         return commentVO;
     }
 
+
+    /**
+     * 删除文章评论
+     * @param commentId
+     * @return void
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void fDeleteComment(String commentId) {
+        Example example = new Example(UserComment.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", commentId);
+        UserComment c = new UserComment();
+        c.setStatus(StatusEnum.DELETED.type);
+        userCommentMapper.updateByExampleSelective(c, example);
+    }
+
     /**
      * 用户点赞对象
      *  @param userId
@@ -304,7 +321,7 @@ public class SocialServiceImpl implements SocialService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void userUnlike(String userId, PostType targetType, String targetId) {
+    public void userUnLike(String userId, PostType targetType, String targetId) {
         boolean isLike = isUserLike(userId, targetType, targetId);
         if (isLike) {
             // 1.删除用户和评论的点赞关联关系表
