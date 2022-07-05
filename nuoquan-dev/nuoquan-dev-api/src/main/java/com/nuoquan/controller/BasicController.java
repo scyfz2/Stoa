@@ -49,6 +49,8 @@ public class BasicController {
 	public NotifyRemindService notifyRemindService;
 	@Autowired
 	public AdvertService advertService;
+	@Autowired
+	public OrganizationService organizationService;
 	
 	// 每页分页的记录数
 	public static final Integer PAGE_SIZE = 10;
