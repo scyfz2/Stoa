@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.nuoquan.service.WeChatService;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nuoquan.enums.MsgActionEnum;
@@ -37,7 +38,13 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
 	// (使用普通的java类调用托管给spring的service)
 	UserService userService = (UserService) SpringUtil.getBean("userServiceImpl");
 	ArticleService articleService = (ArticleService) SpringUtil.getBean("articleServiceImpl");
-	
+
+//	WeChatService weChatService = (WeChatService) SpringUtil.getBean("WeChatServiceImpl");
+
+	// 模板id常量
+	public static final String MESSAGE = "";
+	public static final String COMMENT = "";
+
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
 
@@ -64,7 +71,7 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
 			// 同时标记签收状态。[未签收]
 			@SuppressWarnings("unchecked")
 			ChatMessage chatMessage = objectToChatMessage((LinkedHashMap<Object, Object>) dataContent.getData()); // 对象是
-																													// java.util.LinkedHashMap
+			// java.util.LinkedHashMap
 			String receiverId = chatMessage.getReceiverId();
 
 			String msgId = userService.saveMsg(chatMessage); // 保存后获取返回的 msgId

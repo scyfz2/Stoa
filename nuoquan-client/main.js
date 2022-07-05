@@ -26,7 +26,7 @@ Vue.prototype.tagColors = ['#FE5F55', '#40A792', '#FDD041', '#5CA0D3', '#621E81'
 Vue.prototype.$store = store // 挂载 vueX
 Vue.prototype.$util = util
 
-// Vue.prototype.$serverUrl = "http://127.0.0.1:8080"
+// Vue.prototype.$serverUrl = "https://127.0.0.1:8080"
 // Vue.prototype.$wsServerUrl = "wss://127.0.0.1:8088/ws"
 // Vue.prototype.$resServerUrl = "https://nqbucket-1258460770.cos.ap-shanghai.myqcloud.com"
 
@@ -41,7 +41,7 @@ Vue.prototype.$util = util
 // 安全服务器地址
 Vue.prototype.$serverUrl = "https://www.jumboxtech.com:8080"
 Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8088/ws"
-Vue.prototype.$resServerUrl = "http://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
+Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
 
 /**
  * 获取当前用户信息（我）
@@ -390,9 +390,9 @@ Vue.prototype.mySocket = {
 	 * @param {Object} type
 	 * @param {Object} toUserId
 	 * @param {Object} msg
-	 * @param {Object} extand
+	 * @param {Object} extend
 	 */
-	sendObj(action, toUserId, msg, extand) {
+	sendObj(action, toUserId, msg, extend) {
 		var myUserId = app.getGlobalUserInfo().id; // 调用全局用户缓存，需要先请求获取
 		if (app.isNull(myUserId)) {
 			console.log("请先获取用户数据");
@@ -404,7 +404,7 @@ Vue.prototype.mySocket = {
 
 		// 构建载体
 		var chatMessage = new app.netty.ChatMessage(myUserId, toUserId, msg, null, timeStamp);
-		var dataContent = new app.netty.DataContent(action, chatMessage, extand);
+		var dataContent = new app.netty.DataContent(action, chatMessage, extend);
 
 		var isSocketOpen = app.mySocket.isOpen;
 		if (isSocketOpen == true) {
@@ -962,12 +962,12 @@ Vue.prototype.netty = {
 	 * 构建消息 DataContent 模型对象
 	 * @param {Object} action
 	 * @param {Object} data
-	 * @param {Object} extand
+	 * @param {Object} extend
 	 */
-	DataContent: function(action, data, extand) {
+	DataContent: function(action, data, extend) {
 		this.action = action;
 		this.data = data;
-		this.extand = extand;
+		this.extend = extend;
 	},
 }
 

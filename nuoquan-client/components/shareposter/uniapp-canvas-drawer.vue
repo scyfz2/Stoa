@@ -135,7 +135,7 @@
 					// Description:  ios和安卓机型都需要延迟保存图片，以解决异步问题--还是解决不了...
 					// Author: Yifei
 					// Date: 4 July, 2022
-					debugger
+					//debugger
 					if (/ios/i.test(system)) {
 						setTimeout(()=>{
 							this.saveImageToLocal()

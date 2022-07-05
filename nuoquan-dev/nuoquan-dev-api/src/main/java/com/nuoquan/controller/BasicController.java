@@ -51,6 +51,8 @@ public class BasicController {
 	public AdvertService advertService;
 	@Autowired
 	public OrganizationService organizationService;
+	@Autowired
+	public EventsCalendarService eventsCalendarService;
 	
 	// 每页分页的记录数
 	public static final Integer PAGE_SIZE = 10;

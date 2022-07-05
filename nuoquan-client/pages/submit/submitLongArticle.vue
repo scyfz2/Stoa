@@ -305,14 +305,14 @@ Date: 17 Aug, 2020
 							},
 							fail: res => {
 								console.log(res);
-								debugger;
+								// debugger;
 							},
 						});
 					}
 				});
 			},
 			chooseContentVideo: async function() {
-				debugger;
+				// debugger;
 				var that = this;
 				uni.chooseVideo({
 					sourceType: ['album'],

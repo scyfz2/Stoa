@@ -37,17 +37,18 @@ public class WSServerInitializer extends ChannelInitializer<SocketChannel>{
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
-		
+
+//		String type = "JKS";
 		String type = wsServerInitializer.resourceConfig.getSsl().getType();
 		String password = wsServerInitializer.resourceConfig.getSsl().getPassword();
 		String path = wsServerInitializer.resourceConfig.getSsl().getPath();
 //		// 添加ssl认证
-////		System.out.println(type + "-" + path + "-" + password);
-//		SSLContext sslContext = SslUtil.createSSLContext(type, path, password); ///SslUtil自定义类
-//		SSLEngine sslEngine = sslContext.createSSLEngine(); //SSLEngine 此类允许使用ssl安全套接层协议进行安全通信
-//		sslEngine.setUseClientMode(false); // 是否使用客户端模式
-//		sslEngine.setNeedClientAuth(false); // 是否需要验证客户端
-//		pipeline.addLast("ssl", new SslHandler(sslEngine));
+//		System.out.println(type + "-" + path + "-" + password);
+		SSLContext sslContext = SslUtil.createSSLContext(type, path, password); ///SslUtil自定义类
+		SSLEngine sslEngine = sslContext.createSSLEngine(); //SSLEngine 此类允许使用ssl安全套接层协议进行安全通信
+		sslEngine.setUseClientMode(false); // 是否使用客户端模式
+		sslEngine.setNeedClientAuth(false); // 是否需要验证客户端
+		pipeline.addLast("ssl", new SslHandler(sslEngine));
 		
 		pipeline.addLast(new HttpServerCodec());
 		// 对写大数据流的支持
