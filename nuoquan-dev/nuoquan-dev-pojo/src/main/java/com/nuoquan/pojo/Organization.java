@@ -34,13 +34,25 @@ public class Organization {
     @Column(name = "logo_path")
     private String logoPath;
 
+    // 组织公众号或推文链接
+    @Column(name = "officialAccounts_link")
+    private String officialAccountsLink;
+
     // 后台创建时间
     @Column(name = "create_date")
     private Date createDate;
 
-    // 显示状态 1：可显示 0：不显示
+    // 0:unreadable/1:readable/2:checking
     @Column(name = "status")
     private Integer status;
+
+    public String getOfficialAccountsLink() {
+        return officialAccountsLink;
+    }
+
+    public void setOfficialAccountsLink(String officialAccountsLink) {
+        this.officialAccountsLink = officialAccountsLink;
+    }
 
     public String getId() {
         return id;
