@@ -30,8 +30,25 @@ public class OrganizationVO {
     // 组织logo
     private String logoPath;
 
+    // 组织公众号或推文链接
+    private String officialAccountsLink;
+
+    // 后台创建时间
+    private Date createDate;
+
+    // 0:unreadable/1:readable/2:checking
+    private Integer status;
+
     // 组织图片列表
     private List<OrganizationImage> imgList;
+
+    public String getOfficialAccountsLink() {
+        return officialAccountsLink;
+    }
+
+    public void setOfficialAccountsLink(String officialAccountsLink) {
+        this.officialAccountsLink = officialAccountsLink;
+    }
 
     public Integer getStatus() {
         return status;
@@ -49,9 +66,6 @@ public class OrganizationVO {
         this.status = status;
     }
 
-    // 显示状态 1：可显示 0：不显示
-    private Integer status;
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -59,9 +73,6 @@ public class OrganizationVO {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-
-    // 后台创建时间
-    private Date createDate;
 
     public String getLogoPath() {
         return logoPath;

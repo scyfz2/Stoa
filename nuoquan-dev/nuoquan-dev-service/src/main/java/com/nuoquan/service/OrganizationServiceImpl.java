@@ -89,7 +89,7 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public int pseudoDeleteOrganizationImg(String organizationId, Integer order){
-        int flag = 0;
+        int flag = 0; // 若无此order图片，flag = 0
         Example example = new Example(OrganizationImage.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", organizationId);
@@ -100,7 +100,7 @@ public class OrganizationServiceImpl implements OrganizationService{
             if (order == j.getImageOrder()){
                 j.setStatus(StatusEnum.DELETED.type);
                 organizationImageMapper.updateByExampleSelective(j, example);
-                flag = 1;
+                flag = 1; // 若有此order图片，flag = 1
             }
         }
         return flag;
@@ -128,7 +128,7 @@ public class OrganizationServiceImpl implements OrganizationService{
         return id;
     }
 
-    // 保存组织图片
+    // 将图片存入数据库
     @Override
     public void saveOrganizationImages(OrganizationImage organizationImage) {
         String id = sid.nextShort();
