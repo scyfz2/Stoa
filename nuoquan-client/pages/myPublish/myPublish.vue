@@ -10,9 +10,14 @@
 			<view class="swiperMenu">
 				<view :class="[swiperViewing == 'article' ? 'swiperChoosen' : 'swiperNormal']" @tap="switchSwiper('article')">{{lang.article}}
 					{{ myArticleList.length }}</view>
-				<view :class="[swiperViewing == 'longArticle' ? 'swiperChoosen' : 'swiperNormal']" @tap="switchSwiper('longArticle')">{{lang.longArticle}}
+				<!-- 
+				 Author: Yifei
+				 Date: July 6, 2022
+				 Description: 发文章现在没了（longarticle）所以也不用查看我发布的文章了
+				 -->
+				<!-- <view :class="[swiperViewing == 'longArticle' ? 'swiperChoosen' : 'swiperNormal']" @tap="switchSwiper('longArticle')">{{lang.longArticle}}
 					{{ myLongArticleList.length }}
-				</view>
+				</view> -->
 			</view>
 			<view>
 				<!-- <swiper style="width:100%;height:100%;" :current-item-id="swiperViewing" disable-touch="true" @touchmove.prevent="stopTouch">

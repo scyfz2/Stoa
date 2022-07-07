@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.nuoquan.enums.PostType.ARTICLE;
+
 /**
  * 社交相关 Controller，如点赞，评论，收藏
  * @author jerrio
@@ -211,8 +213,9 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetType", value = "文章id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
-	@PostMapping(value = "/userUncollect")
+	@PostMapping(value = "/userUncollectArticle")
 	public JSONResult userUncollect(String userId,  PostType targetType, String targetId) throws Exception {
+		targetType = ARTICLE;
 		socialService.userUncollect(userId, targetType, targetId);
 		return JSONResult.ok();
 	}

@@ -78,15 +78,15 @@
 				 v-if="isEditEmail&& showCaptcha" maxlength="6" :placeholder="lang.captcha" @input="onCaptcha" />
 				<whCaptcha style="display: inline-block;" class="waiting" ref="captcha" :secord="60" :title="lang.getCaptcha"
 				 :waitTitle="lang.waitCaptcha" normalClass="editEmail" disabledClass="waiting60s" @click="getCaptcha" v-if="isEditEmail"></whCaptcha>
-				<!-- 
-				 Author: Yifei
+				
+				 <!-- Author: Yifei
 				 Date: July 6,2022
 				 Description: 个人信息内，关联信息功能，输入验证码后没有“邮箱绑定”按钮，只能通过回车确认
-				 TODO: 加一个按钮，用于邮箱绑定功能，暂时不太会写写不出来
-				 -->
+				 TODO: 加一个按钮，用于邮箱绑定功能，暂时不太会写写不出来 -->
 				<!-- <button class="confirm-button-checked" hover-class="hoverColorYellow" @click="confirmCode">
 					<view style="color: white;font-weight: 100;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.emailAuth}}</view>
 				</button> -->
+				
 			</view>
 		</view>
 	</view>
