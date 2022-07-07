@@ -721,7 +721,7 @@
 				var that = this;
 				uni.request({
 					method: 'POST',
-					url: that.$serverUrl + '/social/userUncollect',
+					url: that.$serverUrl + '/social/userUncollectArticle',
 					data: {
 						userId: that.userInfo.id,
 						targetType: "ARTICLE",

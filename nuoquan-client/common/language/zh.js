@@ -59,7 +59,7 @@ module.exports = {
 	addTags : "添加标签",
 	
 	//详情页&长文章详情
-	sharetoMoments: "分享到朋友圈",
+	sharetoMoments: "保存图片",
 	menu_more:"更多",
 	share:"分享",
 	collect:"收藏",
@@ -151,7 +151,7 @@ module.exports = {
 	schoolEmail : "学校邮箱",
 	noEmail: "未绑定邮箱",
 	changeEmail : "更改邮箱",
-	genderList : ["女", "男","未知"], //顺序请和数据库保持一致
+	genderList : ["女", "男", "其他", "未知"], //顺序请和数据库保持一致
 	degreeList : ["高中", "本科", "研究生"], //顺序请和数据库保持一致
 	relevantInfo: "关联信息",
 	editInfo: "点击对应文字修改信息",

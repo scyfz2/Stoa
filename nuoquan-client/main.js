@@ -26,9 +26,9 @@ Vue.prototype.tagColors = ['#FE5F55', '#40A792', '#FDD041', '#5CA0D3', '#621E81'
 Vue.prototype.$store = store // 挂载 vueX
 Vue.prototype.$util = util
 
-Vue.prototype.$serverUrl = "https://127.0.0.1:8080"
-Vue.prototype.$wsServerUrl = "wss://127.0.0.1:8088/ws"
-Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
+// Vue.prototype.$serverUrl = "https://127.0.0.1:8080"
+// Vue.prototype.$wsServerUrl = "wss://127.0.0.1:8088/ws"
+// Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
 
 // Vue.prototype.$serverUrl = "http://122.245.105.74:12323"
 // Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
@@ -39,9 +39,9 @@ Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqclo
 // Vue.prototype.$wsServerUrl = "ws://129.28.130.27:8088/ws"
  
 // 安全服务器地址
-// Vue.prototype.$serverUrl = "https://www.jumboxtech.com:8080"
-// Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8088/ws"
-// Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
+Vue.prototype.$serverUrl = "https://www.jumboxtech.com:8080"
+Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8088/ws"
+Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
 
 /**
  * 获取当前用户信息（我）

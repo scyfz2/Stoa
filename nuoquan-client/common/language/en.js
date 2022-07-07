@@ -60,7 +60,7 @@ module.exports = {
 	addTags : "Add Tags",
 	
 	//详情页&长文章详情
-	sharetoMoments: "Share to moments",
+	sharetoMoments: "Save & Share",
 	menu_more:"More",
 	share:"Share",
 	collect:"Collect",
@@ -152,7 +152,7 @@ module.exports = {
 	schoolEmail : "School Email",
 	noEmail: "No email, please bind your email!",
 	changeEmail : "Change Email",
-	genderList : ["Ms", "Mr", "Unknown"], //顺序请和数据库保持一致
+	genderList : ["Ms", "Mr", "Other","Unknown"], //顺序请和数据库保持一致
 	degreeList : ["High school", "Undergraduate", "Graduate"], //顺序请和数据库保持一致
 	relevantInfo: "Correlation",
 	editInfo: "Click text to modify information",
