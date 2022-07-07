@@ -43,6 +43,7 @@ module.exports = {
 	captcha : " 验证码",
 	getCaptcha : "获取验证码",
 	waitCaptcha : "重新发送 (SECORD)",
+	guestLogin: "游客登录",
 	
 	//主页
 	viewAllHot: "查看全部 >",

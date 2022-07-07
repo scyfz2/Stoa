@@ -43,6 +43,7 @@ module.exports = {
 	captcha : " Captcha",
 	getCaptcha : "Get captcha",
 	waitCaptcha : "Please wait (SECORD)s",
+	guestLogin: "Guest Login",
 	
 	//主页
 	viewAllHot: "Show All >",

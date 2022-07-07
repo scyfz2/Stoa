@@ -52,7 +52,7 @@
 						:disabled="auth"
 					/>
 					<wh-captcha
-						style="font-size: 15px;text-align: center;margin-top: 15px;width: 130px;color:#FFFFFF;background-color:#FFCD2E;"
+						class="captcha"
 						ref="captcha"
 						:secord="60"
 						:title="lang.getCaptcha"
@@ -83,7 +83,7 @@
 					</button>
 					<!-- 游客通道 button -->
 					<button v-if="emailMes == ''" class="confirm-button-visitor super_center" hover-class="hoverColorYellow" @click="visitorLogin">
-						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">游客登陆</view>
+						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.guestLogin}}</view>
 					</button>
 					<!-- 邮箱认证 button -->
 					<button v-else class="confirm-button-checked super_center" hover-class="hoverColorYellow" @click="confirmCode">
@@ -681,5 +681,17 @@ button::after {
 	z-index: 20;
 	background: #fdd041;
 	position: relative;
+}
+
+.captcha {
+	margin-top: 15px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10upx;
+	width: 130px;
+	color:#FFFFFF;
+	background-color:#FFCD2E;
 }
 </style>
