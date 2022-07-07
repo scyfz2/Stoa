@@ -52,7 +52,7 @@
 						:disabled="auth"
 					/>
 					<wh-captcha
-						style="font-size: 15px;margin-top: 15px;"
+						style="font-size: 15px;text-align: center;margin-top: 15px;width: 130px;color:#FFFFFF;background-color:#FFCD2E;"
 						ref="captcha"
 						:secord="60"
 						:title="lang.getCaptcha"
