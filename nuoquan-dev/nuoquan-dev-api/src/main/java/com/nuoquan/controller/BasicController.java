@@ -50,6 +50,8 @@ public class BasicController {
 	@Autowired
 	public AdvertService advertService;
 	@Autowired
+	public OrganizationService organizationService;
+	@Autowired
 	public EventsCalendarService eventsCalendarService;
 	
 	// 每页分页的记录数

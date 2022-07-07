@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'en',
 	
-	tabbarName : ["Home","Explore","Message","Mine"],
+	tabbarName : ["Home","I-week","Message","Mine"],
 	tabList : ["Post Article","Create Vote"],
 	version : "v1.1.1",
 	back : "Back",

@@ -119,14 +119,26 @@ export default {
 			// 	this.rotate();
 			// 	return;
 			// }
+			// debugger;
+			console.log(e.name)
 			if(this.rotateStatus){
 				//切换窗口的时候把list关上，
 				this.rotate();
 			}
 			this.$emit("clickTab", e)
-			uni.switchTab({
-				url: e.url
-			});
+			if (e.name !== "投票") {
+				uni.switchTab({
+					url: e.url
+				});
+			}
+			else {
+				uni.showToast({
+					// title: '⠀⠀⠀⠀⠀under⠀⠀⠀⠀⠀development',//不是空格，是特殊符号，莫删
+					title: '开发小哥正在玩命实现中...',
+					duration: 2000,
+					icon: 'none',
+				})
+			}
 		},
 
 		rotate() {
