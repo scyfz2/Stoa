@@ -12,9 +12,8 @@
 			 :id="item.id"></onemessage>
 			<view class="marginHelper" :style="{ height : marginHelperHeight }"></view>
 		</scroll-view>
-		<chat-input id="chatarea" :inputMessageFromPage="textMsg" @send="sendText()" :windowWidth="windowWidth" :lang="lang"
+		<chat-input id="chatarea" :inputMessageFromPage="textMsg" :maxlength="maxTextLength" @send="sendText()" :windowWidth="windowWidth" :lang="lang"
 		 style="position: fixed;bottom:0;width:100%;"></chat-input>
-
 	</view>
 </template>
 
@@ -62,6 +61,7 @@
 				textareaHeight: '', //聊天内容高度
 				textareaWidth: 0, //聊天框宽度
 				mitemHeight: 0,
+				maxTextLength: 150, 	// 聊天输入最长长度
 
 				keyboardHeight: '',
 				showEmojiFlag: false,
