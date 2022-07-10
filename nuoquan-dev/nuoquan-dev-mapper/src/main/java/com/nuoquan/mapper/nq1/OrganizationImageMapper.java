@@ -8,6 +8,12 @@ import java.util.List;
 
 public interface OrganizationImageMapper extends MyMapper<OrganizationImage> {
 
-    public List<OrganizationImage> getOrganizationImage(String articleId);
+    // 获取此organization全部图片
+    public List<OrganizationImage> getOrganizationImage(String organizationId);
 
+    // 根据organizationId和imageOrder获得某张图片
+    public OrganizationImage getOrganizationImageByIdAndOrder(String organizationId, Integer imageOrder);
+
+    // 将此图片改为unreadable
+    public void updateStatusToUnreadable(String organizationId, Integer imageOrder);
 }

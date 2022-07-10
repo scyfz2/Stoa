@@ -35,7 +35,7 @@ public class Organization {
     private String logoPath;
 
     // 组织公众号或推文链接
-    @Column(name = "officialAccounts_link")
+    @Column(name = "official_account_Link")
     private String officialAccountsLink;
 
     // 后台创建时间

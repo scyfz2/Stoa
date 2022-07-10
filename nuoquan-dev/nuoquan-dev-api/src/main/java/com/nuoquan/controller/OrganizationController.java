@@ -68,10 +68,10 @@ public class OrganizationController extends BasicController {
             @ApiImplicitParam(name="scale", value="组织规模", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="recruitment_num", value="招新人数", required=true, dataType="int", paramType="form"),
             @ApiImplicitParam(name="requirement", value="招新要求", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="officialAccountsLink", value="组织公众号或推文链接", required=true, dataType="String", paramType="form")
+            @ApiImplicitParam(name="official_account_Link", value="组织公众号或推文链接", required=true, dataType="String", paramType="form")
     })
     @PostMapping(value="/uploadOrganization")
-    public JSONResult uploadCompany(String logo, String name, String intro, String scale, Integer recruitment_num, String requirement, String officialAccountsLink) throws Exception {
+    public JSONResult uploadOrganization(String logo, String name, String intro, String scale, Integer recruitment_num, String requirement, String official_account_Link) throws Exception {
         boolean isLegal = false;
 
         // 保存组织信息到数据库
@@ -82,7 +82,7 @@ public class OrganizationController extends BasicController {
         organization.setScale(scale);
         organization.setRecruitmentNum(recruitment_num);
         organization.setRequirement(requirement);
-        organization.setOfficialAccountsLink(officialAccountsLink);
+        organization.setOfficialAccountsLink(official_account_Link);
 
         // 检测内容是否非法
         if (weChatService.msgSecCheck(logo)
@@ -90,7 +90,7 @@ public class OrganizationController extends BasicController {
                 && weChatService.msgSecCheck(intro)
                 && weChatService.msgSecCheck(scale)
                 && weChatService.msgSecCheck(requirement)
-                && weChatService.msgSecCheck(officialAccountsLink)) {
+                && weChatService.msgSecCheck(official_account_Link)) {
             // 合法
             isLegal = true;
             if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
@@ -102,10 +102,10 @@ public class OrganizationController extends BasicController {
             // 非法，尽管非法也保存到数据库
             organization.setStatus(StatusEnum.DELETED.type);
         }
-        String companyId = organizationService.saveOrganization(organization); // 存入数据库
+        String organizationId = organizationService.saveOrganization(organization); // 存入数据库
 
         if (isLegal) {
-            return JSONResult.ok(companyId);
+            return JSONResult.ok(organizationId);
         }else {
             return JSONResult.errorMsg("发布内容涉嫌违规");
         }
@@ -120,11 +120,11 @@ public class OrganizationController extends BasicController {
             @ApiImplicitParam(name="scale", value="组织规模", required=false, dataType="String", paramType="form"),
             @ApiImplicitParam(name="recruitment_num", value="招新人数", required=false, dataType="int", paramType="form"),
             @ApiImplicitParam(name="requirement", value="招新要求", required=false, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="officialAccountsLink", value="组织公众号或推文链接", required=false, dataType="String", paramType="form")
+            @ApiImplicitParam(name="official_account_Link", value="组织公众号或推文链接", required=false, dataType="String", paramType="form")
     })
     @PostMapping(value="/modifyOrganization")
 
-    public JSONResult modifyOrganization(String organizationId, String logo, String name, String intro, String scale, Integer recruitment_num, String requirement, String officialAccountsLink) throws Exception{
+    public JSONResult modifyOrganization(String organizationId, String logo, String name, String intro, String scale, Integer recruitment_num, String requirement, String official_account_Link) throws Exception{
         boolean isLegal = false;
         // 保存组织信息到数据库
         Organization organization = organizationMapper.selectByPrimaryKey(organizationId);
@@ -134,7 +134,7 @@ public class OrganizationController extends BasicController {
         organization.setScale(scale);
         organization.setRecruitmentNum(recruitment_num);
         organization.setRequirement(requirement);
-        organization.setOfficialAccountsLink(officialAccountsLink);
+        organization.setOfficialAccountsLink(official_account_Link);
 
         // 检测内容是否非法
         if (weChatService.msgSecCheck(name)
@@ -142,7 +142,7 @@ public class OrganizationController extends BasicController {
                 && weChatService.msgSecCheck(intro)
                 && weChatService.msgSecCheck(scale)
                 && weChatService.msgSecCheck(requirement)
-                && weChatService.msgSecCheck(officialAccountsLink)) {
+                && weChatService.msgSecCheck(official_account_Link)) {
             // 合法
             isLegal = true;
             if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
