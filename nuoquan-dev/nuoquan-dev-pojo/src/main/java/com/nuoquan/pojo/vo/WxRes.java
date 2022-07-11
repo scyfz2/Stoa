@@ -8,6 +8,7 @@ public class WxRes {
 	private String session_key;
 	private String openid;
 	private String unionid;
+
 	public String getUnionid(){
 		return unionid;
 	}
@@ -22,6 +23,7 @@ public class WxRes {
 	public void setSession_key(String session_key) {
 		this.session_key = session_key;
 	}
+
 	public String getOpenid() {
 		return openid;
 	}

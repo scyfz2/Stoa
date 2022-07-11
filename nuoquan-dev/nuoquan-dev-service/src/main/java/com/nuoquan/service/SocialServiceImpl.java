@@ -472,7 +472,6 @@ public class SocialServiceImpl implements SocialService {
         List<UserCollectVO> listVO = new ArrayList<>();
         for (UserCollect c : list) {
             int articleStatus = articleMapper.selectArticleStatus(c.getTargetId());
-            System.out.println(articleStatus);
             if (articleStatus != 0)
                 listVO.add(composeCollect(userId, c));
         }
