@@ -154,7 +154,7 @@ module.exports = {
 	
 	//关注粉丝列表
 	fanAndFollow : "Follow List",
-	followed : "已关注",
+	followed : "Followed",
 	
 	//个人信息
 	nickname : "Nickname",
