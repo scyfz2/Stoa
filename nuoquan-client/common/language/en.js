@@ -57,7 +57,6 @@ module.exports = {
 	notEmptyEmail: "Email cannot be null",
 	certificateFail:"Authentication Failed",
 	emptyCaptcha:"Capcha is null",
-	
 	//主页
 	viewAllHot: "Show All >",
 	tagPick: "",
@@ -66,6 +65,7 @@ module.exports = {
 	hot: "Hot",
 	viewAll: "View all",
 	tagSelected: "Tags Selected",
+	noMoreArticles: "没有更多文章了...",
 
 	//新建按钮
 	postArticle: "Post",

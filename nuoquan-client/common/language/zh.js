@@ -63,6 +63,7 @@ module.exports = {
 	hot: "热门讨论",
 	viewAll: "查看全部",
 	tagSelected: "标签筛选",
+	noMoreArticles: "没有更多文章了...",
 	
 	//新建按钮
 	postArticle: "发帖子",

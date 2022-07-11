@@ -150,7 +150,7 @@
 						loadArticleFlag = false; // 解锁
 						uni.hideLoading();
 						uni.showToast({
-							title: '网络未知错误',
+							title: this.lang.networkError,
 							icon: 'none',
 							duration: 1000
 						});
@@ -209,7 +209,7 @@
 				if (currentPage == totalPage) {
 					// that.showArticles(1);
 					uni.showToast({
-						title: '没有更多文章了',
+						title: this.lang.noMoreArticles,
 						icon: 'none',
 						duration: 1000
 					});
