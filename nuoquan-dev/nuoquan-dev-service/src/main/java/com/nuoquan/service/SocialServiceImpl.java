@@ -488,10 +488,10 @@ public class SocialServiceImpl implements SocialService {
         PageInfo<UserCollectVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
         List<UserCollectVO> listVO = new ArrayList<>();
         for (UserCollect c : list) {
-            int articleStatus = articleMapper.selectArticleStatus(c.getTargetId());
-            System.out.println(articleStatus);
-            if (articleStatus != 0)
-                listVO.add(composeCollect(userId, c));
+//            int articleStatus = articleMapper.selectArticleStatus(c.getTargetId());
+//            System.out.println(articleStatus);
+//            if (articleStatus != 0)
+            listVO.add(composeCollect(userId, c));
         }
         pageInfoVO.setList(listVO);
 
