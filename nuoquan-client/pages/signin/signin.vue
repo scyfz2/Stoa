@@ -5,9 +5,9 @@
 			<!-- 用户协议签订页 -->
 			<view class="introduction-contentBox">
 				<view class="email-intro">
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">亲爱的 UNNCer，</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">欢迎回家。</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">请您先接受《用户协议》。</view>
+					<view>{{lang.welcome1}}</view>
+					<view>{{lang.welcome2}}</view>
+					<view>{{lang.welcome3}}</view>
 				</view>
 				<!-- <view style="position: absolute;top: 45%;height: 45%;width: 100%;" class="super_center">
 					<view class="icon-logoBox super_center">
@@ -27,9 +27,9 @@
 			<!-- 邮箱认证页 -->
 			<view class="email-Box">
 				<view class="email-intro">
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">亲爱的 UNNCer，</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">最后一步。</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">请认证您的 UNNC 邮箱。</view>
+					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">{{lang.welcome1}}</view>
+					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">{{lang.lastStep}}</view>
+					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">{{lang.certificateEmail}}</view>
 				</view>
 
 				<view class="email-content">
@@ -217,14 +217,15 @@ export default {
 			isLoding = true;
 
 			uni.showLoading({
-				title: '载入中...'
+				// title: '载入中...'
+				title:this.lang.loading,
 			});
 			setTimeout(() => {
 				if (isLoding) {
 					isLoding = false; // 解锁
 					uni.hideLoading();
 					uni.showToast({
-						title: '网络未知错误',
+						title: this.lang.networkError,
 						icon: 'none',
 						duration: 2000
 					});
@@ -305,7 +306,7 @@ export default {
 				// 检测邮箱
 				if (this.$util.regEmail(email) || this.$util.regUNNCEmail(email)) {
 					uni.showToast({
-						title: '非 UNNC 邮箱地址！',
+						title: this.lang.notUNNCEmail,
 						icon: 'none',
 						duration: 2000,
 					});
@@ -332,7 +333,7 @@ export default {
 				}
 			} else {
 				uni.showToast({
-					title: 'Email不能为空',
+					title: this.lang.notEmptyEmail,
 					icon: 'none',
 					duration: 2000,
 				});
@@ -359,7 +360,7 @@ export default {
 		confirmCode() {
 			if (captcha) {
 				uni.showLoading({
-					title: '请等待'
+					title: this.lang.waiting,
 				});
 				uni.request({
 					url: this.$serverUrl + '/user/confirmCode',
@@ -390,7 +391,7 @@ export default {
 						} else {
 							console.log('验证失败 ' + res.data.msg);
 							uni.showToast({
-								title: '验证失败',
+								title: this.lang.certificateFail,
 								icon: 'none',
 								duration: 2000,
 							});
@@ -402,7 +403,7 @@ export default {
 				});
 			} else {
 				uni.showToast({
-					title: '验证码为空',
+					title: this.lang.emptyCaptcha,
 					icon: 'none',
 					duration: 2000,
 				});
@@ -412,7 +413,7 @@ export default {
 		login() {
 			this.nextStep(false);
 			uni.showLoading({
-				title: '正在登陆...'
+				title: this.lang.logining,
 			});
 
 			// 5.写入缓存
@@ -549,6 +550,9 @@ button::after {
 	flex-direction: column;
 	width: 100%;
 	height: 30%;
+	font-size: 42upx;
+	font-weight: 550;
+	color: #C0C0C0;
 }
 
 .email-content {

@@ -20,10 +20,10 @@
 			<!-- 标题行 -->
 			<view v-if="!roleup" class="titleLine">
 				<view class="titleLine_left">
-					<text>热门讨论</text>
+					<text>{{lang.hot}}</text>
 				</view>
 				<view @click="jumpTohot" class="titleLine_right">
-					<text>查看全部 ></text>
+					<text>{{lang.viewAll}} ></text>
 				</view>
 			</view>
 			<!-- 热门卡片 -->
@@ -61,7 +61,7 @@
 			<view v-if="roleup == false" class="tagsLine column_center">
 				<!-- 左侧打开标签选择按钮 -->
 				<view v-if="!selectedTag" @click="toggleShowTag" class="tagsButton">
-					<view class="text">标签筛选</view>
+					<view class="text">{{lang.tagSelected}}</view>
 					<view class="icon super_center">
 						<image v-if="!showTagBox" src="../static/icon/tag-white.png" mode="aspectFit"></image>
 						<image v-else src="../static/icon/angle-up-white.png" mode="aspectFit"></image>
@@ -413,7 +413,7 @@
 		position: absolute;
 		display: flex;
 		left: 4.5%;
-		width: 110px;
+		width: 140px;
 		height: 30px;
 		background: rgba(255, 238, 201, 1);
 		opacity: 1;
@@ -421,7 +421,7 @@
 	}
 
 	.tagsButton .text {
-		width: 80px;
+		width: 110px;
 		height: 30px;
 		font-size: 14px;
 		font-family: Source Han Sans CN;

@@ -33,22 +33,40 @@ module.exports = {
 	yes:"Yes",
 	no:"No",
 	
+	
+	// 注册页面
+	welcome1: "Dear UNNCer,",
+	welcome2:"Welcome Home,",
+	welcome3:"Please Accept The User Protocol.",
+	lastStep:"Last step,",
+	certificateEmail:"Please certificate your UNNC Email.",
+	
 	//登陆
 	isReadProtocol : "I have read and agree :",
 	userProtocol : "User Protocol",
 	wechatLogin : "Login",
 	emailAuth : "EmailAuth",
+	logining: "Logging in",
 	finishLogin : "Finish",
-	emailPrompt : " UNNC email address",
+	emailPrompt : "UNNC email address",
 	captcha : " Captcha",
 	getCaptcha : "Get captcha",
 	waitCaptcha : "Please wait (SECORD)s",
-	guestLogin: "Guest Login",
+	guestLogin: "GuestLogin",
+	notUNNCEmail: "It's not an UNNC Email address",
+	notEmptyEmail: "Email cannot be null",
+	certificateFail:"Authentication Failed",
+	emptyCaptcha:"Capcha is null",
 	
 	//主页
 	viewAllHot: "Show All >",
 	tagPick: "",
 	
+	// 轮滑
+	hot: "Hot",
+	viewAll: "View all",
+	tagSelected: "Tags Selected",
+
 	//新建按钮
 	postArticle: "Post",
 	postLongArticle: "Article",
@@ -165,7 +183,7 @@ module.exports = {
 	
 	//关于
 	contact : "Contact Us",
-	updateLog : "Update Log",
+	updateLog : "Update Announcement",
 	
 	//探索
 	explore:'Explore',
@@ -181,4 +199,10 @@ module.exports = {
 	redWallEvent: 'Red Wall Photography Competition',
 	voteCount: 'votes',
 	voteToLastTeam: ',To catch up the next team, they need',
+	
+	// toast相关
+	loading: "Loading...",
+	networkError: "Network Unknown Error",
+	waiting: "Waiting...",
+	developing: "Function developing...",
 }
