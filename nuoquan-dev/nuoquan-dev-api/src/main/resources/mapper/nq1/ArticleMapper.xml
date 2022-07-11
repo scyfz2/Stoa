@@ -21,6 +21,10 @@
     <result column="view_num" property="viewNum" jdbcType="INTEGER" />
   </resultMap>
 
+<!--  <select id="selectArticleStatus" parameterType="String" resultType="Integer">-->
+<!--    select status from nuoquan.article a where a.id = #{articleId}-->
+<!--  </select>-->
+
   <update id="addLikeCount" parameterType="String">
   	update nuoquan.article set like_num=like_num+1 where id=#{articleId}
   </update>

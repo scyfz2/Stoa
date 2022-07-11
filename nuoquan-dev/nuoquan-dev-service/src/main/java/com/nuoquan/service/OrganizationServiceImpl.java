@@ -8,12 +8,15 @@ import com.nuoquan.mapper.nq1.OrganizationMapper;
 import com.nuoquan.pojo.Organization;
 import com.nuoquan.pojo.OrganizationImage;
 import com.nuoquan.pojo.vo.OrganizationVO;
+import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,14 +43,14 @@ public class OrganizationServiceImpl implements OrganizationService{
     }
 
     // 将Organization转换为OrganizationVO 并为组织添加VO属性
-    private OrganizationVO composeCompanyVO(Organization organization) {
+    private OrganizationVO composeOrganizationVO(Organization organization) {
         OrganizationVO organizationVO = new OrganizationVO();
         BeanUtils.copyProperties(organization, organizationVO);
-        return composeCompanyVO(organizationVO);
+        return composeOrganizationVO(organizationVO);
     }
 
     // 为组织添加VO属性
-    private OrganizationVO composeCompanyVO(OrganizationVO organizationVO) {
+    private OrganizationVO composeOrganizationVO(OrganizationVO organizationVO) {
         // 添加图片列表
         organizationVO = addOrganizationImage(organizationVO);
         organizationVO.setLogoPath(resourceService.composeUrl(organizationVO.getLogoPath()));
@@ -58,20 +61,31 @@ public class OrganizationServiceImpl implements OrganizationService{
     // 列出全部可显示的组织
     @Override
     public PagedResult queryOrganization(Integer page, Integer pageSize, String userId){
+        Example organizationExample = new Example(Organization.class);
+        // 在这些组织中找到状态为可读的组织
+        Example.Criteria statusCriteria = organizationExample.createCriteria();
+        statusCriteria.andEqualTo("status", StatusEnum.READABLE.type);
+        organizationExample.and(statusCriteria);
+        organizationExample.setOrderByClause("id desc");
+
         PageHelper.startPage(page, pageSize);
-        List<OrganizationVO> list = organizationMapper.queryOrganization();
+        List<Organization> list = organizationMapper.selectByExample(organizationExample);
+        PageInfo<Organization> pageInfo = new PageInfo<>(list);
+        PageInfo<OrganizationVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
 
         // 组装VO
-        for (OrganizationVO j : list) {
-            j = composeCompanyVO(j);
+        List<OrganizationVO> listVO = new ArrayList<>();
+        for (Organization c : list) {
+            listVO.add(composeOrganizationVO(c));
         }
+        pageInfoVO.setList(listVO);
 
-        PageInfo<OrganizationVO> pageList = new PageInfo<>(list);
+        //为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult();
-        pagedResult.setPage(page);
-        pagedResult.setTotal(pageList.getPages());
-        pagedResult.setRows(list);
-        pagedResult.setRecords(pageList.getTotal());
+        pagedResult.setPage(pageInfoVO.getPageNum());
+        pagedResult.setTotal(pageInfoVO.getPages());
+        pagedResult.setRows(pageInfoVO.getList());
+        pagedResult.setRecords(pageInfoVO.getTotal());
 
         return pagedResult;
     }
@@ -88,19 +102,18 @@ public class OrganizationServiceImpl implements OrganizationService{
     }
 
     @Override
-    public int pseudoDeleteOrganizationImg(String organizationId, Integer order){
+    public int pseudoDeleteOrganizationImg(String organizationId, Integer imageOrder){
         int flag = 0; // 若无此order图片，flag = 0
-        Example example = new Example(OrganizationImage.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("id", organizationId);
+//        Example example = new Example(OrganizationImage.class);
+//        Example.Criteria criteria = example.createCriteria();
+//        criteria.andEqualTo("id", organizationId);
 
-        OrganizationVO organizationVO = getOrganizationById(organizationId);
-        List<OrganizationImage> list = organizationVO.getImgList(); // 获得此组织的所有图片
-        for (OrganizationImage j : list){
-            if (order == j.getImageOrder()){
+        OrganizationImage j = organizationImageMapper.getOrganizationImageByIdAndOrder(organizationId, imageOrder);
+        if (j != null) {
+            if (j.getStatus() != 0) {
                 j.setStatus(StatusEnum.DELETED.type);
-                organizationImageMapper.updateByExampleSelective(j, example);
-                flag = 1; // 若有此order图片，flag = 1
+                organizationImageMapper.updateStatusToUnreadable(organizationId, imageOrder);
+                flag = 1;
             }
         }
         return flag;
@@ -110,7 +123,7 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Override
     public OrganizationVO getOrganizationById(String id){
         Organization organization = organizationMapper.selectByPrimaryKey(id);
-        OrganizationVO organizationVO = composeCompanyVO(organization);
+        OrganizationVO organizationVO = composeOrganizationVO(organization);
         return organizationVO;
     }
 
