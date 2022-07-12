@@ -200,6 +200,7 @@
 			},
 
 			loadMore: function() {
+				// nq-tabbar.selectIcon = '/static/icon/arrow-up-FFFFF.png'
 				var that = this;
 				var currentPage = that.currentPage;
 				console.log(currentPage);
@@ -315,6 +316,7 @@
 				// console.log( y + "scrollTop" )
 				// console.log(timer + "//  timer");
 				var that = this;
+				// 当下滑超过160后，顶部热门讨论及标签部分全部向上隐藏
 				if (y >= 160) {
 					that.roleup = true;
 					// console.log(that.roleup);
