@@ -23,7 +23,6 @@ public class WxRes {
 		this.session_key = session_key;
 	}
 
-
 	public String getOpenid() {
 		return openid;
 	}

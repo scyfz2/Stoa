@@ -40,6 +40,6 @@ public interface ArticleMapper extends MyMapper<Article> {
      */
     public void addViewCount(String articleId);
 
-//    // 查询文章状态
-//    public int selectArticleStatus(String articleId);
+    // 查询文章状态
+    public int selectArticleStatus(String articleId);
 }
