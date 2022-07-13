@@ -1,4 +1,4 @@
-const request = {
+ const request = {
 	namespaced: false,
 	state: {
 		API:{

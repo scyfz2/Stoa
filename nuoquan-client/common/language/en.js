@@ -140,6 +140,7 @@ module.exports = {
 	like : "Like",
 	comment : "Comment",
 	editSignature: "Please edit your signature in 'profile'",
+	deleteHint: "<--The left side to delete",
 	
 	
 	//我的发布

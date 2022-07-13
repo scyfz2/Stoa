@@ -18,6 +18,7 @@
 				<!-- <view :class="[swiperViewing == 'longArticle' ? 'swiperChoosen' : 'swiperNormal']" @tap="switchSwiper('longArticle')">{{lang.longArticle}}
 					{{ myLongArticleList.length }}
 				</view> -->
+				<text class="deleteHint">{{lang.deleteHint}}</text>
 			</view>
 			<view>
 				<!-- <swiper style="width:100%;height:100%;" :current-item-id="swiperViewing" disable-touch="true" @touchmove.prevent="stopTouch">
@@ -32,13 +33,13 @@
 				<!-- </swiper-item>
 				<swiper-item style="width: 100%;" item-id="vote" @touchmove.prevent="stopTouch"> -->
 
-				<view class="mainbody voteArea" v-show="swiperViewing=='longArticle'">
-					<view style="height:20px;width:100%;"></view>
+				<!-- <view class="mainbody voteArea" v-show="swiperViewing=='longArticle'">
+					<view style="height:20px;width:100%;"></view> -->
 					<!-- 					<modify-vote :lang="lang" v-for="vote in myVoteList" :key="vote.id" :vote="vote" :messageIndex="messageIndex"></modify-vote> -->
-					<modify-long :lang="lang" v-for="longArticle in myLongArticleList" :key="longArticle.id" :thisArticle="longArticle"
+					<!-- <modify-long :lang="lang" v-for="longArticle in myLongArticleList" :key="longArticle.id" :thisArticle="longArticle"
 					@modifySwipedId="receiveSwiped" :messageIndex="messageIndex" ></modify-long>
 
-				</view>
+				</view> -->
 
 				<!-- 				</swiper-item>-->
 				<!-- 			</swiper> -->
@@ -307,7 +308,7 @@
 
 				var that = this;
 				uni.request({
-					url: that.$serverUrl + '/longarticle/queryPublishHistory',
+					url: that.$serverUrl + '/article/queryPublishHistory',
 					method: 'POST',
 					data: {
 						page: 1,
@@ -465,5 +466,12 @@
 	.mainbody {
 		width: calc(100% - 26px);
 		margin: auto;
+	}
+	
+	.deleteHint {
+		color: rgba(136, 136, 136, 1);
+		font-size: 14px;
+		position: absolute;
+		margin-left: 250upx;
 	}
 </style>
