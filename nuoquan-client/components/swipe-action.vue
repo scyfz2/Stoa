@@ -1,7 +1,7 @@
 <!-- 
 	Date: July 12, 2022
 	Editor: Yifei
-	Description: 用于messageList，左滑拉出删除键
+	Description: 用于messageList，对话消息左滑拉出删除键
  -->
 <template>
 	<view class="message-list">
