@@ -8,6 +8,8 @@
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="title" jdbcType="VARCHAR" property="eventTitle" />
         <result column="description" jdbcType="LONGVARCHAR" property="eventDescription" />
+        <result column="faculty" jdbcType="VARCHAR" property="faculty" />
+        <result column="degree" jdbcType="VARCHAR" property="degree" />
         <result column="venue" jdbcType="VARCHAR" property="eventVenue" />
         <result column="date" jdbcType="VARCHAR" property="eventDate" />
         <result column="time" jdbcType="VARCHAR" property="eventTime" />
@@ -21,6 +23,8 @@
         where
             1 = 1
           and ec.status = 1
+          and ec.faculty = #{faculty}
+          and ec.degree = #{degree}
         order by ec.create_date desc
     </select>
 
@@ -29,7 +33,9 @@
         where
               1 = 1
           and ec.status = 1
-        and ec.date = #{currentDate}
+          and ec.date = #{currentDate}
+          and ec.faculty = #{faculty}
+          and ec.degree = #{degree}
         order by ec.create_date desc
     </select>
 </mapper>
