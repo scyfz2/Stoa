@@ -210,7 +210,7 @@
 				if (currentPage == totalPage) {
 					// that.showArticles(1);
 					uni.showToast({
-						title: this.lang.noMoreArticles,
+						title: '没有更多文章咯',
 						icon: 'none',
 						duration: 1000
 					});
