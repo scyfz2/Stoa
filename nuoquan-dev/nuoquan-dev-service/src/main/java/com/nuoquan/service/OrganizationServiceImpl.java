@@ -30,7 +30,11 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Autowired
     private OrganizationImageMapper organizationImageMapper;
 
-    //@Transactional(propagation = Propagation.SUPPORTS)
+    /**
+     * 添加图片列表到OrganizationVO
+     * @param organizationVO
+     * @return
+     */
     public OrganizationVO addOrganizationImage(OrganizationVO organizationVO) {
         List<OrganizationImage> images = organizationImageMapper.getOrganizationImage(organizationVO.getId());
         //为图片url添加前缀
@@ -42,14 +46,22 @@ public class OrganizationServiceImpl implements OrganizationService{
         return organizationVO;
     }
 
-    // 将Organization转换为OrganizationVO 并为组织添加VO属性
+    /**
+     * 将Organization转换为OrganizationVO 并为组织添加VO属性
+     * @param organization
+     * @return
+     */
     private OrganizationVO composeOrganizationVO(Organization organization) {
         OrganizationVO organizationVO = new OrganizationVO();
         BeanUtils.copyProperties(organization, organizationVO);
         return composeOrganizationVO(organizationVO);
     }
 
-    // 为组织添加VO属性
+    /**
+     * 为组织添加VO属性
+     * @param organizationVO
+     * @return
+     */
     private OrganizationVO composeOrganizationVO(OrganizationVO organizationVO) {
         // 添加图片列表
         organizationVO = addOrganizationImage(organizationVO);
@@ -58,7 +70,13 @@ public class OrganizationServiceImpl implements OrganizationService{
         return organizationVO;
     }
 
-    // 列出全部可显示的组织
+    /**
+     * 列出全部可显示的组织
+     * @param page
+     * @param pageSize
+     * @param userId
+     * @return
+     */
     @Override
     public PagedResult queryOrganization(Integer page, Integer pageSize, String userId){
         Example organizationExample = new Example(Organization.class);
@@ -90,7 +108,10 @@ public class OrganizationServiceImpl implements OrganizationService{
         return pagedResult;
     }
 
-    // 伪删除组织，使组织status=0(Unreadable)
+    /**
+     * 伪删除组织，使组织status=0(Unreadable)
+     * @param organizationId
+     */
     @Override
     public void	pseudoDeleteOrganization(String organizationId) {
         Example example = new Example(Organization.class);
@@ -101,6 +122,12 @@ public class OrganizationServiceImpl implements OrganizationService{
         organizationMapper.updateByExampleSelective(c, example);
     }
 
+    /**
+     * 位删除组织图片
+     * @param organizationId
+     * @param imageOrder
+     * @return
+     */
     @Override
     public int pseudoDeleteOrganizationImg(String organizationId, Integer imageOrder){
         int flag = 0; // 若无此order图片，flag = 0
@@ -119,7 +146,11 @@ public class OrganizationServiceImpl implements OrganizationService{
         return flag;
     }
 
-    // 根据组织id查询组织
+    /**
+     * 根据组织id查询组织
+     * @param id
+     * @return
+     */
     @Override
     public OrganizationVO getOrganizationById(String id){
         Organization organization = organizationMapper.selectByPrimaryKey(id);
@@ -127,12 +158,21 @@ public class OrganizationServiceImpl implements OrganizationService{
         return organizationVO;
     }
 
+    /**
+     * 根据组织Id获得组织图片
+     * @param id
+     * @return
+     */
     @Override
     public OrganizationImage getOrganizationImgById(String id){
        return null;
     }
 
-    // 将组织信息存入数据库
+    /**
+     * 将组织信息存入数据库
+     * @param organization
+     * @return
+     */
     @Override
     public String saveOrganization(Organization organization) {
         String id = sid.nextShort();
@@ -141,7 +181,10 @@ public class OrganizationServiceImpl implements OrganizationService{
         return id;
     }
 
-    // 将图片存入数据库
+    /**
+     * 将图片存入数据库
+     * @param organizationImage
+     */
     @Override
     public void saveOrganizationImages(OrganizationImage organizationImage) {
         String id = sid.nextShort();
