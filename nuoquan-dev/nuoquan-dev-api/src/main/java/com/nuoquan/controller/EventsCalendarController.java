@@ -1,7 +1,6 @@
 package com.nuoquan.controller;
 
 import com.nuoquan.enums.StatusEnum;
-import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.EventsCalendar;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
@@ -41,10 +40,12 @@ public class EventsCalendarController extends BasicController {
             @ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "faculty", value = "所属学院", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "degree", value = "学历", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "currentDate", value = "查询目标日期", required = false, dataType = "String", paramType = "form")
     })
     @PostMapping("/queryEventsCalender")
-    public JSONResult queryEventsCalender(Integer page, Integer pageSize, String userId, String currentDate) throws Exception {
+    public JSONResult queryEventsCalender(Integer page, Integer pageSize, String userId, String faculty, String degree, String currentDate) throws Exception {
 
         if(page == null) {
             page = 1;
@@ -54,7 +55,7 @@ public class EventsCalendarController extends BasicController {
             pageSize = PAGE_SIZE;
         }
 
-        PagedResult result = eventsCalendarService.queryEventsCalender(page, pageSize, userId, currentDate);
+        PagedResult result = eventsCalendarService.queryEventsCalender(page, pageSize, userId, faculty, degree, currentDate);
 
         return JSONResult.ok(result);
     }
@@ -124,5 +125,23 @@ public class EventsCalendarController extends BasicController {
         }else {
             return JSONResult.errorMsg("内容违规");
         }
+    }
+
+
+
+    @ApiOperation(value = "查询某用户日程信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "form")
+    })
+    @PostMapping(value="/getEventCalendarInfoByUserId")
+    public JSONResult getEventCalendarInfoByUserId(Integer page, Integer pageSize, String userId) throws Exception {
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+
+        return JSONResult.ok(eventsCalendarUserInfoService.queryEventsCalenderUserInfo(page, pageSize, userId));
+
     }
 }

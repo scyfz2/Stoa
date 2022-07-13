@@ -1,12 +1,10 @@
 package com.nuoquan.service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.EventsCalendarMapper;
 import com.nuoquan.pojo.EventsCalendar;
 import com.nuoquan.pojo.vo.EventsCalendarVO;
-import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.RedisOperator;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +16,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,48 +45,51 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
         return eventsCalendarVO;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String currentDate) {
-        Example eventsCalendarExample = new Example(EventsCalendar.class);
+    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String faculty, String degree, String currentDate) {
+        List<EventsCalendarVO> list;
         //是否有查询日期
         if(!StringUtils.isBlank(currentDate)) {
-            Example.Criteria dateCriteria = eventsCalendarExample.createCriteria();
-            // 此处userId为操作者id
-            dateCriteria.andEqualTo("eventDate", currentDate);
-            eventsCalendarExample.and(dateCriteria);
+            list = eventsCalendarMapper.queryTodayEventsCalendar(faculty, degree, currentDate);
+        } else {
+            list = eventsCalendarMapper.queryAllEventsCalendar(faculty, degree);
         }
-        // 在这些日程中找到状态为可读的事件
-        Example.Criteria statusCriteria = eventsCalendarExample.createCriteria();
-        statusCriteria.andEqualTo("status", StatusEnum.READABLE.type);
-        eventsCalendarExample.and(statusCriteria);
-        eventsCalendarExample.setOrderByClause("create_date desc");
 
-        PageHelper.startPage(page, pageSize);
-        return queryEventsCalendarByExample(eventsCalendarExample, userId);
-    }
+        PageInfo<EventsCalendarVO> pageList = new PageInfo<>(list);
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public PagedResult queryEventsCalendarByExample(Example eventsCalendarExample, String userId) {
-        //通过条件，返回pagedResult
-        List<EventsCalendar> list = eventsCalendarMapper.selectByExample(eventsCalendarExample);
-        PageInfo<EventsCalendar> pageInfo = new PageInfo<>(list);
-        PageInfo<EventsCalendarVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
-
-        List<EventsCalendarVO> listVO = new ArrayList<>();
-        for (EventsCalendar ec : list) {
-            listVO.add(composeEventsCalendarVO(ec, userId));
-        }
-        pageInfoVO.setList(listVO);
-
-        //为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult();
-        pagedResult.setPage(pageInfoVO.getPageNum());
-        pagedResult.setTotal(pageInfoVO.getPages());
-        pagedResult.setRows(pageInfoVO.getList());
-        pagedResult.setRecords(pageInfoVO.getTotal());
+        pagedResult.setPage(page);
+        pagedResult.setTotal(pageList.getPages());
+        pagedResult.setRows(list);
+        pagedResult.setRecords(pageList.getTotal());
 
         return pagedResult;
     }
+//
+//    // 使用sql语句替代example方法
+//    @Transactional(propagation = Propagation.SUPPORTS)
+//    public PagedResult queryEventsCalendarByExample(Example eventsCalendarExample, String userId) {
+//        //通过条件，返回pagedResult
+//        List<EventsCalendar> list = eventsCalendarMapper.selectByExample(eventsCalendarExample);
+//        PageInfo<EventsCalendar> pageInfo = new PageInfo<>(list);
+//        PageInfo<EventsCalendarVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
+//
+//        List<EventsCalendarVO> listVO = new ArrayList<>();
+//        for (EventsCalendar ec : list) {
+//            listVO.add(composeEventsCalendarVO(ec, userId));
+//        }
+//        pageInfoVO.setList(listVO);
+//
+//        //为最终返回对象 pagedResult 添加属性
+//        PagedResult pagedResult = new PagedResult();
+//        pagedResult.setPage(pageInfoVO.getPageNum());
+//        pagedResult.setTotal(pageInfoVO.getPages());
+//        pagedResult.setRows(pageInfoVO.getList());
+//        pagedResult.setRecords(pageInfoVO.getTotal());
+//
+//        return pagedResult;
+//    }
 
 
     /**
