@@ -9,7 +9,7 @@
 				style="margin-top: 3px;"
 				:bgSwitchLeft="'-13px'"
 				:bgSwitchRight="'41px'"
-				:options="[lang.time, lang.hot]"
+				:options="[lang.time, lang.hotcomment]"
 				@onChange="change_comment_order"
 			></nqSwitch>
 			<nqSwitch v-else style="margin-top: 3px;" :bgSwitchLeft="'-11px'" :bgSwitchRight="'41px'" :options="[lang.time, lang.hot]" @onChange="change_comment_order"></nqSwitch>

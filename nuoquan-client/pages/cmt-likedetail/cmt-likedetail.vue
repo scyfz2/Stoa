@@ -42,7 +42,7 @@
 						<view v-for="(item, index2) in index1 == 0 ? likeList : commentList" :key="index2">
 							<!-- ******************** 点赞文章卡片 ********************** -->
 							<view v-if="item.senderAction == 'like' && item.targetType == 'article'" 
-							class="cmtlikeDetail-card" @tap="goToArticle(likeList[index2].targetId)">
+							class="cmtlikeDetail-card" >
 								<view style="width: 100%;height: 100%;" hover-class="hoverColor">
 									<!-- 卡片高度未定义，上下边距会失效，用 marginHelper 填充空白 -->
 									<view class="marginHelper1"></view>
@@ -79,6 +79,7 @@
 									> -->
 									<view
 										:class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']"
+										@tap="goToArticle(likeList[index2].targetId)"
 									>
 										<view class="origin-bar-rel">
 											<view class="origin-imageBox" v-if="item.target.imgList.length > 0">
@@ -140,7 +141,7 @@
 
 							<!--***************************** 评论文章卡片 *****************************-->
 							<view v-if="item.senderAction == 'comment' && item.targetType == 'article'" 
-							class="cmtlikeDetail-card" hover-class="hoverColor" @tap="goToArticle(likeList[index2].targetId)">
+							class="cmtlikeDetail-card" hover-class="hoverColor">
 								<view style="width: 100%;height: 100%;" hover-class="hoverColor">
 									<!-- 卡片高度未定义，上下边距会失效，用 marginHelper 填充空白 -->
 									<view class="marginHelper1"></view>
@@ -164,7 +165,8 @@
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
 										</view>
 									</view>
-									<view @tap="goToComment(commentList[index2].source.articleId)">
+									<!-- <view @tap="goToComment(commentList[index2].source.articleId)"> -->
+									<view @tap="goToArticle(likeList[index2].targetId)">
 										<!-- 点赞 or 评论预览块 -->
 										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea">
 											<view class="brief-bar-rel">{{ item.source.comment }}</view>
