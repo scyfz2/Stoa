@@ -33,21 +33,40 @@ module.exports = {
 	yes:"Yes",
 	no:"No",
 	
+	
+	// 注册页面
+	welcome1: "Dear UNNCer,",
+	welcome2:"Welcome Home,",
+	welcome3:"Please Accept The User Protocol.",
+	lastStep:"Last step,",
+	certificateEmail:"Please certificate your UNNC Email.",
+	
 	//登陆
 	isReadProtocol : "I have read and agree :",
 	userProtocol : "User Protocol",
 	wechatLogin : "Login",
 	emailAuth : "EmailAuth",
+	logining: "Logging in",
 	finishLogin : "Finish",
-	emailPrompt : " UNNC email address",
+	emailPrompt : "UNNC email address",
 	captcha : " Captcha",
 	getCaptcha : "Get captcha",
 	waitCaptcha : "Please wait (SECORD)s",
-	
+	guestLogin: "GuestLogin",
+	notUNNCEmail: "It's not an UNNC Email address",
+	notEmptyEmail: "Email cannot be null",
+	certificateFail:"Authentication Failed",
+	emptyCaptcha:"Capcha is null",
 	//主页
 	viewAllHot: "Show All >",
 	tagPick: "",
 	
+	// 轮滑
+	hot: "Hot",
+	viewAll: "View all",
+	tagSelected: "Tags Selected",
+	noMoreArticles: "没有更多文章了...",
+
 	//新建按钮
 	postArticle: "Post",
 	postLongArticle: "Article",
@@ -60,7 +79,7 @@ module.exports = {
 	addTags : "Add Tags",
 	
 	//详情页&长文章详情
-	sharetoMoments: "Share to moments",
+	sharetoMoments: "Save & Share",
 	menu_more:"More",
 	share:"Share",
 	collect:"Collect",
@@ -121,6 +140,7 @@ module.exports = {
 	like : "Like",
 	comment : "Comment",
 	editSignature: "Please edit your signature in 'profile'",
+	deleteHint: "<--The left side to delete",
 	
 	
 	//我的发布
@@ -135,7 +155,7 @@ module.exports = {
 	
 	//关注粉丝列表
 	fanAndFollow : "Follow List",
-	followed : "已关注",
+	followed : "Followed",
 	
 	//个人信息
 	nickname : "Nickname",
@@ -152,7 +172,7 @@ module.exports = {
 	schoolEmail : "School Email",
 	noEmail: "No email, please bind your email!",
 	changeEmail : "Change Email",
-	genderList : ["Ms", "Mr", "Unknown"], //顺序请和数据库保持一致
+	genderList : ["Ms", "Mr", "Other","Unknown"], //顺序请和数据库保持一致
 	degreeList : ["High school", "Undergraduate", "Graduate"], //顺序请和数据库保持一致
 	relevantInfo: "Correlation",
 	editInfo: "Click text to modify information",
@@ -164,7 +184,7 @@ module.exports = {
 	
 	//关于
 	contact : "Contact Us",
-	updateLog : "Update Log",
+	updateLog : "Update Announcement",
 	
 	//探索
 	explore:'Explore',
@@ -180,4 +200,10 @@ module.exports = {
 	redWallEvent: 'Red Wall Photography Competition',
 	voteCount: 'votes',
 	voteToLastTeam: ',To catch up the next team, they need',
+	
+	// toast相关
+	loading: "Loading...",
+	networkError: "Network Unknown Error",
+	waiting: "Waiting...",
+	developing: "Function developing...",
 }

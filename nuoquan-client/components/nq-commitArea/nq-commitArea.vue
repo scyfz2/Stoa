@@ -10,7 +10,9 @@
 					@focus="getKeyBoardHeight"
 					v-model="inputContent"
 					@blur="killCommitArea"
+					:maxlength="maxReplyLength"
 					/>
+				<view style="position: absolute;bottom: 35px;right:15px;font-size: 11px;color: #888888;">{{maxReplyLength - inputContent.length}}</view>
 				<!-- 添加图片，等功能开发完成打开注释 -->
 				<!-- <image src="../../static/icon/viewLocalPic.png" mode="aspectFit" class="addPic"></image> -->
 				<view class="bottomRight">
@@ -32,6 +34,7 @@ export default {
 	name: 'commitArea',
 	data() {
 		return {
+			maxReplyLength: 150,
 			replyText: '',
 			textAreaTop: 1000,
 			getIsShow: '',

@@ -150,7 +150,7 @@
 						loadArticleFlag = false; // 解锁
 						uni.hideLoading();
 						uni.showToast({
-							title: '网络未知错误',
+							title: this.lang.networkError,
 							icon: 'none',
 							duration: 1000
 						});
@@ -200,6 +200,7 @@
 			},
 
 			loadMore: function() {
+				// nq-tabbar.selectIcon = '/static/icon/arrow-up-FFFFF.png'
 				var that = this;
 				var currentPage = that.currentPage;
 				console.log(currentPage);
@@ -209,7 +210,7 @@
 				if (currentPage == totalPage) {
 					// that.showArticles(1);
 					uni.showToast({
-						title: '没有更多文章了',
+						title: this.lang.noMoreArticles,
 						icon: 'none',
 						duration: 1000
 					});
@@ -315,6 +316,7 @@
 				// console.log( y + "scrollTop" )
 				// console.log(timer + "//  timer");
 				var that = this;
+				// 当下滑超过160后，顶部热门讨论及标签部分全部向上隐藏
 				if (y >= 160) {
 					that.roleup = true;
 					// console.log(that.roleup);

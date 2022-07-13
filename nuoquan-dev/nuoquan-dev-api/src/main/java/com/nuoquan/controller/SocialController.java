@@ -227,7 +227,7 @@ public class SocialController extends BasicController {
 		@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
 	})
 	@PostMapping("/queryCollect")
-	public JSONResult queryCollect(Integer page, Integer pageSize, String userId, String targetId) {
+	public JSONResult queryCollect(Integer page, Integer pageSize, String userId) {
 		
 		if(page == null) {
 			page = 1;

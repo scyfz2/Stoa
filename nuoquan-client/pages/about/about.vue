@@ -47,7 +47,7 @@ export default {
 			isNavHome: getApp().globalData.isNavHome,//判断导航栏左侧是否显示home按钮
 			dataList:[
 				{
-					name:'联系我们', 
+					name:'联系我们	Contact Us', 
 					subtitle:'商务合作',
 					body:'\“Share beyond Moments\” \n\
 						Nottinghome 期待与校内各组织社团、学生团队、alumni 创业企业合作。\n \
@@ -64,7 +64,7 @@ export default {
 						Jumboxtech,'
 				},
 				{
-					name:'更新公告',
+					name:'更新公告	Update Announcement',
 					subtitle:this.versionNum,
 					body:'\ Nottinghome v2.0.0 已更新！\n \
 						1. 升级：大部分页面 UI\n \

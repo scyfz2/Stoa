@@ -1,3 +1,8 @@
+<!-- 
+	Date: July 12, 2022
+	Editor: Yifei
+	Description: 用于messageList，对话消息左滑拉出删除键
+ -->
 <template>
 	<view class="message-list">
 		<block v-for="(it, i) in messagesList" :key="i">
@@ -25,7 +30,7 @@
 					:data-index="i"
 					:data-disabled="it.disabled"
 				>
-					<view class="uni-swipe-action__content " style="box-shadow:0px 0px 6px rgba(0,0,0,0.16);" hover-class="hoverColor" @click="toMessageDetail(i, it.type)">
+					<view class="uni-swipe-action__content" style="box-shadow:0px 0px 6px rgba(0,0,0,0.16);" hover-class="hoverColor" @click="toMessageDetail(i, it.type)">
 						<view class="item" :class="it.stick ? 'stick' : ''" @tap="tapCard(it)">
 							<block>
 								<view class="item-left">
@@ -46,6 +51,7 @@
 							</block>
 						</view>
 					</view>
+					
 				</view>
 			</view>
 		</block>
@@ -177,6 +183,9 @@ export default {
 	height: 26px;
 	margin-top: 26px;
 	margin-left: 16px;
+	// position: absolute;
+	// right: 16px;
+	// margin-top: 26px;
 	background-color: #fccf41;
 	border-radius: 4px;
 }

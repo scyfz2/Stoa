@@ -110,7 +110,6 @@ export default {
 	},
 
 	onShow() {
-		
 		this.loadingChatSnapshot(); // 载入聊天快照
 	},
 

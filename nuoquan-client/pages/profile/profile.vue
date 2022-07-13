@@ -15,8 +15,15 @@
 				<view class="nickname">
 					<view class="text">{{lang.nickname}}</view>
 					<view class="second_line" @click="toggleIsEditNickname" v-if="!isEditNickname">{{ userInfo.nickname }}</view>
-					<input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
-					 name="nickname" maxlength="8" :value="userInfo.nickname" v-if="isEditNickname" />
+					<!-- 
+					 Editor: Yifei
+					 Date: July 7, 2022
+					 Description: 为了防止昵称过长,限制为7个中文字符或10个英文字符
+					 -->
+					<!-- <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
+					 name="nickname" maxlength="15" :value="userInfo.nickname" v-if="isEditNickname" /> -->
+					 <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
+					  name="nickname" maxlength="15" :value="userInfo.nickname" v-if="isEditNickname" />
 					<view class="line" v-if="isEditNickname"></view>
 				</view>
 				<view class="gender">
@@ -25,7 +32,12 @@
 					<view @tap="formSubmit" v-if="isEditGender" style="width:100px;display: flex;justify-content: space-between;position: relative;left:-6px;height:34px;">
 						<view :class="[gender == 1 ? 'genderPicker-buttonclick' : 'genderPicker-button']" @click="genderChanger(1)">{{lang.male}}</view>
 						<view :class="[gender == 0 ? 'genderPicker-buttonclick' : 'genderPicker-button']" @click="genderChanger(0)">{{lang.female}}</view>
-
+						<!-- 
+						 Author: Yifei
+						 Date: July 7, 2022
+						 Description: 增添多元性别选择.
+						 -->
+						<view :class="[gender == 2 ? 'genderPicker-buttonclick' : 'genderPicker-button']" style="width: 80px;" @click="genderChanger(2)">{{lang.other}}</view>
 					</view>
 				</view>
 			</view>
@@ -106,12 +118,20 @@
 			const date = new Date();
 			const years = [];
 			const thisYear = date.getFullYear();
-			for (let i = 2004; i <= thisYear + 4; i++) {
-				years.push(i);
+			const thisMonth = date.getMonth();
+			if (thisMonth < 6){
+				for (let i = thisYear + 3; i > 2003; i--) {
+					years.push(i);
+				}
+			} else
+			{
+				for (let i = thisYear + 4; i > 2003; i--) {
+					years.push(i);
+				}
 			}
 
 			// major
-			const majors = ['AEE', 'ABE', 'CS', 'CEE', 'CIVE', 'EG', 'ECON', 'EEE', 'ENGL', 'GEOG', 'IC', 'IS', 'MATH', 'PDM', 'NUBS'];
+			const majors = ['','AEE', 'ABE', 'CS', 'CEE', 'CIVE', 'EG', 'ECON', 'EEE', 'ENGL', 'GEOG', 'IC', 'IS', 'MATH', 'PDM', 'NUBS'];
 
 			// degree 顺序和数据库保持一致
 			const degrees = ['高中', '本科', '研究生'];
@@ -125,7 +145,7 @@
 				degreePickerVal: [],
 
 				nickname: "",
-				gender: "2",
+				gender: "3", // 默认为未知，0为女，1为男，2为其他
 				genderList:[],
 				year: years[0], // 默认值
 				major: majors[0],

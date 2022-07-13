@@ -455,7 +455,7 @@
 			showToast() {
 				uni.showToast({
 					// title: '⠀⠀⠀⠀⠀under⠀⠀⠀⠀⠀development',//不是空格，是特殊符号，莫删
-					title: '开发小哥正在玩命实现中...',
+					title: this.lang.developing,
 					duration: 2000,
 					icon: 'none'
 				});

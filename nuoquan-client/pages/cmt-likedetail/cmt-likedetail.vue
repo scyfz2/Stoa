@@ -68,9 +68,17 @@
 									</view>
 
 									<!-- 文章预览块 -->
-									<view
+									<!-- 
+									 Author: Yifei
+									 Date: July 7, 2022
+									 Description: 这里就不用跳转了不然会导致跳转两次
+									 -->
+									<!-- <view
 										:class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']"
 										@tap="goToArticle(likeList[index2].targetId)"
+									> -->
+									<view
+										:class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']"
 									>
 										<view class="origin-bar-rel">
 											<view class="origin-imageBox" v-if="item.target.imgList.length > 0">
@@ -132,7 +140,7 @@
 
 							<!--***************************** 评论文章卡片 *****************************-->
 							<view v-if="item.senderAction == 'comment' && item.targetType == 'article'" 
-							class="cmtlikeDetail-card" hover-class="hoverColor">
+							class="cmtlikeDetail-card" hover-class="hoverColor" @tap="goToArticle(likeList[index2].targetId)">
 								<view style="width: 100%;height: 100%;" hover-class="hoverColor">
 									<!-- 卡片高度未定义，上下边距会失效，用 marginHelper 填充空白 -->
 									<view class="marginHelper1"></view>
