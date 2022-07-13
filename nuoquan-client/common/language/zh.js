@@ -10,6 +10,8 @@ module.exports = {
 	submit : "发表",
 	delete : "删除",
 	time : "时间",
+	// 防止评论hot冲突
+	hotcomment:"热门",
 	hot : "热度",
 	all : "所有",
 	follow : "关注",

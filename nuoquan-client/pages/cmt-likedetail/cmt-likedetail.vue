@@ -164,7 +164,8 @@
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
 										</view>
 									</view>
-									<view @tap="goToComment(commentList[index2].source.articleId)">
+									<!-- <view @tap="goToComment(commentList[index2].source.articleId)"> -->
+									<view @tap="goToArticle(likeList[index2].targetId)">
 										<!-- 点赞 or 评论预览块 -->
 										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea">
 											<view class="brief-bar-rel">{{ item.source.comment }}</view>
