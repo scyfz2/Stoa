@@ -36,7 +36,7 @@ public class Organization {
 
     // 组织公众号或推文链接
     @Column(name = "official_account_Link")
-    private String officialAccountsLink;
+    private String officialAccountLink;
 
     // 后台创建时间
     @Column(name = "create_date")
@@ -47,11 +47,11 @@ public class Organization {
     private Integer status;
 
     public String getOfficialAccountLink() {
-        return officialAccountsLink;
+        return officialAccountLink;
     }
 
     public void setOfficialAccountLink(String officialAccountLink) {
-        this.officialAccountsLink = officialAccountLink;
+        this.officialAccountLink = officialAccountLink;
     }
 
     public String getId() {
