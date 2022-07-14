@@ -130,7 +130,7 @@
 										</view>
 									</view>
 									<!-- 点赞预览块 -->
-									<view class="brief-bar-abs" @tap="goToComment(likeList[index2].targetId)">
+									<view class="brief-bar-abs" @tap="goToArticle(likeList[index2].target.targetId)">
 										<view class="brief-bar-rel">{{ item.target.comment }}</view>
 									</view>
 
@@ -166,7 +166,7 @@
 										</view>
 									</view>
 									<!-- <view @tap="goToComment(commentList[index2].source.articleId)"> -->
-									<view @tap="goToArticle(likeList[index2].targetId)">
+									<view @tap="goToComment(commentList[index2].source.targetId)">
 										<!-- 点赞 or 评论预览块 -->
 										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea">
 											<view class="brief-bar-rel">{{ item.source.comment }}</view>
