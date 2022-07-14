@@ -6,17 +6,17 @@ import com.nuoquan.utils.PagedResult;
 public interface EventsCalendarService {
 
     /**
-     * queryAllEventsCalender接口的方法
+     * 查询日程
      * @param page 前端页数
      * @param pageSize 前端页面大小
      * @param userId 操作者id
      * @param currentDate 查询的目标日期(此参数为null时默认查询所有)
      * @return JSONResult
      */
-    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String currentDate);
+    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String faculty, String degree, String currentDate);
 
     /**
-     * queryAllEventsCalender接口的方法
+     * 更改事件状态
      * @param eventId 事件id
      * @param statusType 更改目标状态()
      * @return JSONResult
@@ -24,7 +24,7 @@ public interface EventsCalendarService {
     public void changeEventStatus(String eventId, Integer statusType);
 
     /**
-     * queryAllEventsCalender接口的方法
+     * 保存事件
      * @param eventsCalendar EventsCalendar
      * @return JSONResult
      */
