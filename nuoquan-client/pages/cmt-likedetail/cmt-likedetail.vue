@@ -166,13 +166,13 @@
 										</view>
 									</view>
 									<!-- <view @tap="goToComment(commentList[index2].source.articleId)"> -->
-									<view @tap="goToComment(commentList[index2].source.targetId)">
+									<view >
 										<!-- 点赞 or 评论预览块 -->
-										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea">
+										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea(index2,0)">
 											<view class="brief-bar-rel">{{ item.source.comment }}</view>
 										</view>
 										<!-- 原文章预览块 -->
-										<view :class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']">
+										<view :class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']" @tap="goToComment(commentList[index2].targetId)">
 											<view class="origin-bar-rel">
 												<view class="origin-imageBox" v-if="item.target.imgList.length > 0">
 													<view class="origin-imageMask"></view>
@@ -223,13 +223,13 @@
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
 										</view>
 									</view>
-									<view @tap="goToComment(commentList[index2].source.targetId)">
+									<view >
 										<!-- 点赞 or 评论预览块 -->
-										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea" hover-class="hoverColor" hover-stop-propagation="false">
+										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea(index2,1)" hover-class="hoverColor" hover-stop-propagation="false">
 											<view class="brief-bar-rel">{{ item.source.comment }}</view>
 										</view>
 										<!-- 原评论预览块 -->
-										<view class="brief-bar-abs-cmtofcmt">
+										<view class="brief-bar-abs-cmtofcmt" @tap="goToComment(commentList[index2].source.targetId)">
 											<view class="brief-bar-rel-cmtofcmt">{{ item.target.comment }}</view>
 										</view>
 									</view>
@@ -248,7 +248,8 @@
 		<commitArea v-if="isReplying" 
 			openOrigin="cmt-likedetail" 
 			:isShow="isReplying" 
-			@killCommitArea="killCommitArea">
+			@killCommitArea="killCommitArea"
+			@submit="submit">
 		</commitArea>
 	</view>
 </template>
@@ -258,7 +259,7 @@
 import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
 import { mapState, mapMutations } from 'vuex';
 import commitArea from '../../components/nq-commitArea/nq-commitArea.vue';
-
+var uploadFlag = false;
 export default {
 	components: {
 		uniNavBar,
@@ -298,6 +299,13 @@ export default {
 
 			isNavHome: getApp().globalData.isNavHome, //判断导航栏左侧是否显示home按钮
 			isReplying: false, //是否展示回复输入框
+			
+			toUserId:"",
+			targetId:"",
+			commentInfo:"",//回复内容
+			commentContent:"",
+			underCommentId:"",
+			commentIndex:999,
 		};
 	},
 
@@ -480,14 +488,101 @@ export default {
 			});
 		},
 		
-		showCommitArea(){
+		showCommitArea(index2,data){
 			this.isReplying = !this.isReplying;
+			this.toUserId=this.commentList[index2].senderId;
+			if(data==0){
+				this.targetId=this.commentList[index2].targetId;
+				this.underCommentId=this.commentList[index2].sourceId;
+			}else if(data==1){
+				this.targetId=this.commentList[index2].source.targetId;
+				this.underCommentId=this.commentList[index2].source.underCommentId;
+			}
+			this.commentIndex=index2;
 		},
 		
 		killCommitArea(e){
 			console.log(e);
 			this.isReplying = e;
-		}
+		},
+		
+		submit(data){
+			this.commentInfo=data;
+			console.log(this.commentInfo);
+			this.saveComment(this.commentInfo);
+		},
+		
+		saveComment: function(content) {
+			console.log('conteng =' + content);
+			console.log('tragger savecomment');
+			// 赋值评论内容
+			this.commentContent = content;
+			if (uploadFlag) {
+				console.log('正在上传...');
+				return;
+			}
+			uploadFlag = true;
+			uni.showLoading({
+				title: '正在上传...'
+			});
+			var submitData = {
+				fromUserId: this.userInfo.id,
+				toUserId: this.toUserId,
+				targetType: "ARTICLE",
+				targetId: this.targetId,
+				comment: content,
+				underCommentId:this.underCommentId,
+			}
+			console.log(submitData);
+			var that = this;
+			if (this.commentContent == '') {
+				uni.showToast({
+					title: '好像忘写评论了哦~',
+					duration: 1000,
+					icon: 'none'
+				});
+			} else {
+				uni.request({
+					url: that.$serverUrl + '/social/saveComment',
+					method: 'POST',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					data: submitData,
+					success: res => {
+						if (res.data.status == 200) {
+							uni.hideLoading();
+							uploadFlag = false;
+		
+							that.resetInput(false);
+							// 强制子组件重新刷新
+							
+							// this.commentList[this.commentIndex].source.commentNum++;
+						} else if (res.data.status == 500) {
+							that.contentIllegal();
+						}
+					}
+				});
+			}
+		},
+		resetInput(e) { //传入组件内的 "isShow"
+			console.log('resetInput' + e);
+			this.commentInfo = "";
+			this.toUserId="";
+			this.targetId="";
+			this.underCommentId="";
+			this.commentIndex=999;
+		},
+		
+		contentIllegal() {
+			// 内容非法 用户提醒
+			uni.hideLoading();
+			uni.showToast({
+				title: '内容涉嫌违规，请联系管理员。',
+				duration: 2000,
+				icon: 'none'
+			});
+		},
 	}
 };
 </script>
