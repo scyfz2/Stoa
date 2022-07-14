@@ -259,7 +259,7 @@ public class SocialServiceImpl implements SocialService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void fDeleteComment(String commentId) {
+    public void fDeleteComment(String commentId, String userId) {
         Example example = new Example(UserComment.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", commentId);

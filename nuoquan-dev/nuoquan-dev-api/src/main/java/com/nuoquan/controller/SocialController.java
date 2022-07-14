@@ -187,11 +187,12 @@ public class SocialController extends BasicController {
 
 	@ApiOperation(value = "更改评论状态为unreadable")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "commentId", value = "评论id", required = true, dataType = "String", paramType = "form")
+			@ApiImplicitParam(name = "commentId", value = "评论id", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form")
 	})
 	@PostMapping(value="/fDeleteComment")
-	public JSONResult fDeleteComment(String commentId) throws Exception {
-		socialService.fDeleteComment(commentId);
+	public JSONResult fDeleteComment(String commentId, String userId) throws Exception {
+		socialService.fDeleteComment(commentId, userId);
 		return JSONResult.ok();
 	}
 
