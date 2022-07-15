@@ -2,10 +2,8 @@ package com.nuoquan.pojo;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
-@Table(name = "events_calendar")
 public class EventsCalendar {
     @Id
     private String id;
@@ -15,12 +13,6 @@ public class EventsCalendar {
 
     @Column(name = "description")
     private String eventDescription;
-
-    @Column(name = "faculty")
-    private String faculty;
-
-    @Column(name = "degree")
-    private String degree;
 
     @Column(name = "venue")
     private String eventVenue;
@@ -62,22 +54,6 @@ public class EventsCalendar {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
-    }
-
-    public String getFaculty() {
-        return faculty;
-    }
-
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree;
     }
 
     public String getEventVenue() {
