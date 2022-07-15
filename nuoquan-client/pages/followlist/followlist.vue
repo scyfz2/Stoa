@@ -158,7 +158,7 @@
 		},
 
 		methods: {
-			swichMenu: async function(current) { //点击其中一个 menu
+			switchMenu: async function(current) { //点击其中一个 menu
 				if (this.currentTab == current) {
 					return false;
 				} else {

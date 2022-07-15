@@ -31,7 +31,7 @@ public class OrganizationVO {
     private String logoPath;
 
     // 组织公众号或推文链接
-    private String officialAccountLink;
+    private String officialAccountsLink;
 
     // 后台创建时间
     private Date createDate;
@@ -42,12 +42,12 @@ public class OrganizationVO {
     // 组织图片列表
     private List<OrganizationImage> imgList;
 
-    public String getOfficialAccountLink() {
-        return officialAccountLink;
+    public String getOfficialAccountsLink() {
+        return officialAccountsLink;
     }
 
-    public void setOfficialAccountLink(String officialAccountLink) {
-        this.officialAccountLink = officialAccountLink;
+    public void setOfficialAccountsLink(String officialAccountsLink) {
+        this.officialAccountsLink = officialAccountsLink;
     }
 
     public Integer getStatus() {

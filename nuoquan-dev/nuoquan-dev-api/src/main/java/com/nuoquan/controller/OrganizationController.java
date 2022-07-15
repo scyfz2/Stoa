@@ -82,7 +82,7 @@ public class OrganizationController extends BasicController {
         organization.setScale(scale);
         organization.setRecruitmentNum(recruitment_num);
         organization.setRequirement(requirement);
-        organization.setOfficialAccountLink(official_account_Link);
+        organization.setOfficialAccountsLink(official_account_Link);
 
         // 检测内容是否非法
         if (weChatService.msgSecCheck(logo)
@@ -134,7 +134,7 @@ public class OrganizationController extends BasicController {
         organization.setScale(scale);
         organization.setRecruitmentNum(recruitment_num);
         organization.setRequirement(requirement);
-        organization.setOfficialAccountLink(official_account_Link);
+        organization.setOfficialAccountsLink(official_account_Link);
 
         // 检测内容是否非法
         if (weChatService.msgSecCheck(name)
