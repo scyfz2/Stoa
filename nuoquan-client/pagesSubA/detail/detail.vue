@@ -285,7 +285,13 @@
 									resolve('suc');
 								}
 							} else {
-								reject('fail');
+								uni.navigateBack({});
+								uni.showToast({
+									title:'该文章已不存在',
+									duration:2000,
+									icon:'none'
+								})
+								// reject('fail');
 							}
 						}
 					});
