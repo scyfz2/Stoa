@@ -261,6 +261,7 @@ export default {
 					this.submitData.targetId = this.mainComment.targetId;
 				}
 				this.submitData.comment = this.commentContent;
+				console.log(this.submitData);
 				uni.request({
 					url: this.$serverUrl + url,
 					method: 'POST',
