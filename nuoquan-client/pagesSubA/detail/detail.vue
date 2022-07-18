@@ -272,9 +272,18 @@
 						},
 						success: res => {
 							if (res.data.status == 200) {
-								this.articleCard = res.data.data;
-								console.log(this.articleCard);
-								resolve('suc');
+								if(res.data.data.status == 0){
+									uni.navigateBack({});
+									uni.showToast({
+										title: '该文章已不存在',
+										duration: 2000,
+										icon: 'none'
+									});
+								} else if(res.data.data.status == 1){
+									this.articleCard = res.data.data;
+									console.log(this.articleCard);
+									resolve('suc');
+								}
 							} else {
 								reject('fail');
 							}
