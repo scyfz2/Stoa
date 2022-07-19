@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.EventsCalendarMapper;
 import com.nuoquan.pojo.EventsCalendar;
+import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.EventsCalendarVO;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
@@ -49,65 +50,21 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
     }
 
     @Override
-    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String currentDate) {
-        Example eventsCalendarExample = new Example(EventsCalendar.class);
-        //是否有查询日期
-        if(!StringUtils.isBlank(currentDate)) {
-            Example.Criteria dateCriteria = eventsCalendarExample.createCriteria();
-            // 此处userId为操作者id
-            dateCriteria.andEqualTo("eventDate", currentDate);
-            eventsCalendarExample.and(dateCriteria);
-        }
-        // 在这些日程中找到状态为可读的事件
-        Example.Criteria statusCriteria = eventsCalendarExample.createCriteria();
-        statusCriteria.andEqualTo("status", StatusEnum.READABLE.type);
-        eventsCalendarExample.and(statusCriteria);
-        eventsCalendarExample.setOrderByClause("create_date desc");
+    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String targetDate, String faculty, String degree){
 
+        // 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
         PageHelper.startPage(page, pageSize);
-        return queryEventsCalendarByExample(eventsCalendarExample, userId);
-    }
+        List<EventsCalendarVO> list = eventsCalendarMapper.queryEventsCalendar(faculty, degree, targetDate);
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public PagedResult queryEventsCalendarByExample(Example eventsCalendarExample, String userId) {
-        //通过条件，返回pagedResult
-        List<EventsCalendar> list = eventsCalendarMapper.selectByExample(eventsCalendarExample);
-        PageInfo<EventsCalendar> pageInfo = new PageInfo<>(list);
-        PageInfo<EventsCalendarVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
+        PageInfo<EventsCalendarVO> pageList = new PageInfo<>(list);
 
-        List<EventsCalendarVO> listVO = new ArrayList<>();
-        for (EventsCalendar ec : list) {
-            listVO.add(composeEventsCalendarVO(ec, userId));
-        }
-        pageInfoVO.setList(listVO);
-
-        //为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult();
-        pagedResult.setPage(pageInfoVO.getPageNum());
-        pagedResult.setTotal(pageInfoVO.getPages());
-        pagedResult.setRows(pageInfoVO.getList());
-        pagedResult.setRecords(pageInfoVO.getTotal());
+        pagedResult.setPage(page);
+        pagedResult.setTotal(pageList.getPages());
+        pagedResult.setRows(list);
+        pagedResult.setRecords(pageList.getTotal());
 
         return pagedResult;
-    }
-
-
-    /**
-     * @param eventId    事件id
-     * @param statusType 更改目标状态(0:删除， 1:已过期)
-     */
-    @Override
-    public void changeEventStatus(String eventId, Integer statusType) {
-        Example example = new Example(EventsCalendar.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("id", eventId);
-        EventsCalendar ec = new EventsCalendar();
-        if (statusType == 0){
-            ec.setStatus(StatusEnum.DELETED.type);
-        } else {
-            ec.setIsOutdated(1);    // 此状态表示该事件为当前日期以前的事件
-        }
-        eventsCalendarMapper.updateByExampleSelective(ec, example);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
