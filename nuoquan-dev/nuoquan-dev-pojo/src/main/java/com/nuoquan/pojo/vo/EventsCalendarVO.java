@@ -11,11 +11,12 @@ public class EventsCalendarVO {
     private String id;
     private String eventTitle;
     private String eventDescription;
+    private String faculty;
+    private String degree;
     private String eventVenue;
     private String eventDate;
     private String eventTime;
     private Integer status;
-    private Integer isOutdated;
     private Date createDate;
 
     public String getId() {
@@ -41,6 +42,23 @@ public class EventsCalendarVO {
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
     }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
 
     public String getEventVenue() {
         return eventVenue;
@@ -72,14 +90,6 @@ public class EventsCalendarVO {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Integer getIsOutdated() {
-        return isOutdated;
-    }
-
-    public void setIsOutdated(Integer isOutdated) {
-        this.isOutdated = isOutdated;
     }
 
     public Date getCreateDate() {

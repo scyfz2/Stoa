@@ -14,6 +14,12 @@ public class EventsCalendar {
     @Column(name = "description")
     private String eventDescription;
 
+    @Column(name = "faculty")
+    private String faculty;
+
+    @Column(name = "degree")
+    private String degree;
+
     @Column(name = "venue")
     private String eventVenue;
 
@@ -25,9 +31,6 @@ public class EventsCalendar {
 
     @Column(name = "status")
     private Integer status;
-
-    @Column(name = "is_outdated")
-    private Integer isOutdated;
 
     @Column(name = "create_date")
     private Date createDate;
@@ -54,6 +57,22 @@ public class EventsCalendar {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public String getFaulty() {
+        return faculty;
+    }
+
+    public void setFaulty(String faulty) {
+        this.faculty = faulty;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
     public String getEventVenue() {
@@ -85,10 +104,6 @@ public class EventsCalendar {
     }
 
     public void setStatus(Integer status) {this.status = status;}
-
-    public Integer getIsOutdated() {return isOutdated;}
-
-    public void setIsOutdated(Integer isOutdated) {this.isOutdated = isOutdated;}
 
     public Date getCreateDate() {
         return createDate;

@@ -32,7 +32,9 @@ public class EventsCalendarController extends BasicController {
      * @param page
      * @param pageSize
      * @param userId 操作者id
-     * @param currentDate 查询目标日期(传入值为)
+     * @param targetDate 查询目标日期
+     * @param faculty 学院
+     * @param degree 学历
      * @return JSONResult
      * @throws Exception
      */
@@ -41,10 +43,12 @@ public class EventsCalendarController extends BasicController {
             @ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "currentDate", value = "查询目标日期", required = false, dataType = "String", paramType = "form")
+            @ApiImplicitParam(name = "targetDate", value = "查询目标日期", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "faculty", value = "学院", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "degree", value = "学历", required = true, dataType = "String", paramType = "form")
     })
     @PostMapping("/queryEventsCalender")
-    public JSONResult queryEventsCalender(Integer page, Integer pageSize, String userId, String currentDate) throws Exception {
+    public JSONResult queryEventsCalender(Integer page, Integer pageSize, String userId, String targetDate, String faculty, String degree) throws Exception {
 
         if(page == null) {
             page = 1;
@@ -54,25 +58,11 @@ public class EventsCalendarController extends BasicController {
             pageSize = PAGE_SIZE;
         }
 
-        PagedResult result = eventsCalendarService.queryEventsCalender(page, pageSize, userId, currentDate);
+        PagedResult result = eventsCalendarService.queryEventsCalender(page, pageSize, userId, targetDate, faculty, degree);
 
         return JSONResult.ok(result);
     }
 
-
-    @ApiOperation(value = "更改日程事件状态")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "eventId", value = "事件id", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "statusType", value = "更改的目标状态", required = false, dataType = "Integer", paramType = "form")
-    })
-    @PostMapping(value="/changeEventStatus")
-    public JSONResult changeEventStatus(String eventId, Integer statusType) throws Exception {
-        if (statusType == null){
-            statusType = 0;
-        }
-        eventsCalendarService.changeEventStatus(eventId, statusType);
-        return JSONResult.ok();
-    }
 
 
     @ApiOperation(value = "上传日程", notes = "上传日程的接口")
