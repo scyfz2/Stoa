@@ -13,6 +13,9 @@
 			"path": "pages/tabPages/messagelist",
 			"style": {}
 		}, {
+			"path":"pages/tabPages/iweek",
+			"style":{}
+		}, {
 			"path": "pages/submit/submit",
 			"style": {}
 		}, {
@@ -163,10 +166,10 @@
 			"selectedIconPath": "static/icon/star.png",
 			"text": "主页"
 		}, {
-			"pagePath": "pages/tabPages/votePage",
+			"pagePath": "pages/tabPages/iweek",
 			"iconPath": "static/icon/star.png",
 			"selectedIconPath": "static/icon/star.png",
-			"text": "投票"
+			"text": "新生"
 		}, {
 			"pagePath": "pages/tabPages/messagelist",
 			"iconPath": "static/icon/star.png",

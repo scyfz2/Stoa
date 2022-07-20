@@ -11,17 +11,12 @@ public interface EventsCalendarService {
      * @param pageSize 前端页面大小
      * @param userId 操作者id
      * @param currentDate 查询的目标日期(此参数为null时默认查询所有)
+     * @param faculty 学院
+     * @param degree 学历
      * @return JSONResult
      */
-    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String currentDate);
+    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String currentDate, String faculty, String degree);
 
-    /**
-     * queryAllEventsCalender接口的方法
-     * @param eventId 事件id
-     * @param statusType 更改目标状态()
-     * @return JSONResult
-     */
-    public void changeEventStatus(String eventId, Integer statusType);
 
     /**
      * queryAllEventsCalender接口的方法

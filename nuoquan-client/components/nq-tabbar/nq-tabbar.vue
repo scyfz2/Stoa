@@ -91,8 +91,8 @@ export default {
 					type: 0,
 					icon: '/static/icon/chartbar_d4d4d4.png',
 					selectIcon: '/static/icon/chartbar_ffffff.png',
-					name: '投票',
-					url: '/pages/tabPages/votePage'
+					name: '新生',
+					url: '/pages/tabPages/iweek'
 				},
 				{
 					type: 0,
@@ -126,19 +126,10 @@ export default {
 				this.rotate();
 			}
 			this.$emit("clickTab", e)
-			if (e.name !== "投票") {
-				uni.switchTab({
-					url: e.url
-				});
-			}
-			else {
-				uni.showToast({
-					// title: '⠀⠀⠀⠀⠀under⠀⠀⠀⠀⠀development',//不是空格，是特殊符号，莫删
-					title: this.lang.developing,
-					duration: 2000,
-					icon: 'none',
-				})
-			}
+			
+			uni.switchTab({
+				url: e.url
+			});
 		},
 
 		rotate() {
