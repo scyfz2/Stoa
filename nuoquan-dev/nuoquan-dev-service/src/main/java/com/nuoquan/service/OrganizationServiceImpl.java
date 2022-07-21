@@ -29,6 +29,8 @@ public class OrganizationServiceImpl implements OrganizationService{
     private ResourceService resourceService;
     @Autowired
     private OrganizationImageMapper organizationImageMapper;
+    @Autowired
+    private SensitiveFilterServiceImpl sensitiveFilterService;
 
     //@Transactional(propagation = Propagation.SUPPORTS)
     public OrganizationVO addOrganizationImage(OrganizationVO organizationVO) {
@@ -54,7 +56,9 @@ public class OrganizationServiceImpl implements OrganizationService{
         // 添加图片列表
         organizationVO = addOrganizationImage(organizationVO);
         organizationVO.setLogoPath(resourceService.composeUrl(organizationVO.getLogoPath()));
-        organizationVO.getImgList();
+        organizationVO.setIntro(sensitiveFilterService.checkSensitiveWord(organizationVO.getIntro()));
+        organizationVO.setName(sensitiveFilterService.checkSensitiveWord(organizationVO.getName()));
+        organizationVO.setRequirement(sensitiveFilterService.checkSensitiveWord(organizationVO.getRequirement()));
         return organizationVO;
     }
 

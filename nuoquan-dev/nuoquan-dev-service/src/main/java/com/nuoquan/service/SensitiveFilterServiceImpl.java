@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import static java.lang.Character.toLowerCase;
+import static java.lang.Character.toUpperCase;
 
 @Service
 public class SensitiveFilterServiceImpl {
@@ -60,7 +62,15 @@ public class SensitiveFilterServiceImpl {
         StringBuilder sb = new StringBuilder();
 
         while (position < text.length()) {
+            // flag == 0时表示此英文字符为小写，flag == 1时表示此英文字符为大写
+            int flag = 0;
+            // 将大写英文字符转换为小写进行比较（以达到检测时大小写不敏感的目的）
             char c = text.charAt(position);
+            if (c >= 65 && c <= 90)
+            {
+                c = toLowerCase(c);
+                flag = 1;
+            }
 
             // 跳过符号
             if (isSymbol(c)) {
@@ -78,7 +88,13 @@ public class SensitiveFilterServiceImpl {
             tempNode = tempNode.getSubNode(c);
             if (tempNode == null) {
                 // 以begin开头的字符串不是敏感词
-                sb.append(text.charAt(begin));
+                // 若flag == 1，将其转换为原本的大写
+                if (flag == 1){
+                    sb.append(toUpperCase(text.charAt(begin)));
+                }
+                else {
+                    sb.append(text.charAt(begin));
+                }
                 // 进入下一个位置
                 position = ++begin;
                 // 重新指向根节点
@@ -108,6 +124,7 @@ public class SensitiveFilterServiceImpl {
      */
     private void addKeyword(String keyword) {
         TrieNode tempNode = rootNode;
+
         for (int i = 0; i < keyword.length(); i++) {
             char c = keyword.charAt(i);
             TrieNode subNode = tempNode.getSubNode(c);
