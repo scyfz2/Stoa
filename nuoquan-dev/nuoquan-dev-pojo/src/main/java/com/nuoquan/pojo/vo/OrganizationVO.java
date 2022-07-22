@@ -15,23 +15,20 @@ public class OrganizationVO {
     // 组织名称
     private String name;
 
-    // 组织规模
-    private String scale;
-
     // 组织简介
     private String intro;
 
-    // 组织招生人数
-    private Integer recruitmentNum;
+    // 组织部门组成
+    private String division;
 
-    // 组织招生要求
-    private String requirement;
+    // 组织活动介绍
+    private String activityIntro;
 
     // 组织logo
     private String logoPath;
 
     // 组织公众号或推文链接
-    private String officialAccountsLink;
+    private String officialAccountLink;
 
     // 后台创建时间
     private Date createDate;
@@ -41,46 +38,6 @@ public class OrganizationVO {
 
     // 组织图片列表
     private List<OrganizationImage> imgList;
-
-    public String getOfficialAccountsLink() {
-        return officialAccountsLink;
-    }
-
-    public void setOfficialAccountsLink(String officialAccountsLink) {
-        this.officialAccountsLink = officialAccountsLink;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public List<OrganizationImage> getImgList() {
-        return imgList;
-    }
-
-    public void setImgList(List<OrganizationImage> imgList) {
-        this.imgList = imgList;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getLogoPath() {
-        return logoPath;
-    }
-
-    public void setLogoPath(String logoPath) {
-        this.logoPath = logoPath;
-    }
 
     public String getId() {
         return id;
@@ -98,14 +55,6 @@ public class OrganizationVO {
         this.name = name;
     }
 
-    public String getScale() {
-        return scale;
-    }
-
-    public void setScale(String scale) {
-        this.scale = scale;
-    }
-
     public String getIntro() {
         return intro;
     }
@@ -114,20 +63,59 @@ public class OrganizationVO {
         this.intro = intro;
     }
 
-    public Integer getRecruitmentNum() {
-        return recruitmentNum;
+    public String getDivision() {
+        return division;
     }
 
-    public void setRecruitmentNum(Integer recruitmentNum) {
-        this.recruitmentNum = recruitmentNum;
+    public void setDivision(String division) {
+        this.division = division;
     }
 
-    public String getRequirement() {
-        return requirement;
+    public String getActivityIntro() {
+        return activityIntro;
     }
 
-    public void setRequirement(String requirement) {
-        this.requirement = requirement;
+    public void setActivityIntro(String activityIntro) {
+        this.activityIntro = activityIntro;
     }
 
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
+    }
+
+    public String getOfficialAccountLink() {
+        return officialAccountLink;
+    }
+
+    public void setOfficialAccountLink(String officialAccountLink) {
+        this.officialAccountLink = officialAccountLink;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public List<OrganizationImage> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(List<OrganizationImage> imgList) {
+        this.imgList = imgList;
+    }
 }

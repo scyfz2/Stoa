@@ -14,21 +14,17 @@ public class Organization {
     @Column(name = "name")
     private String name;
 
-    // 组织规模
-    @Column(name = "scale")
-    private String scale;
-
     // 组织简介
     @Column(name = "intro")
     private String intro;
 
-    // 组织招生人数
-    @Column(name = "recruitment_num")
-    private Integer recruitmentNum;
+    // 组织部门组成
+    @Column(name = "division")
+    private String division;
 
-    // 组织招生要求
-    @Column(name = "requirement")
-    private String requirement;
+    // 组织活动介绍
+    @Column(name = "activity_intro")
+    private String activityIntro;
 
     // 组织logo
     @Column(name = "logo_path")
@@ -36,7 +32,7 @@ public class Organization {
 
     // 组织公众号或推文链接
     @Column(name = "official_account_Link")
-    private String officialAccountsLink;
+    private String officialAccountLink;
 
     // 后台创建时间
     @Column(name = "create_date")
@@ -46,12 +42,12 @@ public class Organization {
     @Column(name = "status")
     private Integer status;
 
-    public String getOfficialAccountsLink() {
-        return officialAccountsLink;
+    public String getOfficialAccountLink() {
+        return officialAccountLink;
     }
 
-    public void setOfficialAccountsLink(String officialAccountsLink) {
-        this.officialAccountsLink = officialAccountsLink;
+    public void setOfficialAccountLink(String officialAccountLink) {
+        this.officialAccountLink = officialAccountLink;
     }
 
     public String getId() {
@@ -70,14 +66,6 @@ public class Organization {
         this.name = name;
     }
 
-    public String getScale() {
-        return scale;
-    }
-
-    public void setScale(String scale) {
-        this.scale = scale;
-    }
-
     public String getIntro() {
         return intro;
     }
@@ -86,20 +74,20 @@ public class Organization {
         this.intro = intro;
     }
 
-    public Integer getRecruitmentNum() {
-        return recruitmentNum;
+    public String getDivision() {
+        return division;
     }
 
-    public void setRecruitmentNum(Integer recruitmentNum) {
-        this.recruitmentNum = recruitmentNum;
+    public void setDivision(String division) {
+        this.division = division;
     }
 
-    public String getRequirement() {
-        return requirement;
+    public String getActivityIntro() {
+        return activityIntro;
     }
 
-    public void setRequirement(String requirement) {
-        this.requirement = requirement;
+    public void setActivityIntro(String activityIntro) {
+        this.activityIntro = activityIntro;
     }
 
     public String getLogoPath() {
