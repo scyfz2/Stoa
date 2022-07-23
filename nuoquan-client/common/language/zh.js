@@ -207,4 +207,8 @@ module.exports = {
 	networkError: "网络未知错误",
 	waiting: "请等待...",
 	developing: "开发小哥正在玩命实现中...",
+	
+	// iweek相关
+	iweek: "新生",
+	functionList : ["社团组织","我的课程","校园地图","吃喝玩乐"],
 }
