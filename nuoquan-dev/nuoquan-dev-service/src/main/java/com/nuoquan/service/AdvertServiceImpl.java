@@ -27,6 +27,8 @@ public class AdvertServiceImpl implements AdvertService {
     private Sid sid;
     @Autowired
     private AdvertMapper advertMapper;
+    @Autowired
+    private SensitiveFilterServiceImpl sensitiveFilterService;
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "nq1TransactionManager")
     @Override
@@ -69,6 +71,11 @@ public class AdvertServiceImpl implements AdvertService {
         PageHelper.startPage(page, pageSize);
         List<Advert> advertList = advertMapper.selectByExample(example);
 
+        // 进行敏感词检测
+        for (Advert a : advertList){
+            a.setContent(sensitiveFilterService.checkSensitiveWord(a.getContent()));
+        }
+
         // TODO:转换VO对象
         PageInfo<Advert> pageInfo = new PageInfo<>(advertList);
 //        PageInfo<AdvertVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
@@ -85,11 +92,11 @@ public class AdvertServiceImpl implements AdvertService {
     @Transactional(propagation = Propagation.SUPPORTS, transactionManager = "nq1TransactionManager")
     @Override
     public Advert getAdById(String adId, String userId) {
-
-//        Advert advert = new Advert();
-//        advert = advertMapper.selectByPrimaryKey(adId);
+        Advert advert = advertMapper.selectByPrimaryKey(adId);
+        // 进行敏感词检测
+        advert.setContent(sensitiveFilterService.checkSensitiveWord(advert.getContent()));
         // TODO:转化VO对象
-        return advertMapper.selectByPrimaryKey(adId);
+        return advert;
 
     }
 

@@ -60,18 +60,17 @@ public class OrganizationController extends BasicController {
         return JSONResult.ok(organizationService.getOrganizationById(organizationId));
     }
 
-    @ApiOperation(value = "上传组织信息", notes = "上传组织信息的接口")
+    @ApiOperation(value = "上传或修改组织信息", notes = "上传或修改组织信息的接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name="logo", value="组织logo", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="name", value="组织名称", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="intro", value="组织简介", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="scale", value="组织规模", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="recruitment_num", value="招新人数", required=true, dataType="int", paramType="form"),
-            @ApiImplicitParam(name="requirement", value="招新要求", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="official_account_Link", value="组织公众号或推文链接", required=true, dataType="String", paramType="form")
+            @ApiImplicitParam(name="division", value="组织部门组成", required=true, dataType="String", paramType="form"),
+            @ApiImplicitParam(name="activityIntro", value="组织活动介绍", required=true, dataType="String", paramType="form"),
+            @ApiImplicitParam(name="officialAccountLink", value="组织公众号或推文链接", required=false, dataType="String", paramType="form")
     })
     @PostMapping(value="/uploadOrganization")
-    public JSONResult uploadOrganization(String logo, String name, String intro, String scale, Integer recruitment_num, String requirement, String official_account_Link) throws Exception {
+    public JSONResult uploadOrganization(String logo, String name, String intro, String division, String activityIntro, String officialAccountLink) throws Exception {
         boolean isLegal = false;
 
         // 保存组织信息到数据库
@@ -79,18 +78,17 @@ public class OrganizationController extends BasicController {
         organization.setLogoPath(logo);
         organization.setName(name);
         organization.setIntro(intro);
-        organization.setScale(scale);
-        organization.setRecruitmentNum(recruitment_num);
-        organization.setRequirement(requirement);
-        organization.setOfficialAccountsLink(official_account_Link);
+        organization.setDivision(division);
+        organization.setActivityIntro(activityIntro);
+        organization.setOfficialAccountLink(officialAccountLink);
 
         // 检测内容是否非法
         if (weChatService.msgSecCheck(logo)
                 && weChatService.msgSecCheck(name)
                 && weChatService.msgSecCheck(intro)
-                && weChatService.msgSecCheck(scale)
-                && weChatService.msgSecCheck(requirement)
-                && weChatService.msgSecCheck(official_account_Link)) {
+                && weChatService.msgSecCheck(division)
+                && weChatService.msgSecCheck(activityIntro)
+                && weChatService.msgSecCheck(officialAccountLink)) {
             // 合法
             isLegal = true;
             if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
@@ -104,58 +102,6 @@ public class OrganizationController extends BasicController {
         }
         String organizationId = organizationService.saveOrganization(organization); // 存入数据库
 
-        if (isLegal) {
-            return JSONResult.ok(organizationId);
-        }else {
-            return JSONResult.errorMsg("发布内容涉嫌违规");
-        }
-    }
-
-    @ApiOperation(value = "修改组织信息", notes = "修改组织信息的接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name="organizationId", value="组织Id", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="logo", value="组织logo", required=false, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="name", value="组织名称", required=false, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="intro", value="组织简介", required=false, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="scale", value="组织规模", required=false, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="recruitment_num", value="招新人数", required=false, dataType="int", paramType="form"),
-            @ApiImplicitParam(name="requirement", value="招新要求", required=false, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="official_account_Link", value="组织公众号或推文链接", required=false, dataType="String", paramType="form")
-    })
-    @PostMapping(value="/modifyOrganization")
-
-    public JSONResult modifyOrganization(String organizationId, String logo, String name, String intro, String scale, Integer recruitment_num, String requirement, String official_account_Link) throws Exception{
-        boolean isLegal = false;
-        // 保存组织信息到数据库
-        Organization organization = organizationMapper.selectByPrimaryKey(organizationId);
-        organization.setName(name);
-        organization.setLogoPath(logo);
-        organization.setIntro(intro);
-        organization.setScale(scale);
-        organization.setRecruitmentNum(recruitment_num);
-        organization.setRequirement(requirement);
-        organization.setOfficialAccountsLink(official_account_Link);
-
-        // 检测内容是否非法
-        if (weChatService.msgSecCheck(name)
-                && weChatService.msgSecCheck(logo)
-                && weChatService.msgSecCheck(intro)
-                && weChatService.msgSecCheck(scale)
-                && weChatService.msgSecCheck(requirement)
-                && weChatService.msgSecCheck(official_account_Link)) {
-            // 合法
-            isLegal = true;
-            if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
-                organization.setStatus(StatusEnum.READABLE.type);
-            }else {
-                organization.setStatus(StatusEnum.CHECKING.type);
-            }
-        } else {
-            // 非法，尽管非法也保存到数据库
-            organization.setStatus(StatusEnum.DELETED.type);
-        }
-
-        //存入数据库
         if (isLegal) {
             return JSONResult.ok(organizationId);
         }else {
