@@ -71,7 +71,7 @@
 				<tagSelected v-if="selectedTag" style="margin-left: 4.5%;" :tag='selectedTag' @click="deleteTag"></tagSelected>
 				<!-- 右侧排列筛选 -->
 				<nqSwitch v-if="lang.langType == 'zh-CN'" :bgSwitchLeft="'-13px'" :bgSwitchRight="'41px'" :options='[lang.all, lang.follow]'
-				 :initStatus='iniStatus1' @onChange="change_article_order1" style="position:absolute;right: 4.5%;">
+				 :initStatus='iniStatus1' @onChange="change_article_order1" style="position:absolute;right: 6.5%;">
 				</nqSwitch>
 				<nqSwitch v-else :bgSwitchLeft="'-13px'" :bgSwitchRight="'47px'" :options='[lang.all, lang.follow]' :initStatus='iniStatus1'
 				 @onChange="change_article_order1" style="position:absolute;right: 4.5%;">

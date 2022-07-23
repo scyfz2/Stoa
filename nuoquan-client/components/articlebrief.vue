@@ -212,7 +212,7 @@ export default {
 		// 		}
 		// 	}
 		// },
-		swtichIsLike(){
+		switchIsLike(){
 			this.thisArticle.isLike = !this.thisArticle.isLike;
 		},
 		
@@ -241,7 +241,7 @@ export default {
 				success: res => {
 					console.log(res);
 					if (res.data.status == 200){
-						this.swtichIsLike();
+						this.switchIsLike();
 						this.thisArticle.likeNum++;
 					}
 				}
@@ -265,7 +265,7 @@ export default {
 				success: res => {
 					console.log(res);
 					if (res.data.status == 200){
-						this.swtichIsLike();
+						this.switchIsLike();
 						this.thisArticle.likeNum--;
 					}
 				}

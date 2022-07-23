@@ -94,7 +94,6 @@
 				// }, {
 				// 	name: '关注他的'
 				// }],
-
 				// 关注粉丝列表属性
 				swiperDataList: [
 					[], // followList 把数据写进里面首次进入页面加载不出，所以写到外面
@@ -103,7 +102,6 @@
 				followList: '',
 				fansList: '',
 				myId: '',
-
 				screenWidth: 350,
 				serverUrl: "",
 				scrollTop: 0,
@@ -113,7 +111,6 @@
 				isNavHome: getApp().globalData.isNavHome,//判断导航栏左侧是否显示home按钮
 			}
 		},
-
 		changeIndicatorDots(e) {
 			this.indicatorDots = !this.indicatorDots
 		},
@@ -126,37 +123,29 @@
 		durationChange(e) {
 			this.duration = e.target.value
 		},
-
 		onLoad(opt) {
 			var data = JSON.parse(decodeURIComponent(opt.data));
 			var thisUserInfo = data.thisUserInfo;
 			var currentTab = data.currentTab;
-
 			uni.setNavigationBarTitle({
 				title: thisUserInfo.nickname + '的主页'
 			});
-
 			me = this.getGlobalUserInfo();
 			this.myId = me.id;
-
 			// 获取userId
 			var userId = thisUserInfo.id;
 			this.queryFansFollow(userId);
-
 			// 设置列表 index
 			this.currentTab = currentTab;
-
 			var screenWidth = uni.getSystemInfoSync().screenWidth;
 			this.screenWidth = screenWidth;
 		},
-
 		onPullDownRefresh() {
 			console.log('refresh');
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
-
 		methods: {
 			swichMenu: async function(current) { //点击其中一个 menu
 				if (this.currentTab == current) {
@@ -194,7 +183,6 @@
 				console.log('正在加载更多数据。。。')
 				this.getDateList(tabIndex);
 			},
-
 			upper: function(e) {
 				console.log(e)
 			},
@@ -215,7 +203,6 @@
 				// 	title: "回到顶部喽~"
 				// })
 			},
-
 			/**
 			 * 添加关注
 			 */
@@ -227,9 +214,7 @@
 				} else if (index1 == 1) {
 					list = this.fansList;
 				}
-
 				var thisUser = list[index2];
-
 				var that = this;
 				uni.request({
 					url: that.$serverUrl + '/user/follow',
@@ -260,9 +245,7 @@
 				} else if (index1 == 1) {
 					list = this.fansList;
 				}
-
 				var thisUser = list[index2];
-
 				var that = this;
 				uni.request({
 					url: that.$serverUrl + '/user/dontFollow',
@@ -282,7 +265,6 @@
 					}
 				});
 			},
-
 			/**
 			 * 查询该用户的粉丝和关注用户信息列表
 			 */
@@ -309,7 +291,6 @@
 					}
 				});
 			},
-
 			/**
 			 * 直接传 item 有 bug, 所以用这个复杂一点的方式曲线救国
 			 * @param {Object} index1 0=followList; 1=fansList
@@ -322,7 +303,6 @@
 				} else if (index1 == 1) {
 					list = this.fansList;
 				}
-
 				var userId = list[index2].id
 				uni.redirectTo({
 					url: '/pagesSubA/personpublic/personpublic?userId=' + userId,
@@ -337,22 +317,18 @@
 		width: 100%;
 		height: 100%;
 	}
-
 	#public-container {
 		position: fixed;
 		height: 100%;
 		width: 100%;
 		background-color: #f3f3f3;
 	}
-
 	#public-infobox {
 		position: fixed;
 		height: 20%;
 		width: 100%;
 	}
-
 	#public-message-futherbox
-
 	/* 这里是帖子块最高级父组件*/
 		{
 		/* border: 1upx solid red; 如果想快速了解该组件样式,则取消这个注释*/
@@ -360,9 +336,7 @@
 		width: 100%;
 		height: 100%;
 	}
-
 	/* 以下是帖子展示块的样式 */
-
 	.top-menu-view {
 		display: flex;
 		justify-content: space-around;
@@ -371,14 +345,12 @@
 		height: 47px;
 		/* 在这里设置导航条高度 */
 	}
-
 	.menu-one-view {
 		display: inline-block;
 		white-space: nowrap;
 		height: 100%;
 		width: 48%;
 	}
-
 	.top-menu-view .menu-one-view .menu-one {
 		/* 在这里写 单个按钮样式 */
 		margin-left: 8%;
@@ -389,7 +361,6 @@
 		justify-content: center;
 		width: 100%;
 	}
-
 	.top-menu-view .menu-one-view .menu-one .menu-one-txt {
 		height:21px;
 		font-size:17px;
@@ -397,18 +368,15 @@
 		line-height:21px;
 		color:rgba(255,255,255,1);
 	}
-
 	.top-menu-view .menu-one-view .menu-one .menu-one-bottom {
 		position: absolute;
 		bottom: 0;
 		width: 100%;
 	}
-
 	.top-menu-view .menu-one-view .menu-one .menu-one-bottom .menu-one-bottom-color {
 		width: 108px;
 		height: 4px;
 	}
-
 	.top-menu-view .menu-one-view .menu-one-act {
 		/* 在这里写 单个按钮样式 */
 		margin-left: 8%;
@@ -419,7 +387,6 @@
 		justify-content: center;
 		width: 100%;
 	}
-
 	.top-menu-view .menu-one-view .menu-one-act .menu-one-txt {
 		height:21px;
 		font-size:17px;
@@ -428,7 +395,6 @@
 		color:rgba(255,255,255,1);
 		margin-bottom: 8px;
 	}
-
 	.top-menu-view .menu-one-view .menu-one-act .menu-one-bottom {
 		/* 在这里设置底部横条宽度 */
 		position: absolute;
@@ -438,7 +404,6 @@
 		align-items: center;
 		justify-content: center;
 	}
-
 	.top-menu-view .menu-one-view .menu-one-act .menu-one-bottom .menu-one-bottom-color {
 		/* 在这里设置底部横条高度和颜色 */
 		width: 108px;
@@ -446,7 +411,6 @@
 		background-color: rgba(246,168,6,1);
 		margin-bottom: 8px;
 	}
-
 	.swiper-box-list {
 		flex: 1;
 		min-height: 94%;
@@ -454,31 +418,25 @@
 		width: 100%;
 		background-color: #f3f3f3;
 	}
-
 	/* swiper */
-
 	.swiper {
 		height: 360upx;
 	}
-
 	.slideimage {
 		width: 100%;
 	}
-
 	/* 一个粉丝 */
 	.user-one-line {
 		position: relative;
 		width: 100%;
 		height:64px;
 	}
-
 	.touxiangBox{
 		position: absolute;
 		left: 16px;
 		width: 44px;
 		height: 44px;
 	}
-
 	.publicTouxiang {
 		width: 100%;
 		height: 100%;
@@ -486,14 +444,12 @@
 		display: inline-block;
 		vertical-align: middle;
 	}
-
 	.border-bottom-line {
 		height: 1px;
 		background-color: #dcdcdc;
 		margin-left: 130upx;
 		width: 580upx;
 	}
-
 	.userid {
 		position: absolute;
 		left: 76px;
@@ -504,7 +460,6 @@
 		color:rgba(53,53,53,1);
 		opacity:1;
 	}
-
 	.attentionButton {
 		position: absolute;
 		z-index: 10;
@@ -514,7 +469,6 @@
 		opacity:1;
 		border-radius:4px;
 	}
-
 	.attentionButton .attentionButton-text {
 		height:23px;
 		font-size:14px;
@@ -542,11 +496,9 @@
 		color:rgba(252,192,65,1);
 	}
 	
-
 	.scroll-test {
 		height: 100%
 	}
-
 	.swiper-box {
 		width: 100%;
 		height: 100%;

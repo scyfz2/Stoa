@@ -303,6 +303,36 @@ export default {
 					this.nextStep(false);
 					return;
 				}
+				
+				// Date: July 13,2022
+				// Author: Yifei
+				// Description: 外校体验用户，直接加在这里给判断就行
+				if (email == '1193874@wku.edu.cn') {
+					uni.showToast({
+						title:'欢迎外校用户',
+						icon: 'none',
+						duration: 2000,
+					});
+					
+					this.$refs.captcha.begin();
+					
+					uni.request({
+						url: this.$serverUrl + '/user/getCode',
+						method: 'POST',
+						data: {
+							userId: this.userInfo.id,
+							email: email
+						},
+						header: {
+							'content-type': 'application/x-www-form-urlencoded'
+						},
+						success: res => {
+							console.log(res);
+						}
+					});
+					return;
+				}
+				
 				// 检测邮箱
 				if (this.$util.regEmail(email) || this.$util.regUNNCEmail(email)) {
 					uni.showToast({

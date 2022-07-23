@@ -140,7 +140,7 @@ module.exports = {
 	like : "点赞",
 	comment : "评论",
 	editSignature: "请打开“个人信息”编辑个性签名",
-	
+	deleteHint: "<--左滑删除帖子",
 	
 	//我的发布
 	passCheck: '审核通过',
@@ -207,4 +207,8 @@ module.exports = {
 	networkError: "网络未知错误",
 	waiting: "请等待...",
 	developing: "开发小哥正在玩命实现中...",
+	
+	// iweek相关
+	iweek: "新生",
+	functionList : ["社团组织","我的课程","校园地图","吃喝玩乐"],
 }

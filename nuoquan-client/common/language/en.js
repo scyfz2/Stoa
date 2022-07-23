@@ -140,6 +140,7 @@ module.exports = {
 	like : "Like",
 	comment : "Comment",
 	editSignature: "Please edit your signature in 'profile'",
+	deleteHint: "<--The left side to delete",
 	
 	
 	//我的发布
@@ -205,4 +206,8 @@ module.exports = {
 	networkError: "Network Unknown Error",
 	waiting: "Waiting...",
 	developing: "Function developing...",
+	
+	// iweek相关
+	iweek: "I-week",
+	functionList : ["Society","U Course","UNNC Map","Foodie"],
 }
