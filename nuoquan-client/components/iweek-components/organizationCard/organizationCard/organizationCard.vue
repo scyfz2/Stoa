@@ -5,10 +5,10 @@
  -->
 <template>
 	<view class="organizationCard" @click="choose(detail)">
-		<image :src="detail.icon" mode="aspectFill" class="orgImage"></image>
+		<image :src="detail.logoPath" mode="aspectFill" class="orgImage"></image>
 		<view class="organizationCard-text" >
-			<view class="orgTitle">{{detail.title}}</view>
-			<view class="orgContent">{{detail.brief}}</view>
+			<view class="orgTitle">{{detail.name}}</view>
+			<view class="orgContent">{{detail.intro}}</view>
 		</view>
 	</view>
 </template>

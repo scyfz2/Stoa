@@ -18,23 +18,23 @@
 		<!-- safearea -->
 		<view style="height: 20px;"></view>
 		<view style="display: flex;">
-			<image :src="detail.icon" mode="aspectFill" class="orgImage"></image>
-			<view class="orgTitle">{{detail.title}}</view>
+			<image :src="detail.logoPath" mode="aspectFill" class="orgImage"></image>
+			<view class="orgTitle">{{detail.name}}</view>
 		</view>
 		
 		<view class="orgContentBox">
 			<view v-for="(item,index) in showList" class="orgIntro">
 				<view style="font-size: 17px;font-weight: bold;">{{item}}</view>
 				<view class="orgDetail">
-					<view v-if="index==0">{{detail.brief}}</view>
-					<view v-else-if="index==1">{{detail.activity}}</view>
-					<view v-else>{{detail.department}}</view>
+					<view v-if="index==0">{{detail.intro}}</view>
+					<view v-else-if="index==1">{{detail.activityIntro}}</view>
+					<view v-else>{{detail.division}}</view>
 				</view>
 			</view>
 			<!-- 招新推文以及介绍的二维码 -->
 			<view class="orgQRBox">
-				<image :src="detail.icon" mode="aspectFill" class="orgQR1"></image>
-				<image :src="detail.icon" mode="aspectFill" class="orgQR2"></image>
+				<image :src="detail.imgList[0].imagePath" mode="aspectFill" class="orgQR1"></image>
+				<image :src="detail.imgList[1].imagePath" mode="aspectFill" class="orgQR2"></image>
 			</view>
 		</view>
 	</view>
@@ -64,8 +64,8 @@
 		onLoad:function (option) {
 			this.navbarHeight = this.getnavbarHeight().bottom + 5;
 			
-			const temp1 = JSON.parse(decodeURIComponent(option.detail));
-			this.detail = temp1;
+			const temp = JSON.parse(decodeURIComponent(option.detail));
+			this.detail = temp;
 		},
 		methods: {
 			
@@ -91,7 +91,7 @@
 	
 	.orgContentBox{
 		width: 90%;
-		margin:5px 5% 5px 5%;
+		margin:15px 5% 5px 5%;
 		border-radius: 12px;
 		border: 1.5px solid gray;
 	}
