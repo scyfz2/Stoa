@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ResourceService resourceService;
 	@Autowired
-	private SensitiveFilterServiceImpl sensitiveFilterService;
+	private SensitiveFilterUtil sensitiveFilterUtil;
 	
 	/**
 	 * 将user转换为UserVO 并为用户添加vo属性
@@ -71,8 +72,8 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(UserVO userVO) {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
-		userVO.setNickname(sensitiveFilterService.checkSensitiveWord(userVO.getNickname()));
-		userVO.setSignature(sensitiveFilterService.checkSensitiveWord(userVO.getSignature()));
+		userVO.setNickname(sensitiveFilterUtil.checkSensitiveWord(userVO.getNickname()));
+		userVO.setSignature(sensitiveFilterUtil.checkSensitiveWord(userVO.getSignature()));
 		return userVO;
 	}
 	

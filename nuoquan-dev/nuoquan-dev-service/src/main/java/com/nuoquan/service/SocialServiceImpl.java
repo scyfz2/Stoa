@@ -13,6 +13,7 @@ import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.RedisOperator;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +52,7 @@ public class SocialServiceImpl implements SocialService {
     @Autowired
     private UserService userService;
     @Autowired
-    private SensitiveFilterServiceImpl sensitiveFilterService;
+    private SensitiveFilterUtil sensitiveFilterUtil;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -88,7 +88,7 @@ public class SocialServiceImpl implements SocialService {
         UserVO toUser= userService.getUserById(userCommentVO.getToUserId());
         userCommentVO.setToNickname(toUser.getNickname());
         // 检查是否有屏蔽词并替换
-        userCommentVO.setComment(sensitiveFilterService.checkSensitiveWord(userCommentVO.getComment()));
+        userCommentVO.setComment(sensitiveFilterUtil.checkSensitiveWord(userCommentVO.getComment()));
         return userCommentVO;
     }
 

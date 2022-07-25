@@ -1,4 +1,4 @@
-package com.nuoquan.service;
+package com.nuoquan.utils;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import static java.lang.Character.toLowerCase;
 import static java.lang.Character.toUpperCase;
 
 @Service
-public class SensitiveFilterServiceImpl {
+public class SensitiveFilterUtil {
     // 替换符
     private static final String REPLACEMENT = "***";
 
