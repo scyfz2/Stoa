@@ -95,6 +95,15 @@
             }
             
         }
+        ,{
+            "path" : "components/iweek-components/schedule/schedule/schedule",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 
 	"subPackages": [{
