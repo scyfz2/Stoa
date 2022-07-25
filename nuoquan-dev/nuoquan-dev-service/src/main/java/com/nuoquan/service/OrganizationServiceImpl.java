@@ -10,12 +10,12 @@ import com.nuoquan.pojo.OrganizationImage;
 import com.nuoquan.pojo.vo.OrganizationVO;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Autowired
     private OrganizationImageMapper organizationImageMapper;
     @Autowired
-    private SensitiveFilterServiceImpl sensitiveFilterService;
+    private SensitiveFilterUtil sensitiveFilterUtil;
 
     //@Transactional(propagation = Propagation.SUPPORTS)
     public OrganizationVO addOrganizationImage(OrganizationVO organizationVO) {
@@ -56,9 +56,9 @@ public class OrganizationServiceImpl implements OrganizationService{
         // 添加图片列表
         organizationVO = addOrganizationImage(organizationVO);
         organizationVO.setLogoPath(resourceService.composeUrl(organizationVO.getLogoPath()));
-        organizationVO.setIntro(sensitiveFilterService.checkSensitiveWord(organizationVO.getIntro()));
-        organizationVO.setName(sensitiveFilterService.checkSensitiveWord(organizationVO.getName()));
-        organizationVO.setRequirement(sensitiveFilterService.checkSensitiveWord(organizationVO.getRequirement()));
+        organizationVO.setIntro(sensitiveFilterUtil.checkSensitiveWord(organizationVO.getIntro()));
+        organizationVO.setName(sensitiveFilterUtil.checkSensitiveWord(organizationVO.getName()));
+        organizationVO.setRequirement(sensitiveFilterUtil.checkSensitiveWord(organizationVO.getRequirement()));
         return organizationVO;
     }
 
