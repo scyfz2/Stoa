@@ -51,6 +51,8 @@ public class SocialServiceImpl implements SocialService {
     private VoteMapper voteMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SensitiveFilterServiceImpl sensitiveFilterService;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -85,6 +87,8 @@ public class SocialServiceImpl implements SocialService {
         // 查询并设置toNickName
         UserVO toUser= userService.getUserById(userCommentVO.getToUserId());
         userCommentVO.setToNickname(toUser.getNickname());
+        // 检查是否有屏蔽词并替换
+        userCommentVO.setComment(sensitiveFilterService.checkSensitiveWord(userCommentVO.getComment()));
         return userCommentVO;
     }
 
@@ -184,7 +188,6 @@ public class SocialServiceImpl implements SocialService {
         PageInfo<UserCommentVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
         List<UserCommentVO> listVO = new ArrayList<>();
         for (UserComment c : list) {
-            ArticleServiceImpl articleService = new ArticleServiceImpl();
             int articleStatus = articleService.getArticleById(c.getTargetId(), userId).getStatus();
             if (articleStatus != 0)
                 listVO.add(composeComment(userId, c));

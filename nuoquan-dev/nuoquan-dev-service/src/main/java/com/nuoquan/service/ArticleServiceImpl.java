@@ -53,6 +53,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private ResourceService resourceService;
 	@Autowired
 	private SocialService socialService;
+	@Autowired
+	private SensitiveFilterServiceImpl sensitiveFilterService;
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public ArticleVO addArticleImgs(ArticleVO articleVO) {
@@ -96,7 +98,11 @@ public class ArticleServiceImpl implements ArticleService {
 			articleVO.setTagList(finalTagList);
 		}
 
+		// 检查是否有屏蔽词并替换
+		articleVO.setArticleContent(sensitiveFilterService.checkSensitiveWord(articleVO.getArticleContent()));
+		articleVO.setArticleTitle(sensitiveFilterService.checkSensitiveWord(articleVO.getArticleTitle()));
 		socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
+
 		return articleVO;
 	}
 

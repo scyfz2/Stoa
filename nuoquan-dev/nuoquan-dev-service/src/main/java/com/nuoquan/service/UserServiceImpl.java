@@ -47,6 +47,8 @@ public class UserServiceImpl implements UserService {
 	private ChatMsgMapper chatMsgMapper;
 	@Autowired
 	private ResourceService resourceService;
+	@Autowired
+	private SensitiveFilterServiceImpl sensitiveFilterService;
 	
 	/**
 	 * 将user转换为UserVO 并为用户添加vo属性
@@ -69,6 +71,8 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(UserVO userVO) {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
+		userVO.setNickname(sensitiveFilterService.checkSensitiveWord(userVO.getNickname()));
+		userVO.setSignature(sensitiveFilterService.checkSensitiveWord(userVO.getSignature()));
 		return userVO;
 	}
 	
