@@ -7,8 +7,8 @@
 			<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange">
 				<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
 			</picker>
-			<swiper-date></swiper-date>
-			<schedule-card></schedule-card>
+			<swiper-date @date="getEmitDate"></swiper-date>
+			<schedule-card v-for="(item,index) in showList" :key = "index"></schedule-card>
 			<view class="bottom-placeholder"></view>
 		</view>
 	</view>
@@ -25,6 +25,8 @@
 		},
 		data() {
 			return {
+				userInfo:'',
+				date:'',
 				showList: [],
 				beforeFaculty:'',
 				facultyId:'',
@@ -47,7 +49,7 @@
 				degreeList:[
 					{
 						id: 1,
-						name: 'UG-Domenistic',
+						name: 'UG-Domestic',
 					},
 					{
 						id:2,
@@ -64,39 +66,70 @@
 				]
 			}
 		},
-		// onShow:function(e) {
-			// console.log('Onload'),
-			
-			// uni.getStorage({
-			// 	key: 'facultyId',
-			// 	success: (res) => {
-			// 		console.log(res)
-			// 	}
-			// })
-			// var value = uni.getStorageSync('facultyId'),
-			// console.log(value)
-		// },
+		onLoad() {
+			var userInfo = this.getGlobalUserInfo();
+			this.userInfo = userInfo;
+		},
 		methods: {
+			checkSchdule(){
+				var that = this;
+				uni.request({
+					url: that.$serverUrl + '/eventsCalendar/queryEventsCalender',
+					method: 'POST',
+					data: {
+						userId: that.userInfo.id,
+						// page 和 pagesize写成静态的 一次性加载出来
+						page: 1,
+						pageSize: 20,
+						
+						targetDate:this.date,
+						faculty:this.facultyId,
+						degree:this.degreeId,
+					},
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: res=> {
+						if (page == 1) {
+							that.showList = [];
+						}
+						this.$nextTick(() =>{
+							showList = res.data.data.rows;
+						})
+					},
+					fail: res => {
+						console.log(res);
+					}
+				});
+			},
+			
 			facultyChange(e){
 				const index = e.target.value
 				this.beforeFaculty = this.facultyList[index].name
 				this.facultyId = this.facultyList[index].id
-				uni.setStorage({
-					key: 'facultyId',
-					data: this.facultyId,
-					success: (res) => {
-						console.log(res)
-					},
-					fail: (err) => {
-						console.log(err)
-					}
-				})
+				// uni.setStorage({
+				// 	key: 'facultyId',
+				// 	data: this.facultyId,
+				// 	success: (res) => {
+				// 		console.log(res)
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log(err)
+				// 	}
+				// })
+				this.checkSchdule()
 			},
 			degreeChange(e){
 				const index2 = e.target.value
 				this.beforeDegree = this.degreeList[index2].name
 				this.degreeId = this.degreeList[index2].id
-				uid.setStorage('degreeId',this.degreeId)
+				// uid.setStorage('degreeId',this.degreeId)
+				this.checkSchdule()
+			},
+			getEmitDate(data){
+				this.date = data
+				console.log(data)
+				this.checkSchdule()
 			}
 		}
 	}

@@ -40,14 +40,14 @@
 			return {
 				navbarHeight: 0 ,//一次性储存 navbarheight
 				
-				
 				page:1,
 				pagesize:0,
 				currentPage: 1,
 				thisUserInfo: '',
 				organizationList:[],
 				
-				userId:'oDwsO5A-1gkeGk_1dVrslR6HYVvA',
+				// 静态测试数据
+				// userId:'oDwsO5A-1gkeGk_1dVrslR6HYVvA',
 				// organizationList:[
 				// {
 				// 	icon:'/static/icon/iweek/society.png',
@@ -70,12 +70,12 @@
 				});
 				var that = this;
 				uni.request({
-					// url:that.$serverUrl +'/organization/queryOrganizations',
-					url:'https://localhost:8080' +'/organization/queryOrganizations',
+					url:that.$serverUrl +'/organization/queryOrganizations',
+					// url:'http:localhost:8080' +'/organization/queryOrganizations',
 					method: 'POST',
 					data: {
 						page: page,
-						// userId:that.thisUserInfo.id,
+						userId:that.thisUserInfo.id,
 						userId:that.userId,
 						pageSize:that.pagesize,
 					},

@@ -51,7 +51,7 @@
 		width: 90%;
 		height: 80px;
 		display: flex;
-		margin:5px 5% 5px 5%;
+		margin:5px 5% 10px 5%;
 		border-radius: 12px;
 		box-shadow: 0 2px 10px 0 #babacd;
 	}

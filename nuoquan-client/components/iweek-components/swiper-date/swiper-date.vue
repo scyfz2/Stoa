@@ -1,6 +1,6 @@
 <template>
 	<view class="swiper-date">
-		<view class="date-botton" display-multiple-items="7" v-for="item in dateList" :key = "item.date">
+		<view class="unselected" v-for="(item,index) in dateList" :key = "index" :class="{'selected': nowIndex === index }" @click="getDate(item);changeIndex(index)">
 			<text>{{item.date}}</text>
 		</view>
 	</view>
@@ -10,73 +10,90 @@
 	export default {
 		data() {
 			return {
+				index: 0,
+				nowIndex: 0,
+				// startDate 控制在0-6区间内
+				startDate: 0,
+				date:'',
 				dateList:[
 					{
 						date: 15,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 16,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 17,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 18,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 19,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 20,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 21,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 22,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 23,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 24,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 25,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 26,
-						schedule: {},
+						selected: false,
 					},
 					{
 						date: 27,
-						schedule: {},
+						selected: false,
 					},
 				]
 			}
 		},
+		onLoad(){
+			this.dayList = common.weekDate().dayList;
+		},
 		methods: {
-			
+			getDate(e){
+				// debugger
+				// console.log(e.date)
+				this.date = e.date
+				this.$emit("date",this.date)
+			},
+			changeIndex(e){
+				console.log('change index')
+				this.nowIndex = e
+			}
 		}
 	}
 </script>
 
-<style>
+<style scoped>
 	.swiper-date {
 		margin: 20upx 0 20upx 0;
 	}
-	.date-botton {
+	.unselected {
 		display: inline-block;
 		text-align: center;
 		border: 1px solid #b1b1b1;
@@ -87,5 +104,21 @@
 		height: 30px;
 		width: 30px;
 		line-height: 30px;
+		color: #000000;
+		background-color: #FFFFFF;
+	}
+	.selected {
+		display: inline-block;
+		text-align: center;
+		border: 1px solid #b1b1b1;
+		border-radius: 50%;
+		margin: 40upx 20upx 0 20upx;
+		font-weight: bold;
+		font-size: 14px;
+		height: 30px;
+		width: 30px;
+		line-height: 30px;
+		color: #FFFFFF;
+		background-color: #f9c466;
 	}
 </style>
