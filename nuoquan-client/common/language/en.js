@@ -210,4 +210,6 @@ module.exports = {
 	// iweek相关
 	iweek: "I-week",
 	functionList : ["Society","U Course","UNNC Map","Foodie"],
+	dailySchedule : "Daily Schedule",
+	noMore: "No More",
 }

@@ -96,7 +96,34 @@
             
         }
         ,{
-            "path" : "components/iweek-components/schedule/schedule/schedule",
+            "path" : "components/iweek-components/schedule/schedule",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/schedule-card/schedule-card",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/schedule-detail/schedule-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/swiper-date/swiper-date",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

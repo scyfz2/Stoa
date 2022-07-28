@@ -330,7 +330,6 @@ image {
 	background-color: rgba(255, 255, 255, 1);
 	/* box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.16); */
 	opacity: 1;
-	border-radius: 8px;
 	border-bottom: 1px solid rgba(236,236,236,1);
 }
 
