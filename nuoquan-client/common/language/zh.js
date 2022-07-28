@@ -213,4 +213,6 @@ module.exports = {
 	functionList : ["社团组织","我的课程","校园地图","吃喝玩乐"],
 	dailySchedule : "每日日程",
 	noMore: "没有更多了",
+	organizationList:"校内组织",
+	organizationDetail:"组织详情"
 }
