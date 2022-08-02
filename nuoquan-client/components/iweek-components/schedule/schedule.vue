@@ -8,7 +8,7 @@
 				<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
 			</picker>
 			<swiper-date @date="getEmitDate"></swiper-date>
-			<schedule-card v-for="(item,index) in showList" :key = "index"></schedule-card>
+			<schedule-card v-for="item in showList" :key = "item.id" v-bind:scheduleCard="item" @eventId="getEventId"></schedule-card>
 			<view class="bottom-placeholder"></view>
 		</view>
 	</view>
@@ -27,6 +27,7 @@
 			return {
 				userInfo:'',
 				date:'',
+				eventId: '',
 				showList: [],
 				beforeFaculty:'',
 				facultyId:'',
@@ -130,6 +131,11 @@
 				this.date = data
 				console.log(data)
 				this.checkSchdule()
+			},
+			getEventId(data){
+				this.eventId = ''
+				this.eventId = data
+				console.log(data)
 			}
 		}
 	}
@@ -143,14 +149,16 @@
 	}
 	.faculty-picker {
 		position: fixed;
-		margin-left: 180px;
+		margin-left: 130px;
 		margin-top: -25px;
+		width: 60px;
+		text-align: center;
 	}
 	.degree-picker {
 		position: fixed;
-		margin-left: 280px;
+		margin-left: 240px;
 		margin-top: -25px;
-		width: 60px;
+		width: 80px;
 		text-align: center;
 	}
 	.bottom-placeholder {

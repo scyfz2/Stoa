@@ -216,4 +216,9 @@ module.exports = {
 	noMore: "No More",
 	organizationList:"organizationList",
 	organizationDetail:"organizationDetail",
+	date: 'date',
+	time: 'time',
+	venue: 'venue',
+	targetStudent: 'Target Student',
+	eventsType: 'eventsType',
 }

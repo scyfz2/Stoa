@@ -214,5 +214,10 @@ module.exports = {
 	dailySchedule : "每日日程",
 	noMore: "没有更多了",
 	organizationList:"校内组织",
-	organizationDetail:"组织详情"
+	organizationDetail:"组织详情",
+	date: '日期',
+	time: '时间',
+	venue: '地点',
+	targetStudent: '面向学生',
+	eventsType: '活动类型',
 }

@@ -4,16 +4,16 @@
 	Date: July 25, 2022
  -->
 <template>
-	<view class="scheduleCard">
+	<view class="scheduleCard" ref="scheduleCard" @click="getEventId(thisSchedule)">
 		<view class="placeholder">
 			<view class="topic">
-				<text>Early University Registration</text>
+				<text>{{thisSchedule.title}}</text>
 			</view>
 			<view class="time">
-				<text>08:00-17:30</text>
+				<text>{{thisSchedule.time}}</text>
 			</view>
 			<view class="location">
-				<text>D.H Lawrence Auditorium Hall</text>
+				<text>{{thisSchedule.venue}}</text>
 			</view>
 		</view>
 	</view>
@@ -21,13 +21,20 @@
 
 <script>
 	export default {
+		props: {
+		scheduleCard: {}	
+		},
 		data() {
 			return {
-				
+				thisSchedule: this.scheduleCard,
+				eventId: '',
 			}
 		},
 		methods: {
-			
+			getEventId(e) {
+				this.eventId = e.Id
+				this.$emit("eventId",this.eventId)
+			}
 		}
 	}
 </script>

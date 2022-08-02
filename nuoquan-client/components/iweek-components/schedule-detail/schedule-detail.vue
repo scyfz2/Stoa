@@ -35,7 +35,7 @@ Library: 1F - Multifunciton Room 02</text>
 				
 				<view class="target">
 					<view class="concrete_target title">
-						<text>Target Students:</text>
+						<text>Target Student:</text>
 					</view>
 					<view class="concrete_target detail">
 						<text>Preliminary Year Student - FHSS</text>
@@ -47,7 +47,7 @@ Library: 1F - Multifunciton Room 02</text>
 						<text>Events Type:</text>
 					</view>
 					<view class="concrete_type detail">
-						<text>Lecture/ Avtivity/ Other</text>
+						<text>Lecture/ Activity/ Other</text>
 					</view>
 				</view>
 			</view>
@@ -60,11 +60,15 @@ Library: 1F - Multifunciton Room 02</text>
 </template>
 
 <script>
+	import { mapState, mapMutations } from 'vuex';
 	export default {
 		data() {
 			return {
-				show: false,
+				show: true,
 			}
+		},
+		computed: {
+			...mapState(['lang'])
 		},
 		methods: {
 			killAd(){

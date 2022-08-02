@@ -68,6 +68,10 @@
 						date: 27,
 						selected: false,
 					},
+					{
+						date: 28,
+						selected: false,
+					}
 				]
 			}
 		},
@@ -91,12 +95,12 @@
 
 <style scoped>
 	.swiper-date {
-		margin: 20upx 0 20upx 0;
+		margin: 20upx 0 40upx 0;
 	}
 	.unselected {
 		display: inline-block;
 		text-align: center;
-		border: 1px solid #b1b1b1;
+		border: 1upx solid #ECECEC;
 		border-radius: 50%;
 		margin: 40upx 20upx 0 20upx;
 		font-weight: bold;
@@ -110,7 +114,7 @@
 	.selected {
 		display: inline-block;
 		text-align: center;
-		border: 1px solid #b1b1b1;
+		border: 1upx #b1b1b1;
 		border-radius: 50%;
 		margin: 40upx 20upx 0 20upx;
 		font-weight: bold;
