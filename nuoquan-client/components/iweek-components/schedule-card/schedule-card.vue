@@ -4,7 +4,7 @@
 	Date: July 25, 2022
  -->
 <template>
-	<view class="scheduleCard" ref="scheduleCard" @click="getEventId(thisSchedule)">
+	<view class="scheduleCard" ref="scheduleCard" @click="getEvent(thisSchedule)">
 		<view class="placeholder">
 			<view class="topic">
 				<text>{{thisSchedule.title}}</text>
@@ -27,13 +27,13 @@
 		data() {
 			return {
 				thisSchedule: this.scheduleCard,
-				eventId: '',
+				event: {},
 			}
 		},
 		methods: {
-			getEventId(e) {
-				this.eventId = e.Id
-				this.$emit("eventId",this.eventId)
+			getEvent(e) {
+				this.event = e
+				this.$emit("event",this.event)
 			}
 		}
 	}

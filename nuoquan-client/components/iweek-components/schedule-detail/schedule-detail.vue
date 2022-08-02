@@ -3,14 +3,14 @@
 		<view class="scheduleBox">
 			<view class="content">
 				<view class="concrete_topic title">
-					<text>Escaping the Room: Immersive experience of students' self-discovery and self-awaking</text>
+					<text>{{event.title}}</text>
 				</view>
 				<view class="date">
 					<view class="concrete_date title">
 						<text>Date:</text>
 					</view>
 					<view class="concrete_date detail">
-						<text>09.10 Fri.</text>
+						<text>{{event.date}}</text>
 					</view>
 				</view>
 				
@@ -19,7 +19,7 @@
 						<text>Time:</text>
 					</view>
 					<view class="concrete_time detail">
-						<text>14:00-18:00</text>
+						<text>{{event.time}}</text>
 					</view>
 				</view>
 				
@@ -28,8 +28,7 @@
 						<text>Venue:</text>
 					</view>
 					<view class="concrete_venue detail">
-						<text>DB-C05/DB-C04/DB-C06/DB-B05/DB-A04/
-Library: 1F - Multifunciton Room 02</text>
+						<text>{{event.venue}}</text>
 					</view>
 				</view>
 				
@@ -38,16 +37,7 @@ Library: 1F - Multifunciton Room 02</text>
 						<text>Target Student:</text>
 					</view>
 					<view class="concrete_target detail">
-						<text>Preliminary Year Student - FHSS</text>
-					</view>
-				</view>
-				
-				<view class="type">
-					<view class="concrete_type title">
-						<text>Events Type:</text>
-					</view>
-					<view class="concrete_type detail">
-						<text>Lecture/ Activity/ Other</text>
+						<text>{{event.faculty}} {{event.degree}}</text>
 					</view>
 				</view>
 			</view>
@@ -62,9 +52,15 @@ Library: 1F - Multifunciton Room 02</text>
 <script>
 	import { mapState, mapMutations } from 'vuex';
 	export default {
+		props:{
+			event:{
+				required: true,
+				default:{},
+			}
+		},
 		data() {
 			return {
-				show: true,
+				show: false,
 			}
 		},
 		computed: {
@@ -74,6 +70,7 @@ Library: 1F - Multifunciton Room 02</text>
 			killAd(){
 				this.show = !this.show;
 			}
+			
 		}
 	}
 </script>

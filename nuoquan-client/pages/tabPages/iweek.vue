@@ -5,7 +5,7 @@
  -->
 <template>
 	<view class="iweek">
-		<schedule-detail></schedule-detail>
+		<schedule-detail @event="getEvent" :event="event"></schedule-detail>
 		<!-- 导航栏 -->
 		<uni-nav-bar class="navigationBar" :style="{height: this.getnavbarHeight() + 'px'}"
 		:title="lang.iweek" :showLeftIcon="false"
@@ -54,6 +54,7 @@
 		},
 		data(){
 			return{
+				event: {},
 				title: 'Hello',
 				swipers:[],
 			}
@@ -74,7 +75,10 @@
 			}
 		},
 		methods:{
-			
+			getEvent(data){
+				this.event = data
+				console.log(this.event)
+			}
 		}
 	}
 </script>
