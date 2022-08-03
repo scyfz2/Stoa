@@ -88,7 +88,7 @@ public class SocialServiceImpl implements SocialService {
         UserVO toUser= userService.getUserById(userCommentVO.getToUserId());
         userCommentVO.setToNickname(toUser.getNickname());
         // 检查是否有屏蔽词并替换
-        userCommentVO.setComment(sensitiveFilterUtil.checkSensitiveWord(userCommentVO.getComment()));
+        userCommentVO.setComment(sensitiveFilterUtil.filter(userCommentVO.getComment()));
         return userCommentVO;
     }
 

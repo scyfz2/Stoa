@@ -71,7 +71,7 @@ public class AdvertServiceImpl implements AdvertService {
 
         // 进行敏感词检测
         for (Advert a : advertList){
-            a.setContent(sensitiveFilterUtil.checkSensitiveWord(a.getContent()));
+            a.setContent(sensitiveFilterUtil.filter(a.getContent()));
         }
 
         // TODO:转换VO对象
@@ -92,7 +92,7 @@ public class AdvertServiceImpl implements AdvertService {
     public Advert getAdById(String adId, String userId) {
         Advert advert = advertMapper.selectByPrimaryKey(adId);
         // 进行敏感词检测
-        advert.setContent(sensitiveFilterUtil.checkSensitiveWord(advert.getContent()));
+        advert.setContent(sensitiveFilterUtil.filter(advert.getContent()));
         // TODO:转化VO对象
         return advert;
 

@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(UserVO userVO) {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
-		userVO.setNickname(sensitiveFilterUtil.checkSensitiveWord(userVO.getNickname()));
-		userVO.setSignature(sensitiveFilterUtil.checkSensitiveWord(userVO.getSignature()));
+		userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
+		userVO.setSignature(sensitiveFilterUtil.filter(userVO.getSignature()));
 		return userVO;
 	}
 	
