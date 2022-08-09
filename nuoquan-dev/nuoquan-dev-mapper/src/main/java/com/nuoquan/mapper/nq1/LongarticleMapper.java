@@ -29,10 +29,17 @@ public interface LongarticleMapper extends MyMapper<Longarticle> {
 	 */
 	public void reduceCollectCount(String articleId);
 
-	/*
-	 * 增加文章的评论数
+	/**
+	 * @Description: 对文章评论的数量进行累加
+	 * @param articleId
 	 */
 	public void addCommentCount(String articleId);
+
+	/**
+	 * @Description: 对文章评论的数量进行累减
+	 * @param articleId
+	 */
+	public void reduceCommentCount(String articleId);
 
 	/**
 	 * 浏览量+1

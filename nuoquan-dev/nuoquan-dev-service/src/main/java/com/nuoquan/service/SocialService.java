@@ -76,7 +76,7 @@ public interface SocialService {
      * Set the status to unreadable
      * @param commentId
      */
-    public void fDeleteComment(String commentId,String userId);
+    public void fDeleteComment(String commentId, String userId, String targetId, PostType targetType);
 
     /**
      * 用户点赞对象

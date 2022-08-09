@@ -150,6 +150,18 @@ public class SocialServiceImpl implements SocialService {
         }
     }
 
+    private void reduceTargetCommentCount(String targetType, String targetId) {
+        if (targetType.equals(PostType.COMMENT.value)) {
+            //TODO:评论的评论数减少
+        } else if (targetType.equals(PostType.ARTICLE.value)) {
+            articleMapper.reduceCommentCount(targetId);
+        } else if (targetType.equals(PostType.LONGARTICLE.value)) {
+            longarticleMapper.reduceCommentCount(targetId);
+        } else if (targetType.equals(PostType.VOTE.value)) {
+            //TODO:投票评论数累加
+        }
+    }
+
     /**
      * 分页获取父评论
      * @param page
@@ -256,19 +268,20 @@ public class SocialServiceImpl implements SocialService {
 
 
     /**
-     * 删除文章评论
+     * 删除评论
      * @param commentId
      * @return void
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void fDeleteComment(String commentId, String userId) {
+    public void fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
         Example example = new Example(UserComment.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", commentId);
         UserComment c = new UserComment();
         c.setStatus(StatusEnum.DELETED.type);
         userCommentMapper.updateByExampleSelective(c, example);
+        reduceTargetCommentCount(targetType.getValue(), targetId);
     }
 
     /**
