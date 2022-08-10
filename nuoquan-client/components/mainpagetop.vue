@@ -14,8 +14,8 @@
 				<view class="topBarSearch" :style="{'margin-top': this.getnavbarHeight().top + 2 + 'px'}" @click="controlShowSearch(1)">
 					<image src="../static/icon/search_B79144.png" mode="aspectFit"></image>
 				</view>
-				<view class="topBarwaiting"></view>
-				<creatarticle :topHeight='this.getnavbarHeight().top'></creatarticle>
+				<!-- <view class="topBarwaiting"></view> -->
+				<!-- <creatarticle :topHeight='this.getnavbarHeight().top'></creatarticle> -->
 			</view>
 			<!-- 标题行 -->
 			<view v-if="!roleup" class="titleLine">
@@ -277,7 +277,8 @@
 		background: rgba(230, 230, 230, 1);
 		opacity: 1;
 		border-radius: 10px;
-		width: calc(100% - 3.47% - 101px - 32px - 7px);
+		/* width: calc(100% - 3.47% - 101px - 32px - 7px); */
+		width: calc(100% - 3.47% - 101px - 7px);
 		font-size: 15px;
 		display: inline-block;
 		vertical-align: middle;

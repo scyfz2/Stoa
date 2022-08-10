@@ -63,7 +63,7 @@
 			<mynavigator :objList="dataList" @trigger="navigatorEvent()"></mynavigator>
 		</view>
 
-		<tab-bar :current="3"></tab-bar>
+		<tab-bar :current="4"></tab-bar>
 	</view>
 </template>
 
