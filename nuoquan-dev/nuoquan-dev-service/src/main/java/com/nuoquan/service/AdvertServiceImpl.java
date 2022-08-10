@@ -7,10 +7,8 @@ import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.enums.StreamType;
 import com.nuoquan.mapper.nq1.AdvertMapper;
 import com.nuoquan.pojo.Advert;
-import com.nuoquan.pojo.Article;
-import com.nuoquan.pojo.vo.ArticleVO;
-import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,7 @@ public class AdvertServiceImpl implements AdvertService {
     @Autowired
     private AdvertMapper advertMapper;
     @Autowired
-    private SensitiveFilterServiceImpl sensitiveFilterService;
+    private SensitiveFilterUtil sensitiveFilterUtil;
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "nq1TransactionManager")
     @Override
@@ -73,7 +71,7 @@ public class AdvertServiceImpl implements AdvertService {
 
         // 进行敏感词检测
         for (Advert a : advertList){
-            a.setContent(sensitiveFilterService.checkSensitiveWord(a.getContent()));
+            a.setContent(sensitiveFilterUtil.filter(a.getContent()));
         }
 
         // TODO:转换VO对象
@@ -94,7 +92,7 @@ public class AdvertServiceImpl implements AdvertService {
     public Advert getAdById(String adId, String userId) {
         Advert advert = advertMapper.selectByPrimaryKey(adId);
         // 进行敏感词检测
-        advert.setContent(sensitiveFilterService.checkSensitiveWord(advert.getContent()));
+        advert.setContent(sensitiveFilterUtil.filter(advert.getContent()));
         // TODO:转化VO对象
         return advert;
 

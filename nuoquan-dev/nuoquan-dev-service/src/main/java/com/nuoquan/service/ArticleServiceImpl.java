@@ -9,6 +9,7 @@ import com.nuoquan.enums.ReputeWeight;
 import com.nuoquan.mapper.nq1.*;
 import com.nuoquan.pojo.*;
 import com.nuoquan.utils.RedisOperator;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
@@ -54,7 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private SocialService socialService;
 	@Autowired
-	private SensitiveFilterServiceImpl sensitiveFilterService;
+	private SensitiveFilterUtil sensitiveFilterUtil;
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public ArticleVO addArticleImgs(ArticleVO articleVO) {
@@ -99,8 +100,8 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 
 		// 检查是否有屏蔽词并替换
-		articleVO.setArticleContent(sensitiveFilterService.checkSensitiveWord(articleVO.getArticleContent()));
-		articleVO.setArticleTitle(sensitiveFilterService.checkSensitiveWord(articleVO.getArticleTitle()));
+		articleVO.setArticleContent(sensitiveFilterUtil.filter(articleVO.getArticleContent()));
+		articleVO.setArticleTitle(sensitiveFilterUtil.filter(articleVO.getArticleTitle()));
 		socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
 
 		return articleVO;

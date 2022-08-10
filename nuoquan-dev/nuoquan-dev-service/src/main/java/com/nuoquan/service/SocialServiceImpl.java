@@ -13,6 +13,7 @@ import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.RedisOperator;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +52,7 @@ public class SocialServiceImpl implements SocialService {
     @Autowired
     private UserService userService;
     @Autowired
-    private SensitiveFilterServiceImpl sensitiveFilterService;
+    private SensitiveFilterUtil sensitiveFilterUtil;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -88,7 +88,7 @@ public class SocialServiceImpl implements SocialService {
         UserVO toUser= userService.getUserById(userCommentVO.getToUserId());
         userCommentVO.setToNickname(toUser.getNickname());
         // 检查是否有屏蔽词并替换
-        userCommentVO.setComment(sensitiveFilterService.checkSensitiveWord(userCommentVO.getComment()));
+        userCommentVO.setComment(sensitiveFilterUtil.filter(userCommentVO.getComment()));
         return userCommentVO;
     }
 
@@ -145,6 +145,18 @@ public class SocialServiceImpl implements SocialService {
             articleMapper.addCommentCount(targetId);
         } else if (targetType.equals(PostType.LONGARTICLE.value)) {
             longarticleMapper.addCommentCount(targetId);
+        } else if (targetType.equals(PostType.VOTE.value)) {
+            //TODO:投票评论数累加
+        }
+    }
+
+    private void reduceTargetCommentCount(String targetType, String targetId) {
+        if (targetType.equals(PostType.COMMENT.value)) {
+            //TODO:评论的评论数减少
+        } else if (targetType.equals(PostType.ARTICLE.value)) {
+            articleMapper.reduceCommentCount(targetId);
+        } else if (targetType.equals(PostType.LONGARTICLE.value)) {
+            longarticleMapper.reduceCommentCount(targetId);
         } else if (targetType.equals(PostType.VOTE.value)) {
             //TODO:投票评论数累加
         }
@@ -256,19 +268,20 @@ public class SocialServiceImpl implements SocialService {
 
 
     /**
-     * 删除文章评论
+     * 删除评论
      * @param commentId
      * @return void
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void fDeleteComment(String commentId, String userId) {
+    public void fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
         Example example = new Example(UserComment.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", commentId);
         UserComment c = new UserComment();
         c.setStatus(StatusEnum.DELETED.type);
         userCommentMapper.updateByExampleSelective(c, example);
+        reduceTargetCommentCount(targetType.getValue(), targetId);
     }
 
     /**

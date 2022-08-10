@@ -1,4 +1,4 @@
-package com.nuoquan.service;
+package com.nuoquan.utils;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -12,21 +12,15 @@ import static java.lang.Character.toLowerCase;
 import static java.lang.Character.toUpperCase;
 
 @Service
-public class SensitiveFilterServiceImpl {
+public class SensitiveFilterUtil {
     // 替换符
     private static final String REPLACEMENT = "***";
 
     // 根节点
     private TrieNode rootNode = new TrieNode();
 
-    // 集合init()与filter()方法
-    public String checkSensitiveWord(String text) {
-        this.init();
-        return this.filter(text);
-    }
-
-    // 初始化：读取敏感词文件中
-    @PostConstruct
+    // 初始化：读取敏感词文件
+    @PostConstruct // 此注解的作用为在@Autowired注入SensitiveFilterUtil后自动执行此方法
     public void init() {
         try (
                 Scanner sr = new Scanner(new FileReader("./SensitiveWord.txt"))
