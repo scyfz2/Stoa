@@ -69,8 +69,7 @@
 		methods: {
 			killAd(){
 				this.show = !this.show;
-			}
-			
+			}	
 		}
 	}
 </script>

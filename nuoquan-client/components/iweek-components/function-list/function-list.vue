@@ -39,15 +39,15 @@
 					type: 1,
 					icon: '/static/icon/iweek/ucourse.png',
 					name: '我的课程',
-					appid: '',
-					url: 'appiducourse'
+					appid: 'wxf91a3d7a60c2de7e',
+					url: 'pages/index/index'
 				},
 				{
 					type: 1,
 					icon: '/static/icon/iweek/map.png',
 					name: '校园地图',
-					appid: '',
-					url: 'appidunncmap'
+					appid: 'wx785bfd9dbf7823ea',
+					url: 'pages/index/index'
 				},
 				{
 					type: 0,

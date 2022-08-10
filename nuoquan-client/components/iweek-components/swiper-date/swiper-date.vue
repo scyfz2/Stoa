@@ -114,7 +114,7 @@
 	.selected {
 		display: inline-block;
 		text-align: center;
-		border: 1upx #b1b1b1;
+		/* border: 1upx #b1b1b1; */
 		border-radius: 50%;
 		margin: 40upx 20upx 0 20upx;
 		font-weight: bold;

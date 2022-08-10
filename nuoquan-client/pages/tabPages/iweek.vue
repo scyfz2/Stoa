@@ -93,6 +93,7 @@
 	
 	.topHalf {
 		background-color: #FFFFFF;
+		margin-top: 8px;
 	}
 	
 	.functionList {
