@@ -5,7 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import org.apache.shiro.SecurityUtils;
@@ -189,6 +192,30 @@ public class AdminController extends BasicController{
 		 //注销
         subject.logout();
         return "redirect:/"+prefix+"/login";
+	}
+
+	@ApiOperation(value = "")
+	@PostMapping(value = "/searchArticleYANG")
+	public JSONResult searchArticleYang(String searchText, Integer isSaveRecord, Integer page, String userId)
+			throws Exception {
+
+		if (page == null) {
+			page = 1;
+		}
+
+		PagedResult result = articleService.searchArticleYang(isSaveRecord, page, PAGE_SIZE, searchText, userId);
+		return JSONResult.ok(result);
+	}
+
+	@ApiOperation(value = "按文章 id 查询文章(不记入浏览量)", notes = "按文章 id 查询文章(不记入浏览量)的接口")
+	@ApiImplicitParams({
+			// userId 查询用户和文章的点赞关系
+			@ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form") })
+	@PostMapping("/getArticleById")
+	public JSONResult getArticleByIdAdmin(String articleId, String userId) throws Exception {
+
+		return JSONResult.ok(articleService.getArticleById(articleId, userId));
 	}
 	
 //	/****页面测试****/

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.nuoquan.pojo.AdminUser;
 import com.nuoquan.pojo.AdminNotice;
+import com.nuoquan.pojo.Article;
+import com.nuoquan.pojo.vo.ArticleVO;
 
 /**
  * 后台管理业务接口类
@@ -24,5 +26,11 @@ public interface AdminService {
 	 * @return
 	 */
 	public List<AdminNotice> getUserNotice(AdminUser adminUser, int state);
+
+	ArticleVO composeArticleVOAdmin(ArticleVO articleVO, String userId);
+
+	ArticleVO composeArticleVOAdmin(Article article, String userId);
+
+	ArticleVO getArticleByIdAdmin(String articleId, String userId);
 
 }
