@@ -2,24 +2,18 @@ package com.nuoquan.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.EventsCalendarMapper;
 import com.nuoquan.pojo.EventsCalendar;
-import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.EventsCalendarVO;
-import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.RedisOperator;
-import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -50,10 +44,11 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
     }
 
     @Override
-    public PagedResult queryEventsCalender(Integer page, Integer pageSize, String userId, String targetDate, String faculty, String degree){
+    public PagedResult queryEventsCalendar(String userId, Integer page, Integer pageSize, Integer targetDate, Integer faculty, Integer degree){
 
         // 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
         PageHelper.startPage(page, pageSize);
+        //TODO: 这里使用compose，将vo的输出全都换成string
         List<EventsCalendarVO> list = eventsCalendarMapper.queryEventsCalendar(faculty, degree, targetDate);
 
         PageInfo<EventsCalendarVO> pageList = new PageInfo<>(list);

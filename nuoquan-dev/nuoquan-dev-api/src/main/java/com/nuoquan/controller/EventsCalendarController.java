@@ -1,7 +1,6 @@
 package com.nuoquan.controller;
 
 import com.nuoquan.enums.StatusEnum;
-import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.EventsCalendar;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
@@ -41,14 +40,14 @@ public class EventsCalendarController extends BasicController {
     @ApiOperation(value = "查询全部日程", notes = "查询全部可读日程的接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "targetDate", value = "查询目标日期", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "faculty", value = "学院", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "degree", value = "学历", required = true, dataType = "String", paramType = "form")
+            @ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
+            @ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
+            @ApiImplicitParam(name = "targetDate", value = "查询目标日期", required = true, dataType = "Integer", paramType = "form"),
+            @ApiImplicitParam(name = "faculty", value = "学院", required = true, dataType = "Integer", paramType = "form"),
+            @ApiImplicitParam(name = "degree", value = "学历", required = true, dataType = "Integer", paramType = "form")
     })
     @PostMapping("/queryEventsCalender")
-    public JSONResult queryEventsCalender(Integer page, Integer pageSize, String userId, String targetDate, String faculty, String degree) throws Exception {
+    public JSONResult queryEventsCalendar(String userId, Integer page, Integer pageSize, Integer targetDate, Integer faculty, Integer degree) throws Exception {
 
         if(page == null) {
             page = 1;
@@ -58,7 +57,7 @@ public class EventsCalendarController extends BasicController {
             pageSize = PAGE_SIZE;
         }
 
-        PagedResult result = eventsCalendarService.queryEventsCalender(page, pageSize, userId, targetDate, faculty, degree);
+        PagedResult result = eventsCalendarService.queryEventsCalendar(userId, page, pageSize, targetDate, faculty, degree);
 
         return JSONResult.ok(result);
     }
@@ -70,31 +69,30 @@ public class EventsCalendarController extends BasicController {
             // uniapp使用formData时，paramType要改成form
             @ApiImplicitParam(name="userId", value="操作者id", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="title", value="事件名称", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="description", value="事件描述", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="venue", value="事件地点", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="date", value="事件日期", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="time", value="事件时间", required=true, dataType="String", paramType="form")
+            @ApiImplicitParam(name="date", value="事件日期", required=true, dataType="Integer", paramType="form"),
+            @ApiImplicitParam(name="time", value="事件时间", required=true, dataType="String", paramType="form"),
+            @ApiImplicitParam(name = "faculty", value = "学院", required = true, dataType = "Integer", paramType = "form"),
+            @ApiImplicitParam(name = "degree", value = "学历", required = true, dataType = "Integer", paramType = "form")
     })
     @PostMapping(value="/uploadEvent")
-    public JSONResult uploadEvent(String userId, String title, String description, String venue, String date, String time) throws Exception {
+    public JSONResult uploadEvent(String userId, String title, String venue, Integer date, String time, Integer faculty, Integer degree) throws Exception {
 
+        //TODO: 是否增加ALL选项，简化录入
         if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
             return JSONResult.errorMsg("Id can't be null");
         }
         boolean isLegal = false;
         // 保存事件信息到数据库
+        //TODO: 这里不要set，使用compose来进行set（degree, faculty, date, vo改为字符串）
         EventsCalendar eventsCalendar = new EventsCalendar();
         eventsCalendar.setEventTitle(title);
-        eventsCalendar.setEventDescription(description);
         eventsCalendar.setEventVenue(venue);
-        eventsCalendar.setEventDate(date);
         eventsCalendar.setEventTime(time);
         eventsCalendar.setCreateDate(new Date());
         // 检测内容是否非法
         if (weChatService.msgSecCheck(title)
-                && weChatService.msgSecCheck(description)
                 && weChatService.msgSecCheck(venue)
-                && weChatService.msgSecCheck(date)
                 && weChatService.msgSecCheck(time)) {
             // 合法
             isLegal = true;

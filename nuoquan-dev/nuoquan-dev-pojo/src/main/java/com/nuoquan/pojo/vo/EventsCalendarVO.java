@@ -11,10 +11,10 @@ public class EventsCalendarVO {
     private String id;
     private String eventTitle;
     private String eventDescription;
-    private String faculty;
-    private String degree;
+    private Integer faculty;
+    private Integer degree;
     private String eventVenue;
-    private String eventDate;
+    private Integer eventDate;
     private String eventTime;
     private Integer status;
     private Date createDate;
@@ -43,19 +43,19 @@ public class EventsCalendarVO {
         this.eventDescription = eventDescription;
     }
 
-    public String getFaculty() {
+    public Integer getFaculty() {
         return faculty;
     }
 
-    public void setFaculty(String faculty) {
+    public void setFaculty(Integer faculty) {
         this.faculty = faculty;
     }
 
-    public String getDegree() {
+    public Integer getDegree() {
         return degree;
     }
 
-    public void setDegree(String degree) {
+    public void setDegree(Integer degree) {
         this.degree = degree;
     }
 
@@ -68,11 +68,11 @@ public class EventsCalendarVO {
         this.eventVenue = eventVenue;
     }
 
-    public String getEventDate() {
+    public Integer getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(String eventDate) {
+    public void setEventDate(Integer eventDate) {
         this.eventDate = eventDate;
     }
 
