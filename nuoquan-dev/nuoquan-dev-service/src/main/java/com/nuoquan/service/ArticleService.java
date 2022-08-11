@@ -110,7 +110,7 @@ public interface ArticleService {
 	 * @param targetId
 	 * @return
 	 */
-	public PagedResult gerOtherslegalHisArticle(Integer page, Integer pageSize, String userId, String targetId);
+	public PagedResult getOthersLegalHisArticle(Integer page, Integer pageSize, String userId, String targetId);
 	
 	/**
 	 * 浏览量+1
