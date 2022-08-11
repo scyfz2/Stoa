@@ -23,7 +23,6 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -81,7 +80,6 @@ public class AdminController extends BasicController{
 	
 	/**
 	 * 请求到登陆界面
-	 * @param request
 	 * @return
 	 */
 	@ApiOperation(value="请求到登陆界面",notes="请求到登陆界面")
@@ -106,10 +104,8 @@ public class AdminController extends BasicController{
 	/**
 	 * 用户登陆验证
 	 * @param user
-	 * @param rcode
 	 * @param redirectAttributes
 	 * @param rememberMe
-	 * @param model
 	 * @param request
 	 * @return
 	 */
@@ -212,7 +208,7 @@ public class AdminController extends BasicController{
 	@PostMapping("/getArticleById")
 	public JSONResult getArticleByIdAdmin(String articleId, String userId) throws Exception {
 
-		return JSONResult.ok(articleService.getArticleById(articleId, userId));
+		return JSONResult.ok(adminService.getArticleByIdAdmin(articleId, userId));
 	}
 
 	@ApiOperation(value = "查询全部被举报的已发布的文章或评论", notes = "查询全部被举报的已发布的文章或评论的接口")
