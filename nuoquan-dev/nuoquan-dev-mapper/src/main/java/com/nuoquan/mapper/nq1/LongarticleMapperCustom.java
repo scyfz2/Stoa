@@ -15,16 +15,4 @@ public interface LongarticleMapperCustom extends MyMapper<Longarticle>{
 	 */
 	@Deprecated
 	public LongarticleVO getArticleById(String articleId);
-
-	/**
-	 * 根据创建时间降序查找所有被举报的长文章
-	 * @return
-	 */
-	public List<Longarticle> queryReportedLongArticleByCreatTime();
-
-	/**
-	 * 根据被举报数量降序查找所有被举报的长文章
-	 * @return
-	 */
-	public List<Longarticle> queryReportedLongArticleByReportedNum();
 }

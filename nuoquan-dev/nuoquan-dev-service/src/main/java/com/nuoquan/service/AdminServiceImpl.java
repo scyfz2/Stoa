@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
 	private UserCommentMapper userCommentMapper;
 
 	@Autowired
-	private LongarticleMapperCustom longarticleMapper;
+	private LongarticleMapper longarticleMapper;
 
 	@Autowired
 	private UserService userService;
@@ -57,6 +57,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private LongarticleServiceImpl longarticleService;
 
+	// 查询全部被举报的发布的东西这里很冗长很不优雅，实在是尽力了，后辈们加油！
 	private PagedResult getReportedComment(Integer page, Integer pageSize, String userId, Integer queryType) {
 		PageHelper.startPage(page, pageSize);
 
@@ -94,7 +95,7 @@ public class AdminServiceImpl implements AdminService {
 			list = articleMapper.queryReportedArticleByCreateTime();
 		}
 		else if (queryType == 1){
-			list = articleMapper.queryReportedArticleByCreateTime();
+			list = articleMapper.queryReportedArticleByReportedNum();
 		}
 
 		//TODO:是否需要抛出异常如果list为null
