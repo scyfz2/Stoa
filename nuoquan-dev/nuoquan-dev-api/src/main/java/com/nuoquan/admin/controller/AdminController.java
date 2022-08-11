@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.nuoquan.enums.PostType;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -209,7 +210,6 @@ public class AdminController extends BasicController{
 
 	@ApiOperation(value = "按文章 id 查询文章(不记入浏览量)", notes = "按文章 id 查询文章(不记入浏览量)的接口")
 	@ApiImplicitParams({
-			// userId 查询用户和文章的点赞关系
 			@ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/getArticleById")
@@ -217,7 +217,29 @@ public class AdminController extends BasicController{
 
 		return JSONResult.ok(articleService.getArticleById(articleId, userId));
 	}
-	
+
+	@ApiOperation(value = "查询全部被举报的已发布的文章或评论", notes = "查询全部被举报的已发布的文章或评论的接口")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "targetType", value = "查询类型", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "queryType", value = "排列方式", required = true, dataType = "Integer", paramType = "form")
+	})
+	@PostMapping("/getReportedPublished")
+	public JSONResult getReportedPublished(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType) throws Exception {
+		if(page == null) {
+			page = 1;
+		}
+
+		if(pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+
+		PagedResult result = adminService.getReportedPublished(page, pageSize, userId, targetType, queryType);
+
+		return JSONResult.ok(result);
+	}
 //	/****页面测试****/
 //	@GetMapping("Out404")
 //	public String Out404(HttpServletRequest request, HttpServletResponse response){

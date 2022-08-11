@@ -3,6 +3,8 @@ package com.nuoquan.mapper.nq1;
 import com.nuoquan.pojo.Article;
 import com.nuoquan.utils.MyMapper;
 
+import java.util.List;
+
 public interface ArticleMapper extends MyMapper<Article> {
     /**
      * @Description: 对文章喜欢的数量进行累加
@@ -46,6 +48,22 @@ public interface ArticleMapper extends MyMapper<Article> {
      */
     public void addViewCount(String articleId);
 
-    // 查询文章状态
+    /**
+     * 查询文章状态
+     * @param articleId
+     * @return
+     */
     public int selectArticleStatus(String articleId);
+
+    /**
+     * 根据创建时间降序查找所有被举报的文章
+     * @return
+     */
+    public List<Article> queryReportedArticleByCreateTime();
+
+    /**
+     * 根据被举报数量降序查找所有被举报的文章
+     * @return
+     */
+    public List<Article> queryReportedArticleByReportedNum();
 }

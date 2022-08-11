@@ -36,4 +36,12 @@
   <update id="addReportedCount" parameterType="String">
     update nuoquan.user_comment set reported_num=reported_num+1 where id=#{commentId}
   </update>
+
+  <select id="queryReportedCommentByCreateTime" resultMap="BaseResultMap">
+    select * from nuoquan.user_comment uc where reported_num!=0 order by uc.create_date desc
+  </select>
+
+  <select id="queryReportedCommentByReportedNum" resultMap="BaseResultMap">
+    select * from nuoquan.user_comment uc where reported_num!=0 order by uc.reported_num desc
+  </select>
 </mapper>

@@ -75,7 +75,7 @@ public class SocialServiceImpl implements SocialService {
         return userService.getUserById(authorId);
     }
 
-    private UserCommentVO composeComment(String userId, UserComment userComment){
+    public UserCommentVO composeComment(String userId, UserComment userComment){
         UserCommentVO userCommentVO = new UserCommentVO();
         BeanUtils.copyProperties(userComment,userCommentVO);
         // 查询并设置关于用户的点赞关系

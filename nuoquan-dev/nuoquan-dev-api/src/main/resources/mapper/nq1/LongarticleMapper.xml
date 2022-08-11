@@ -16,6 +16,7 @@
     <result column="dislike_num" property="dislikeNum" jdbcType="INTEGER" />
     <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
+    <result column="reported_num" property="reportedNum" jdbcType="INTEGER" />
     <result column="popularity" property="popularity" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -55,4 +56,12 @@
   <update id="addViewCount" parameterType="String">
     update nuoquan.longarticle set view_num=view_num+1 where id=#{articleId}
   </update>
+
+  <select id="queryReportedLongArticleByCreatTime" resultMap="BaseResultMap">
+    select * from nuoquan.longarticle la where reported_num!=0 order by la.create_date desc
+  </select>
+
+  <select id="queryReportedLongArticleByReportedNum" resultMap="BaseResultMap">
+    select * from nuoquan.longarticle la where reported_num!=0 order by la.reported_num desc
+  </select>
 </mapper>

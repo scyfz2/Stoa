@@ -7,9 +7,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.PostType;
 import com.nuoquan.mapper.nq1.*;
-import com.nuoquan.pojo.Article;
+import com.nuoquan.pojo.*;
 import com.nuoquan.pojo.vo.ArticleVO;
+import com.nuoquan.pojo.vo.LongarticleVO;
+import com.nuoquan.pojo.vo.UserCommentVO;
 import com.nuoquan.pojo.vo.UserVO;
+import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -18,36 +21,140 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nuoquan.pojo.AdminUser;
-import com.nuoquan.pojo.AdminUserNotice;
-import com.nuoquan.pojo.AdminNotice;
-
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
 @Service
 public class AdminServiceImpl implements AdminService {
 
-	@Autowired 
+	@Autowired
 	private AdminUserMapper adminUserMapper;
-	
+
 	@Autowired
 	private AdminNoticeMapper adminNoticeMapper;
-	
+
 	@Autowired
 	private AdminUserNoticeMapper adminUserNoticeMapper;
+
+	@Autowired
+	private ArticleMapper articleMapper;
+
+	@Autowired
+	private UserCommentMapper userCommentMapper;
+
+	@Autowired
+	private LongarticleMapperCustom longarticleMapper;
 
 	@Autowired
 	private UserService userService;
 
 	@Autowired
-	private SocialService socialService;
+	private SocialServiceImpl socialService;
 
 	@Autowired
 	private ArticleServiceImpl articleService;
 
 	@Autowired
-	private ArticleMapper articleMapper;
+	private LongarticleServiceImpl longarticleService;
+
+	private PagedResult getReportedComment(Integer page, Integer pageSize, String userId, Integer queryType) {
+		PageHelper.startPage(page, pageSize);
+
+		List<UserComment> list = null;
+		if (queryType == 0){
+			list = userCommentMapper.queryReportedCommentByCreateTime();
+		}
+		else if (queryType == 1){
+			list = userCommentMapper.queryReportedCommentByReportedNum();
+		}
+
+		//TODO:是否需要抛出异常如果list为null
+		PageInfo<UserComment> pageInfo = new PageInfo<>(list);
+		PageInfo<UserCommentVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
+		List<UserCommentVO> listVO = new ArrayList<>();
+		for (UserComment c : list) {
+			listVO.add(socialService.composeComment(c.getFromUserId(), c));
+		}
+		pageInfoVO.setList(listVO);
+
+		//为最终返回对象 pagedResult 添加属性
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(pageInfoVO.getPageNum());
+		pagedResult.setTotal(pageInfoVO.getPages());
+		pagedResult.setRows(pageInfoVO.getList());
+		pagedResult.setRecords(pageInfoVO.getTotal());
+		return pagedResult;
+	}
+
+	private PagedResult getReportedArticle(Integer page, Integer pageSize, String userId, Integer queryType) {
+		PageHelper.startPage(page, pageSize);
+
+		List<Article> list = null;
+		if (queryType == 0){
+			list = articleMapper.queryReportedArticleByCreateTime();
+		}
+		else if (queryType == 1){
+			list = articleMapper.queryReportedArticleByCreateTime();
+		}
+
+		//TODO:是否需要抛出异常如果list为null
+		PageInfo<Article> pageInfo = new PageInfo<>(list);
+		PageInfo<ArticleVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
+		List<ArticleVO> listVO = new ArrayList<>();
+		for (Article c : list) {
+			listVO.add(articleService.composeArticleVO(c, c.getUserId()));
+		}
+		pageInfoVO.setList(listVO);
+
+		//为最终返回对象 pagedResult 添加属性
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(pageInfoVO.getPageNum());
+		pagedResult.setTotal(pageInfoVO.getPages());
+		pagedResult.setRows(pageInfoVO.getList());
+		pagedResult.setRecords(pageInfoVO.getTotal());
+		return pagedResult;
+	}
+
+	private PagedResult getReportedLongArticle(Integer page, Integer pageSize, String userId, Integer queryType) {
+		PageHelper.startPage(page, pageSize);
+
+		List<Longarticle> list = null;
+		if (queryType == 0){
+			list = longarticleMapper.queryReportedLongArticleByCreatTime();
+		}
+		else if (queryType == 1){
+			list = longarticleMapper.queryReportedLongArticleByReportedNum();
+		}
+
+		//TODO:是否需要抛出异常如果list为null
+		PageInfo<Longarticle> pageInfo = new PageInfo<>(list);
+		PageInfo<LongarticleVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
+		List<LongarticleVO> listVO = new ArrayList<>();
+		for (Longarticle c : list) {
+			listVO.add(longarticleService.composeArticleVO(c, c.getUserId()));
+		}
+		pageInfoVO.setList(listVO);
+
+		//为最终返回对象 pagedResult 添加属性
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(pageInfoVO.getPageNum());
+		pagedResult.setTotal(pageInfoVO.getPages());
+		pagedResult.setRows(pageInfoVO.getList());
+		pagedResult.setRecords(pageInfoVO.getTotal());
+		return pagedResult;
+	}
+
+	private PagedResult judgeTargetType(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType) {
+		switch (targetType) {
+			case COMMENT:
+				return getReportedComment(page, pageSize, userId, queryType);
+			case ARTICLE:
+				return getReportedArticle(page, pageSize, userId, queryType);
+			case LONGARTICLE:
+				return getReportedLongArticle(page, pageSize, userId, queryType);
+		}
+		return null;
+	}
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
@@ -55,7 +162,7 @@ public class AdminServiceImpl implements AdminService {
 		Example example = new Example(AdminUser.class);
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("username", username);
-		
+
 		List<AdminUser> result = adminUserMapper.selectByExample(example);
 		if (result.size() >= 0) {
 			return result.get(0); // Return the first one, although it should have only one.
@@ -65,25 +172,25 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public List<AdminNotice> getUserNotice(AdminUser adminUser, int state){
-		List<AdminNotice> notices=new ArrayList<>();
+	public List<AdminNotice> getUserNotice(AdminUser adminUser, int state) {
+		List<AdminNotice> notices = new ArrayList<>();
 		//查询公告用户外键
-		Example userNoticeExample=new Example(AdminUserNotice.class);
-		Criteria criteria= userNoticeExample.createCriteria();
+		Example userNoticeExample = new Example(AdminUserNotice.class);
+		Criteria criteria = userNoticeExample.createCriteria();
 		criteria.andEqualTo("userId", adminUser.getId());
-		if(-1!=state) {
+		if (-1 != state) {
 			criteria.andEqualTo("state", state);
 		}
-		List<AdminUserNotice> userNotices= adminUserNoticeMapper.selectByExample(userNoticeExample);
-		if(userNotices!=null&&userNotices.size()>0) {
+		List<AdminUserNotice> userNotices = adminUserNoticeMapper.selectByExample(userNoticeExample);
+		if (userNotices != null && userNotices.size() > 0) {
 			//查询对应的公告列表
-			List<String> ids=new ArrayList<String>();
+			List<String> ids = new ArrayList<String>();
 			for (AdminUserNotice userNotice : userNotices) {
 				ids.add(userNotice.getNoticeId());
 			}
 			Example noticeExample = new Example(AdminNotice.class);
-			noticeExample.createCriteria().andEqualTo("id",ids);
-			notices=adminNoticeMapper.selectByExample(noticeExample);
+			noticeExample.createCriteria().andEqualTo("id", ids);
+			notices = adminNoticeMapper.selectByExample(noticeExample);
 		}
 		return notices;
 	}
@@ -118,8 +225,9 @@ public class AdminServiceImpl implements AdminService {
 
 	/**
 	 * 把 Article 转换为 ArticleVO, 组装文章VO对象
+	 *
 	 * @param article
-	 * @param userId 操作者（我）
+	 * @param userId  操作者（我）
 	 * @return
 	 */
 	@Override
@@ -136,5 +244,18 @@ public class AdminServiceImpl implements AdminService {
 		return articleVO;
 	}
 
-	
+	@Override
+	public PagedResult getReportedPublished(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType) {
+		// queryType: 0为按创建时间排序，1为按被举报数量排序
+		if (queryType == 0) {
+			return judgeTargetType(page, pageSize, userId, targetType, queryType);
+		} else if (queryType == 1) {
+			return judgeTargetType(page, pageSize, userId, targetType, queryType);
+		}
+		return null;
+	}
+
+
+
+
 }

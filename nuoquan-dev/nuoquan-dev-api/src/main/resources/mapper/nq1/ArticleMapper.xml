@@ -57,5 +57,13 @@
   <update id="addViewCount" parameterType="String">
   	update nuoquan.article set view_num=view_num+1 where id=#{articleId}
   </update>
+
+  <select id="queryReportedArticleByCreateTime" resultMap="BaseResultMap">
+    select * from nuoquan.article a where reported_num!=0 order by a.create_date desc
+  </select>
+
+  <select id="queryReportedArticleByReportedNum" resultMap="BaseResultMap">
+    select * from nuoquan.article a where reported_num!=0 order by a.reported_num desc
+  </select>
 </mapper>
 

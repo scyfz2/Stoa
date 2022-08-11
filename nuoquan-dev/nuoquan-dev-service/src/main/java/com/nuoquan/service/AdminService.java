@@ -2,10 +2,12 @@ package com.nuoquan.service;
 
 import java.util.List;
 
+import com.nuoquan.enums.PostType;
 import com.nuoquan.pojo.AdminUser;
 import com.nuoquan.pojo.AdminNotice;
 import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.vo.ArticleVO;
+import com.nuoquan.utils.PagedResult;
 
 /**
  * 后台管理业务接口类
@@ -32,5 +34,7 @@ public interface AdminService {
 	ArticleVO composeArticleVOAdmin(Article article, String userId);
 
 	ArticleVO getArticleByIdAdmin(String articleId, String userId);
+
+	PagedResult getReportedPublished(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType);
 
 }
