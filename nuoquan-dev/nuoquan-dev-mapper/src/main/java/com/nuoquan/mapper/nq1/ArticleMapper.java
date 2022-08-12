@@ -35,6 +35,12 @@ public interface ArticleMapper extends MyMapper<Article> {
     public void addCommentCount(String articleId);
 
     /**
+     * @Description: 对文章评论的数量进行累减
+     * @param articleId
+     */
+    public void reduceCommentCount(String articleId);
+
+    /**
      * 浏览量+1
      * @param articleId
      */

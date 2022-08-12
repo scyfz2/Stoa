@@ -34,8 +34,8 @@ public class ArticleController extends BasicController {
 			// userId 查询用户和文章的点赞关系
 			// dataType 为 String, 应该改为 Integer
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "queryType", value = "排列方式", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "orderType", value = "排列方式", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "selectedTag", value = "选择的标签", required = false, dataType = "String", paramType = "form")
@@ -121,7 +121,7 @@ public class ArticleController extends BasicController {
 			finalResult = result;
 		} else if (!userId.equals(targetId)) {
 			// 查询他人文章状态为1的文章
-			PagedResult result = articleService.gerOtherslegalHisArticle(page, pageSize, userId, targetId);
+			PagedResult result = articleService.getOthersLegalHisArticle(page, pageSize, userId, targetId);
 			finalResult = result;
 		}
 

@@ -45,6 +45,10 @@
   	update nuoquan.article set comment_num=comment_num+1 where id=#{articleId}
   </update>
 
+  <update id="reduceCommentCount" parameterType="String">
+    update nuoquan.article set comment_num=comment_num-1 where id=#{articleId}
+  </update>
+
   <update id="addViewCount" parameterType="String">
   	update nuoquan.article set view_num=view_num+1 where id=#{articleId}
   </update>

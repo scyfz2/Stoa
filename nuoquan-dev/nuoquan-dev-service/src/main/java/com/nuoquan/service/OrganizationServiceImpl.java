@@ -54,10 +54,10 @@ public class OrganizationServiceImpl implements OrganizationService{
         organizationVO.setLogoPath(resourceService.composeUrl(organizationVO.getLogoPath()));
 
         // 敏感词检测
-        organizationVO.setIntro(sensitiveFilterUtil.checkSensitiveWord(organizationVO.getIntro()));
-        organizationVO.setName(sensitiveFilterUtil.checkSensitiveWord(organizationVO.getName()));
-        organizationVO.setActivityIntro(sensitiveFilterUtil.checkSensitiveWord(organizationVO.getActivityIntro()));
-        organizationVO.setDivision(sensitiveFilterUtil.checkSensitiveWord(organizationVO.getDivision()));
+        organizationVO.setIntro(sensitiveFilterUtil.filter(organizationVO.getIntro()));
+        organizationVO.setName(sensitiveFilterUtil.filter(organizationVO.getName()));
+        organizationVO.setActivityIntro(sensitiveFilterUtil.filter(organizationVO.getActivityIntro()));
+        organizationVO.setDivision(sensitiveFilterUtil.filter(organizationVO.getDivision()));
         return organizationVO;
     }
 

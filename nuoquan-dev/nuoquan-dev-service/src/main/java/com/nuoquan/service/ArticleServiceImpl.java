@@ -100,8 +100,8 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 
 		// 检查是否有屏蔽词并替换
-		articleVO.setArticleContent(sensitiveFilterUtil.checkSensitiveWord(articleVO.getArticleContent()));
-		articleVO.setArticleTitle(sensitiveFilterUtil.checkSensitiveWord(articleVO.getArticleTitle()));
+		articleVO.setArticleContent(sensitiveFilterUtil.filter(articleVO.getArticleContent()));
+		articleVO.setArticleTitle(sensitiveFilterUtil.filter(articleVO.getArticleTitle()));
 		socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
 
 		return articleVO;
@@ -498,7 +498,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
-	public PagedResult gerOtherslegalHisArticle(Integer page, Integer pageSize, String userId, String targetId) {
+	public PagedResult getOthersLegalHisArticle(Integer page, Integer pageSize, String userId, String targetId) {
 
 		PageHelper.startPage(page, pageSize);
 		List<ArticleVO> list = articleMapperCustom.queryOthersLegalHisArticle(targetId);
