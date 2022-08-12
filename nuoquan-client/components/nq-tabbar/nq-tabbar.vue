@@ -5,23 +5,26 @@
 				<!-- 推出左侧空白 -->
 				<view style="width: 20px;"></view>
 				<view :class="['super_center', 'li', current == index ? 'cur' : '']" v-for="(item, index) in tabBarList" :key="index" @tap="onClick(item)">
-					<msgcount style="position: absolute;z-index: 40;right: 10%;top: 9px;" :count="item.count"></msgcount>
-					<view
-						class="img super_center"
-						:style="{ height: current == index ? '44px' : '20px', width: current == index ? '44px' : '20px', background: current == index ? 'rgba(253,169,86,1)' : '' }"
-						v-if="item.type == 0"
-					>
-						<image style="width: 20px;height: 20px;" :src="current == index ? item.selectIcon : item.icon" mode="aspectFit"></image>
+					<view >
+						<msgcount style="position: absolute;z-index: 40;right: 10%;top: 9px;" :count="item.count"></msgcount>
+						<image v-if="index==2" :src="item.icon" mode="aspectFit" style="width: 35px;height: 35px;margin-top: 10px;"></image>
+						<view 
+							class="img super_center"
+							:style="{ height: current == index ? '44px' : '20px', width: current == index ? '44px' : '20px', background: current == index ? 'rgba(253,169,86,1)' : '' }"
+							v-if="item.type == 0 && index!=2"
+						>
+							<image style="width: 20px;height: 20px;" :src="current == index ? item.selectIcon : item.icon" mode="aspectFit"></image>
+						</view>
+						<!-- <view class="ic super_center" v-if="item.type == 1">
+							<image
+								:class="[rotateStatus ? 'midIcon' : 'midIconBack']"
+								:style="{ width: '24px', height: '24px', margin: '16px 16px', transition: 'all 500ms linear 200ms', transform: 'rotate(' + degree + 'deg)' }"
+								src="../../static/icon/plus_tab.png"
+								mode="aspectFit"
+							></image>
+						</view> -->
+						<view class="p" v-if="current != index">{{ lang.tabbarName[index] }}</view>
 					</view>
-					<!-- <view class="ic super_center" v-if="item.type == 1">
-						<image
-							:class="[rotateStatus ? 'midIcon' : 'midIconBack']"
-							:style="{ width: '24px', height: '24px', margin: '16px 16px', transition: 'all 500ms linear 200ms', transform: 'rotate(' + degree + 'deg)' }"
-							src="../../static/icon/plus_tab.png"
-							mode="aspectFit"
-						></image>
-					</view> -->
-					<view class="p" v-if="current != index">{{ lang.tabbarName[index] }}</view>
 				</view>
 				<!-- 推出右侧空白 -->
 				<view style="width: 20px;"></view>
@@ -57,7 +60,7 @@ export default {
 
 	components: {
 		tablist,
-		msgcount
+		msgcount,
 	},
 
 	data() {
@@ -74,7 +77,7 @@ export default {
 	watch: {
 		myMsgCount(newVal, oldVal) {
 			// console.log(newVal)
-			this.tabBarList[2].count = newVal;
+			this.tabBarList[3].count = newVal;
 		}
 	},
 	
@@ -93,6 +96,13 @@ export default {
 					selectIcon: '/static/icon/chartbar_ffffff.png',
 					name: '新生',
 					url: '/pages/tabPages/iweek'
+				},
+				{
+					type: 0,
+					icon: '/static/icon/plus_tab.png',
+					selectIcon: '/static/icon/plus_tab.png',
+					name: '发布',
+					url:'/pages/submit/submit'
 				},
 				{
 					type: 0,
@@ -120,16 +130,31 @@ export default {
 			// 	return;
 			// }
 			// debugger;
-			console.log(e.name)
-			if(this.rotateStatus){
-				//切换窗口的时候把list关上，
-				this.rotate();
+			if(e.name=="发布"){
+				console.log(this.current)
+				uni.navigateTo({
+					url:e.url
+				})
+			}else if(e.name=="新生"){
+				uni.showToast({
+					icon:'loading',
+					title: '正在开发中',
+					duration: 2000
+				})
 			}
-			this.$emit("clickTab", e)
-			
-			uni.switchTab({
-				url: e.url
-			});
+			else{
+				console.log(e.name)
+				console.log(this.current)
+				if(this.rotateStatus){
+					//切换窗口的时候把list关上，
+					this.rotate();
+				}
+				this.$emit("clickTab", e)
+				
+				uni.switchTab({
+					url: e.url
+				});
+			}
 		},
 
 		rotate() {

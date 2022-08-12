@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'zh-CN',
 	
-	tabbarName : ["轮滑","新生","动态","我的"],
+	tabbarName : ["轮滑","新生","","动态","我的"],
 	tabList : ["发文章","发投票"],
 	version : "v1.1.1",
 	back : "返回",
