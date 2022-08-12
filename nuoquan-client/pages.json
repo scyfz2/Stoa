@@ -183,10 +183,10 @@
 			"network": "all",
 			"packages": ["__APP__"]
 		},
-		"pagesSubA/longArticleDetail/longArticleDetail": {
-			"network": "all",
-			"packages": ["__APP__"]
-		},
+		// "pagesSubA/longArticleDetail/longArticleDetail": {
+		// 	"network": "all",
+		// 	"packages": ["__APP__"]
+		// },
 		"pagesSubA/hot/hot": {
 			"network": "all",
 			"packages": ["__APP__"]
@@ -195,10 +195,10 @@
 			"network": "all",
 			"packages": ["__APP__"]
 		},
-		"pagesSubA/longArticleComment/longArticleComment": {
-			"network": "all",
-			"packages": ["__APP__"]
-		},
+		// "pagesSubA/longArticleComment/longArticleComment": {
+		// 	"network": "all",
+		// 	"packages": ["__APP__"]
+		// },
 		"pagesSubEvent/eventVote/eventVote": {
 			"network": "all",
 			"packages": ["pagesSubEvent"]
