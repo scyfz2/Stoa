@@ -21,7 +21,7 @@
 		mapMutations
 	} from 'vuex';
 	import plusSquare from '@/components/plusSquare.vue';
-	import nq_parse from '@/pagesSubA/longArticleDetail/parse.js'
+	// import nq_parse from '@/pagesSubA/longArticleDetail/parse.js'
 
 	// #ifdef APP-PLUS
 	import permision from '@/common/permission.js';
@@ -67,9 +67,9 @@
 			//var stra = a.exec(str);
 			
 			var tmp = "**234423**  soidufah***sdkfh***  skjhfa *89* lsah ";
-			this.tr = nq_parse.parseText(tmp);
+			// this.tr = nq_parse.parseText(tmp);
 
-			var result = nq_parse.parseMedia(str);
+			// var result = nq_parse.parseMedia(str);
 			console.log('最终结果看看');
 			console.log(result);
 			//console.log(stra);

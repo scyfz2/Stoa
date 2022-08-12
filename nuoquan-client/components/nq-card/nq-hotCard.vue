@@ -90,7 +90,7 @@
 <script>
 	import nqLike from '../nq-button/nq-likeButton.vue';
 	import nqCmt from '../nq-button/nq-cmtButton.vue';
-	import nq_parse from '@/pagesSubA/longArticleDetail/parse.js'
+	// import nq_parse from '@/pagesSubA/longArticleDetail/parse.js'
 	import {
 		mapState,
 		mapMutations
@@ -142,7 +142,7 @@
 		},
 		mounted() {
 			// console.log(this.thisLongArticle);
-			this.parsedContent = nq_parse.parsePureText(this.thisLongArticle.content);
+			// this.parsedContent = nq_parse.parsePureText(this.thisLongArticle.content);
 			//console.log(this.thisLongArticle.content);
 			//console.log(this.parsedContent.firstImage.url);
 			//debugger;
@@ -152,7 +152,7 @@
 			// 解析
 			parseForCoverImg(content) {
 				var contentAfter = '';
-				contentAfter = nq_parse.parseMedia(content.content).data;
+				// contentAfter = nq_parse.parseMedia(content.content).data;
 				// console.log("contentAfter=" + contentAfter);
 			},
 

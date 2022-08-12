@@ -59,7 +59,7 @@
 		mapState,
 		mapMutations
 	} from 'vuex';
-	import nq_parse from '../../pagesSubA/longArticleDetail/parse.js'
+	// import nq_parse from '../../pagesSubA/longArticleDetail/parse.js'
 
 	export default {
 		components: {
@@ -122,7 +122,7 @@
 		},
 		methods: {
 			localParse(unParsed) { //本地解析，引入的js在HTML似乎没法直接用,没有时间琢磨的 --yaoyao
-				return nq_parse.parsePureText(unParsed).withoutMedia;
+				// return nq_parse.parsePureText(unParsed).withoutMedia;
 			},
 			controlShowSearch(a) {
 				this.showSearch = a;

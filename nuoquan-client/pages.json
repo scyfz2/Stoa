@@ -81,12 +81,7 @@
 		}, {
 			"path": "pages/test/test",
 			"style": {}
-		}, {
-			"path": "pages/officialAccountList/officialAccountList",
-			"style": {}
-		}
-
-	    ,{
+		},{
             "path" : "pages/authLogin/authLogin",
             "style" :                                                                                    
             {
@@ -166,18 +161,12 @@
 	            "path": "detail/detail",
 	            "style": {}
 	        },{
-	            "path": "longArticleDetail/longArticleDetail",
-	            "style": {}
-	        },{
 	            "path": "hot/hot",
 	            "style": {}
 	        },{
 	            "path": "personpublic/personpublic",
 	            "style": {}
-	        },{
-				"path" : "longArticleComment/longArticleComment",
-				"style" : {}
-			}, {
+	        }, {
 			"path": "topList/topList",
 			"style": {}
 			}]
@@ -355,14 +344,6 @@
 				"name": "我的收藏",
 				"path": "pages/myFavorite/myFavorite",
 				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}, {
-				"path": "pages/submit/submitLongArticle",
-				"name": "新建长文章",
-				"query": ""
-			}, {
-				"path": "pagesSubA/longArticleDetail/longArticleDetail",
-				"name": "长文章详情",
-				"query": "data=2008090NZ43XRDS8"
 			}, {
 				"path": "pages/adWebPage/adWebPage",
 				"name": "广告网页webview",
