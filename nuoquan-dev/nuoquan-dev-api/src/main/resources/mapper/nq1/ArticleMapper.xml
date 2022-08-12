@@ -58,10 +58,6 @@
   	update nuoquan.article set view_num=view_num+1 where id=#{articleId}
   </update>
 
-  <update id="addReportedCount" parameterType="String">
-    update nuoquan.article set reported_num=reported_num+1 where id=#{articleId}
-  </update>
-
   <select id="queryReportedArticleByCreateTime" resultMap="BaseResultMap">
     select * from nuoquan.article a where reported_num!=0 order by a.create_date desc
   </select>

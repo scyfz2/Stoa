@@ -18,5 +18,5 @@ public interface ReportService {
      * @param targetId
      * @param targetType
      */
-    void reportPublished(String userId, String targetId, PostType targetType);
+    void reportPublished(String userId, PostType targetType, String targetId);
 }

@@ -22,12 +22,12 @@ public class ReportController extends BasicController {
     @ApiOperation(value = "举报发布的文章/长文章/评论", notes = "举报相关接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "操作者ID", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "targetId", value = "被举报对象的Id", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "targetType", value = "被举报对象的类型", required = true, dataType = "String", paramType = "form")
+            @ApiImplicitParam(name = "targetType", value = "被举报对象的类型", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "targetId", value = "被举报对象的Id", required = true, dataType = "String", paramType = "form")
     })
     @PostMapping("/reportPublished")
-    public JSONResult reportPublished(String userId, String targetId, PostType targetType){
-        reportService.reportPublished(userId, targetId, targetType);
+    public JSONResult reportPublished(String userId, PostType targetType, String targetId){
+        reportService.reportPublished(userId, targetType, targetId);
         return JSONResult.ok();
     }
 }

@@ -6,15 +6,20 @@ import com.nuoquan.mapper.nq1.LongarticleMapper;
 import com.nuoquan.mapper.nq1.UserCommentMapper;
 import com.nuoquan.mapper.nq1.UserReportMapper;
 import com.nuoquan.pojo.UserCollect;
+import com.nuoquan.pojo.UserLike;
 import com.nuoquan.pojo.UserReport;
+import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class ReportServiceImpl implements ReportService{
+    @Autowired
+    private Sid sid;
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -41,11 +46,22 @@ public class ReportServiceImpl implements ReportService{
     }
 
     @Override
-    public void reportPublished(String userId, String targetId, PostType targetType) {
+    public void reportPublished(String userId, PostType targetType, String targetId) {
         // 判断此用户是否以及举报过该对象
         boolean isReport = isUserReport(userId, targetType, targetId);
+        System.out.println("--------" + isReport);
 
         if (!isReport){
+            // 保存用户和文章的点赞关联关系表
+            String id = sid.nextShort();
+            UserReport userReport = new UserReport();
+            userReport.setId(id);
+            userReport.setUserId(userId);
+            userReport.setTargetType(targetType.getValue());
+            userReport.setTargetId(targetId);
+            userReport.setCreateDate(new Date());
+            userReportMapper.insertSelective(userReport);
+
             switch (targetType) {
                 case COMMENT:
                     userCommentMapper.addReportedCount(targetId);
