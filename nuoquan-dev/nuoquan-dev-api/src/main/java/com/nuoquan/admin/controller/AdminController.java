@@ -5,7 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.nuoquan.enums.PostType;
+import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import org.apache.shiro.SecurityUtils;
@@ -19,12 +23,8 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.code.kaptcha.Constants;
@@ -44,7 +44,7 @@ import com.nuoquan.utils.StringUtils;
  * 
  */
 @Api(value = "入口请求")
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController extends BasicController{
 	private static Logger logger=LoggerFactory.getLogger(AdminController.class);
@@ -80,7 +80,6 @@ public class AdminController extends BasicController{
 	
 	/**
 	 * 请求到登陆界面
-	 * @param request
 	 * @return
 	 */
 	@ApiOperation(value="请求到登陆界面",notes="请求到登陆界面")
@@ -105,10 +104,8 @@ public class AdminController extends BasicController{
 	/**
 	 * 用户登陆验证
 	 * @param user
-	 * @param rcode
 	 * @param redirectAttributes
 	 * @param rememberMe
-	 * @param model
 	 * @param request
 	 * @return
 	 */
@@ -190,7 +187,53 @@ public class AdminController extends BasicController{
         subject.logout();
         return "redirect:/"+prefix+"/login";
 	}
-	
+
+	@ApiOperation(value = "")
+	@PostMapping(value = "/searchArticleYANG")
+	public JSONResult searchArticleYang(String searchText, Integer isSaveRecord, Integer page, String userId)
+			throws Exception {
+
+		if (page == null) {
+			page = 1;
+		}
+
+		PagedResult result = articleService.searchArticleYang(isSaveRecord, page, PAGE_SIZE, searchText, userId);
+		return JSONResult.ok(result);
+	}
+
+	@ApiOperation(value = "按文章 id 查询文章(不记入浏览量)", notes = "按文章 id 查询文章(不记入浏览量)的接口")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form") })
+	@PostMapping("/getArticleById")
+	public JSONResult getArticleByIdAdmin(String articleId, String userId) throws Exception {
+
+		return JSONResult.ok(adminService.getArticleByIdAdmin(articleId, userId));
+	}
+
+	@ApiOperation(value = "查询全部被举报的已发布的文章或评论", notes = "查询全部被举报的已发布的文章或评论的接口")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "int", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "int", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "targetType", value = "查询类型", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "queryType", value = "排列方式", required = true, dataType = "int", paramType = "form")
+	})
+	@PostMapping("/getReportedPublished")
+	public JSONResult getReportedPublished(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType) throws Exception {
+		if(page == null) {
+			page = 1;
+		}
+
+		if(pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+
+		PagedResult result = adminService.getReportedPublished(page, pageSize, userId, targetType, queryType);
+
+		return JSONResult.ok(result);
+	}
+
 //	/****页面测试****/
 //	@GetMapping("Out404")
 //	public String Out404(HttpServletRequest request, HttpServletResponse response){

@@ -30,6 +30,9 @@ public class Article {
     @Column(name = "collect_num")
     private Integer collectNum;
 
+    @Column(name = "reported_num")
+    private Integer reportedNum;
+
     private Integer popularity;
 
     /**
@@ -177,7 +180,15 @@ public class Article {
 	public void setCollectNum(Integer collectNum) {
 		this.collectNum = collectNum;
 	}
-	
+
+    public Integer getReportedNum() {
+        return reportedNum;
+    }
+
+    public void setReportedNum(Integer reportedNum) {
+        this.reportedNum = reportedNum;
+    }
+
     /**
      * @return popularity
      */
