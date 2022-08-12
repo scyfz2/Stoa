@@ -1,10 +1,11 @@
 <!-- 
 	Author: Yifei
 	Date: July 21, 2022
-	Description: 新生Iweek页面
+	Description: 新生I-week页面
  -->
 <template>
 	<view class="iweek">
+		<schedule-detail @event="getEvent" :event="event"></schedule-detail>
 		<!-- 导航栏 -->
 		<uni-nav-bar class="navigationBar" :style="{height: this.getnavbarHeight() + 'px'}"
 		:title="lang.iweek" :showLeftIcon="false"
@@ -24,15 +25,21 @@
 		</view>
 		
 		<view class="downHalf">
+			<view class="text_topic">
+			{{lang.dailySchedule}}
+			</view>
+			<!-- <view class="second_line" @click="toggleIsEditFaculty"></view> -->
 			<schedule class="schedule"></schedule>
 		</view>
+		
 		<!-- 底部选项卡 -->
 		<tab-bar :current="1"></tab-bar>
 	</view>
 </template>
 
 <script>
-	import schedule from '@/components/iweek-components/schedule/schedule/schedule.vue';
+	import scheduleDetail from '@/components/iweek-components/schedule-detail/schedule-detail.vue';
+	import schedule from '@/components/iweek-components/schedule/schedule.vue';
 	import functionList from '@/components/iweek-components/function-list/function-list.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
 	import tabBar from '@/components/nq-tabbar/nq-tabbar.vue';
@@ -42,22 +49,36 @@
 			uniNavBar,
 			tabBar,
 			functionList,
-			schedule
+			schedule,
+			scheduleDetail
 		},
 		data(){
 			return{
+				event: {},
 				title: 'Hello',
-				swipers:[]
+				swipers:[],
 			}
 		},
 		computed:{
 			...mapState(['lang'])
 		},
 		onLoad(){
-			this.swipers=['https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpeg'						];
+			this.swipers=['https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpeg'];
+			var userInfo = this.getGlobalUserInfo();
+			if (this.isNull(userInfo)) {
+				uni.redirectTo({
+					url: '../signin/signin'
+				});
+				return;
+			} else {
+				this.userInfo = userInfo; // 刷去默认值(若有)
+			}
 		},
 		methods:{
-			
+			getEvent(data){
+				this.event = data
+				console.log(this.event)
+			}
 		}
 	}
 </script>
@@ -69,16 +90,27 @@
 		margin-right: 5%;
 		height: 400upx;
 	}
+	
 	.topHalf {
 		background-color: #FFFFFF;
+		margin-top: 8px;
 	}
+	
 	.functionList {
 		margin-top: 500upx;
 		width: 100%;
 		height: auto;
 	}
+	
 	.downHalf {
 		margin-top: 2%;
 		background-color: #FFFFFF;
+	}
+	
+	.text_topic {
+		padding-top: 20upx;
+		padding-left: 4%;
+		font-size: 16px;
+		font-weight: bold;
 	}
 </style>

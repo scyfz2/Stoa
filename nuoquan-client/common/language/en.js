@@ -10,6 +10,8 @@ module.exports = {
 	submit : "Submit",
 	delete : "Delete",
 	time : "Time",
+	// 防止评论hot冲突
+	hot:"Hot",
 	hot : "Hot",
 	all : "All",
 	follow : "Follow",
@@ -210,4 +212,13 @@ module.exports = {
 	// iweek相关
 	iweek: "I-week",
 	functionList : ["Society","U Course","UNNC Map","Foodie"],
+	dailySchedule : "Daily Schedule",
+	noMore: "No More",
+	organizationList:"organizationList",
+	organizationDetail:"organizationDetail",
+	date: 'date',
+	time: 'time',
+	venue: 'venue',
+	targetStudent: 'Target Student',
+	eventsType: 'eventsType',
 }

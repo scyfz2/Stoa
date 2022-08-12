@@ -5,7 +5,7 @@
  -->
 <template>
 	<view class="function-list">
-		<view class="functions" v-for="(item, index) in functionList" :key="index">
+		<view class="functions" v-for="(item, index) in functionList" :key="index" @click="onClick(functionList[index])">
 			<view>
 				<image :src="item.icon" class="function-image"></image>
 				<view class="text">
@@ -33,21 +33,21 @@
 					type: 0,
 					icon: '/static/icon/iweek/society.png',
 					name: '社团组织',
-					url: '/pages/iweek/society'
+					url: '/pages/Iweek/organizationList/organizationList'
 				},
 				{
-					type: 0,
+					type: 1,
 					icon: '/static/icon/iweek/ucourse.png',
 					name: '我的课程',
-					appid: '',
-					url: 'appiducourse'
+					appid: 'wxf91a3d7a60c2de7e',
+					url: 'pages/index/index'
 				},
 				{
-					type: 0,
+					type: 1,
 					icon: '/static/icon/iweek/map.png',
 					name: '校园地图',
-					appid: '',
-					url: 'appidunncmap'
+					appid: 'wx785bfd9dbf7823ea',
+					url: 'pages/index/index'
 				},
 				{
 					type: 0,
@@ -62,11 +62,12 @@
 				console.log(e.name)
 				// 若点击社团组织或吃喝玩乐，在小程序内跳转
 				// 若点击map或course，根据appid和path跳转至对应小程序
-				if (e.name == '我的课程' || e.name == '校园地图'){
+				if (e.type == 1) {
 					uni.navigateToMiniProgram({
 						appId: e.appid,
 						path: e.url,
-						envVersion:"release",
+						envVersion: "release",
+						
 						success:res => {
 							console.log("打开成功", res);
 						},
@@ -74,10 +75,9 @@
 							console.log(err);
 						}
 					})
-				}
-				else {
-					uni.switchTab({
-						url: e.url
+				} else {
+					uni.navigateTo({
+						url:e.url,
 					});
 				}
 			}
@@ -104,6 +104,7 @@
 		border-radius: 100upx;
 	}
 	.text {
+		/* display: inline-flex; */
 		text-align: center;
 		font-size: 14px;
 		margin-bottom: 15%;
