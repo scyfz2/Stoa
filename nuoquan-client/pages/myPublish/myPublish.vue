@@ -471,7 +471,7 @@
 	.deleteHint {
 		color: rgba(136, 136, 136, 1);
 		font-size: 14px;
-		position: fixed;
+		position: absolute;
 		right: 20px;
 	}
 </style>
