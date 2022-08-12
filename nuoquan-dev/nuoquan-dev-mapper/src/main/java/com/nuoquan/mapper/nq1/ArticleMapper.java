@@ -49,6 +49,12 @@ public interface ArticleMapper extends MyMapper<Article> {
     public void addViewCount(String articleId);
 
     /**
+     * @Description: 文章举报数量累加
+     * @param articleId
+     */
+    public void addReportedCount(String articleId);
+
+    /**
      * 查询文章状态
      * @param articleId
      * @return

@@ -29,12 +29,23 @@ public interface AdminService {
 	 */
 	public List<AdminNotice> getUserNotice(AdminUser adminUser, int state);
 
-	ArticleVO composeArticleVOAdmin(ArticleVO articleVO, String userId);
-
-	ArticleVO composeArticleVOAdmin(Article article, String userId);
-
+	/**
+	 * 在后台根据文章Id查看文章（不会增加浏览量）
+	 * @param articleId
+	 * @param userId
+	 * @return
+	 */
 	ArticleVO getArticleByIdAdmin(String articleId, String userId);
 
+	/**
+	 * 在后台查看所有被举报的文章/长文章/评论
+	 * @param page
+	 * @param pageSize
+	 * @param userId
+	 * @param targetType
+	 * @param queryType
+	 * @return
+	 */
 	PagedResult getReportedPublished(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType);
 
 }

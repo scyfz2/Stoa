@@ -50,6 +50,12 @@ public interface LongarticleMapper extends MyMapper<Longarticle> {
 	public void addViewCount(String articleId);
 
 	/**
+	 * @Description: 对文章举报的数量进行累加
+	 * @param articleId
+	 */
+	public void addReportedCount(String articleId);
+
+	/**
 	 * 根据创建时间降序查找所有被举报的长文章
 	 * @return
 	 */

@@ -213,11 +213,11 @@ public class AdminController extends BasicController{
 
 	@ApiOperation(value = "查询全部被举报的已发布的文章或评论", notes = "查询全部被举报的已发布的文章或评论的接口")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
-			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "int", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "int", paramType = "form"),
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetType", value = "查询类型", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "queryType", value = "排列方式", required = true, dataType = "Integer", paramType = "form")
+			@ApiImplicitParam(name = "queryType", value = "排列方式", required = true, dataType = "int", paramType = "form")
 	})
 	@PostMapping("/getReportedPublished")
 	public JSONResult getReportedPublished(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType) throws Exception {
@@ -233,6 +233,7 @@ public class AdminController extends BasicController{
 
 		return JSONResult.ok(result);
 	}
+
 //	/****页面测试****/
 //	@GetMapping("Out404")
 //	public String Out404(HttpServletRequest request, HttpServletResponse response){

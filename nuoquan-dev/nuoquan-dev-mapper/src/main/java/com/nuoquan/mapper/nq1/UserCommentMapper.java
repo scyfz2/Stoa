@@ -25,6 +25,12 @@ public interface UserCommentMapper extends MyMapper<UserComment> {
     public void addCommentCount(String commentId);
 
     /**
+     * @description: 对评论的举报数量进行累加
+     * @param commentId
+     */
+    public void addReportedCount(String commentId);
+
+    /**
      * 根据创建时间降序查找所有被举报的评论
      * @return
      */

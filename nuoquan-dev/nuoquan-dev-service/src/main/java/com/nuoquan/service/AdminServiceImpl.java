@@ -157,6 +157,46 @@ public class AdminServiceImpl implements AdminService {
 		return null;
 	}
 
+	private ArticleVO composeArticleVOAdmin(ArticleVO articleVO, String userId) {
+		// 组合作者头像url
+		UserVO userVO = userService.getUserById(articleVO.getUserId());
+		articleVO.setNickname(userVO.getNickname());
+		articleVO.setFaceImg(userVO.getFaceImg());
+		articleVO.setFaceImgThumb(userVO.getFaceImgThumb());
+		// 添加图片列表
+		articleVO = articleService.addArticleImgs(articleVO);
+		// 添加和关于用户的点赞关系
+		articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
+		// 添加和关于用户的收藏关系
+		articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
+		// 添加标签列表
+		if (!StringUtils.isBlank(articleVO.getTags())) {
+			String[] tagList = articleVO.getTags().split("#");
+			List<String> finalTagList = new ArrayList<String>();
+			for (String tag : tagList) {
+				if (!StringUtils.isBlank(tag)) {
+					finalTagList.add(tag);
+				}
+			}
+			articleVO.setTagList(finalTagList);
+		}
+
+		return articleVO;
+	}
+
+	/**
+	 * 把 Article 转换为 ArticleVO, 组装文章VO对象
+	 *
+	 * @param article
+	 * @param userId  操作者（我）
+	 * @return
+	 */
+	private ArticleVO composeArticleVOAdmin(Article article, String userId) {
+		ArticleVO articleVO = new ArticleVO();
+		BeanUtils.copyProperties(article, articleVO);
+		return composeArticleVOAdmin(articleVO, userId);
+	}
+
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public AdminUser queryAdminUserName(String username) {
@@ -194,48 +234,6 @@ public class AdminServiceImpl implements AdminService {
 			notices = adminNoticeMapper.selectByExample(noticeExample);
 		}
 		return notices;
-	}
-
-	@Override
-	public ArticleVO composeArticleVOAdmin(ArticleVO articleVO, String userId) {
-		// 组合作者头像url
-		UserVO userVO = userService.getUserById(articleVO.getUserId());
-		articleVO.setNickname(userVO.getNickname());
-		articleVO.setFaceImg(userVO.getFaceImg());
-		articleVO.setFaceImgThumb(userVO.getFaceImgThumb());
-		// 添加图片列表
-		articleVO = articleService.addArticleImgs(articleVO);
-		// 添加和关于用户的点赞关系
-		articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
-		// 添加和关于用户的收藏关系
-		articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
-		// 添加标签列表
-		if (!StringUtils.isBlank(articleVO.getTags())) {
-			String[] tagList = articleVO.getTags().split("#");
-			List<String> finalTagList = new ArrayList<String>();
-			for (String tag : tagList) {
-				if (!StringUtils.isBlank(tag)) {
-					finalTagList.add(tag);
-				}
-			}
-			articleVO.setTagList(finalTagList);
-		}
-
-		return articleVO;
-	}
-
-	/**
-	 * 把 Article 转换为 ArticleVO, 组装文章VO对象
-	 *
-	 * @param article
-	 * @param userId  操作者（我）
-	 * @return
-	 */
-	@Override
-	public ArticleVO composeArticleVOAdmin(Article article, String userId) {
-		ArticleVO articleVO = new ArticleVO();
-		BeanUtils.copyProperties(article, articleVO);
-		return composeArticleVOAdmin(articleVO, userId);
 	}
 
 	@Override
