@@ -381,9 +381,12 @@
 				uni.hideLoading();
 				this.cleanDraft();
 				uni.$emit('flash'); // 给 index 发送刷新信号
-				uni.navigateBack({
-					delta: 1
-				});
+				// uni.navigateBack({
+				// 	delta: 1
+				// });
+				uni.navigateTo({
+					url: 'pages/tabPages/index'
+				})
 				uni.showToast({
 						title: '已提交审核',
 						duration: 2000,
