@@ -26,7 +26,7 @@
 		<view style="width: 100%;">
 			<!--移到了sonCommentBox组件，考虑评论之间的点赞方程容易混淆，做了组件，就互不影响了-->
 			<sonCommentBox v-for="i in subCommentList" :key="i.id" :reCommentDetail="i" @controlInputSignal="activeInput"
-			 @swLikeComment="swLikeComment" @goToPersonPublic="goToPersonPublic"></sonCommentBox>
+			 @swLikeComment="swLikeComment" @goToPersonPublic="goToPersonPublic" @longpress="onLongpress(i.id)"></sonCommentBox>
 			<!-- 占位块 -->
 			<view style="width: 100%; height: 40px;"></view>
 		</view>
@@ -96,6 +96,7 @@ export default {
 			mainComment: '', //用于接受跳转传过来的underCommentId,然后申请获取sonComment  yaoyao 9.16
 			type: '', //文章 or 投票
 			userInfo: '',
+			commentId:'',
 			commentContent: '', //用户准备提交的评论内容
 			subCommentList: '', //返回值，获取评论列表信息,循环展示的东西，sonComment
 			showInput: false, //控制输入框，true时显示输入框
@@ -221,7 +222,52 @@ export default {
 			this.writingComment = false;
 			this.commentContent = "";
 		},
-
+		
+		onLongpress(e) {
+			console.log('触发长按操作,复制或者是快速回复');
+			console.log(e);
+			var that=this;
+			uni.showModal({
+				title: '提示',
+				content: '是否举报',
+				success: function (res) {
+					if (res.confirm) {
+						console.log('用户点击确定');
+						that.commentId=e;
+						that.reportComment();
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			})
+		},
+		reportComment(){
+			console.log('举报评论');
+			var that = this;
+			uni.request({
+				method: 'POST',
+				url: that.$serverUrl + '/Report/reportPublished',
+				data: {
+					userId: that.userInfo.id,
+					targetId:that.commentId,
+					targetType: "COMMENT",
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res);
+					//this.$emit('swLikeArticleSignal', false);
+					uni.showToast({
+						title:'举报成功',
+						icon:'success',
+						duration:1000,
+					});
+				}
+			});
+		},
+		
+		
 		/**
 		 * fromUserId 必填
 		 * toUserId 必填

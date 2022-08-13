@@ -33,7 +33,7 @@
 						<text selectable="true" class="name_text">{{ comment.mainComment.nickname }}</text>
 						<view class="time_text">{{ timeDeal(comment.mainComment.createDate) }}</view>
 					</view>
-					<text selectable="true" class="comment-content" @longpress="onLongpress" @tap="goToCommentDetail(comment.mainComment)">{{ comment.mainComment.comment }}</text>
+					<text selectable="true" class="comment-content" @longpress="onLongpress(comment.mainComment.id)" @tap="goToCommentDetail(comment.mainComment)">{{ comment.mainComment.comment }}</text>
 					<reComment :subComment="comment.subComment" @goToCommentDetail="goToCommentDetail(comment.mainComment)" style="width: 100%;height:100%;"></reComment>
 					<view class="comment-menu">
 						<view class="operationBar column_center">
@@ -101,16 +101,71 @@ export default {
 	data() {
 		return {
 			// commentList: this.commentList,
-			order: 0 //评论排序方式 0：按时间查询, 1：按热度查询
+			order: 0 ,//评论排序方式 0：按时间查询, 1：按热度查询
+			mainCommentId:'',
+			userInfo:{},
 		};
+	},
+	onLoad(options) {
+		//获取全局用户信息
+		var userInfo = this.getGlobalUserInfo();
+		if (!this.isNull(userInfo)) {
+			this.userInfo = this.getGlobalUserInfo();
+		} else {
+			uni.redirectTo({
+				url: '../signin/signin'
+			});
+			return;
+		}
 	},
 	methods: {
 		swLikeComment(comment, index) {
 			console.log('click like');
 			this.$emit('like', comment, index);
 		},
-		onLongpress() {
+		onLongpress(e) {
 			console.log('触发长按操作,复制或者是快速回复');
+			console.log(e);
+			var that=this;
+			uni.showModal({
+				title: '提示',
+				content: '是否举报',
+				success: function (res) {
+					if (res.confirm) {
+						console.log('用户点击确定');
+						that.mainCommentId=e;
+						that.reportComment();
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			})
+
+		},
+		reportComment(){
+			console.log('举报评论');
+			var that = this;
+			uni.request({
+				method: 'POST',
+				url: that.$serverUrl + '/Report/reportPublished',
+				data: {
+					userId: that.userInfo.id,
+					targetId:that.mainCommentId,
+					targetType: "COMMENT",
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res);
+					//this.$emit('swLikeArticleSignal', false);
+					uni.showToast({
+						title:'举报成功',
+						icon:'success',
+						duration:1000,
+					});
+				}
+			});
 		},
 		goToCommentDetail(mainComment) {
 			this.$emit('goToCommentDetail', mainComment);
