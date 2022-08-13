@@ -48,7 +48,7 @@
 				<view class="submit" @tap="saveComment()">{{ lang.send }}</view>
 				<view class="commentSth">
 					<textarea class="comment-text" :placeholder="placeholderText" :focus="writingComment" auto-height="true"
-					 adjust-position="false" v-model="commentContent" :show-confirm-bar="false" cursor-spacing="20" />
+					 :adjust-position="false" v-model="commentContent" :show-confirm-bar="false" cursor-spacing="20" />
 					<!-- <view class="comment-pic-area"><image src="../../static/BG/indexBG.png"></image><image src="../../static/icon/about.png"></image><image src="../../static/icon/1575235531(1).png"></image></view> -->
 					<view class="word-count-left">{{ wordNotice }}</view>
 				</view>

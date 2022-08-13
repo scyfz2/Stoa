@@ -41,7 +41,7 @@
 			:show-confirm-bar="false"/>
 <!-- 			<type-setting :articleContent="articleContent"></type-setting> -->			
 			<view style="position: absolute;bottom: 8px;right:8px;font-size: 11px;color:#888888;">{{ maxContentLength - articleContent.length }}</view>
-			<image src="../../static/icon/emoji.png" style="position: absolute;left:12px;top:8px;width:20px;height:20px;" @click="showToast()"></image>
+			<!-- <image src="../../static/icon/emoji.png" style="position: absolute;left:12px;top:8px;width:20px;height:20px;" @click="showToast()"></image> -->
 		</view>
 
 		<view class="picturearea">
@@ -610,7 +610,7 @@
 		margin-top: 13px;
 		width: calc(100% - 12px);
 		overflow: scroll;
-		padding: 36px 4px 24px;
+		padding: 16px 4px 24px;
 		border: 2px solid rgba(252, 192, 65, 1);
 		border-radius: 8px;
 		font-size: 14px;
