@@ -33,7 +33,7 @@
 		},
 		data() {
 			return {
-				serverUrl: this.$serverUrl,
+				serverUrl: this.$resServerUrl,
 				tagColorList: [],
 			};
 		},
