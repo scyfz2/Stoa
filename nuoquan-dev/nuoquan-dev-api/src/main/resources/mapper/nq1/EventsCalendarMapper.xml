@@ -7,7 +7,6 @@
         -->
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="title" jdbcType="VARCHAR" property="eventTitle" />
-        <result column="description" jdbcType="LONGVARCHAR" property="eventDescription" />
         <result column="faculty" jdbcType="INTEGER" property="faculty" />
         <result column="degree" jdbcType="INTEGER" property="degree" />
         <result column="venue" jdbcType="VARCHAR" property="eventVenue" />
@@ -17,7 +16,7 @@
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     </resultMap>
 
-    <select id="queryEventsCalendar" resultMap="BaseResultMap" parameterType="String">
+    <select id="queryEventsCalendarByDate" resultMap="BaseResultMap" parameterType="Integer">
         select ec.* from nuoquan.events_calendar ec
         where
             1 = 1
@@ -25,6 +24,14 @@
           and ec.date = #{targetDate}
           and ec.faculty = #{faculty}
           and ec.degree = #{degree}
+        order by ec.date asc
+    </select>
+
+    <select id="queryAllEventsCalendar" resultMap="BaseResultMap">
+        select ec.* from nuoquan.events_calendar ec
+        where
+            1 = 1
+          and ec.status = 1
         order by ec.date asc
     </select>
 

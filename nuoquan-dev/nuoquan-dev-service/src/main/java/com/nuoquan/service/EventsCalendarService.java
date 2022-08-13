@@ -15,7 +15,37 @@ public interface EventsCalendarService {
      * @param degree 学历
      * @return JSONResult
      */
-    public PagedResult queryEventsCalendar(String userId, Integer page, Integer pageSize, Integer currentDate, Integer faculty, Integer degree);
+    public PagedResult queryEventsCalendarByDate(String userId, Integer page, Integer pageSize, Integer currentDate, Integer faculty, Integer degree);
+
+    /**
+     * queryAllEventsCalender接口的方法
+     * @param userId 操作者id
+     * @param page 前端页数
+     * @param pageSize 前端页面大小
+     * @return JSONResult
+     */
+    public PagedResult queryAllEventsCalendar(String userId, Integer page, Integer pageSize);
+
+    /**
+     * 插入一条通知
+     *
+     * @param eventsCalendar
+     * @param title
+     * @param venue
+     * @param date
+     * @param time
+     * @param faculty
+     * @param degree
+     * @param status
+     * @return
+     */
+    public EventsCalendar insert(EventsCalendar eventsCalendar, String title,
+                                 String venue,
+                                 Integer date,
+                                 String time,
+                                 Integer faculty,
+                                 Integer degree,
+                                 Integer status);
 
 
     /**

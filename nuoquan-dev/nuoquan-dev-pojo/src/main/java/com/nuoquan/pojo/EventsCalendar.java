@@ -11,9 +11,6 @@ public class EventsCalendar {
     @Column(name = "title")
     private String eventTitle;
 
-    @Column(name = "description")
-    private String eventDescription;
-
     @Column(name = "faculty")
     private Integer faculty;
 
@@ -49,14 +46,6 @@ public class EventsCalendar {
 
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
-    }
-
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
     }
 
     public Integer getFaulty() {

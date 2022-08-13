@@ -10,7 +10,6 @@ import java.util.Date;
 public class EventsCalendarVO {
     private String id;
     private String eventTitle;
-    private String eventDescription;
     private Integer faculty;
     private Integer degree;
     private String eventVenue;
@@ -18,6 +17,10 @@ public class EventsCalendarVO {
     private String eventTime;
     private Integer status;
     private Date createDate;
+
+    private String strEventDate;
+    private String strFaculty;
+    private String strDegree;
 
     public String getId() {
         return id;
@@ -33,14 +36,6 @@ public class EventsCalendarVO {
 
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
-    }
-
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
     }
 
     public Integer getFaculty() {
@@ -98,5 +93,29 @@ public class EventsCalendarVO {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getStrEventDate() {
+        return strEventDate;
+    }
+
+    public void setStrEventDate(String strEventDate) {
+        this.strEventDate = strEventDate;
+    }
+
+    public String getStrFaculty() {
+        return strFaculty;
+    }
+
+    public void setStrFaculty(String strFaculty) {
+        this.strFaculty = strFaculty;
+    }
+
+    public String getStrDegree() {
+        return strDegree;
+    }
+
+    public void setStrDegree(String strDegree) {
+        this.strDegree = strDegree;
     }
 }
