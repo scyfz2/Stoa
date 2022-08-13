@@ -180,6 +180,7 @@ module.exports = {
 	
 	
 	//他人页
+	personalHome: "个人主页",
 	whosHome : "的主页",
 	lazyNoSignature: "这个人很懒，什么都没写哦~",
 	

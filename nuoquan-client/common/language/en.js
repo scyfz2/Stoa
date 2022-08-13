@@ -181,6 +181,7 @@ module.exports = {
 	editEmail: "Click text to modify email",
 	bindEmail: "Click to bind email",
 	//他人页
+	personalHome: "Personal Home",
 	whosHome : "'s Home",
 	lazyNoSignature: "This signature has losed...",
 	
