@@ -83,7 +83,7 @@ module.exports = {
 	//详情页&长文章详情
 	sharetoMoments: "Save & Share",
 	menu_more:"More",
-	share:"Share",
+	report:"Report",
 	collect:"Collect",
 	backToTop:"Top",
 	backToLastPage:"Back",

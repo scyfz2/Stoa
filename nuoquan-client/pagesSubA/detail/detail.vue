@@ -74,9 +74,9 @@
 				{{lang.menu_more}}
 			</view>
 			<view class="menu_more_items" v-if="menu_status.more">
-				<view class="menu_more_item" @tap="toggleShare(),toggleMenu('reset')">
-					<image src="../../static/icon/share-alt-888888.png"></image>
-					{{lang.share}}
+				<view class="menu_more_item" @tap="reportArticle(),toggleMenu('reset')">
+					<image src="../../static/icon/report-alt.png"></image>
+					{{lang.report}}
 				</view>
 				<view class="menu_more_item" @tap="toggleCollect(),toggleMenu('reset')">
 					<image v-if="!articleCard.isCollect" src="../../static/icon/star-888888.png"></image>
@@ -225,9 +225,9 @@
 		},
 
 		methods: {
-			toggleShare() { //控制是否显示分享海报
-				this.share = !this.share;
-			},
+			// toggleShare() { //控制是否显示分享海报
+			// 	this.share = !this.share;
+			// },
 			resetInput(e) { //传入组件内的 "isShow"
 				console.log('resetInput' + e);
 				this.commentContent = "";
@@ -705,6 +705,31 @@
 					}
 				});
 			}, //点赞主文章函数结束
+			reportArticle(){
+				console.log('举报文章');
+				var that = this;
+				uni.request({
+					method: 'POST',
+					url: that.$serverUrl + '/Report/reportPublished',
+					data: {
+						userId: that.userInfo.id,
+						targetId: that.articleCard.id,
+						targetType: "ARTICLE",
+					},
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: res => {
+						console.log(res);
+						//this.$emit('swLikeArticleSignal', false);
+						uni.showToast({
+							title:'举报成功',
+							icon:'success',
+							duration:1000,
+						});
+					}
+				});
+			},
 			collectArticle(){
 				console.log('收藏文章');
 				var that = this;

@@ -81,7 +81,7 @@ module.exports = {
 	//详情页&长文章详情
 	sharetoMoments: "保存图片",
 	menu_more:"更多",
-	share:"分享",
+	report:"举报",
 	collect:"收藏",
 	backToTop:"返回顶部",
 	backToLastPage:"回到上页",
