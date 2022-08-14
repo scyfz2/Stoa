@@ -2,7 +2,6 @@ package com.nuoquan.controller;
 
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.OrganizationMapper;
-import com.nuoquan.pojo.ArticleImage;
 import com.nuoquan.pojo.Organization;
 import com.nuoquan.pojo.OrganizationImage;
 import com.nuoquan.utils.JSONResult;
@@ -158,9 +157,9 @@ public class OrganizationController extends BasicController {
                 organizationImage.setImagePath(uploadPathDB);
                 organizationImage.setOrganizationId(organizationId);
                 organizationImage.setImageOrder(imageOrder);
-                organizationService.saveOrganizationImages(organizationImage);
+                String imgId = organizationService.saveOrganizationImage(organizationImage);
 
-                return JSONResult.ok();
+                return JSONResult.ok(imgId);
             }else {
                 return JSONResult.errorMsg("File name is blank");
             }
