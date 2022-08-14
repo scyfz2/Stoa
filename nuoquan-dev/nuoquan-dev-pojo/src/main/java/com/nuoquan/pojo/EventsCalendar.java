@@ -48,12 +48,12 @@ public class EventsCalendar {
         this.eventTitle = eventTitle;
     }
 
-    public Integer getFaulty() {
+    public Integer getFaculty() {
         return faculty;
     }
 
-    public void setFaulty(Integer faulty) {
-        this.faculty = faulty;
+    public void setFaculty(Integer faculty) {
+        this.faculty = faculty;
     }
 
     public Integer getDegree() {
