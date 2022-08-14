@@ -54,4 +54,10 @@ public interface EventsCalendarService {
      * @return JSONResult
      */
     public String saveEvent(EventsCalendar eventsCalendar);
+
+    /**
+     * 取消文章加精
+     * @param eventId 文章加精id
+     */
+    public void removeEvent(String eventId);
 }

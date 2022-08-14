@@ -24,7 +24,7 @@
           and ec.date = #{targetDate}
           and ec.faculty = #{faculty}
           and ec.degree = #{degree}
-        order by ec.date asc
+        order by ec.create_date asc
     </select>
 
     <select id="queryAllEventsCalendar" resultMap="BaseResultMap">

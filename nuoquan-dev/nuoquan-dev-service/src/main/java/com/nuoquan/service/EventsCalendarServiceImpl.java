@@ -172,4 +172,20 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
         eventsCalendarMapper.insertSelective(eventsCalendar);
         return id;
     }
+
+    /**
+     * 移除日程
+     *
+     * @param eventId 文章加精id
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void removeEvent(String eventId) {
+        Example example = new Example(EventsCalendar.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", eventId);
+        EventsCalendar ec = new EventsCalendar();
+        ec.setStatus(StatusEnum.DELETED.type);
+        eventsCalendarMapper.updateByExampleSelective(ec, example);
+    }
 }

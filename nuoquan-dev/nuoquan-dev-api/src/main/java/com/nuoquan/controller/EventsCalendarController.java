@@ -28,14 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventsCalendarController extends BasicController {
     /**
      *
-     * @param page
-     * @param pageSize
+     * @param page 页面数
+     * @param pageSize 页面大小
      * @param userId 操作者id
      * @param targetDate 查询目标日期
      * @param faculty 学院
      * @param degree 学历
      * @return JSONResult
-     * @throws Exception
      */
     @ApiOperation(value = "按日期查询日程", notes = "查询全部可读日程的接口")
     @ApiImplicitParams({
@@ -47,7 +46,7 @@ public class EventsCalendarController extends BasicController {
             @ApiImplicitParam(name = "degree", value = "学历", required = true, dataType = "Integer", paramType = "form")
     })
     @PostMapping("/queryEventsCalendarByDate")
-    public JSONResult queryEventsCalendarByDate(String userId, Integer page, Integer pageSize, Integer targetDate, Integer faculty, Integer degree) throws Exception {
+    public JSONResult queryEventsCalendarByDate(String userId, Integer page, Integer pageSize, Integer targetDate, Integer faculty, Integer degree) {
 
         if(page == null) {
             page = 1;
@@ -169,5 +168,18 @@ public class EventsCalendarController extends BasicController {
         } else {
             return JSONResult.errorMsg("内容违规");
         }
+    }
+
+
+
+
+    @ApiOperation(value = "移除日程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "eventId", value = "事件id", required = true, dataType = "String", paramType = "form")
+    })
+    @PostMapping(value="/removeEvent")
+    public JSONResult removeEvent(String eventId) throws Exception {
+        eventsCalendarService.removeEvent(eventId);
+        return JSONResult.ok();
     }
 }
