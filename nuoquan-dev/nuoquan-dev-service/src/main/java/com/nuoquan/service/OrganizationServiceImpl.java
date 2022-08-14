@@ -189,12 +189,14 @@ public class OrganizationServiceImpl implements OrganizationService{
     /**
      * 将图片存入数据库
      * @param organizationImage
+     * @return 图片id
      */
     @Override
-    public void saveOrganizationImages(OrganizationImage organizationImage) {
+    public String saveOrganizationImage(OrganizationImage organizationImage) {
         String id = sid.nextShort();
         organizationImage.setId(id);
         organizationImageMapper.insertSelective(organizationImage);
+        return id;
     }
 
 
