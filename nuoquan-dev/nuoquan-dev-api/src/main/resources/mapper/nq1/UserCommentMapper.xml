@@ -46,6 +46,6 @@
   </select>
 
   <select id="queryCommentToMe" resultMap="BaseResultMap">
-    select * from nuoquan.user_comment uc where to_user_id==#{userId} order by uc.create_date desc
+    select * from nuoquan.user_comment uc where to_user_id=#{userId} order by uc.create_date desc
   </select>
 </mapper>
