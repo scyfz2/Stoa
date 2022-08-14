@@ -2,11 +2,13 @@ package com.nuoquan.controller;
 
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.OrganizationMapper;
+import com.nuoquan.pojo.ArticleImage;
 import com.nuoquan.pojo.Organization;
 import com.nuoquan.pojo.OrganizationImage;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,7 +64,6 @@ public class OrganizationController extends BasicController {
 
     @ApiOperation(value = "上传或修改组织信息", notes = "上传或修改组织信息的接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="logo", value="组织logo", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="name", value="组织名称", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="intro", value="组织简介", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="division", value="组织部门组成", required=true, dataType="String", paramType="form"),
@@ -70,12 +71,32 @@ public class OrganizationController extends BasicController {
             @ApiImplicitParam(name="officialAccountLink", value="组织公众号或推文链接", required=false, dataType="String", paramType="form")
     })
     @PostMapping(value="/uploadOrganization")
-    public JSONResult uploadOrganization(String logo, String name, String intro, String division, String activityIntro, String officialAccountLink) throws Exception {
+    public JSONResult uploadOrganization(@ApiParam(value="file", required=true) MultipartFile logo,
+                                         String name, String intro, String division,
+                                         String activityIntro,
+                                         String officialAccountLink) throws Exception {
         boolean isLegal = false;
+        Organization organization = new Organization();
+
+        // 上传组织logo
+        if (logo != null) {
+            // 判断是否超出大小限制
+            if (logo.getSize() > MAX_IMAGE_SIZE) {
+                return JSONResult.errorException("Uploaded file size exceed server's limit (10MB)");
+            }
+            String logoName = logo.getOriginalFilename();
+            if (StringUtils.isNotBlank(logoName)) {
+                // 保存到数据库中的相对路径
+                String uploadPathDB = resourceService.uploadImg(logo);
+                organization.setLogoPath(uploadPathDB);
+            }else {
+                return JSONResult.errorMsg("File name is blank");
+            }
+        }else {
+            return JSONResult.errorMsg("Upload error");
+        }
 
         // 保存组织信息到数据库
-        Organization organization = new Organization();
-        organization.setLogoPath(logo);
         organization.setName(name);
         organization.setIntro(intro);
         organization.setDivision(division);
@@ -83,8 +104,7 @@ public class OrganizationController extends BasicController {
         organization.setOfficialAccountLink(officialAccountLink);
 
         // 检测内容是否非法
-        if (weChatService.msgSecCheck(logo)
-                && weChatService.msgSecCheck(name)
+        if (weChatService.msgSecCheck(name)
                 && weChatService.msgSecCheck(intro)
                 && weChatService.msgSecCheck(division)
                 && weChatService.msgSecCheck(activityIntro)
