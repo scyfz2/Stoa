@@ -226,8 +226,8 @@ public class SocialController extends BasicController {
 	
 	@ApiOperation(value = "查询自己收藏的文章")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
-		@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
+		@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "int", paramType = "form"),
+		@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "int", paramType = "form"),
 		@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
 	})
 	@PostMapping("/queryCollect")
@@ -249,7 +249,7 @@ public class SocialController extends BasicController {
 
 	@ApiOperation(value = "用户阅读文章")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "用户Id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetType", value = "文章id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/userRead")
@@ -257,5 +257,24 @@ public class SocialController extends BasicController {
 		socialService.userRead(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
+
+	@ApiOperation(value = "用户阅读文章")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "int", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "int", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "用户Id", required = true, dataType = "String", paramType = "form")})
+	@PostMapping("/getAllCommentToMe")
+	public JSONResult getAllCommentToMe(Integer page, Integer pageSize, String userId) {
+		if (page == null) {
+			page = 1;
+		}
+
+		if (pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+
+		PagedResult list = socialService.getAllCommentToMe(page, pageSize, userId);
+
+		return JSONResult.ok(list);
 	
 }

@@ -5,6 +5,8 @@ import com.nuoquan.pojo.vo.UserCommentVO;
 import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.utils.PagedResult;
 
+import java.util.List;
+
 /**
  * @Description: 收藏服务类，支持对不同对象的收藏
  * @Author: jerrio
@@ -153,5 +155,14 @@ public interface SocialService {
      * @param targetType
      */
     public void userRead(String userId, PostType targetType, String targetId);
+
+    /**
+     * 查询全部给我的评论
+     * @param page
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    public PagedResult getAllCommentToMe(Integer page, Integer pageSize, String userId);
 
 }
