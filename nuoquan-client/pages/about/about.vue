@@ -86,10 +86,10 @@ export default {
 				{
 					name:'更新公告	Update Announcement',
 					subtitle:this.versionNum,
-					body:'\ Nottinghome v2.0.0 已更新！\n \
+					body:'\ Gravity v3.0.0 全新升级！\n \
 						1. 升级：大部分页面 UI\n \
-						2. 新增：探索板块，可以发文章啦\n \
-						3. 优化部分使用体验\n \
+						2. 优化部分使用体验\n \
+						3. 即将推出新生板块，敬请期待\n \
 						\n \
 						'
 				}

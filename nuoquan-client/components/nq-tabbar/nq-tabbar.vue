@@ -4,7 +4,7 @@
 			<view class="ul">
 				<!-- 推出左侧空白 -->
 				<view style="width: 20px;"></view>
-				<view :class="['super_center', 'li', current == index ? 'cur' : '']" v-for="(item, index) in tabBarList" :key="index" @tap="onClick(item)">
+				<view :class="['super_center', 'li', current == index ? 'cur' : '']" v-for="(item, index) in tabBarList" style="text-align: center;" :key="index" @tap="onClick(item)">
 					<view >
 						<msgcount style="position: absolute;z-index: 40;right: 10%;top: 9px;" :count="item.count"></msgcount>
 						<image v-if="index==2" :src="item.icon" mode="aspectFit" style="width: 35px;height: 35px;margin-top: 10px;"></image>
