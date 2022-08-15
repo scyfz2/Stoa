@@ -219,7 +219,7 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping(value = "/userUncollectArticle")
 	public JSONResult userUncollect(String userId,  PostType targetType, String targetId) throws Exception {
-		targetType = ARTICLE;
+//		targetType = ARTICLE;
 		socialService.userUncollect(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
