@@ -14,7 +14,7 @@
 			<!--logo-->
 			<view><image class="logo-app" src="../../static/icon/logo_app.png" ></image></view>
 			<!--Nottinghome-->
-			<view class="company-name">Nottinghome</view>
+			<view class="company-name">Gravity</view>
 			<!--版本-->
 			<view class="version">{{versionNum}}</view>
 		</view>
