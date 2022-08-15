@@ -41,4 +41,11 @@ public interface UserCommentMapper extends MyMapper<UserComment> {
      * @return
      */
     public List<UserComment> queryReportedCommentByReportedNum();
+
+    /**
+     * 查询所有给我的评论
+     * @param userid
+     * @return
+     */
+    public List<UserComment> queryCommentToMe(String userid);
 }

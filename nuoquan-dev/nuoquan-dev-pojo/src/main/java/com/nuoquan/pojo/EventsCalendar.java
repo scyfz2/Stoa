@@ -11,20 +11,17 @@ public class EventsCalendar {
     @Column(name = "title")
     private String eventTitle;
 
-    @Column(name = "description")
-    private String eventDescription;
-
     @Column(name = "faculty")
-    private String faculty;
+    private Integer faculty;
 
     @Column(name = "degree")
-    private String degree;
+    private Integer degree;
 
     @Column(name = "venue")
     private String eventVenue;
 
     @Column(name = "date")
-    private String eventDate;
+    private Integer eventDate;
 
     @Column(name = "time")
     private String eventTime;
@@ -51,27 +48,19 @@ public class EventsCalendar {
         this.eventTitle = eventTitle;
     }
 
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
-
-    public String getFaulty() {
+    public Integer getFaculty() {
         return faculty;
     }
 
-    public void setFaulty(String faulty) {
-        this.faculty = faulty;
+    public void setFaculty(Integer faculty) {
+        this.faculty = faculty;
     }
 
-    public String getDegree() {
+    public Integer getDegree() {
         return degree;
     }
 
-    public void setDegree(String degree) {
+    public void setDegree(Integer degree) {
         this.degree = degree;
     }
 
@@ -83,11 +72,11 @@ public class EventsCalendar {
         this.eventVenue = eventVenue;
     }
 
-    public String getEventDate() {
+    public Integer getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(String eventDate) {
+    public void setEventDate(Integer eventDate) {
         this.eventDate = eventDate;
     }
 
