@@ -1,9 +1,12 @@
 package com.nuoquan;
 
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -14,14 +17,21 @@ import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.region.Region;
+import org.springframework.core.env.Environment;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class}) //取消加载数据源自动配置
 //@MapperScan(basePackages="com.nuoquan.mapper")
 @ComponentScan(basePackages= {"com.nuoquan", "com.jupiter", "org.n3r.idworker"})
-public class Application {
+public class Application implements CommandLineRunner {
 	
 	@Autowired
 	private COSProperties cosProperties;
+
+	@Autowired
+	private ApplicationContext appCtx;
+
+	@Autowired
+	private StringEncryptor EncryptorBean;
 	
 	@Bean
 	public SpringUtil springUtil() {
@@ -47,5 +57,32 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
+
+	@Override
+	public void run(String...args) throws Exception{
+
+		Environment environment = appCtx.getBean(Environment.class);
+
+		String mysqlOriginPswd=environment.getProperty("spring.datasource.password");
+
+		String redisOriginPswd=environment.getProperty("redis.password");
+
+		String aliSmsOriginAk=environment.getProperty("ali.sms.access_key_secret");
+
+		String mysqlEncryptedPswd=encrypt(mysqlOriginPswd);
+
+		String redisEncryptedPswd=encrypt(redisOriginPswd);
+
+		String aliSmsEncryptedAk=encrypt(aliSmsOriginAk);
+
+		System.out.println(mysqlEncryptedPswd);
+		System.out.println(redisEncryptedPswd);
+		System.out.println(aliSmsEncryptedAk);
+
+
+	}
+
+	private String encrypt(String originPswd){
+		return EncryptorBean.encrypt(originPswd);
+	}
 }

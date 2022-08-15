@@ -49,7 +49,6 @@ public class ReportServiceImpl implements ReportService{
     public void reportPublished(String userId, PostType targetType, String targetId) {
         // 判断此用户是否以及举报过该对象
         boolean isReport = isUserReport(userId, targetType, targetId);
-        System.out.println("--------" + isReport);
 
         if (!isReport){
             // 保存用户和文章的点赞关联关系表
