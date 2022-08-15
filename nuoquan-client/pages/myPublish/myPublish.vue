@@ -49,7 +49,7 @@
 </template>
 
 <script>
-	import modifyArticle from '../../components/nq-card/modify-article';
+	import modifyArticle from '../../components/nq-card/modify-article.vue';
 	import modifyLong from '../../components/nq-card/modify-longArticle.vue'
 	//import modifyVote from '../../components/nq-card/modify-vote.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
