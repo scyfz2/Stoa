@@ -253,7 +253,7 @@ public class UserController extends BasicController {
 			user.setNickname(userData.getNickname());
 			user.setFaceImg(userData.getFaceImg());
 			user.setFaceImgThumb(userData.getFaceImgThumb());
-			user.setEmail(EncryptUtils.base64Decode(userData.getEmail()));
+			user.setEmail(userData.getEmail());
 			user.setDegree(userData.getDegree());
 			user.setGraduationYear(userData.getGraduationYear());
 			user.setGender(userData.getGender());
@@ -384,11 +384,14 @@ public class UserController extends BasicController {
 			//发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识  
 			String res = UrlUtil.sendPost(wxGetOpenIdUrl, requestUrlParam);
 			WxRes wxRes= JsonUtils.jsonToPojo(res, WxRes.class);
-			System.out.println("res:" + res);
-			System.out.println(wxRes.getOpenid());
+//			System.out.println("res:" + res);
+//			System.out.println(wxRes.getOpenid());
 
 			User user = new User();
-			user.setId(wxRes.getOpenid());
+			String id = wxRes.getOpenid();
+			if (id == null){return JSONResult.errorMsg("openId不存在");}
+			else {id = MD5Utils.getMD5Str(id);}
+			user.setId(id);
 			user.setNickname(nickname);
 			user.setFaceImg(faceImg);
 			UserVO userVO= wxLogin(user);
@@ -416,8 +419,7 @@ public class UserController extends BasicController {
 		// 3. 注册信息
 		if (!isIdExist) {
 			// 3.1 只添加用户id（openId）头像和昵称
-			// user.setId(userData.getId());
-			user.setId(MD5Utils.getMD5Str(userData.getId()));
+			user.setId(userData.getId());
 			user.setNickname(userData.getNickname());
 			user.setFaceImg(userData.getFaceImg());
 			user.setFaceImgThumb(userData.getFaceImgThumb());
@@ -429,7 +431,7 @@ public class UserController extends BasicController {
 		} else {
 			// 3.2 查询信息
 			// userVO = userService.getUserById(userData.getId());
-			userVO = userService.getUserById(MD5Utils.getMD5Str(userData.getId()));
+			userVO = userService.getUserById(userData.getId());
 		}
 		// 将 user 对象转换为 userVO 输出，userVO 中不返回密码，且可加上其他属性。
 		return userVO;

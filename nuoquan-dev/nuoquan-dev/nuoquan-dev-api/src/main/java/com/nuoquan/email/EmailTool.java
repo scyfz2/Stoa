@@ -69,7 +69,7 @@ public class EmailTool {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(from); //确保发送邮件地址与认证地址，如果不一致， 一些邮箱服务器会退信
 			helper.setTo(toAddr);
-			helper.setSubject(code + " - 您的 Nottinghome 验证码");
+			helper.setSubject(code + " - 您的 GT Channel 验证码");
 			
 			StringBuffer content = new StringBuffer();
 			
