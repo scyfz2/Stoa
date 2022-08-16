@@ -2,7 +2,6 @@ package com.nuoquan.controller;
 
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -15,12 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nuoquan.email.EmailTool;
-import com.nuoquan.enums.MsgActionEnum;
 import com.nuoquan.enums.ReputeWeight;
 import com.nuoquan.pojo.ChatMsg;
 import com.nuoquan.pojo.User;
-import com.nuoquan.pojo.netty.DataContent;
-import com.nuoquan.pojo.netty.NoticeCard;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -389,8 +385,11 @@ public class UserController extends BasicController {
 
 			User user = new User();
 			String id = wxRes.getOpenid();
-			if (id == null){return JSONResult.errorMsg("openId不存在");}
-			else {id = MD5Utils.getMD5Str(id);}
+			if (id == null){
+				return JSONResult.errorMsg("无法获取微信openId");
+			} else {
+				id = EncryptUtils.md5Encode(id);
+			}
 			user.setId(id);
 			user.setNickname(nickname);
 			user.setFaceImg(faceImg);
