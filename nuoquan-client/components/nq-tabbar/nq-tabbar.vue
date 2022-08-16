@@ -7,13 +7,13 @@
 				<view :class="['super_center', 'li', current == index ? 'cur' : '']" v-for="(item, index) in tabBarList" style="text-align: center;" :key="index" @tap="onClick(item)">
 					<view >
 						<msgcount style="position: absolute;z-index: 40;right: 10%;top: 9px;" :count="item.count"></msgcount>
-						<image v-if="index==2" :src="item.icon" mode="aspectFit" style="width: 35px;height: 35px;margin-top: 10px;"></image>
+						<image v-if="index==2" :src="item.icon" mode="aspectFit" style="width: 35px;height: 35px;margin-top: 15px;"></image>
 						<view 
 							class="img super_center"
-							:style="{ height: current == index ? '44px' : '20px', width: current == index ? '44px' : '20px', background: current == index ? 'rgba(253,169,86,1)' : '' }"
+							:style="{ height: current == index ? '44px' : '20px', width: current == index ? '44px' : '20px', background: current == index ? 'rgba(253,169,86,1)' : ''}"
 							v-if="item.type == 0 && index!=2"
 						>
-							<image style="width: 20px;height: 20px;" :src="current == index ? item.selectIcon : item.icon" mode="aspectFit"></image>
+							<image style="width: 20px;height: 20px;margin-left: 5px;" :src="current == index ? item.selectIcon : item.icon" mode="aspectFit"></image>
 						</view>
 						<!-- <view class="ic super_center" v-if="item.type == 1">
 							<image

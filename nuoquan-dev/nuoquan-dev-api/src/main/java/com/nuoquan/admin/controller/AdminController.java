@@ -5,11 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.nuoquan.enums.PostType;
-import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import org.apache.shiro.SecurityUtils;
@@ -23,8 +19,12 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.code.kaptcha.Constants;
@@ -41,140 +41,143 @@ import com.nuoquan.utils.StringUtils;
 
 /**
  * 后台方法
- * 
+ *
  */
 @Api(value = "入口请求")
-@RestController
+@Controller
 @RequestMapping("/admin")
 public class AdminController extends BasicController{
 	private static Logger logger=LoggerFactory.getLogger(AdminController.class);
-	
+
 	private String prefix = "admin";
-	
-	@Autowired 
+
+	@Autowired
 	private AdminPermissionService adminPermissionService;
-	
-	@Autowired 
+
+	@Autowired
 	private AdminService adminService;
-	
+
 	@ApiOperation(value="首页",notes="首页")
 	@GetMapping("/index")
 	public String index(HttpServletRequest request) {
-    	//获取菜单栏
+		//获取菜单栏
 		System.out.println("请求首页");
-    	BootstrapTree bootstrapTree= adminPermissionService.getbooBootstrapTreePerm(ShiroUtils.getUserId());
-    	request.getSession().setAttribute("bootstrapTree", bootstrapTree);
-    	request.getSession().setAttribute("sessionUserName",ShiroUtils.getUser().getNickname());
-    	//获取公告信息
-    	List<AdminNotice> notices=adminService.getUserNotice(ShiroUtils.getUser(),0);
-    	request.getSession().setAttribute("notices", notices);
+		BootstrapTree bootstrapTree= adminPermissionService.getbooBootstrapTreePerm(ShiroUtils.getUserId());
+		request.getSession().setAttribute("bootstrapTree", bootstrapTree);
+		request.getSession().setAttribute("sessionUserName",ShiroUtils.getUser().getNickname());
+		//获取公告信息
+		List<AdminNotice> notices=adminService.getUserNotice(ShiroUtils.getUser(),0);
+		request.getSession().setAttribute("notices", notices);
 		return prefix+"/index";
 	}
-	
+
 	@ApiOperation(value="局部刷新区域",notes="局部刷新区域")
 	@GetMapping("/main")
 	public String main(ModelMap map) {
 		setTitle(map, new TitleVO("首页", "首页", true,"欢迎进入", true, false));
 		return prefix+"/main";
 	}
-	
+
 	/**
 	 * 请求到登陆界面
+	 * @param request
 	 * @return
 	 */
 	@ApiOperation(value="请求到登陆界面",notes="请求到登陆界面")
 	@GetMapping("/login")
-    public String login(ModelMap modelMap) {
-        try {
-            if ((null != SecurityUtils.getSubject() && SecurityUtils.getSubject().isAuthenticated()) || SecurityUtils.getSubject().isRemembered()) {
-            	return "redirect:/"+prefix+"/index";
-            } else {
-            	System.out.println("--进行登录验证..验证开始"); 
+	public String login(ModelMap modelMap) {
+		try {
+			if ((null != SecurityUtils.getSubject() && SecurityUtils.getSubject().isAuthenticated()) || SecurityUtils.getSubject().isRemembered()) {
+				return "redirect:/"+prefix+"/index";
+			} else {
+				System.out.println("--进行登录验证..验证开始");
 
-            	modelMap.put("RollVerification", resourceConfig.getRollVerification());
+				modelMap.put("RollVerification", resourceConfig.getRollVerification());
 //            	System.out.println("ResourceConfig.getRollVerification()>>>"+resourceConfig.getRollVerification());
-                return "login";
-            }
-        } catch (Exception e) {
-        		e.printStackTrace();
-        }
-        return "login";
-    }
-	
+				return "login";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "login";
+	}
+
 	/**
 	 * 用户登陆验证
 	 * @param user
+	 * @param rcode
 	 * @param redirectAttributes
 	 * @param rememberMe
+	 * @param model
 	 * @param request
 	 * @return
 	 */
 	@PostMapping("/login")
 	@ResponseBody
 	public JSONResult login(AdminUser user,String code,RedirectAttributes redirectAttributes,boolean rememberMe,HttpServletRequest request) {
-		 //ModelAndView view =new ModelAndView();
+		//ModelAndView view =new ModelAndView();
 		Boolean yz=false;
 //		System.out.println(resourceConfig.getRollVerification());
 		if(resourceConfig.getRollVerification()) {//滚动验证
 			yz=true;
 		}else {//图片验证
-			 String scode = (String)request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-			 yz=StringUtils.isNotEmpty(scode)&&StringUtils.isNotEmpty(code)&&scode.equals(code);
+			String scode = (String)request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+			yz=StringUtils.isNotEmpty(scode)&&StringUtils.isNotEmpty(code)&&scode.equals(code);
 		}
-		 //判断验证码
-		 if(yz){
-			 String userName = user.getUsername();
-			 Subject currentUser = SecurityUtils.getSubject();
-			 //是否验证通过
-			 if(!currentUser.isAuthenticated()) {
+		//判断验证码
+		if(yz){
+			String userName = user.getUsername();
+			Subject currentUser = SecurityUtils.getSubject();
+			//是否验证通过
+			if(!currentUser.isAuthenticated()) {
 //				 System.out.println(user.getPassword());
-				 UsernamePasswordToken token =new UsernamePasswordToken(userName,user.getPassword());
-				 try {
-					 if(rememberMe) {
-						 token.setRememberMe(true);
-					 }
-					 //存入用户
-					 currentUser.login(token);
-					 if(StringUtils.isNotNull(ShiroUtils.getUser())) {
-			         	 //跳转到 get请求的登陆方法
-			    		 //view.setViewName("redirect:/"+prefix+"/index");
-			     		 return JSONResult.ok();
-			     	 }else {
-			     		 return JSONResult.errorMsg("未知账户");
-			     	 }
-				 }catch (UnknownAccountException uae) {
-			            logger.info("对用户[" + userName + "]进行登录验证..验证未通过,未知账户");
-			         	return JSONResult.errorMsg("未知账户");
-			        } catch (IncorrectCredentialsException ice) {
-			            logger.info("对用户[" + userName + "]进行登录验证..验证未通过,错误的凭证");
-			            return JSONResult.errorMsg("用户名或密码不正确");
-			        } catch (LockedAccountException lae) {
-			            logger.info("对用户[" + userName + "]进行登录验证..验证未通过,账户已锁定");
-			            return JSONResult.errorMsg("账户已锁定");
-			        } catch (ExcessiveAttemptsException eae) {
-			            logger.info("对用户[" + userName + "]进行登录验证..验证未通过,错误次数过多");
-			            return JSONResult.errorMsg("用户名或密码错误次数过多");
-			        } catch (AuthenticationException ae) {
-			            //通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
-			            logger.info("对用户[" + userName + "]进行登录验证..验证未通过,堆栈轨迹如下");
-			            ae.printStackTrace();
-			            return JSONResult.errorMsg("用户名或密码不正确");
-			        }
-			 }else {
-				 if(StringUtils.isNotNull(ShiroUtils.getUser())) {
-		         	 //跳转到 get请求的登陆方法
-		    		 //view.setViewName("redirect:/"+prefix+"/index");
-		     		 return JSONResult.ok();
-		     	 }else {
-		     		 return JSONResult.errorMsg("未知账户");
-		     	 }
-			 }
-		 }else{
+				UsernamePasswordToken token =new UsernamePasswordToken(userName,user.getPassword());
+				try {
+					if(rememberMe) {
+						token.setRememberMe(true);
+					}
+					//存入用户
+					currentUser.login(token);
+					if(StringUtils.isNotNull(ShiroUtils.getUser())) {
+						//跳转到 get请求的登陆方法
+						//view.setViewName("redirect:/"+prefix+"/index");
+						return JSONResult.ok();
+					}else {
+						return JSONResult.errorMsg("未知账户");
+					}
+				}catch (UnknownAccountException uae) {
+					logger.info("对用户[" + userName + "]进行登录验证..验证未通过,未知账户");
+					return JSONResult.errorMsg("未知账户");
+				} catch (IncorrectCredentialsException ice) {
+					logger.info("对用户[" + userName + "]进行登录验证..验证未通过,错误的凭证");
+					return JSONResult.errorMsg("用户名或密码不正确");
+				} catch (LockedAccountException lae) {
+					logger.info("对用户[" + userName + "]进行登录验证..验证未通过,账户已锁定");
+					return JSONResult.errorMsg("账户已锁定");
+				} catch (ExcessiveAttemptsException eae) {
+					logger.info("对用户[" + userName + "]进行登录验证..验证未通过,错误次数过多");
+					return JSONResult.errorMsg("用户名或密码错误次数过多");
+				} catch (AuthenticationException ae) {
+					//通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
+					logger.info("对用户[" + userName + "]进行登录验证..验证未通过,堆栈轨迹如下");
+					ae.printStackTrace();
+					return JSONResult.errorMsg("用户名或密码不正确");
+				}
+			}else {
+				if(StringUtils.isNotNull(ShiroUtils.getUser())) {
+					//跳转到 get请求的登陆方法
+					//view.setViewName("redirect:/"+prefix+"/index");
+					return JSONResult.ok();
+				}else {
+					return JSONResult.errorMsg("未知账户");
+				}
+			}
+		}else{
 			return JSONResult.errorMsg("验证码不正确!");
-		 }
-		 
+		}
+
 	}
-	
+
 	/**
 	 * 退出登陆
 	 * @return
@@ -183,55 +186,9 @@ public class AdminController extends BasicController{
 	public String LoginOut(HttpServletRequest request, HttpServletResponse response){
 		//在这里执行退出系统前需要清空的数据
 		Subject subject = SecurityUtils.getSubject();
-		 //注销
-        subject.logout();
-        return "redirect:/"+prefix+"/login";
-	}
-
-	@ApiOperation(value = "")
-	@PostMapping(value = "/searchArticleYANG")
-	public JSONResult searchArticleYang(String searchText, Integer isSaveRecord, Integer page, String userId)
-			throws Exception {
-
-		if (page == null) {
-			page = 1;
-		}
-
-		PagedResult result = articleService.searchArticleYang(isSaveRecord, page, PAGE_SIZE, searchText, userId);
-		return JSONResult.ok(result);
-	}
-
-	@ApiOperation(value = "按文章 id 查询文章(不记入浏览量)", notes = "按文章 id 查询文章(不记入浏览量)的接口")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form") })
-	@PostMapping("/getArticleById")
-	public JSONResult getArticleByIdAdmin(String articleId, String userId) throws Exception {
-
-		return JSONResult.ok(adminService.getArticleByIdAdmin(articleId, userId));
-	}
-
-	@ApiOperation(value = "查询全部被举报的已发布的文章或评论", notes = "查询全部被举报的已发布的文章或评论的接口")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "int", paramType = "form"),
-			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "int", paramType = "form"),
-			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "targetType", value = "查询类型", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "queryType", value = "排列方式", required = true, dataType = "int", paramType = "form")
-	})
-	@PostMapping("/getReportedPublished")
-	public JSONResult getReportedPublished(Integer page, Integer pageSize, String userId, PostType targetType, Integer queryType) throws Exception {
-		if(page == null) {
-			page = 1;
-		}
-
-		if(pageSize == null) {
-			pageSize = PAGE_SIZE;
-		}
-
-		PagedResult result = adminService.getReportedPublished(page, pageSize, userId, targetType, queryType);
-
-		return JSONResult.ok(result);
+		//注销
+		subject.logout();
+		return "redirect:/"+prefix+"/login";
 	}
 
 //	/****页面测试****/
