@@ -1,5 +1,6 @@
 package com.nuoquan.controller;
 
+import com.nuoquan.utils.EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,7 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "投票相关接口", tags = {"Vote-Controller"})
 @RequestMapping("/vote")
 public class VoteController extends BasicController{
-	
+
 	@Autowired
 	private WeChatService weChatService;
 	
@@ -50,6 +51,10 @@ public class VoteController extends BasicController{
 	})
 	@PostMapping("/queryAllVotes")
 	public JSONResult queryAllVotes(Integer page, Integer pageSize, String userId) throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		if (page == null) {
 			page = 1;
 		}
@@ -74,6 +79,7 @@ public class VoteController extends BasicController{
 		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
 			return JSONResult.errorMsg("UserId can't be null");
 		}
+		userId = EncryptUtils.base64Encode(userId);
 		if (StringUtils.isEmpty(optionContent) || StringUtils.isBlank(optionContent)) {
 			return JSONResult.errorMsg("voteContent can't be null");
 		}
@@ -130,6 +136,10 @@ public class VoteController extends BasicController{
 
 	@PostMapping(value = "/uploadVoteImg")
 	public JSONResult uploadVoteImg(String userId, String voteId, String order, @ApiParam(value="file", required=true) MultipartFile file) throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		VoteImage voteImage = new VoteImage();
 		
 		if (file != null) {
@@ -209,6 +219,7 @@ public class VoteController extends BasicController{
 		} else if (StringUtils.isBlank(voteId)) {
 			return JSONResult.errorMsg("VoteId can't be null!");
 		}
+		userId = EncryptUtils.base64Encode(userId);
 
 		//红墙投票业务，临时规则
 		int leftVoteNum = voteService.userLeftVote(voteId, optionId, userId);
@@ -227,6 +238,10 @@ public class VoteController extends BasicController{
 	})
 	@PostMapping(value="/userLeftVote")
 	public JSONResult userLeftVote(String voteId, String optionId, String userId) throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		//红墙投票业务，临时规则
 		int leftVoteNum = voteService.userLeftVote(voteId, optionId, userId);
 		return JSONResult.ok(leftVoteNum);
@@ -240,6 +255,10 @@ public class VoteController extends BasicController{
 	})
 	@PostMapping("/getVoteById")
 	public JSONResult getVoteById(String voteId, String userId) throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		
 		VoteVO result = voteService.getVoteById(voteId, userId);
 		
@@ -255,6 +274,10 @@ public class VoteController extends BasicController{
 	})
 	@PostMapping("/queryPublishedVoteHistory")
 	public JSONResult queryPublishedVoteHistory(Integer page, Integer pageSize, String userId, String targetId) {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		
 		PagedResult finalResult = new PagedResult();
 		

@@ -2,11 +2,13 @@ package com.nuoquan.controller;
 
 import com.nuoquan.enums.PostType;
 import com.nuoquan.service.ReportService;
+import com.nuoquan.utils.EncryptUtils;
 import com.nuoquan.utils.JSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,11 @@ public class ReportController extends BasicController {
     })
     @PostMapping("/reportPublished")
     public JSONResult reportPublished(String userId, PostType targetType, String targetId){
+
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+        userId = EncryptUtils.base64Encode(userId);
         reportService.reportPublished(userId, targetType, targetId);
         return JSONResult.ok();
     }

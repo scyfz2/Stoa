@@ -3,6 +3,7 @@ package com.nuoquan.controller;
 import com.nuoquan.enums.*;
 import com.nuoquan.pojo.*;
 import com.nuoquan.service.NotifyRemindService;
+import com.nuoquan.utils.EncryptUtils;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.*;
@@ -32,6 +33,12 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "点赞对象Id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping(value = "/userLike")
 	public JSONResult userLike(String userId, PostType targetType, String targetId) throws Exception {
+
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
+
 		String sourceId = socialService.userLike(userId, targetType, targetId);
 		if (StringUtils.isEmpty(sourceId)) { // 判空，防止用户短时间内多次请求
 			return JSONResult.errorMsg("用户已点过赞");
@@ -56,6 +63,11 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "对象id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping(value = "/userUnLike")
 	public JSONResult userUnLike(String userId, PostType targetType, String targetId) throws Exception {
+
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		socialService.userUnLike(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
@@ -77,6 +89,12 @@ public class SocialController extends BasicController {
 			String comment,
 			String underCommentId) throws Exception {
 		if (targetType.equals(PostType.COMMENT)) {
+
+			if (StringUtils.isBlank(fromUserId) || StringUtils.isEmpty(fromUserId) || StringUtils.isBlank(toUserId) || StringUtils.isEmpty(toUserId)) {
+				return JSONResult.errorMsg("Id can't be null");
+			}
+			fromUserId = EncryptUtils.base64Encode(fromUserId);
+			toUserId = EncryptUtils.base64Encode(toUserId);
 			return JSONResult.errorMsg("targetType不能为comment");
 		}
 		// 内容安全检测（测试时总是出现内容不合法，先暂时注释掉内容安全检测）
@@ -129,6 +147,10 @@ public class SocialController extends BasicController {
 		if (StringUtils.isBlank(targetId)) {
 			return JSONResult.errorMsg("targetId can't be null");
 		}
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("userId can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 
 		if (page == null) {
 			page = 1;
@@ -167,6 +189,10 @@ public class SocialController extends BasicController {
 	@PostMapping("/getSubComments")
 	public JSONResult getSubComments(Integer page, Integer pageSize, Integer type, String underCommentId, String userId)
 			throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 
 		if (StringUtils.isBlank(underCommentId)) {
 			return JSONResult.errorMsg("underCommentId can't be null");
@@ -197,6 +223,10 @@ public class SocialController extends BasicController {
 	@PostMapping(value = "/fDeleteComment")
 	public JSONResult fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
 			throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		socialService.fDeleteComment(commentId, userId, targetId, targetType);
 		return JSONResult.ok();
 	}
@@ -209,6 +239,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "收藏对象Id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping(value = "/userCollect")
 	public JSONResult userCollect(String userId, PostType targetType, String targetId) throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		socialService.userCollect(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
@@ -221,6 +255,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping(value = "/userUncollectArticle")
 	public JSONResult userUncollect(String userId, PostType targetType, String targetId) throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		socialService.userUncollect(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
@@ -233,6 +271,10 @@ public class SocialController extends BasicController {
 	})
 	@PostMapping("/queryCollect")
 	public JSONResult queryCollect(Integer page, Integer pageSize, String userId) {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 
 		if (page == null) {
 			page = 1;
@@ -255,6 +297,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/userRead")
 	public JSONResult userRead(String userId, PostType targetType, String targetId) {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		socialService.userRead(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
@@ -266,6 +312,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "userId", value = "用户Id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/getAllCommentToMe")
 	public JSONResult getAllCommentToMe(Integer page, Integer pageSize, String userId) {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		if (page == null) {
 			page = 1;
 		}

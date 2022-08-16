@@ -2,6 +2,7 @@ package com.nuoquan.controller;
 
 import com.nuoquan.enums.*;
 import com.nuoquan.pojo.*;
+import com.nuoquan.utils.EncryptUtils;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.*;
@@ -42,6 +43,10 @@ public class ArticleController extends BasicController {
 	})
 	@PostMapping("/queryArticles")
 	public JSONResult queryArticles(Integer page, Integer pageSize, Integer queryType, Integer orderType, String userId, String selectedTag) throws Exception {
+		if (StringUtils.isBlank(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 
 		if(page == null) {
 			page = 1;
@@ -106,6 +111,11 @@ public class ArticleController extends BasicController {
 	})
 	@PostMapping("/queryPublishHistory")
 	public JSONResult queryPublishHistory(Integer page, Integer pageSize, String userId, String targetId) {
+		if (StringUtils.isBlank(userId) || StringUtils.isBlank(targetId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
+		userId = EncryptUtils.base64Encode(targetId);
 
 		PagedResult finalResult = new PagedResult();
 
@@ -146,6 +156,10 @@ public class ArticleController extends BasicController {
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/getArticleById")
 	public JSONResult getArticleById(String articleId, String userId) throws Exception {
+		if (StringUtils.isBlank(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 
 		return JSONResult.ok(articleService.getArticleById(articleId, userId));
 	}
@@ -276,6 +290,10 @@ public class ArticleController extends BasicController {
 		if (page == null) {
 			page = 1;
 		}
+		if (StringUtils.isBlank(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 
 		PagedResult result = articleService.searchArticleYang(isSaveRecord, page, PAGE_SIZE, searchText, userId);
 		return JSONResult.ok(result);
@@ -300,6 +318,7 @@ public class ArticleController extends BasicController {
 		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
 			return JSONResult.errorMsg("Id can't be null");
 		}
+		userId = EncryptUtils.base64Encode(userId);
 		boolean isLegal = false;
 		// 保存文章信息到数据库
 		Article article = new Article();
@@ -344,6 +363,7 @@ public class ArticleController extends BasicController {
 	public JSONResult uploadArticleImg(String userId ,String articleId, String order, @ApiParam(value="file", required=true) MultipartFile file) throws Exception {
 
 		if (StringUtils.isNoneBlank(userId) && file != null) {
+			userId = EncryptUtils.base64Encode(userId);
 			// 判断是否超出大小限制
 			if (file.getSize() > MAX_IMAGE_SIZE) {
 				return JSONResult.errorException("Uploaded file size exceed server's limit (10MB)");
@@ -528,6 +548,10 @@ public class ArticleController extends BasicController {
 	@PostMapping("/getHotTop10")
 	public JSONResult getHotTop10(Integer page, Integer pageSize, String userId) throws Exception {
 
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
 		if(page == null) {
 			page = 1;
 		}
@@ -554,6 +578,11 @@ public class ArticleController extends BasicController {
 	})
 	@PostMapping("/queryCollectArticle")
 	public JSONResult queryCollectArticle(Integer page, Integer pageSize, String userId, String targetId) {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId) || StringUtils.isBlank(targetId) || StringUtils.isEmpty(targetId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
+		targetId = EncryptUtils.base64Encode(targetId);
 
 		if(page == null) {
 			page = 1;

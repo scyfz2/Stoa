@@ -57,7 +57,9 @@ public interface NotifyRemindService {
 
 	/**
 	 * 获取用户未签收通知
-	 * @param userId
+	 * @param page 页面数
+	 * @param pageSize 页面大小
+	 * @param recipientId 接受用户id
 	 * @return
 	 */
 	public List<NotifyRemindVO> getUnsignedNotif(Integer page, Integer pageSize, String recipientId);

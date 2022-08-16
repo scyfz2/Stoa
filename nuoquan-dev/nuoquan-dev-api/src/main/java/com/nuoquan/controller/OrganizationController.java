@@ -4,6 +4,7 @@ import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.OrganizationMapper;
 import com.nuoquan.pojo.Organization;
 import com.nuoquan.pojo.OrganizationImage;
+import com.nuoquan.utils.EncryptUtils;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.*;
@@ -29,6 +30,11 @@ public class OrganizationController extends BasicController {
     })
     @PostMapping("/queryOrganizations")
     public JSONResult queryOrganizations(Integer page, Integer pageSize, String userId){
+
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+        userId = EncryptUtils.base64Encode(userId);
         if (page == null){
             page = 1;
         }
@@ -58,6 +64,11 @@ public class OrganizationController extends BasicController {
     })
     @PostMapping(value="/getOrganizationById")
     public JSONResult getOrganizationById(String userId, String organizationId) throws Exception {
+
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+        userId = EncryptUtils.base64Encode(userId);
         return JSONResult.ok(organizationService.getOrganizationById(organizationId));
     }
 

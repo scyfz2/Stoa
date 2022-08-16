@@ -73,6 +73,11 @@ public class UserController extends BasicController {
 	public JSONResult uploadFaceFastdfs(String userId, @ApiParam(value = "face image", required = true) MultipartFile file)
 			throws Exception {
 
+		if (StringUtils.isBlank(userId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		userId = EncryptUtils.base64Encode(userId);
+
 		// 删除用户旧头像
 		deleteOldFace(userId);
 
@@ -87,7 +92,8 @@ public class UserController extends BasicController {
 
 		// 更新用户头像
 		User user = new User();
-		user.setId(userId);
+		// 在此方法中已经进行过一次加密比对，所以先解码再调用setId
+		user.setId(EncryptUtils.base64Decode(userId));
 		user.setFaceImg(url);
 		user.setFaceImgThumb(thumbImgUrl);
 
@@ -154,8 +160,10 @@ public class UserController extends BasicController {
 	@PostMapping("/uploadFace")
 	public JSONResult uploadFace(String userId, @ApiParam(value = "face image", required = true) MultipartFile file)
 			throws Exception {
-				
+
 		if (StringUtils.isNoneBlank(userId) && file != null) {
+			userId = EncryptUtils.base64Encode(userId);
+
 			// 判断是否超出大小限制
 			if (file.getSize() > MAX_IMAGE_SIZE) {
 				return JSONResult.errorException("Uploaded file size exceed server's limit (10MB)");
@@ -165,7 +173,7 @@ public class UserController extends BasicController {
 			String uploadPathDB = resourceService.uploadImg(file);
 
 			User user = new User();
-			user.setId(userId);
+			user.setId(EncryptUtils.base64Decode(userId));
 			user.setFaceImg(uploadPathDB);
 			user.setFaceImgThumb(uploadPathDB);
 			userService.updateUserInfo(user);
@@ -176,7 +184,8 @@ public class UserController extends BasicController {
 	}
 	
 	@ApiOperation(value = "Be the fans")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "fanId", required = true, dataType = "String", paramType = "form"), })
 	@PostMapping("/follow")
 	public JSONResult follow(String userId, String fanId) throws Exception {
@@ -184,6 +193,8 @@ public class UserController extends BasicController {
 		if (StringUtils.isBlank(fanId) || StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("Id can't be null");
 		}
+		userId = EncryptUtils.base64Encode(userId);
+		fanId = EncryptUtils.base64Encode(fanId);
 
 		userService.saveUserFanRelation(userId, fanId);
 		
@@ -194,7 +205,8 @@ public class UserController extends BasicController {
 	}
 
 	@ApiOperation(value = "Don't be the fans")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "fanId", required = true, dataType = "String", paramType = "form"), })
 	@PostMapping("/dontFollow")
 	public JSONResult dontFollow(String userId, String fanId) throws Exception {
@@ -202,6 +214,8 @@ public class UserController extends BasicController {
 		if (StringUtils.isBlank(fanId) || StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("Id can't be null");
 		}
+		userId = EncryptUtils.base64Encode(userId);
+		fanId = EncryptUtils.base64Encode(fanId);
 
 		userService.deleteUserFanRelation(userId, fanId);
 		
@@ -216,6 +230,11 @@ public class UserController extends BasicController {
 		@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),})
 	@PostMapping("/queryFansAndFollow")
 	public JSONResult queryFansAndFollow(String userId, String myId) {
+		if (StringUtils.isBlank(userId) || StringUtils.isBlank(myId)) {
+			return JSONResult.errorMsg("该账号为空");
+		}
+		userId = EncryptUtils.base64Encode(userId);
+		myId = EncryptUtils.base64Encode(myId);
 		
 		List<UserVO> fansList = userService.queryUserFans(userId, myId);
 		List<UserVO> followList = userService.queryUserFollow(userId, myId);
@@ -249,7 +268,7 @@ public class UserController extends BasicController {
 			userVO = userService.saveUserDirectly(user);
 		} else {
 			// 3.1 修改信息
-			user.setId(userData.getId()); // 用作索引
+			user.setId(EncryptUtils.base64Decode(userData.getId())); // 用作索引
 			user.setNickname(userData.getNickname());
 			user.setFaceImg(userData.getFaceImg());
 			user.setFaceImgThumb(userData.getFaceImgThumb());
@@ -273,8 +292,9 @@ public class UserController extends BasicController {
 	public JSONResult queryUser(String userId) throws Exception {
 
 		if (StringUtils.isBlank(userId)) {
-			return JSONResult.errorMsg("User id can not be null.");
+			return JSONResult.errorMsg("该账号为空");
 		}
+		userId = EncryptUtils.base64Encode(userId);
 		UserVO userVO = userService.getUserById(userId);
 		return JSONResult.ok(userVO);
 	}
@@ -293,6 +313,7 @@ public class UserController extends BasicController {
 		// 2. 判断用户名是否存在
 		boolean isIdExist = userService.checkIdIsExist(userId);
 		if (isIdExist) {
+			userId = EncryptUtils.base64Encode(userId);
 			userService.updateLatestLoginTime(userId);
 			return JSONResult.ok();
 		} else {
@@ -308,9 +329,11 @@ public class UserController extends BasicController {
 	@PostMapping("/queryUserWithFollow")
 	public JSONResult queryUserWithFollow(String userId, String fanId) throws Exception {
 
-		if (StringUtils.isBlank(userId)) {
+		if (StringUtils.isBlank(userId) || StringUtils.isBlank(fanId)) {
 			return JSONResult.errorMsg("User id can not be null.");
 		}
+		userId = EncryptUtils.base64Encode(userId);
+		fanId = EncryptUtils.base64Encode(fanId);
 		UserVO userVO = userService.getUserById(userId);
 		userVO.setFollow(userService.queryIfFollow(userId, fanId));
 		return JSONResult.ok(userVO);
@@ -325,6 +348,7 @@ public class UserController extends BasicController {
 		if (StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("User id can not be null.");
 		}
+		userId = EncryptUtils.base64Encode(userId);
 		
 		// 查询列表
 		List<ChatMsg> unreadMsgList = userService.getUnsignedChat(userId);
@@ -336,6 +360,7 @@ public class UserController extends BasicController {
 			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/getUnsignedNotif")
 	public JSONResult getUnsignedNotif(String userId) {
+		userId = EncryptUtils.base64Encode(userId);
 		List<NotifyRemindVO> notifyVOs = notifyRemindService.getUnsignedNotif(1,1,userId);
 		return JSONResult.ok(notifyVOs);
 	}
@@ -344,6 +369,7 @@ public class UserController extends BasicController {
 			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/batchSignNotif")
 	public JSONResult batchSignNotif(String notifIds) {
+		//TODO: 是否加密
 		String[] list = notifIds.split(",");
 		List<String> notifList = new ArrayList<>();
 		for (String id : list) {
@@ -427,7 +453,7 @@ public class UserController extends BasicController {
 			userVO = userService.saveUserDirectly(user);
 		} else {
 			// 3.2 查询信息
-			userVO = userService.getUserById(userData.getId());
+			userVO = userService.getUserById(EncryptUtils.base64Decode(userData.getId()));
 		}
 		// 将 user 对象转换为 userVO 输出，userVO 中不返回密码，且可加上其他属性。
 		return userVO;
@@ -443,6 +469,7 @@ public class UserController extends BasicController {
 		if (StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("User id can not be null.");
 		}
+		userId = EncryptUtils.base64Encode(userId);
 		// 生成验证码
 		int length = 6; // 位数
 		String code = "";

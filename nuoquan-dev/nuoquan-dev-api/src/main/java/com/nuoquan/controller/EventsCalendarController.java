@@ -4,6 +4,7 @@ import com.nuoquan.enums.DegreeType;
 import com.nuoquan.enums.FacultyType;
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.pojo.EventsCalendar;
+import com.nuoquan.utils.EncryptUtils;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.Api;
@@ -48,6 +49,11 @@ public class EventsCalendarController extends BasicController {
     @PostMapping("/queryEventsCalendarByDate")
     public JSONResult queryEventsCalendarByDate(String userId, Integer page, Integer pageSize, Integer targetDate, Integer faculty, Integer degree) {
 
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+        userId = EncryptUtils.base64Encode(userId);
+
         if(page == null) {
             page = 1;
         }
@@ -79,6 +85,11 @@ public class EventsCalendarController extends BasicController {
     @PostMapping("/listAllEvents")
     public JSONResult listAllEvents(String userId, Integer page, Integer pageSize) throws Exception {
 
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+        userId = EncryptUtils.base64Encode(userId);
+
         if(page == null) {
             page = 1;
         }
@@ -108,10 +119,10 @@ public class EventsCalendarController extends BasicController {
     @PostMapping(value="/uploadEvent")
     public JSONResult uploadEvent(String userId, String title, String venue, Integer date, String time, FacultyType faculty, DegreeType degree) throws Exception {
 
-        //TODO: 是否增加ALL选项，简化录入
         if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
             return JSONResult.errorMsg("Id can't be null");
         }
+        userId = EncryptUtils.base64Encode(userId);
         int isLegal;
         // 检测内容是否非法
         if (weChatService.msgSecCheck(title)

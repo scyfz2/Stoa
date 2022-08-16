@@ -1,5 +1,8 @@
 package com.nuoquan.pojo;
 
+import com.nuoquan.utils.EncryptUtils;
+import com.nuoquan.utils.MD5Utils;
+
 import java.util.Date;
 import javax.persistence.*;
 
@@ -85,7 +88,7 @@ public class User {
      * @param id
      */
     public void setId(String id) {
-        this.id = id;
+        this.id = EncryptUtils.base64Encode(id);
     }
 
     /**

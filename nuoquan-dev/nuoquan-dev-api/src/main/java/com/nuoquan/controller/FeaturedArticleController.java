@@ -1,14 +1,12 @@
 package com.nuoquan.controller;
 
-import com.nuoquan.pojo.ArticleImage;
 import com.nuoquan.pojo.FeaturedArticle;
 import com.nuoquan.pojo.vo.FeaturedArticleVO;
-import com.nuoquan.service.FeaturedArticleService;
+import com.nuoquan.utils.EncryptUtils;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
-import static com.nuoquan.controller.BasicController.PAGE_SIZE;
 
 @RestController
 @Api(value = "文章加精相关接口", tags = { "FeaturedArticle-Controller" })
@@ -31,6 +28,11 @@ public class FeaturedArticleController extends BasicController {
     })
     @PostMapping("/queryFeaturedArticles")
     public JSONResult queryFeaturedArticles(Integer page, Integer pageSize, String userId){
+
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+        userId = EncryptUtils.base64Encode(userId);
         if(page == null) {
             page = 1;
         }
@@ -52,6 +54,11 @@ public class FeaturedArticleController extends BasicController {
     })
     @PostMapping("/getFeaturedArticleById")
     public JSONResult getFeaturedArticleById(String featuredArticleId, String userId){
+
+        if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+            return JSONResult.errorMsg("Id can't be null");
+        }
+        userId = EncryptUtils.base64Encode(userId);
 
         FeaturedArticleVO result = featuredArticleService.getFeaturedArticleById(featuredArticleId, userId);
 
