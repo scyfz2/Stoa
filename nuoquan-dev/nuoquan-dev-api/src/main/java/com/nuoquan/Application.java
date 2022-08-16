@@ -63,26 +63,35 @@ public class Application implements CommandLineRunner {
 
 		Environment environment = appCtx.getBean(Environment.class);
 
-		String mysqlOriginPswd=environment.getProperty("spring.datasource.password");
+		String mysqlOriginPswd=environment.getProperty("jasypt.encryptor.password");
 
-		String redisOriginPswd=environment.getProperty("redis.password");
-
-		String aliSmsOriginAk=environment.getProperty("ali.sms.access_key_secret");
-
+//		String redisOriginPswd=environment.getProperty("spring.cos.secret-key");
+//
+//		String ssl=environment.getProperty("server.ssl.key-password");
+//
+//		String WX=environment.getProperty("server.ssl.key-password");
+//
 		String mysqlEncryptedPswd=encrypt(mysqlOriginPswd);
-
-		String redisEncryptedPswd=encrypt(redisOriginPswd);
-
-		String aliSmsEncryptedAk=encrypt(aliSmsOriginAk);
-
+//
+//		String redisEncryptedPswd=encrypt(redisOriginPswd);
+//
+//		String aliSmsEncryptedAk=encrypt(ssl);
+//
+//		String WX1=encrypt(WX);
+//
+//		System.out.println(mysqlEncryptedPswd);
+//		System.out.println(redisEncryptedPswd);
+//		System.out.println(aliSmsEncryptedAk);
 		System.out.println(mysqlEncryptedPswd);
-		System.out.println(redisEncryptedPswd);
-		System.out.println(aliSmsEncryptedAk);
 
 
 	}
 
 	private String encrypt(String originPswd){
 		return EncryptorBean.encrypt(originPswd);
+	}
+
+	private String decrypt(String encryptedPswd) {
+		return EncryptorBean.decrypt(encryptedPswd);
 	}
 }
