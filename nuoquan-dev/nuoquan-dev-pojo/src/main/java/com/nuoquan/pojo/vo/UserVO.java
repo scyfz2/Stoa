@@ -4,6 +4,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nuoquan.utils.EncryptUtils;
 
 public class UserVO {
  
@@ -64,7 +65,7 @@ public class UserVO {
      * @return email
      */
     public String getEmail() {
-        return email;
+        return EncryptUtils.base64Decode(email);
     }
 
     /**
