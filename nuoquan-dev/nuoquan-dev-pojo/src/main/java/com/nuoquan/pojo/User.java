@@ -93,10 +93,10 @@ public class User {
      * @return email
      */
     public String getEmail() {
-        if (email == null){
-            return null;
+        if (email != null && !email.endsWith("@nottingham.edu.cn")){
+            return EncryptUtils.base64Decode(email);
         }
-        return EncryptUtils.base64Decode(email);
+        return email;
     }
 
     /**

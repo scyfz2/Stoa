@@ -389,7 +389,7 @@ public class UserController extends BasicController {
 
 			User user = new User();
 			String id = wxRes.getOpenid();
-			if (id == null){return null;}
+			if (id == null){return JSONResult.errorMsg("openId不存在");}
 			else {id = MD5Utils.getMD5Str(id);}
 			user.setId(id);
 			user.setNickname(nickname);
