@@ -93,14 +93,18 @@ public class User {
      * @return email
      */
     public String getEmail() {
-        return email;
+        if (email == null){
+            return null;
+        }
+        return EncryptUtils.base64Decode(email);
     }
 
     /**
      * @param email
      */
     public void setEmail(String email) {
-        this.email = EncryptUtils.base64Encode(email);
+        if (email == null){this.email = null;}
+        else {this.email = EncryptUtils.base64Encode(email);}
     }
 
     /**

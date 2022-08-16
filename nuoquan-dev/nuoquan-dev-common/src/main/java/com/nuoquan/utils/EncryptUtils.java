@@ -21,10 +21,12 @@ public class EncryptUtils {
     }
 
     public static void main(String[] args) {
-        String eMsg = base64Encode("标题");
+        String eMsg = base64Encode("scyys7@nottingham.edu.cn");
         System.out.println(eMsg);
         String dMsg = base64Decode(eMsg);
         System.out.println(dMsg);
+        String dMsg2 = base64Decode("scyys7@nottingham.edu.cn");
+        System.out.println(dMsg2);
 
     }
 
