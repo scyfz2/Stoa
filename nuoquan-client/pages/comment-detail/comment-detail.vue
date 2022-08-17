@@ -43,11 +43,11 @@
 		<!--触底提示和功能  END-->
 
 		<view class="bottoLayerOfInput" v-show="showInput" @tap="resetInput()" @touchmove="resetInput()">
-			<view class="commentPart" :style="{ bottom: textAreaAdjust }">
+			<view class="commentPart" :style="{ top: textAreaAdjust + 'px' }">
 				<!--<view class="emoji"></view><view class="add-pic"></view>-->
 				<view class="submit" @tap="saveComment()">{{ lang.send }}</view>
 				<view class="commentSth">
-					<textarea class="comment-text" :placeholder="placeholderText" :focus="writingComment" auto-height="true"
+					<textarea class="comment-text" :placeholder="placeholderText" @focus="getKeyBoardHeight" :focus="writingComment" auto-height="true"
 					 :adjust-position="false" v-model="commentContent" :show-confirm-bar="false" cursor-spacing="20" />
 					<!-- <view class="comment-pic-area"><image src="../../static/BG/indexBG.png"></image><image src="../../static/icon/about.png"></image><image src="../../static/icon/1575235531(1).png"></image></view> -->
 					<view class="word-count-left">{{ wordNotice }}</view>
@@ -103,7 +103,7 @@ export default {
 			writingComment: false, //控制输入框，true时自动获取焦点，拉起输入法
 			submitData: {},//当前页面saveComment需要6元素，4 于 activeInput()， 2 内容和 article/vote ID在请求前加入
 			placeholderText: '',
-			textAreaAdjust: 0,
+			textAreaAdjust: 1500,
 
 			totalPage: 1,
 			currentPage: 1,
@@ -144,6 +144,20 @@ export default {
 		this.loadMore();
 	},
 	methods: {
+		getKeyBoardHeight(e){
+			// debugger
+			var textAreaAdjust_ = e.detail.height;
+			var phoneHeight;
+			console.log("键盘高度" + e.detail.height);
+			uni.getSystemInfo({
+				success(res) {
+					phoneHeight = res.windowHeight;
+					console.log(phoneHeight);//812
+				}
+			});
+			this.textAreaAdjust = phoneHeight - textAreaAdjust_ - 12 - 100;
+			console.log(this.textAreaAdjust);//640
+		},
 		getSubComments(page){
 			var url = "";
 			//判断是文章评论还是投票评论
@@ -505,7 +519,7 @@ page {
 
 .commentPart {
 	box-shadow: 0px 1px 5px 0px rgba(139, 139, 139, 0.32);
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	z-index: 900;
 	left: 0;
@@ -540,7 +554,7 @@ page {
 	display: inline-block;
 	width: 42px;
 	position: absolute;
-	top: 15px;
+	top: 25px;
 	right: 15px;
 	height: 21px;
 	/* 	background: url(../../static/icon/arrow-right.png);
@@ -564,9 +578,10 @@ page {
 .comment-text {
 	width: calc(670upx - 60px);
 	font-size: 14px;
-	max-height: 95px;
+	/* max-height: 95px; */
 	line-height: 20px;
-	max-height: 100px;
+	/* max-height: 100px; */
+	height: 100px;
 	padding-bottom: 14px;
 }
 .comment-pic-area {
