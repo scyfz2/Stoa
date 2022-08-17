@@ -5,6 +5,7 @@ import java.util.*;
 import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.*;
 import org.apache.commons.lang3.StringUtils;
+import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,9 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "User workflow logic")
 @RequestMapping("/user")
 public class UserController extends BasicController {
+
+	@Autowired
+	private Sid sid;
 
 	@Autowired
 	private EmailTool emailTool;
@@ -231,11 +235,12 @@ public class UserController extends BasicController {
 		UserVO userVO; //返回前端对象
 		// 2. 判断用户名是否存在
 		boolean isIdExist = userService.checkIdIsExist(userData.getId());
+		boolean isNickNameExist = userService.checkNicknameIsExist(userData.getNickname());
 		// 3. 注册信息
 		if (!isIdExist) {
-			// 只添加用户id（openId）头像和昵称
+			// 新用户，只添加用户id（openId）头像和昵称
 			user.setId(userData.getId());
-			user.setNickname(userData.getNickname());
+			user.setNickname("微信用户"+ sid.userInitNickname());
 			user.setFaceImg(userData.getFaceImg());
 			user.setFaceImgThumb(userData.getFaceImgThumb());
 			user.setPassword("ChangeMe");
@@ -245,6 +250,9 @@ public class UserController extends BasicController {
 			userVO = userService.saveUserDirectly(user);
 		} else {
 			// 3.1 修改信息
+			if (isNickNameExist){
+				return JSONResult.errorMsg("用户名已存在，请换一个试试");
+			}
 			user.setId(userData.getId()); // 用作索引
 			user.setNickname(userData.getNickname());
 			user.setFaceImg(userData.getFaceImg());
@@ -413,15 +421,15 @@ public class UserController extends BasicController {
 		}
 		User user = new User();
 		UserVO userVO;
-		// 2. 判断用户名是否存在
+		// 2. 判断用户id是否存在
 		boolean isIdExist = userService.checkIdIsExist(userData.getId());
 		// 3. 注册信息
 		if (!isIdExist) {
-			// 3.1 只添加用户id（openId）头像和昵称
+			// 3.1 用户不存在，只添加用户id（openId）头像和昵称
 			user.setId(userData.getId());
-			user.setNickname(userData.getNickname());
-			user.setFaceImg(userData.getFaceImg());
-			user.setFaceImgThumb(userData.getFaceImgThumb());
+			user.setNickname("微信用户"+ sid.userInitNickname());
+			user.setFaceImg(RandomInitFaceImg.getRandomPath());
+			user.setFaceImgThumb(RandomInitFaceImg.getRandomPath());
 			user.setPassword("ChangeMe");
 			user.setFollowNum(0);
 			user.setFansNum(0);

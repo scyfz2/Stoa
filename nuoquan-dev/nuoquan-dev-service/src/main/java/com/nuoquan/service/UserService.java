@@ -16,9 +16,9 @@ public interface UserService {
 	public boolean checkIdIsExist(String id);
 	
 	/**
-	 * @Description: 判断昵称是否存在
-	 * @param nickname
-	 * @return
+	 * @param nickname 昵称
+	 * @return true:昵称不存在，可以使用；false: 昵称存在，需要更换
+	 * @Description: 判断nickname是否已经存在
 	 */
 	public boolean checkNicknameIsExist(String nickname);
 	

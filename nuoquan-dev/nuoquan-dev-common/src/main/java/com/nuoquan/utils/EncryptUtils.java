@@ -72,18 +72,10 @@ public class EncryptUtils {
     }
 
     public static void main(String[] args) {
-//        String eMsg = base64Encode("scyys7@nottingham.edu.cn");
-//        System.out.println(eMsg);
-//        String dMsg = base64Decode(eMsg);
-//        System.out.println(dMsg);
         String eMsg2 = md5Encode("oDwsO5FDozoraPzxqwIo9kx0RBxY");
         System.out.println(eMsg2);
         String eMsg3 = md5Encode("oDwsO5FDozoraPzxqwIo9kx0RBxY");
         System.out.println(eMsg3);
-
-
-
-
     }
 
 
