@@ -241,8 +241,8 @@ public class UserController extends BasicController {
 			// 新用户，只添加用户id（openId）头像和昵称
 			user.setId(userData.getId());
 			user.setNickname("微信用户"+ sid.userInitNickname());
-			user.setFaceImg(userData.getFaceImg());
-			user.setFaceImgThumb(userData.getFaceImgThumb());
+			user.setFaceImg(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
+			user.setFaceImgThumb(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
 			user.setPassword("ChangeMe");
 			user.setFollowNum(0);
 			user.setFansNum(0);
@@ -428,8 +428,8 @@ public class UserController extends BasicController {
 			// 3.1 用户不存在，只添加用户id（openId）头像和昵称
 			user.setId(userData.getId());
 			user.setNickname("微信用户"+ sid.userInitNickname());
-			user.setFaceImg(RandomInitFaceImg.getRandomPath());
-			user.setFaceImgThumb(RandomInitFaceImg.getRandomPath());
+			user.setFaceImg(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
+			user.setFaceImgThumb(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
 			user.setPassword("ChangeMe");
 			user.setFollowNum(0);
 			user.setFansNum(0);
