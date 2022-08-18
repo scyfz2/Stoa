@@ -14,13 +14,20 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean checkIdIsExist(String id);
-	
+
 	/**
 	 * @param nickname 昵称
 	 * @return true:昵称不存在，可以使用；false: 昵称存在，需要更换
 	 * @Description: 判断nickname是否已经存在
 	 */
 	public boolean checkNicknameIsExist(String nickname);
+
+	/**
+	 * @param email 邮箱
+	 * @return true：邮箱未绑定，可以绑定；false: 邮箱已绑定
+	 * @Description: 判断nickname是否已经存在
+	 */
+	public boolean checkEmailIsExist(String email);
 	
 	/**
 	 * 保存用户（用户注册）
