@@ -87,13 +87,24 @@ public class UserServiceImpl implements UserService {
 		User result = userMapper.selectOne(user);
 		return result == null ? false : true;
 	}
-	
+
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public boolean checkNicknameIsExist(String nickname) {
 		User user = new User();
 		// 条件
 		user.setNickname(nickname);
+		//判断result是否为空
+		User result = userMapper.selectOne(user);
+		return result == null ? false : true;
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public boolean checkEmailIsExist(String email) {
+		User user = new User();
+		// 条件
+		user.setEmail(email);
 		//判断result是否为空
 		User result = userMapper.selectOne(user);
 		return result == null ? false : true;
