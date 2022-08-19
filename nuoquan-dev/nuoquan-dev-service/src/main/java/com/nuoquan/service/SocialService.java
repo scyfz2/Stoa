@@ -5,8 +5,6 @@ import com.nuoquan.pojo.vo.UserCommentVO;
 import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.utils.PagedResult;
 
-import java.util.List;
-
 /**
  * @Description: 收藏服务类，支持对不同对象的收藏
  * @Author: jerrio
@@ -119,8 +117,9 @@ public interface SocialService {
      * @param userId
      * @param targetType
      * @param targetId
+     * @return
      */
-    public void userUncollect(String userId, PostType targetType, String targetId);
+    public String userUncollect(String userId, PostType targetType, String targetId);
 
     /**
      * 查询用户是否收藏了对象

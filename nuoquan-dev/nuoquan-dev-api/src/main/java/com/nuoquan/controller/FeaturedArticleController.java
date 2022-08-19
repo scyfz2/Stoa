@@ -17,7 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 
 import static com.nuoquan.controller.BasicController.PAGE_SIZE;
-
+/**
+ * 文章加精相关接口
+ * @author BoyuanYE
+ * @date 2022.08,10
+ */
 @RestController
 @Api(value = "文章加精相关接口", tags = { "FeaturedArticle-Controller" })
 @RequestMapping("/featuredArticle")
@@ -63,10 +67,10 @@ public class FeaturedArticleController extends BasicController {
     @ApiOperation(value = "文章加精并设置封面", notes = "文章加精及封面设置接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "articleId", value = "原始文章id", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "coverFile", value = "封面图片文件", required = true, dataType = "MultipartFile", paramType = "form")
     })
     @PostMapping("/setToFeaturedArticle")
-    public JSONResult setToFeaturedArticle(String articleId, MultipartFile coverFile) throws Exception{
+    public JSONResult setToFeaturedArticle(@ApiParam(value="file", required=true) MultipartFile coverFile,
+                                           String articleId) throws Exception{
         if (!featuredArticleService.isArticleFeatured(articleId)){
             return JSONResult.ok("Already Featured");
         }

@@ -24,6 +24,11 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 文章加精业务模型
+ * @author BoyuanYE
+ * @date 2022/08/10
+ */
 @Service
 public class FeaturedArticleServiceImpl implements FeaturedArticleService {
 

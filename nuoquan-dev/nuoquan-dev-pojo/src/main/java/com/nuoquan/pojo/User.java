@@ -100,7 +100,8 @@ public class User {
      * @param email
      */
     public void setEmail(String email) {
-        this.email = email;
+        this.email = EncryptUtils.base64Encode(email);
+//        this.email = email;
     }
 
     /**

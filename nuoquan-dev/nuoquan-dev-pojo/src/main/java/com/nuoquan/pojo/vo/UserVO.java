@@ -65,7 +65,8 @@ public class UserVO {
      * @return email
      */
     public String getEmail() {
-        return email;
+//        return email;
+        return EncryptUtils.base64Decode(email);
     }
 
     /**
