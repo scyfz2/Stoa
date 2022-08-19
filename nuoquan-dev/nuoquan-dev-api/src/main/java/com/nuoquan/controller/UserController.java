@@ -257,7 +257,7 @@ public class UserController extends BasicController {
 			user.setNickname(userData.getNickname());
 			user.setFaceImg(userData.getFaceImg());
 			user.setFaceImgThumb(userData.getFaceImgThumb());
-			user.setEmail(userData.getEmail());
+			user.setEmail(EncryptUtils.base64Decode(userData.getEmail()));
 			user.setDegree(userData.getDegree());
 			user.setGraduationYear(userData.getGraduationYear());
 			user.setGender(userData.getGender());
@@ -493,5 +493,13 @@ public class UserController extends BasicController {
 			}
 		}
 		return JSONResult.errorMsg("Wrong code.");
+//		if (StringUtils.isBlank(userId) || StringUtils.isBlank(email)){
+//			return JSONResult.errorMsg("Wrong");
+//		}
+//		User user = new User();
+//		user.setId(userId);
+//		user.setEmail(email);
+//		UserVO userVO = userService.updateUserInfo(user);
+//		return JSONResult.ok(userVO);
 	}
 }

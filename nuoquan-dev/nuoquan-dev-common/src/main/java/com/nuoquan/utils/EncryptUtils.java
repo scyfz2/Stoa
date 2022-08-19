@@ -16,12 +16,18 @@ public class EncryptUtils {
      * @Description: 对字符串进行加密
      */
     public static String base64Encode(String plainText) {
+        if (StringUtils.isEmpty(plainText)){
+            return plainText;
+        }
         return Base64.getEncoder().encodeToString(plainText.getBytes(StandardCharsets.UTF_8));
     }
     /**
      * @Description: 对字符串进行解码
      */
     public static String base64Decode(String encryptedText) {
+        if (StringUtils.isEmpty(encryptedText)){
+            return encryptedText;
+        }
         String decryptedText = new String(Base64.getDecoder().decode(encryptedText));
         return decryptedText;
     }
