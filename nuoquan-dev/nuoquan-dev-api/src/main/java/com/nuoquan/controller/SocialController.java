@@ -219,10 +219,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetType", value = "文章id", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "targetId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
-	@PostMapping(value = "/userUncollectArticle")
+	@PostMapping(value = "/userUncollect")
 	public JSONResult userUncollect(String userId, PostType targetType, String targetId) throws Exception {
-		socialService.userUncollect(userId, targetType, targetId);
-		return JSONResult.ok();
+		String id = socialService.userUncollect(userId, targetType, targetId);
+		return JSONResult.ok(id);
 	}
 
 	@ApiOperation(value = "查询自己收藏的文章")

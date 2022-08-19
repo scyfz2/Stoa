@@ -4,7 +4,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 
-
+/**
+ * base64编码（用于加密），普通md5加密
+ *
+ * @author Boyuan YE
+ * @date 2022.08.15
+ */
 public class EncryptUtils {
 
     /**

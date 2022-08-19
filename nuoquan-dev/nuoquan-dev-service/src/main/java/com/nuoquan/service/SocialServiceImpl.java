@@ -430,23 +430,24 @@ public class SocialServiceImpl implements SocialService {
 
     /**
      * 用户取消收藏
-     *
-     * @param userId
+     *  @param userId
      * @param targetType
      * @param targetId
+     * @return
      */
     @Override
-    public void userUncollect(String userId, PostType targetType, String targetId) {
+    public String userUncollect(String userId, PostType targetType, String targetId) {
         boolean isCollect = isUserCollect(userId, targetType, targetId);
         if (isCollect) {
-            // 1.删除用户和评论的点赞关联关系表
             Example example = new Example(UserCollect.class);
             // 创造条件
             Example.Criteria criteria = example.createCriteria();
             // 条件的判断 里面的变量无需和数据库一致，与pojo类中的变量一致。在pojo类中变量与column有映射
             criteria.andEqualTo("userId", userId);
-            criteria.andEqualTo("targetType", targetType);
+            criteria.andEqualTo("targetType", targetType.getValue());
             criteria.andEqualTo("targetId", targetId);
+            System.out.println(userId);
+            System.out.println(targetId);
 
             userCollectMapper.deleteByExample(example);
 
@@ -458,8 +459,9 @@ public class SocialServiceImpl implements SocialService {
                 case LONGARTICLE:
                     longarticleMapper.reduceCollectCount(targetId);
                     break;
-            }
-        }
+            } // end switch
+        } //end if(isCollect)
+        return targetId;
     }
 
     /**
