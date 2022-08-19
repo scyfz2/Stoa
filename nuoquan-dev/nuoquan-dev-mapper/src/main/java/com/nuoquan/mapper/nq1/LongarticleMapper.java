@@ -3,6 +3,8 @@ package com.nuoquan.mapper.nq1;
 import com.nuoquan.pojo.Longarticle;
 import com.nuoquan.utils.MyMapper;
 
+import java.util.List;
+
 public interface LongarticleMapper extends MyMapper<Longarticle> {
 
 	/**
@@ -46,4 +48,22 @@ public interface LongarticleMapper extends MyMapper<Longarticle> {
 	 * @param articleId
 	 */
 	public void addViewCount(String articleId);
+
+	/**
+	 * @Description: 对文章举报的数量进行累加
+	 * @param articleId
+	 */
+	public void addReportedCount(String articleId);
+
+	/**
+	 * 根据创建时间降序查找所有被举报的长文章
+	 * @return
+	 */
+	public List<Longarticle> queryReportedLongArticleByCreatTime();
+
+	/**
+	 * 根据被举报数量降序查找所有被举报的长文章
+	 * @return
+	 */
+	public List<Longarticle> queryReportedLongArticleByReportedNum();
 }

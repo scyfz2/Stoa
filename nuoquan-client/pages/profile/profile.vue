@@ -86,19 +86,19 @@
 				</view>
 			</view>
 			<view class="row" v-if="isEditEmail">
-				<input style="color:rgba(53,53,53,1);min-height: unset;width: 80px;height:20px;font-size: 17px;" @blur="confirmCode"
+				<input style="color:rgba(53,53,53,1);min-height: unset;width: 60px;height:20px;font-size: 14px;"
 				 v-if="isEditEmail&& showCaptcha" maxlength="6" :placeholder="lang.captcha" @input="onCaptcha" />
-				<whCaptcha style="display: inline-block;" class="waiting" ref="captcha" :secord="60" :title="lang.getCaptcha"
+				<whCaptcha style="display: block;" class="waiting" ref="captcha" :secord="60" :title="lang.getCaptcha"
 				 :waitTitle="lang.waitCaptcha" normalClass="editEmail" disabledClass="waiting60s" @click="getCaptcha" v-if="isEditEmail"></whCaptcha>
-				
-				 <!-- Author: Yifei
+				 <!-- <whCaptcha style="display: inline-block;" class="waiting" ref="captcha" :secord="60" :title="lang.getCaptcha"
+				  :waitTitle="lang.waitCaptcha" normalClass="editEmail" disabledClass="waiting60s" @click="getCaptcha" v-if="isEditEmail"></whCaptcha> -->
+				  <!-- Author: Yifei
 				 Date: July 6,2022
 				 Description: 个人信息内，关联信息功能，输入验证码后没有“邮箱绑定”按钮，只能通过回车确认
 				 TODO: 加一个按钮，用于邮箱绑定功能，暂时不太会写写不出来 -->
-				<!-- <button class="confirm-button-checked" hover-class="hoverColorYellow" @click="confirmCode">
-					<view style="color: white;font-weight: 100;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.emailAuth}}</view>
-				</button> -->
-				
+				<view v-if="isEditEmail&&showCaptcha" class="confirm-button-checked" @click="confirmCode">
+					{{lang.emailAuth}}
+				</view>
 			</view>
 		</view>
 	</view>
@@ -660,6 +660,7 @@
 	}
 
 	.row {
+		position: static;
 		display: flex;
 		width: 200px;
 		justify-content: space-between;
@@ -668,11 +669,10 @@
 		vertical-align: middle;
 		padding-bottom: 15px;
 		margin-left: 10%;
-
 	}
 
 	.editEmail {
-		margin-right: 10px;
+		/* margin-right: 10px; */
 		vertical-align: bottom;
 		width: 97px;
 		height: 26px;
@@ -684,12 +684,12 @@
 		font-weight: 400;
 		line-height: 26px;
 		color: rgba(255, 255, 255, 1);
-
 	}
 
 	.waiting60s {
+		/* position: absolute; */
 		text-align: center;
-		width: 120px;
+		width: 100px;
 		height: 26px;
 		border: 1px solid rgba(236, 236, 236, 1);
 		opacity: 1;
@@ -707,8 +707,7 @@
 		height: 0px;
 		border: 1px solid rgba(255, 207, 107, 1);
 	}
-</style>
-<style>
+	
 	.major-pick-style .item,
 	.year-pick-style .item {
 		height: 22.4px;
@@ -724,5 +723,19 @@
 	.year-pick-style .defaultPicker {
 		height: 22.4px;
 		line-height: 30px;
+	}
+	
+	.confirm-button-checked{
+		font-size: 14px;
+		width: 80px;
+		height: 26px;
+		line-height: 26px;
+		color: #FFFFFF;
+		background-color: rgba(255,207,107,1);
+		border-radius: 4px;
+		text-align: center;
+		position: absolute;
+		z-index: 5;
+		right: 8%;
 	}
 </style>

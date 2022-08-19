@@ -37,7 +37,7 @@
 						</view>
 					</view>
 					<view class="picArea" v-if="thisArticle.imgList.length">
-						<image :src="serverUrl + thisArticle.imgList[0].imagePath" mode="aspectFill"></image>
+						<image :src="resServerUrl + thisArticle.imgList[0].imagePath" mode="aspectFill"></image>
 					</view>	
 				</view>	
 			</view>
@@ -53,8 +53,7 @@
 		},
 		data() {
 			return {
-				serverUrl: this.$serverUrl,
-				
+				resServerUrl: this.$resServerUrl,
 			};
 		},
 	

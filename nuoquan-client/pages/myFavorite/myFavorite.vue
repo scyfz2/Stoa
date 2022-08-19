@@ -12,11 +12,11 @@
 				{{ myArticleList.length }}</view>
 		</view>
 
-			<view class="mainbody">
-				<collection-card v-for="article in myArticleList" :key="article.id" :thisArticle="article" :lang="lang"
-				 @modifySwipedId="receiveSwiped" :swipedArticleId="swipedArticleId" :userInfo="userInfo">
-				</collection-card>
-			</view>
+		<view class="mainbody">
+			<collection-card v-for="article in myArticleList" :key="article.id" :thisArticle="article" :lang="lang"
+			 @modifySwipedId="receiveSwiped" :swipedArticleId="swipedArticleId" :userInfo="userInfo">
+			</collection-card>
+		</view>
 		</scroll-view>
 	</view>
 </template>

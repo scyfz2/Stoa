@@ -14,6 +14,7 @@
     <result column="dislike_num" jdbcType="INTEGER" property="dislikeNum" />
     <result column="comment_num" jdbcType="INTEGER" property="commentNum" />
     <result column="collect_num" jdbcType="INTEGER" property="collectNum" />
+    <result column="reported_num" jdbcType="INTEGER" property="reportedNum" />
     <result column="popularity" jdbcType="INTEGER" property="popularity" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -49,8 +50,20 @@
     update nuoquan.article set comment_num=comment_num-1 where id=#{articleId}
   </update>
 
+  <update id="addReportedCount" parameterType="String">
+    update nuoquan.article set reported_num=reported_num+1 where id=#{articleId}
+  </update>
+
   <update id="addViewCount" parameterType="String">
   	update nuoquan.article set view_num=view_num+1 where id=#{articleId}
   </update>
+
+  <select id="queryReportedArticleByCreateTime" resultMap="BaseResultMap">
+    select * from nuoquan.article a where reported_num!=0 order by a.create_date desc
+  </select>
+
+  <select id="queryReportedArticleByReportedNum" resultMap="BaseResultMap">
+    select * from nuoquan.article a where reported_num!=0 order by a.reported_num desc
+  </select>
 </mapper>
 

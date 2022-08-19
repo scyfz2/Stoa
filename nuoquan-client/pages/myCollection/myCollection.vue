@@ -74,11 +74,26 @@ export default {
 		
 		this.showArticles(page);   
 		uni.$on('refresh', () => {
-			this.showArticles(1);
+			// this.showArticles(1);
+			this.refresh();
 		});
 	},
 
 	methods: {
+		// Date: Aug 15, 2022
+		// Author: Yifei
+		// Description: 之前在删除收藏后的刷新会有点问题，就写一个刷新页面的方法吧
+		refresh: function(){
+			// 页面重载
+		    const pages = getCurrentPages()
+		    // 声明一个pages使用getCurrentPages方法
+			const curPage = pages[pages.length - 1]
+	        // 声明一个当前页面
+		    curPage.onLoad(curPage.options) // 传入参数
+	        curPage.onShow()
+			curPage.onReady()
+	        // 执行刷新
+		},
 		// 锁
 		showArticles: function(page) {
 			if (loadArticleFlag) {

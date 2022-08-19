@@ -2,7 +2,6 @@ package com.nuoquan.controller;
 
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -15,12 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nuoquan.email.EmailTool;
-import com.nuoquan.enums.MsgActionEnum;
 import com.nuoquan.enums.ReputeWeight;
 import com.nuoquan.pojo.ChatMsg;
 import com.nuoquan.pojo.User;
-import com.nuoquan.pojo.netty.DataContent;
-import com.nuoquan.pojo.netty.NoticeCard;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -384,11 +380,17 @@ public class UserController extends BasicController {
 			//发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识  
 			String res = UrlUtil.sendPost(wxGetOpenIdUrl, requestUrlParam);
 			WxRes wxRes= JsonUtils.jsonToPojo(res, WxRes.class);
-			System.out.println("res:" + res);
-			System.out.println(wxRes.getOpenid());
+//			System.out.println("res:" + res);
+//			System.out.println(wxRes.getOpenid());
 
 			User user = new User();
-			user.setId(wxRes.getOpenid());
+			String id = wxRes.getOpenid();
+			if (id == null){
+				return JSONResult.errorMsg("无法获取微信openId");
+			} else {
+				id = EncryptUtils.md5Encode(id);
+			}
+			user.setId(id);
 			user.setNickname(nickname);
 			user.setFaceImg(faceImg);
 			UserVO userVO= wxLogin(user);
@@ -427,6 +429,7 @@ public class UserController extends BasicController {
 			userVO = userService.saveUserDirectly(user);
 		} else {
 			// 3.2 查询信息
+			// userVO = userService.getUserById(userData.getId());
 			userVO = userService.getUserById(userData.getId());
 		}
 		// 将 user 对象转换为 userVO 输出，userVO 中不返回密码，且可加上其他属性。

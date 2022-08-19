@@ -54,9 +54,6 @@
 				<!-- <view class="swiper-item swiperBg"></view> -->
 				<image class="swiperBg" :src=item.resourceUrl mode="aspectFill" @click="jumpToWeb()"></image>
 			</swiper-item>
-			<!-- <swiper-item>
-				<image class="swiperBg" src="https://nqbucket-1258460770.cos.ap-shanghai.myqcloud.com/nqstatic/ad/%E7%B2%BE%E9%85%BF%E5%95%A4%E9%85%92%E5%90%A7.jpg" mode="aspectFill"></image>
-			</swiper-item> -->
 		</swiper>
 
 		<view class="navigator_box">

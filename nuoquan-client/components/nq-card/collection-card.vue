@@ -158,14 +158,21 @@
 			unCollectArticle() {
 				console.log('取消收藏文章');
 				var that = this;
+				// console.log(that.thisArticle.userId);
 				// debugger;
 				uni.request({
 					method: 'POST',
 					url: that.$serverUrl + '/social/userUncollectArticle',
 					data: {
+						// Modifier: Yifei
+						// Date: Aug 15, 2022
+						// Description: 最好别让我知道是谁这么写的不然我杀了他
+						// userId: that.userInfo.id,
+						// articleId: that.thisArticle.id,
+						// articleCreaterId: that.thisArticle.userId,
 						userId: that.userInfo.id,
-						articleId: that.thisArticle.id,
-						articleCreaterId: that.thisArticle.userId,
+						targetType: 'ARTICLE',
+						targetId: that.thisArticle.id,
 					},
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'

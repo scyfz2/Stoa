@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'en',
 	
-	tabbarName : ["Home","I-week","","Message","Mine"],
+	tabbarName : ["Home","Zone","","Msg","Me"],
 	tabList : ["Post Article","Create Vote"],
 	version : "v1.1.1",
 	back : "Back",
@@ -181,6 +181,7 @@ module.exports = {
 	editEmail: "Click text to modify email",
 	bindEmail: "Click to bind email",
 	//他人页
+	personalHome: "Personal Home",
 	whosHome : "'s Home",
 	lazyNoSignature: "This signature has losed...",
 	
@@ -212,6 +213,13 @@ module.exports = {
 	// iweek相关
 	iweek: "I-week",
 	functionList : ["Society","U Course","UNNC Map","Foodie"],
+	dailySchedule : "Daily Schedule",
+	noMore: "No More",
 	organizationList:"organizationList",
 	organizationDetail:"organizationDetail",
+	date: 'date',
+	time: 'time',
+	venue: 'venue',
+	targetStudent: 'Target Student',
+	eventsType: 'eventsType',
 }

@@ -34,6 +34,9 @@ public class LongarticleVO {
     private Integer commentNum;
     @Column(name = "collect_num")
     private Integer collectNum;
+
+    @Column(name = "reported_num")
+    private Integer reportedNum;
     private Integer popularity;
     /**
      * 0 = unreadable, 1 = readable, 2 = checking
@@ -221,6 +224,14 @@ public class LongarticleVO {
      */
     public void setCollectNum(Integer collectNum) {
         this.collectNum = collectNum;
+    }
+
+    public Integer getReportedNum() {
+        return reportedNum;
+    }
+
+    public void setReportedNum(Integer reportedNum) {
+        this.reportedNum = reportedNum;
     }
 
     /**

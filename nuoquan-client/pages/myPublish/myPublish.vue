@@ -23,13 +23,18 @@
 			<view>
 				<!-- <swiper style="width:100%;height:100%;" :current-item-id="swiperViewing" disable-touch="true" @touchmove.prevent="stopTouch">
 				<swiper-item style="width: 100%;" item-id="article" @touchmove.prevent="stopTouch"> -->
-				<view class="mainbody articleArea" v-show="swiperViewing == 'article'">
+				<!-- <view class="mainbody articleArea" v-show="swiperViewing == 'article'">
+					<view style="height:20px;width:100%;"></view>
+					<modify-article v-for="article in myArticleList" :key="article.id" :thisArticle="article" :lang="lang"
+					 @modifySwipedId="receiveSwiped" :messageIndex="messageIndex">
+					</modify-article>
+				</view> -->
+				<view class="mainbody articleArea">
 					<view style="height:20px;width:100%;"></view>
 					<modify-article v-for="article in myArticleList" :key="article.id" :thisArticle="article" :lang="lang"
 					 @modifySwipedId="receiveSwiped" :messageIndex="messageIndex">
 					</modify-article>
 				</view>
-
 				<!-- </swiper-item>
 				<swiper-item style="width: 100%;" item-id="vote" @touchmove.prevent="stopTouch"> -->
 
@@ -283,85 +288,88 @@
 			// 	}
 			// },
 
+			// Describer: Yifei
+			// Date: 13 Aug. 2022
+			// Description: 3.0上线时 long article暂时删除，注释掉了
 			//长文章
-			showLA: function(page) {
-				if (loadLAFlag) {
-					loadLAFlag = false;
-				}
+			// showLA: function(page) {
+			// 	if (loadLAFlag) {
+			// 		loadLAFlag = false;
+			// 	}
 
-				loadLAFlag = true;
+			// 	loadLAFlag = true;
 
-				uni.showLoading({
-					title: '加载中...'
-				});
-				setTimeout(() => {
-					if (loadLAFlag) {
-						loadLAFlag = false; //解锁
-						uni.hideLoading();
-						uni.showToast({
-							title: '网络未知错误',
-							icon: 'none',
-							duration: 1000
-						});
-					}
-				}, 5000); //延时五秒timeout
+			// 	uni.showLoading({
+			// 		title: '加载中...'
+			// 	});
+			// 	setTimeout(() => {
+			// 		if (loadLAFlag) {
+			// 			loadLAFlag = false; //解锁
+			// 			uni.hideLoading();
+			// 			uni.showToast({
+			// 				title: '网络未知错误',
+			// 				icon: 'none',
+			// 				duration: 1000
+			// 			});
+			// 		}
+			// 	}, 5000); //延时五秒timeout
 
-				var that = this;
-				uni.request({
-					url: that.$serverUrl + '/article/queryPublishHistory',
-					method: 'POST',
-					data: {
-						page: 1,
-						userId: that.userInfo.id,
-						targetId: that.userInfo.id,
+			// 	var that = this;
+			// 	uni.request({
+			// 		url: that.$serverUrl + '/article/queryPublishHistory',
+			// 		method: 'POST',
+			// 		data: {
+			// 			page: 1,
+			// 			userId: that.userInfo.id,
+			// 			targetId: that.userInfo.id,
 
-					},
-					header: {
-						'content-type': 'application/x-www-form-urlencoded'
-					},
-					success: res => {
-						console.log(res);
-						setTimeout(() => {
-							//延时加载
+			// 		},
+			// 		header: {
+			// 			'content-type': 'application/x-www-form-urlencoded'
+			// 		},
+			// 		success: res => {
+			// 			console.log(res);
+			// 			setTimeout(() => {
+			// 				//延时加载
 							
-							if (page == 1) {
-								that.myLongArticleList = [];
-							}
-							var newLAList = res.data.data.rows;
-							var oldLAList = that.myVoteList;
-							that.myLongArticleList = oldLAList.concat(newLAList);
-							that.currentPageLA = page;
-							that.totalPageLA = res.data.data.total;
-							that.totalNumLA = res.data.data.records;
-							console.log(that.totalNum);
-						}, 300);
-					},
-					fail: res => {
-						uni.hideLoading();
-						loadLAFlag = false;
+			// 				if (page == 1) {
+			// 					that.myLongArticleList = [];
+			// 				}
+			// 				var newLAList = res.data.data.rows;
+			// 				var oldLAList = that.myVoteList;
+			// 				that.myLongArticleList = oldLAList.concat(newLAList);
+			// 				that.currentPageLA = page;
+			// 				that.totalPageLA = res.data.data.total;
+			// 				that.totalNumLA = res.data.data.records;
+			// 				console.log(that.totalNum);
+			// 			}, 300);
+			// 		},
+			// 		fail: res => {
+			// 			uni.hideLoading();
+			// 			loadLAFlag = false;
 
-						console.log('index unirequest fail');
-						console.log(res);
-					}
-				});
-			},
-			loadMoreLA: function() {
-				var that = this;
-				var currentPage = that.currentPageVote;
-				var totalPage = that.totalPageVote;
-				// 判断当前页数和总页数是否相等
-				if (currentPage == totalPage) {
-					// that.showArticles(1);
-					uni.showToast({
-						title: '没有更多文章了',
-						icon: 'none',
-						duration: 1000
-					});
-				} else {
-					var page = currentPageVote + 1;
-					that.showVotes()(page);
-				}
-			},
+			// 			console.log('index unirequest fail');
+			// 			console.log(res);
+			// 		}
+			// 	});
+			// },
+			// loadMoreLA: function() {
+			// 	var that = this;
+			// 	var currentPage = that.currentPageVote;
+			// 	var totalPage = that.totalPageVote;
+			// 	// 判断当前页数和总页数是否相等
+			// 	if (currentPage == totalPage) {
+			// 		// that.showArticles(1);
+			// 		uni.showToast({
+			// 			title: '没有更多文章了',
+			// 			icon: 'none',
+			// 			duration: 1000
+			// 		});
+			// 	} else {
+			// 		var page = currentPageVote + 1;
+			// 		that.showVotes()(page);
+			// 	}
+			// },
 			switchSwiper(a) {
 				this.swiperViewing = a;
 			},
@@ -472,6 +480,6 @@
 		color: rgba(136, 136, 136, 1);
 		font-size: 14px;
 		position: absolute;
-		margin-left: 250upx;
+		right: 20px;
 	}
 </style>

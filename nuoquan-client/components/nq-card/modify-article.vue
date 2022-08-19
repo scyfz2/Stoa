@@ -13,14 +13,14 @@
 					@click="goToDetail(thisArticle)"
 					hover-class="hoverColor"
 				>
-					<view class="title" v-html="$markdownParse.parse(thisArticle.articleTitle)"></view>
+					<view class="title">{{thisArticle.articleTitle}}</view>
 					<view class="cardBody">
 						<view class="picArea" v-if="thisArticle.imgList.length">
 							<image :src="pathFilter(thisArticle.imgList[0].imagePath)"></image>
 							<!-- 						<view class="picNum"></view>第二版不显示图片总数了，此处注释掉 -->
 						</view>
 						<view class="left-body" :class="{ leftBodyWithPic: thisArticle.imgList.length != 0 && thisArticle.imgList != null}">
-							<view class="content" v-html="$markdownParse.parse(thisArticle.articleContent)"></view>
+							<view class="content">{{thisArticle.articleContent}}</view>
 							<view class="bottomBar">
 								<view class="time">{{timeDeal(thisArticle.createDate)}}</view>
 								<view class="comment">

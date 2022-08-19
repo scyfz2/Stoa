@@ -75,7 +75,7 @@ public class SocialServiceImpl implements SocialService {
         return userService.getUserById(authorId);
     }
 
-    private UserCommentVO composeComment(String userId, UserComment userComment){
+    public UserCommentVO composeComment(String userId, UserComment userComment){
         UserCommentVO userCommentVO = new UserCommentVO();
         BeanUtils.copyProperties(userComment,userCommentVO);
         // 查询并设置关于用户的点赞关系
@@ -571,6 +571,27 @@ public class SocialServiceImpl implements SocialService {
     @Override
     public void userRead(String userId, PostType targetType, String targetId){
         //TODO:记录用户阅读行为
+    }
+
+    @Override
+    public PagedResult getAllCommentToMe(Integer page, Integer pageSize, String userId) {
+        PageHelper.startPage(page, pageSize);
+        List<UserComment> list = userCommentMapper.queryCommentToMe(userId);
+        PageInfo<UserComment> pageInfo = new PageInfo<>(list);
+        PageInfo<UserCommentVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
+        List<UserCommentVO> listVO = new ArrayList<>();
+        for (UserComment c : list) {
+            int articleStatus = articleService.getArticleById(c.getTargetId(), userId).getStatus();
+            if (articleStatus != 0)
+                listVO.add(composeComment(userId, c));
+        }
+        pageInfoVO.setList(listVO);
+
+        //为最终返回对象 pagedResult 添加属性
+        PagedResult pagedResult = new PagedResult(pageInfoVO);
+
+        return pagedResult;
+
     }
 
 }
