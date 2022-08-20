@@ -70,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	/**
-	 * 组装文章VO对象
+	 * 组装文章VO对象（注意：后台调用composeVO时userId为空）
 	 * @param articleVO
 	 * @param userId 操作者（我）
 	 * @return
@@ -83,10 +83,12 @@ public class ArticleServiceImpl implements ArticleService {
 		articleVO.setFaceImgThumb(userVO.getFaceImgThumb());
 		// 添加图片列表
 		articleVO = addArticleImgs(articleVO);
-		// 添加和关于用户的点赞关系
-		articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
-		// 添加和关于用户的收藏关系
-		articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
+		if (StringUtils.isNotBlank(userId)){
+			// 添加和关于用户的点赞关系
+			articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
+			// 添加和关于用户的收藏关系
+			articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
+		}
 		// 添加标签列表
 		if (!StringUtils.isBlank(articleVO.getTags())) {
 			String[] tagList = articleVO.getTags().split("#");
@@ -102,7 +104,10 @@ public class ArticleServiceImpl implements ArticleService {
 		// 检查是否有屏蔽词并替换
 		articleVO.setArticleContent(sensitiveFilterUtil.filter(articleVO.getArticleContent()));
 		articleVO.setArticleTitle(sensitiveFilterUtil.filter(articleVO.getArticleTitle()));
-		socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
+
+		if (StringUtils.isNotBlank(userId)){socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
+		}
+
 
 		return articleVO;
 	}
