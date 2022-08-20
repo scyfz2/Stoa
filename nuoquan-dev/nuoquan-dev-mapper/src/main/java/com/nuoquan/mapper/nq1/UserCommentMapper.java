@@ -2,9 +2,11 @@ package com.nuoquan.mapper.nq1;
 
 import com.nuoquan.pojo.UserComment;
 import com.nuoquan.utils.MyMapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface UserCommentMapper extends MyMapper<UserComment> {
     /**
      * @Description: 对评论喜欢的数量进行累加
@@ -23,6 +25,12 @@ public interface UserCommentMapper extends MyMapper<UserComment> {
      * @param commentId
      */
     public void addCommentCount(String commentId);
+
+    /**
+     * @description: 对评论的评论的数量进行累减
+     * @param commentId
+     */
+    public void reduceCommentCount(String commentId);
 
     /**
      * @description: 对评论的举报数量进行累加
@@ -48,4 +56,18 @@ public interface UserCommentMapper extends MyMapper<UserComment> {
      * @return
      */
     public List<UserComment> queryCommentToMe(String userid);
+
+    /**
+     * 查询此评论的子评论数
+     * @param commentId
+     * @return
+     */
+    public Integer querySubCommentNum(String commentId);
+
+    /**
+     * 查询此主评论的所有子评论
+     * @param commentId
+     * @return
+     */
+    public List<UserComment> queryAllSubComment(String commentId);
 }

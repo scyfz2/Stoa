@@ -2,9 +2,11 @@ package com.nuoquan.mapper.nq1;
 
 import com.nuoquan.pojo.Longarticle;
 import com.nuoquan.utils.MyMapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface LongarticleMapper extends MyMapper<Longarticle> {
 
 	/**

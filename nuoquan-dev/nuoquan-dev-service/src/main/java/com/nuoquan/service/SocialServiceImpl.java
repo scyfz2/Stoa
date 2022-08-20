@@ -150,11 +150,21 @@ public class SocialServiceImpl implements SocialService {
         }
     }
 
-    private void reduceTargetCommentCount(String targetType, String targetId) {
+    private void reduceTargetCommentCount(String targetType, String targetId, String commentId) {
         if (targetType.equals(PostType.COMMENT.value)) {
-            //TODO:评论的评论数减少
+            userCommentMapper.reduceCommentCount(targetId);
+            articleMapper.reduceCommentCount(userCommentMapper.selectByPrimaryKey(targetId).getTargetId());
         } else if (targetType.equals(PostType.ARTICLE.value)) {
-            articleMapper.reduceCommentCount(targetId);
+            // 如果此评论有子评论的话，查询所有子评论数之和，所以新评论数=旧评论数-子评论数之和-1
+            if (userCommentMapper.querySubCommentNum(commentId)!=0){
+                int subCommentNum = userCommentMapper.selectByPrimaryKey(commentId).getCommentNum();
+                int articleCommentNum = articleMapper.selectArticleCommentNum(targetId);
+                int newCommentNum = articleCommentNum - subCommentNum - 1;
+                articleMapper.reduceCommentCountSpecific(targetId, newCommentNum);
+            }
+            // 如果此评论没有子评论的话，直接评论数-1
+            else
+                articleMapper.reduceCommentCount(targetId);
         } else if (targetType.equals(PostType.LONGARTICLE.value)) {
             longarticleMapper.reduceCommentCount(targetId);
         } else if (targetType.equals(PostType.VOTE.value)) {
@@ -281,7 +291,7 @@ public class SocialServiceImpl implements SocialService {
         UserComment c = new UserComment();
         c.setStatus(StatusEnum.DELETED.type);
         userCommentMapper.updateByExampleSelective(c, example);
-        reduceTargetCommentCount(targetType.getValue(), targetId);
+        reduceTargetCommentCount(targetType.getValue(), targetId, commentId);
     }
 
     /**
