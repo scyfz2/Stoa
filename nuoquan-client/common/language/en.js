@@ -37,7 +37,7 @@ module.exports = {
 	
 	
 	// 注册页面
-	welcome1: "Dear UNNCer,",
+	welcome1: "Dear Student,",
 	welcome2:"Welcome Home,",
 	welcome3:"Please Accept The User Protocol.",
 	lastStep:"Last step,",
