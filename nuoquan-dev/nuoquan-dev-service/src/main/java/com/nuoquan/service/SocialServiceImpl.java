@@ -92,6 +92,16 @@ public class SocialServiceImpl implements SocialService {
         return userCommentVO;
     }
 
+    public UserLikeVO composeLike(String userId, UserLike userLike){
+        UserLikeVO userLikeVO = new UserLikeVO();
+        BeanUtils.copyProperties(userLike,userLikeVO);
+        // 查询并设置点赞人头像昵称
+        UserVO fromUser= userService.getUserById(userLikeVO.getUserId());
+        userLikeVO.setNickname(fromUser.getNickname());
+        userLikeVO.setFaceImg(fromUser.getFaceImg());
+        return userLikeVO;
+    }
+
     /**
      * 上传评论到数据库
      * @param fromUserId 评论人
@@ -284,14 +294,23 @@ public class SocialServiceImpl implements SocialService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
-        Example example = new Example(UserComment.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("id", commentId);
-        UserComment c = new UserComment();
-        c.setStatus(StatusEnum.DELETED.type);
-        userCommentMapper.updateByExampleSelective(c, example);
-        reduceTargetCommentCount(targetType.getValue(), targetId, commentId);
+    public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
+        if (userId.equals(articleMapper.selectByPrimaryKey(userCommentMapper.selectByPrimaryKey(commentId).getTargetId()).getUserId())
+        || userId.equals(userCommentMapper.selectByPrimaryKey(commentId).getFromUserId())) {
+            Example example = new Example(UserComment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("id", commentId);
+            UserComment c = new UserComment();
+            c.setStatus(StatusEnum.DELETED.type);
+            userCommentMapper.updateByExampleSelective(c, example);
+            reduceTargetCommentCount(targetType.getValue(), targetId, commentId);
+            return 1;
+        }
+        else{
+            System.out.println("你是小丑，小丑是你，小丑删不了评论");
+            return 0;
+        }
+
     }
 
     /**
@@ -604,6 +623,27 @@ public class SocialServiceImpl implements SocialService {
 
         return pagedResult;
 
+    }
+
+    // 此查询有问题，因为点赞数据库中没有to_user_id,后续如果需要的话可以更改数据库后使用此方法
+    @Override
+    public PagedResult getAllLikeToMe(Integer page, Integer pageSize, String userId){
+        PageHelper.startPage(page, pageSize);
+        List<UserLike> list = userLikeMapper.queryLikeToMe(userId);
+        PageInfo<UserLike> pageInfo = new PageInfo<>(list);
+        PageInfo<UserLikeVO> pageInfoVO = PageUtils.PageInfo2PageInfoVo(pageInfo);
+        List<UserLikeVO> listVO = new ArrayList<>();
+        for (UserLike c : list) {
+            int articleStatus = articleService.getArticleById(c.getTargetId(), userId).getStatus();
+            if (articleStatus != 0)
+                listVO.add(composeLike(userId, c));
+        }
+        pageInfoVO.setList(listVO);
+
+        //为最终返回对象 pagedResult 添加属性
+        PagedResult pagedResult = new PagedResult(pageInfoVO);
+
+        return pagedResult;
     }
 
 }

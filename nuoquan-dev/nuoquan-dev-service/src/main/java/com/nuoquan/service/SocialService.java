@@ -76,7 +76,7 @@ public interface SocialService {
      * Set the status to unreadable
      * @param commentId
      */
-    public void fDeleteComment(String commentId, String userId, String targetId, PostType targetType);
+    public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType);
 
     /**
      * 用户点赞对象
@@ -163,5 +163,14 @@ public interface SocialService {
      * @return
      */
     public PagedResult getAllCommentToMe(Integer page, Integer pageSize, String userId);
+
+    /**
+     * 查询全部给我的赞
+     * @param page
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    public PagedResult getAllLikeToMe(Integer page, Integer pageSize, String userId);
 
 }

@@ -195,10 +195,10 @@ public class SocialController extends BasicController {
 
 	})
 	@PostMapping(value = "/fDeleteComment")
-	public JSONResult fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
+	// 特别注意：返回值为1时代表执行此操作的人是文章发布者或评论发布者（此时可以删除评论），返回值为0时无法删除评论
+	public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
 			throws Exception {
-		socialService.fDeleteComment(commentId, userId, targetId, targetType);
-		return JSONResult.ok();
+		return socialService.fDeleteComment(commentId, userId, targetId, targetType);
 	}
 
 	@ApiOperation(value = "收藏文章")
@@ -259,7 +259,7 @@ public class SocialController extends BasicController {
 		return JSONResult.ok();
 	}
 
-	@ApiOperation(value = "用户阅读文章")
+	@ApiOperation(value = "获取所有给我的评论")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "int", paramType = "form"),
 			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "int", paramType = "form"),
@@ -279,4 +279,26 @@ public class SocialController extends BasicController {
 		return JSONResult.ok(list);
 
 	}
+
+	@ApiOperation(value = "获取所有给我的点赞")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "int", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "int", paramType = "form"),
+			@ApiImplicitParam(name = "userId", value = "用户Id", required = true, dataType = "String", paramType = "form") })
+	@PostMapping("/getAllLikeToMe")
+	public JSONResult getAllLikeToMe(Integer page, Integer pageSize, String userId) {
+		if (page == null) {
+			page = 1;
+		}
+
+		if (pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+
+		PagedResult list = socialService.getAllLikeToMe(page, pageSize, userId);
+
+		return JSONResult.ok(list);
+
+	}
+
 }
