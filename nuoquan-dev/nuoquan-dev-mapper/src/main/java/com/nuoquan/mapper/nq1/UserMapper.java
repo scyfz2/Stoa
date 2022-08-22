@@ -1,7 +1,11 @@
 package com.nuoquan.mapper.nq1;
 
 import com.nuoquan.pojo.User;
+import com.nuoquan.pojo.vo.ArticleVO;
+import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.utils.MyMapper;
+
+import java.util.List;
 
 public interface UserMapper extends MyMapper<User> {
 	
@@ -37,4 +41,10 @@ public interface UserMapper extends MyMapper<User> {
 	 * @Description: 减少关注数
 	 */
 	public void reduceFollowCount(String userId);
+
+	/**
+	 * 按email获取用户userId
+	 * @return
+	 */
+	public List<UserVO> queryUserByEmail(String email);
 }

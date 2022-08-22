@@ -53,6 +53,8 @@ public class SocialServiceImpl implements SocialService {
     private UserService userService;
     @Autowired
     private SensitiveFilterUtil sensitiveFilterUtil;
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -84,9 +86,22 @@ public class SocialServiceImpl implements SocialService {
         UserVO fromUser= userService.getUserById(userCommentVO.getFromUserId());
         userCommentVO.setNickname(fromUser.getNickname());
         userCommentVO.setFaceImg(fromUser.getFaceImg());
+        if (authenticatedUserService.checkUserIsAuth(userCommentVO.getFromUserId())){
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userCommentVO.getFromUserId());
+            userCommentVO.setFromUserAuthType(fromAuthenticatedUserVO.getType());
+        } else {
+            userCommentVO.setFromUserAuthType(0);
+        }
         // 查询并设置toNickName
         UserVO toUser= userService.getUserById(userCommentVO.getToUserId());
         userCommentVO.setToNickname(toUser.getNickname());
+
+        if (authenticatedUserService.checkUserIsAuth(userCommentVO.getToUserId())){
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userCommentVO.getToUserId());
+            userCommentVO.setToUserAuthType(fromAuthenticatedUserVO.getType());
+        } else {
+            userCommentVO.setToUserAuthType(0);
+        }
         // 检查是否有屏蔽词并替换
         userCommentVO.setComment(sensitiveFilterUtil.filter(userCommentVO.getComment()));
         return userCommentVO;
@@ -99,6 +114,13 @@ public class SocialServiceImpl implements SocialService {
         UserVO fromUser= userService.getUserById(userLikeVO.getUserId());
         userLikeVO.setNickname(fromUser.getNickname());
         userLikeVO.setFaceImg(fromUser.getFaceImg());
+
+        if (authenticatedUserService.checkUserIsAuth(userLikeVO.getUserId())){
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userLikeVO.getUserId());
+            userLikeVO.setAuthType(fromAuthenticatedUserVO.getType());
+        } else {
+            userLikeVO.setAuthType(0);
+        }
         return userLikeVO;
     }
 

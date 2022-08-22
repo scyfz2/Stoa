@@ -8,6 +8,7 @@ import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.FeaturedArticle;
 import com.nuoquan.pojo.UserCollect;
 import com.nuoquan.pojo.vo.ArticleVO;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.pojo.vo.FeaturedArticleVO;
 import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.utils.PageUtils;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.naming.AuthenticationNotSupportedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,8 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
     private UserService userService;
     @Autowired
     private SensitiveFilterUtil sensitiveFilterUtil;
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
 
     public FeaturedArticleVO composeFeaturedArticleVO(FeaturedArticleVO featuredArticleVO, String userId) {
         ArticleVO articleVO = articleService.getArticleById(featuredArticleVO.getArticleId(), userId);
@@ -55,6 +59,12 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         featuredArticleVO.setFaceImgThumb(userVO.getFaceImgThumb());
         // 添加用户昵称
         featuredArticleVO.setNickname(userVO.getNickname());
+        if (authenticatedUserService.checkUserIsAuth(articleVO.getUserId())){
+            AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(articleVO.getUserId());
+            featuredArticleVO.setAuthType(authenticatedUserVO.getType());
+        } else {
+            featuredArticleVO.setAuthType(0);
+        }
         // 如果此加精文章没有被设置封面图，则默认使用第一张文章图片作为封面图，若文章没有图片，默认设置为一张特殊图片
         if (featuredArticleVO.getCoverPath() == null) {
             if(articleVO.getImgList() != null) {
