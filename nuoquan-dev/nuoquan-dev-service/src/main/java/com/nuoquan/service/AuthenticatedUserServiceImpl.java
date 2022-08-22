@@ -1,0 +1,188 @@
+package com.nuoquan.service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.nuoquan.mapper.nq1.AuthenticatedUserMapper;
+import com.nuoquan.pojo.Article;
+import com.nuoquan.pojo.AuthenticatedUser;
+import com.nuoquan.pojo.vo.ArticleVO;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
+import com.nuoquan.utils.PagedResult;
+import com.nuoquan.utils.RedisOperator;
+import org.n3r.idworker.Sid;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class AuthenticatedUserServiceImpl implements AuthenticatedUserService{
+
+    @Autowired
+    private Sid sid;
+    @Autowired
+    public RedisOperator redis;
+    @Autowired
+    private AuthenticatedUserMapper authenticatedUserMapper;
+    @Autowired
+    private UserService userService;
+
+    /**
+     * 把 AuthenticatedUser 转换为 AuthenticatedUserVO, 组装VO对象
+     * @param authenticatedUser
+     * @param userId 操作者
+     * @return
+     */
+    public AuthenticatedUserVO composeAuthUserVO(AuthenticatedUser authenticatedUser, String userId) {
+        AuthenticatedUserVO authenticatedUserVO = new AuthenticatedUserVO();
+        BeanUtils.copyProperties(authenticatedUser, authenticatedUserVO);
+        return authenticatedUserVO;
+    }
+
+    /**
+     * 分页根据类别查询认证用户
+     *
+     * @param page 页数
+     * @param pageSize 页面大小
+     */
+    @Override
+    public PagedResult list(Integer page, Integer pageSize) {
+
+        // 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
+        PageHelper.startPage(page, pageSize);
+
+        Example authExample = new Example(AuthenticatedUser.class);
+        authExample.setOrderByClause("create_date desc");
+        List<AuthenticatedUser> list = authenticatedUserMapper.selectByExample(authExample);
+        List<AuthenticatedUserVO> newList = new ArrayList<AuthenticatedUserVO>();
+        for (AuthenticatedUser a : list) {
+            AuthenticatedUserVO authenticatedUserVO = composeAuthUserVO(a, "");
+            newList.add(authenticatedUserVO);
+        }
+
+        PageInfo<AuthenticatedUserVO> pageList = new PageInfo<>(newList);
+
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setPage(page);
+        pagedResult.setTotal(pageList.getPages());
+        pagedResult.setRows(newList);
+        pagedResult.setRecords(pageList.getTotal());
+
+        return pagedResult;
+    }
+
+
+    /**
+     * 分页根据类别查询认证用户
+     *
+     * @param page 页数
+     * @param pageSize 页面大小
+     * @param type 类别
+     */
+    @Override
+    public PagedResult listByType(Integer page, Integer pageSize, Integer type) {
+
+        // 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
+        PageHelper.startPage(page, pageSize);
+        Example example = new Example(AuthenticatedUser.class);
+        example.setOrderByClause("create_date desc");
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("type", type);
+        List<AuthenticatedUser> list = authenticatedUserMapper.selectByExample(example);
+        List<AuthenticatedUserVO> newList = new ArrayList<>();
+        for (AuthenticatedUser au : list) {
+            AuthenticatedUserVO authenticatedUserVO = composeAuthUserVO(au, "");
+            newList.add(authenticatedUserVO);
+        }
+
+        PageInfo<AuthenticatedUserVO> pageList = new PageInfo<>(newList);
+
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setPage(page);
+        pagedResult.setTotal(pageList.getPages());
+        pagedResult.setRows(newList);
+        pagedResult.setRecords(pageList.getTotal());
+
+        return pagedResult;
+    }
+
+    /**
+     * 按 userId 获取用户
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public AuthenticatedUserVO getAuthUserById(String userId) {
+        AuthenticatedUser authenticatedUser = authenticatedUserMapper.selectByPrimaryKey(userId);
+        AuthenticatedUserVO authenticatedUserVO = composeAuthUserVO(authenticatedUser, userId);
+        return authenticatedUserVO;
+    }
+
+    /**
+     * 按 userId 获取用户是否认证
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public boolean checkUserIsAuth(String userId) {
+        AuthenticatedUser authUser = new AuthenticatedUser();
+        // 条件
+        authUser.setUserId(userId);
+        //判断result是否为空
+        AuthenticatedUser result = authenticatedUserMapper.selectOne(authUser);
+        return result == null ? false : true;
+    }
+
+    /**
+     * 使用email对用户进行认证
+     *
+     * @param authenticatedUser
+     * @return
+     */
+    @Override
+    public String authenticateByEmail( AuthenticatedUser authenticatedUser) {
+        String id = sid.nextShort();
+        authenticatedUser.setId(id);
+        authenticatedUser.setCreateDate(new Date());
+        return id;
+
+    }
+
+    /**
+     * 取消某用户的认证
+     *
+     * @param id
+     */
+    @Override
+    public void cancelAuthenticationById(String id) {
+        Example example = new Example(AuthenticatedUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", id);
+        AuthenticatedUser au = new AuthenticatedUser();
+        au.setType(0);
+        authenticatedUserMapper.updateByExampleSelective(au, example);
+        //TODO:做成真删除
+
+    }
+//   方法是对的 不一定会用上
+//    /**
+//     * 通过用户Id取消某用户的认证
+//     *
+//     * @param userId
+//     */
+//    @Override
+//    public void cancelAuthenticationByUserId(String userId) {
+//        Example example = new Example(AuthenticatedUser.class);
+//        Example.Criteria criteria = example.createCriteria();
+//        criteria.andEqualTo("userId", userId);
+//        AuthenticatedUser au = new AuthenticatedUser();
+//        au.setType(0);
+//        authenticatedUserMapper.updateByExampleSelective(au, example);
+//    }
+}

@@ -8,6 +8,7 @@ import com.nuoquan.mapper.nq1.NotifyRemindMapper;
 import com.nuoquan.netty.MsgHandler;
 import com.nuoquan.pojo.NotifyRemind;
 import com.nuoquan.pojo.netty.DataContent;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.pojo.vo.NotifyRemindVO;
 import com.nuoquan.pojo.vo.UserCommentVO;
 import com.nuoquan.pojo.vo.UserVO;
@@ -42,6 +43,8 @@ public class NotifyRemindServiceImpl implements NotifyRemindService{
 	private ArticleService articleService;
 	@Autowired
 	private LongarticleService longarticleService;
+	@Autowired
+	private AuthenticatedUserService authenticatedUserService;
 	/**
 	 * 插入一条通知
 	 * @param senderId		//操作者Id
@@ -126,6 +129,12 @@ public class NotifyRemindServiceImpl implements NotifyRemindService{
 		notifyRemindVO.setNickname(sender.getNickname());
 		notifyRemindVO.setFaceImg(sender.getFaceImg());
 		notifyRemindVO.setFaceImgThumb(sender.getFaceImgThumb());
+		if (authenticatedUserService.checkUserIsAuth(notifyRemind.getSenderId())){
+			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(notifyRemind.getSenderId());
+			notifyRemindVO.setAuthType(authenticatedUserVO.getType());
+		} else {
+			notifyRemindVO.setAuthType(0);
+		}
 		//拼接源对象，暂时只有评论操作需要源对象
 		String senderAction = notifyRemindVO.getSenderAction();
 		if (senderAction.equalsIgnoreCase(SenderAction.COMMENT.value)){

@@ -24,6 +24,16 @@ public class FeaturedArticleVO {
     // 加精文章点赞数量
     private Integer likeNum;
 
+    public Integer getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(Integer authType) {
+        this.authType = authType;
+    }
+
+    private Integer authType;
+
     public String getId() {
         return id;
     }

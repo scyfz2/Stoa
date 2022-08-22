@@ -77,6 +77,16 @@ public class LongarticleVO {
     private String faceImg;
     private String faceImgThumb;
     private List<String> tagList;
+
+    public Integer getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(Integer authType) {
+        this.authType = authType;
+    }
+
+    private Integer authType;
     
     /**
      * @return id

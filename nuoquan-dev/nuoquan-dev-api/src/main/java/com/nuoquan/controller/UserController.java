@@ -2,8 +2,10 @@ package com.nuoquan.controller;
 
 import java.util.*;
 
+import com.nuoquan.pojo.AuthenticatedUser;
 import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.*;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,7 +215,7 @@ public class UserController extends BasicController {
 	
 	@ApiOperation(value = "Query a user's fans and follow lists")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),})
+		@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form")})
 	@PostMapping("/queryFansAndFollow")
 	public JSONResult queryFansAndFollow(String userId, String myId) {
 		
@@ -272,7 +274,7 @@ public class UserController extends BasicController {
 
 	@ApiOperation(value = "query user's info")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"), })
+			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form")})
 	@PostMapping("/queryUser")
 	public JSONResult queryUser(String userId) throws Exception {
 
@@ -308,7 +310,7 @@ public class UserController extends BasicController {
 	@ApiOperation(value = "query the user's info and whether I followed him")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "fanId", required = true, dataType = "String", paramType = "form"),})
+			@ApiImplicitParam(name = "fanId", required = true, dataType = "String", paramType = "form")})
 	@PostMapping("/queryUserWithFollow")
 	public JSONResult queryUserWithFollow(String userId, String fanId) throws Exception {
 
@@ -322,7 +324,7 @@ public class UserController extends BasicController {
 
 	@ApiOperation(value = "Get the user's unread chat msg")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"), })
+			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form")})
 	@PostMapping("/getUnsignedMsg")
 	public JSONResult getUnsignedMsg(String userId) throws Exception {
 
@@ -502,4 +504,84 @@ public class UserController extends BasicController {
 //		UserVO userVO = userService.updateUserInfo(user);
 //		return JSONResult.ok(userVO);
 	}
+
+	@ApiOperation(value = "获取所有认证用户")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form")})
+	@PostMapping("/listAll")
+	public JSONResult listAll(Integer page, Integer pageSize) throws Exception {
+
+		if(page == null) {
+			page = 1;
+		}
+		if(pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+
+		PagedResult result = authenticatedUserService.list(page, pageSize);
+
+		return JSONResult.ok(result);
+	}
+
+	@ApiOperation(value = "获取指定类别所有认证用户")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "type", required = false, dataType = "String", paramType = "form")})
+	@PostMapping("/listByType")
+	public JSONResult listByType(Integer page, Integer pageSize, Integer type) throws Exception {
+
+		if(page == null) {
+			page = 1;
+		}
+		if(pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+		if (type!=1 && type!=2){
+			return JSONResult.errorMsg("wrong authenticate type!");
+		}
+
+		PagedResult result = authenticatedUserService.listByType(page, pageSize, type);
+
+		return JSONResult.ok(result);
+	}
+
+	@ApiOperation(value = "query user's info")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "email", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "type", required = true, dataType = "Integer", paramType = "form")})
+	@PostMapping("/authenticateUserByEmai")
+	public JSONResult authenticateUserByEmail(String email, Integer type) throws Exception {
+
+		if (StringUtils.isBlank(email)) {
+			return JSONResult.errorMsg("email can not be null.");
+		}
+		if (type!=1 && type!=2){
+			return JSONResult.errorMsg("wrong authenticate type!");
+		}
+		AuthenticatedUser authenticatedUser = new AuthenticatedUser();
+		String userId = userService.getUserByEmail(email);
+		if (userId == null){
+			return JSONResult.errorMsg("email not exists!");
+		}
+		//TODO: 判断是否已经认证(userId)
+		authenticatedUser.setUserId(userId);
+		authenticatedUser.setType(type);
+		String result = authenticatedUserService.authenticateByEmail(authenticatedUser);
+		return JSONResult.ok(result);
+	}
+
+
+	@ApiOperation(value = "撤销认证")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "id", value = "认证id", required = true, dataType = "String", paramType = "form")
+	})
+	@PostMapping(value="/cancelAuthentication")
+	public JSONResult cancelAuthentication(String id) throws Exception {
+		authenticatedUserService.cancelAuthenticationById(id);
+		return JSONResult.ok();
+	}
+
+
 }

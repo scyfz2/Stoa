@@ -8,6 +8,7 @@ import com.nuoquan.enums.PostType;
 import com.nuoquan.enums.ReputeWeight;
 import com.nuoquan.mapper.nq1.*;
 import com.nuoquan.pojo.*;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.utils.RedisOperator;
 import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -56,6 +57,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private SocialService socialService;
 	@Autowired
 	private SensitiveFilterUtil sensitiveFilterUtil;
+	@Autowired
+	private AuthenticatedUserService authenticatedUserService;
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public ArticleVO addArticleImgs(ArticleVO articleVO) {
@@ -81,6 +84,12 @@ public class ArticleServiceImpl implements ArticleService {
 		articleVO.setNickname(userVO.getNickname());
 		articleVO.setFaceImg(userVO.getFaceImg());
 		articleVO.setFaceImgThumb(userVO.getFaceImgThumb());
+        if (authenticatedUserService.checkUserIsAuth(articleVO.getUserId())){
+            AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(articleVO.getUserId());
+            articleVO.setAuthType(authenticatedUserVO.getType());
+        } else {
+            articleVO.setAuthType(0);
+        }
 		// 添加图片列表
 		articleVO = addArticleImgs(articleVO);
 		if (StringUtils.isNotBlank(userId)){

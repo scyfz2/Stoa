@@ -45,6 +45,8 @@ public class UserVO {
     private Date latestLogin;
 
     private boolean isFollow; // 是否关注该用户
+
+    private Integer authType; // 认证类型
     
     
     /**
@@ -317,4 +319,12 @@ public class UserVO {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+
+    public Integer getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(Integer authType) {
+        this.authType = authType;
+    }
 }

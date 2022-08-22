@@ -111,6 +111,9 @@ public interface UserService {
 	 */
 	public List<ChatMsg> getUnsignedChat(String acceptUserId);
 
+
+	public String getUserByEmail(String userId);
+
 	/**
 	 * 更新用户的影响力数值
 	 * @param userId

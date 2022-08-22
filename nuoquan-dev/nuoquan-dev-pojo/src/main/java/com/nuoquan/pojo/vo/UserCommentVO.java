@@ -63,6 +63,26 @@ public class UserCommentVO {
 
     private Boolean isLike; // 该用户是否点赞该评论
 
+    public Integer getFromUserAuthType() {
+        return fromUserAuthType;
+    }
+
+    public void setFromUserAuthType(Integer fromUserAuthType) {
+        this.fromUserAuthType = fromUserAuthType;
+    }
+
+    private Integer fromUserAuthType;
+
+    public Integer getToUserAuthType() {
+        return toUserAuthType;
+    }
+
+    public void setToUserAuthType(Integer toUserAuthType) {
+        this.toUserAuthType = toUserAuthType;
+    }
+
+    private Integer toUserAuthType;
+
     /**
      * @return id
      */
