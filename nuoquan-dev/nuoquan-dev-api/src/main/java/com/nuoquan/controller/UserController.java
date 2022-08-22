@@ -544,7 +544,7 @@ public class UserController extends BasicController {
 			pageSize = PAGE_SIZE;
 		}
 		if (type!=1 && type!=2){
-			return JSONResult.errorMsg("wrong authenticate type!");
+			return JSONResult.errorException("wrong authenticate type!");
 		}
 
 		PagedResult result = authenticatedUserService.listByType(page, pageSize, type);
@@ -563,14 +563,14 @@ public class UserController extends BasicController {
 			return JSONResult.errorMsg("email can not be null.");
 		}
 		if (type!=1 && type!=2){
-			return JSONResult.errorMsg("wrong authenticate type!");
+			return JSONResult.errorException("wrong authenticate type!");
 		}
 		String userId = userService.getUserByEmail(email);
 		if (userId == null){
-			return JSONResult.errorMsg("email not exists!");
+			return JSONResult.errorException("email not exists!");
 		}
 		if (authenticatedUserService.checkUserIsAuth(userId)){
-			return JSONResult.errorMsg("User Already be authenticated");
+			return JSONResult.errorException("User Already be authenticated");
 		}
 		AuthenticatedUser authenticatedUser = new AuthenticatedUser();
 		authenticatedUser.setUserId(userId);
