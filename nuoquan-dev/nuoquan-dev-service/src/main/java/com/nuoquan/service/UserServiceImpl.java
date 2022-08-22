@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.nuoquan.mapper.nq1.*;
+import com.nuoquan.pojo.Article;
+import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
+import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
@@ -272,7 +277,6 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public String getUserByEmail(String email) {
-
 		User user = new User();
 		// 条件
 		user.setEmail(email);
@@ -349,6 +353,35 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void reduceReceiveLikeCount(String userId){
 		userMapper.reduceReceiveLikeCount(userId);
+	}
+
+
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public PagedResult listAllUsers(Integer page, Integer pageSize) {
+
+		// 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
+		PageHelper.startPage(page, pageSize);
+
+		Example userExample = new Example(User.class);
+		userExample.setOrderByClause("create_date desc");
+		List<User> list = userMapper.selectByExample(userExample);
+		List<UserVO> newList = new ArrayList<>();
+		for (User a : list) {
+			UserVO userVO = composeUser(a);
+			newList.add(userVO);
+		}
+
+		PageInfo<UserVO> pageList = new PageInfo<>(newList);
+
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(page);
+		pagedResult.setTotal(pageList.getPages());
+		pagedResult.setRows(newList);
+		pagedResult.setRecords(pageList.getTotal());
+
+		return pagedResult;
 	}
 
 }

@@ -2,10 +2,10 @@ package com.nuoquan.controller;
 
 import java.util.*;
 
-import com.nuoquan.pojo.AuthenticatedUser;
+import com.nuoquan.mapper.nq1.AuthenticatedUserMapper;
+import com.nuoquan.pojo.*;
 import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.*;
-import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nuoquan.email.EmailTool;
 import com.nuoquan.enums.ReputeWeight;
-import com.nuoquan.pojo.ChatMsg;
-import com.nuoquan.pojo.User;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import tk.mybatis.mapper.entity.Example;
 
 @RestController
 @Api(value = "User workflow logic")
@@ -37,10 +36,12 @@ public class UserController extends BasicController {
 
 	@Autowired
 	private EmailTool emailTool;
-	
+
 	@Autowired
 	private FastDFSClient fastDFSClient;
 
+	@Autowired
+	private AuthenticatedUserMapper authenticatedUserMapper;
 //	@ApiOperation(value = "获取某用户feed流", notes = "")
 //	@ApiImplicitParams({
 //			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String", paramType = "form"),
@@ -509,8 +510,8 @@ public class UserController extends BasicController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form")})
-	@PostMapping("/listAll")
-	public JSONResult listAll(Integer page, Integer pageSize) throws Exception {
+	@PostMapping("/listAllAuthUsers")
+	public JSONResult listAllAuthUsers(Integer page, Integer pageSize) throws Exception {
 
 		if(page == null) {
 			page = 1;
@@ -519,7 +520,7 @@ public class UserController extends BasicController {
 			pageSize = PAGE_SIZE;
 		}
 
-		PagedResult result = authenticatedUserService.list(page, pageSize);
+		PagedResult result = authenticatedUserService.listAllAuthUsers(page, pageSize);
 
 		return JSONResult.ok(result);
 	}
@@ -528,9 +529,9 @@ public class UserController extends BasicController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
-			@ApiImplicitParam(name = "type", required = false, dataType = "String", paramType = "form")})
-	@PostMapping("/listByType")
-	public JSONResult listByType(Integer page, Integer pageSize, Integer type) throws Exception {
+			@ApiImplicitParam(name = "type", value = "类别", required = true, dataType = "Integer", paramType = "form")})
+	@PostMapping("/listAuthUserByType")
+	public JSONResult listAuthUserByType(Integer page, Integer pageSize, Integer type) throws Exception {
 
 		if(page == null) {
 			page = 1;
@@ -547,11 +548,11 @@ public class UserController extends BasicController {
 		return JSONResult.ok(result);
 	}
 
-	@ApiOperation(value = "query user's info")
+	@ApiOperation(value = "通过email认证")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "email", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "type", required = true, dataType = "Integer", paramType = "form")})
-	@PostMapping("/authenticateUserByEmai")
+	@PostMapping("/authenticateUserByEmail")
 	public JSONResult authenticateUserByEmail(String email, Integer type) throws Exception {
 
 		if (StringUtils.isBlank(email)) {
@@ -560,27 +561,55 @@ public class UserController extends BasicController {
 		if (type!=1 && type!=2){
 			return JSONResult.errorMsg("wrong authenticate type!");
 		}
-		AuthenticatedUser authenticatedUser = new AuthenticatedUser();
 		String userId = userService.getUserByEmail(email);
 		if (userId == null){
 			return JSONResult.errorMsg("email not exists!");
 		}
-		//TODO: 判断是否已经认证(userId)
+		if (authenticatedUserService.checkUserIsAuth(userId)){
+			return JSONResult.errorMsg("User Already be authenticated");
+		}
+		AuthenticatedUser authenticatedUser = new AuthenticatedUser();
 		authenticatedUser.setUserId(userId);
 		authenticatedUser.setType(type);
-		String result = authenticatedUserService.authenticateByEmail(authenticatedUser);
-		return JSONResult.ok(result);
+		authenticatedUser.setCreateDate(new Date());
+		String authId = authenticatedUserService.saveAuth(authenticatedUser);
+		return JSONResult.ok(authId);
 	}
 
 
-	@ApiOperation(value = "撤销认证")
+	@ApiOperation(value = "撤销认证(真删除)")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "id", value = "认证id", required = true, dataType = "String", paramType = "form")
 	})
-	@PostMapping(value="/cancelAuthentication")
-	public JSONResult cancelAuthentication(String id) throws Exception {
-		authenticatedUserService.cancelAuthenticationById(id);
+	@PostMapping(value="/authenticationCancel")
+	public JSONResult authenticationCancel(String id) throws Exception {
+		Example example = new Example(AuthenticatedUser.class);
+		// 创造条件
+		Example.Criteria criteria = example.createCriteria();
+		// 条件的判断 里面的变量无需和数据库一致，与pojo类中的变量一致。在pojo类中变量与column有映射
+		criteria.andEqualTo("id", id);
+
+		authenticatedUserMapper.deleteByExample(example);
 		return JSONResult.ok();
+	}
+
+	@ApiOperation(value = "获取所有认证用户")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form")})
+	@PostMapping("/queryAllUsers")
+	public JSONResult queryAllUsers(Integer page, Integer pageSize) throws Exception {
+
+		if(page == null) {
+			page = 1;
+		}
+		if(pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+
+		PagedResult result = userService.listAllUsers(page, pageSize);
+
+		return JSONResult.ok(result);
 	}
 
 

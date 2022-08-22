@@ -9,7 +9,7 @@ public interface AuthenticatedUserService {
     /**
      * 查询全部认证用户
      */
-    public PagedResult list(Integer page, Integer pageSize);
+    public PagedResult listAllAuthUsers(Integer page, Integer pageSize);
 
     /**
      * 分页根据类别查询认证用户
@@ -34,17 +34,5 @@ public interface AuthenticatedUserService {
      * 使用email对用户进行认证
      * @return
      */
-    public String authenticateByEmail(AuthenticatedUser authenticatedUser);
-
-    /**
-     * 取消某用户的认证
-     * @param id
-     */
-    public void cancelAuthenticationById(String id);
-//
-//    /**
-//     * 通过用户Id取消某用户的认证
-//     * @param userId
-//     */
-//    public void cancelAuthenticationByUserId(String userId);
+    public String saveAuth(AuthenticatedUser authenticatedUser);
 }

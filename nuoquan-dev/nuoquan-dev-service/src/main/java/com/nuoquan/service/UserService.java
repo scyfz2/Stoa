@@ -6,6 +6,7 @@ import com.nuoquan.pojo.ChatMsg;
 import com.nuoquan.pojo.User;
 import com.nuoquan.pojo.netty.ChatMessage;
 import com.nuoquan.pojo.vo.UserVO;
+import com.nuoquan.utils.PagedResult;
 
 public interface UserService {
 	/**
@@ -25,7 +26,7 @@ public interface UserService {
 	/**
 	 * @param email 邮箱
 	 * @return true：邮箱未绑定，可以绑定；false: 邮箱已绑定
-	 * @Description: 判断nickname是否已经存在
+	 * @Description: 判断email所属用户 是否已经存在
 	 */
 	public boolean checkEmailIsExist(String email);
 	
@@ -112,6 +113,11 @@ public interface UserService {
 	public List<ChatMsg> getUnsignedChat(String acceptUserId);
 
 
+	/**
+	 * 通过email获取用户id
+	 * @param userId
+	 * @return
+	 */
 	public String getUserByEmail(String userId);
 
 	/**
@@ -140,4 +146,6 @@ public interface UserService {
 	 * @param userId
 	 */
 	public void reduceReceiveLikeCount(String userId);
+
+	public PagedResult listAllUsers(Integer page, Integer pageSize);
 }

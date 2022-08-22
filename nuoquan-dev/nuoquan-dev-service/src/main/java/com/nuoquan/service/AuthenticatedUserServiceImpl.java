@@ -28,8 +28,6 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService{
     public RedisOperator redis;
     @Autowired
     private AuthenticatedUserMapper authenticatedUserMapper;
-    @Autowired
-    private UserService userService;
 
     /**
      * 把 AuthenticatedUser 转换为 AuthenticatedUserVO, 组装VO对象
@@ -50,7 +48,7 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService{
      * @param pageSize 页面大小
      */
     @Override
-    public PagedResult list(Integer page, Integer pageSize) {
+    public PagedResult listAllAuthUsers(Integer page, Integer pageSize) {
 
         // 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
         PageHelper.startPage(page, pageSize);
@@ -58,7 +56,7 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService{
         Example authExample = new Example(AuthenticatedUser.class);
         authExample.setOrderByClause("create_date desc");
         List<AuthenticatedUser> list = authenticatedUserMapper.selectByExample(authExample);
-        List<AuthenticatedUserVO> newList = new ArrayList<AuthenticatedUserVO>();
+        List<AuthenticatedUserVO> newList = new ArrayList<>();
         for (AuthenticatedUser a : list) {
             AuthenticatedUserVO authenticatedUserVO = composeAuthUserVO(a, "");
             newList.add(authenticatedUserVO);
@@ -146,43 +144,11 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService{
      * @return
      */
     @Override
-    public String authenticateByEmail( AuthenticatedUser authenticatedUser) {
+    public String saveAuth(AuthenticatedUser authenticatedUser) {
         String id = sid.nextShort();
         authenticatedUser.setId(id);
-        authenticatedUser.setCreateDate(new Date());
+        authenticatedUserMapper.insertSelective(authenticatedUser);
         return id;
 
     }
-
-    /**
-     * 取消某用户的认证
-     *
-     * @param id
-     */
-    @Override
-    public void cancelAuthenticationById(String id) {
-        Example example = new Example(AuthenticatedUser.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("id", id);
-        AuthenticatedUser au = new AuthenticatedUser();
-        au.setType(0);
-        authenticatedUserMapper.updateByExampleSelective(au, example);
-        //TODO:做成真删除
-
-    }
-//   方法是对的 不一定会用上
-//    /**
-//     * 通过用户Id取消某用户的认证
-//     *
-//     * @param userId
-//     */
-//    @Override
-//    public void cancelAuthenticationByUserId(String userId) {
-//        Example example = new Example(AuthenticatedUser.class);
-//        Example.Criteria criteria = example.createCriteria();
-//        criteria.andEqualTo("userId", userId);
-//        AuthenticatedUser au = new AuthenticatedUser();
-//        au.setType(0);
-//        authenticatedUserMapper.updateByExampleSelective(au, example);
-//    }
 }
