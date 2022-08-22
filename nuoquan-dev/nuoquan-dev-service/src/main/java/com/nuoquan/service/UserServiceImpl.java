@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(UserVO userVO) {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
-		userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
 		userVO.setSignature(sensitiveFilterUtil.filter(userVO.getSignature()));
 		return userVO;
 	}
@@ -328,6 +327,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void reduceReceiveLikeCount(String userId){
 		userMapper.reduceReceiveLikeCount(userId);
+	}
+
+	/**
+	 * 判断用户名是否合法
+	 */
+	@Override
+	public boolean JudgeNickNameIsValid(String nickName){
+		if (nickName.equals(sensitiveFilterUtil.filter(nickName))){
+			return true;
+		}
+		else
+			return false;
 	}
 
 }

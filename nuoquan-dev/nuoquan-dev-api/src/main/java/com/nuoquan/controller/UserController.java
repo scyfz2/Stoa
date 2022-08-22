@@ -233,9 +233,12 @@ public class UserController extends BasicController {
 		}
 		User user = new User();
 		UserVO userVO; //返回前端对象
-		// 2. 判断用户名是否存在
+		// 2. 判断用户名是否存在以及昵称是否合法
+		boolean isNicknameValid = userService.JudgeNickNameIsValid(userData.getNickname());
+		if (isNicknameValid) {
+			return JSONResult.errorMsg("用户名不合法，请换一个试试");
+		}
 		boolean isIdExist = userService.checkIdIsExist(userData.getId());
-		boolean isNickNameExist = userService.checkNicknameIsExist(userData.getNickname());
 		// 3. 注册信息
 		if (!isIdExist) {
 			// 新用户，只添加用户id（openId）头像和昵称
@@ -250,7 +253,8 @@ public class UserController extends BasicController {
 			userVO = userService.saveUserDirectly(user);
 		} else {
 			// 3.1 修改信息
-			if (isNickNameExist){
+			boolean isNicknameExist = userService.checkNicknameIsExist(userData.getNickname());
+			if (isNicknameExist){
 				return JSONResult.errorMsg("用户名已存在，请换一个试试");
 			}
 			user.setId(userData.getId()); // 用作索引

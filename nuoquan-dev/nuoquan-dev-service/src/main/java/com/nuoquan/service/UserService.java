@@ -137,4 +137,9 @@ public interface UserService {
 	 * @param userId
 	 */
 	public void reduceReceiveLikeCount(String userId);
+
+	/**
+	 * 判断用户名是否合法
+	 */
+	public boolean JudgeNickNameIsValid(String nickName);
 }
