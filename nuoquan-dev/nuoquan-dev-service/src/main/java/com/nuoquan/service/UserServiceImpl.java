@@ -356,4 +356,46 @@ public class UserServiceImpl implements UserService {
 			return false;
 	}
 
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public String getUserByEmail(String email) {
+		User user = new User();
+		// 条件
+		user.setEmail(email);
+		//判断result是否为空
+		User result = userMapper.selectOne(user);
+
+		return result == null ? null : result.getId();
+
+	}
+
+
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public PagedResult listAllUsers(Integer page, Integer pageSize) {
+
+		// 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
+		PageHelper.startPage(page, pageSize);
+
+		Example userExample = new Example(User.class);
+		userExample.setOrderByClause("create_date desc");
+		List<User> list = userMapper.selectByExample(userExample);
+		List<UserVO> newList = new ArrayList<>();
+		for (User a : list) {
+			UserVO userVO = composeUser(a);
+			newList.add(userVO);
+		}
+
+		PageInfo<UserVO> pageList = new PageInfo<>(newList);
+
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(page);
+		pagedResult.setTotal(pageList.getPages());
+		pagedResult.setRows(newList);
+		pagedResult.setRecords(pageList.getTotal());
+
+		return pagedResult;
+	}
+
 }
