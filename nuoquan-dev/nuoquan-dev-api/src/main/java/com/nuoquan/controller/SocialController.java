@@ -196,9 +196,14 @@ public class SocialController extends BasicController {
 	})
 	@PostMapping(value = "/fDeleteComment")
 	// 特别注意：返回值为1时代表执行此操作的人是文章发布者或评论发布者（此时可以删除评论），返回值为0时无法删除评论
-	public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
+	public JSONResult fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
 			throws Exception {
-		return socialService.fDeleteComment(commentId, userId, targetId, targetType);
+		if (socialService.fDeleteComment(commentId, userId, targetId, targetType) == 1){
+			return JSONResult.ok();
+		}
+		else{
+			return JSONResult.errorMsg("你不是文章发布者或评论发布者，无法删除");
+		}
 	}
 
 	@ApiOperation(value = "收藏文章")
