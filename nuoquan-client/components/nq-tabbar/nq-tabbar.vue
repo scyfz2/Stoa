@@ -135,13 +135,14 @@ export default {
 				uni.navigateTo({
 					url:e.url
 				})
-			}else if(e.name=="新生"){
-				uni.showToast({
-					icon:'loading',
-					title: '正在开发中',
-					duration: 2000
-				})
 			}
+			// else if(e.name=="新生"){
+			// 	uni.showToast({
+			// 		icon:'loading',
+			// 		title: '正在开发中',
+			// 		duration: 2000
+			// 	})
+			// }
 			else{
 				console.log(e.name)
 				console.log(this.current)

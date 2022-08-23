@@ -11,6 +11,7 @@
 		<view class="userLine hor_center">
 			<image :src="pathFilter(thisArticle.faceImg)" class="touxiang" @tap.stop="goToPersonPublic(thisArticle.userId)"></image>
 			<view class="name" @tap.stop="goToPersonPublic(thisArticle.userId)">{{ thisArticle.nickname }}</view>
+			<image src="../static/icon/auth.png" class="authLogo" ></image>
 			<view class="time" :style="timeLeft">{{ timeDeal(thisArticle.createDate) }}</view>
 		</view>
 		<!-- 标题 -->
@@ -122,6 +123,7 @@ export default {
 			heightWidthRate: 0,
 			imgList: [],
 			thisArticle: this.articleCard, // 转为局部变量
+			articleUser: '',
 			tagColorList: [], // 储存每个tag的颜色
 			timeLeft: '',
 			isfunCom: false,//显示搞笑大赛图标
@@ -129,6 +131,8 @@ export default {
 	},
 
 	created() {
+		// queryUser()
+		
 		// console.log(this.thisArticle);
 		if (this.thisArticle.imgList.length > 3) {
 			// 只取前三
@@ -306,6 +310,28 @@ export default {
 		buttomCaculation(timeWidth) {
 			var bottmWidth = this.$refs.articleCard.offsetWidth;
 			console.log(bottmWidth);
+		},
+		
+		queryUser(){
+			console.log('query user');
+			var that = this;
+			uni.request({
+				method:'POST',
+				url:that.$serverUrl + '/queryUser',
+				data:{
+					// userId = that.thisArticle.userId,
+					userId: that.thisArticle.userId,
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res);
+					if (res.data.status == 200){
+						
+					}
+				}
+			})
 		}
 	}
 };
@@ -536,6 +562,11 @@ image {
 	background-color: rgba(74,74,74,1);
 	opacity: 0.5;
 	z-index: 10;
+}
+.authLogo {
+	width: 15px;
+	height: 15px;
+	position: absolute;
 }
 
 </style>

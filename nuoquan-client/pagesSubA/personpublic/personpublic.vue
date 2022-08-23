@@ -23,6 +23,8 @@
 				<!-- ID -->
 				<view class="nameBox super_center">
 					<text class="name-text">{{ thisUserInfo.nickname }}</text>
+					<image v-if="thisUserInfo.authType == 1 || thisUserInfo.authType == 2" style="width: 20px;height: 20px;" src="../../static/icon/auth.png"></image>
+					<!-- <image v-if="thisUserInfo.authType == '1'" style="width: 20px;height: 20px;" src="../../static/icon/auth.png"></image> -->
 				</view>
 				<!-- 个人简介 -->
 				<view v-if="thisUserInfo.signature == null" class="introBox super_center"><text class="introBox-text">{{ lang.lazyNoSignature }}</text></view>
@@ -312,6 +314,7 @@ export default {
 				success: res => {
 					// console.log(res)
 					if (res.data.status == 200) {
+						console.log(res);
 						that.thisUserInfo = res.data.data;
 						that.setUserInfoToUserList(res.data.data); //更新缓存
 						// console.log(res.data.data)
