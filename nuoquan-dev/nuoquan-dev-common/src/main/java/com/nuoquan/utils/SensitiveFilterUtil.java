@@ -11,7 +11,6 @@ import java.util.Scanner;
 import static java.lang.Character.toLowerCase;
 import static java.lang.Character.toUpperCase;
 
-@Service
 public class SensitiveFilterUtil {
     // 替换符
     private static final String REPLACEMENT = "***";
