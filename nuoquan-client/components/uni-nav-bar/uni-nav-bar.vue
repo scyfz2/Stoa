@@ -122,7 +122,7 @@ export default {
 	},
 	methods: {
 		onClickLeft() {
-			var current=this.getCurrentPages()
+			var current=getCurrentPages()
 			if(current!=1){
 				uni.navigateBack({
 					delta: 1

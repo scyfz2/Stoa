@@ -5,7 +5,7 @@
  -->
 <template>
 	<view class="organizationCard" @click="choose(detail)">
-		<image :src="detail.logoPath" mode="aspectFill" class="orgImage"></image>
+		<image :src="resServerUrl + detail.logoPath" mode="aspectFill" class="orgImage"></image>
 		<view class="organizationCard-text" >
 			<view class="orgTitle">{{detail.name}}</view>
 			<view class="orgContent">{{detail.intro}}</view>
@@ -21,6 +21,7 @@
 		},
 		data() {
 			return {
+				resServerUrl: this.$resServerUrl,
 				// screenWidth:312,
 				// showWidth:0,
 			}
