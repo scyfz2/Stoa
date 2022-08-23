@@ -8,10 +8,7 @@ import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.PostType;
 import com.nuoquan.mapper.nq1.*;
 import com.nuoquan.pojo.*;
-import com.nuoquan.pojo.vo.ArticleVO;
-import com.nuoquan.pojo.vo.LongarticleVO;
-import com.nuoquan.pojo.vo.UserCommentVO;
-import com.nuoquan.pojo.vo.UserVO;
+import com.nuoquan.pojo.vo.*;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import org.apache.commons.lang3.StringUtils;
@@ -56,6 +53,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private LongarticleServiceImpl longarticleService;
+
+	@Autowired
+	private AuthenticatedUserService authenticatedUserService;
 
 	// 查询全部被举报的发布的东西这里很冗长很不优雅，实在是尽力了，后辈们加油！
 	private PagedResult getReportedComment(Integer page, Integer pageSize, String userId, Integer queryType) {
@@ -163,6 +163,12 @@ public class AdminServiceImpl implements AdminService {
 		articleVO.setNickname(userVO.getNickname());
 		articleVO.setFaceImg(userVO.getFaceImg());
 		articleVO.setFaceImgThumb(userVO.getFaceImgThumb());
+		if (authenticatedUserService.checkUserIsAuth(articleVO.getUserId())){
+			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(articleVO.getUserId());
+			articleVO.setAuthType(authenticatedUserVO.getType());
+		} else {
+			articleVO.setAuthType(0);
+		}
 		// 添加图片列表
 		articleVO = articleService.addArticleImgs(articleVO);
 		// 添加和关于用户的点赞关系

@@ -7,6 +7,7 @@ import java.util.List;
 import com.nuoquan.enums.PostType;
 import com.nuoquan.mapper.nq1.*;
 import com.nuoquan.pojo.*;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.pojo.vo.UserVO;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
@@ -48,6 +49,8 @@ public class LongarticleServiceImpl implements LongarticleService {
 	private OfficialAccountMapper officialAccountMapper;
 	@Autowired
 	private HeadlinesMapper headlinesMapper;
+	@Autowired
+	private AuthenticatedUserService authenticatedUserService;
 
 	/**
 	 * 组装文章VO对象
@@ -62,6 +65,12 @@ public class LongarticleServiceImpl implements LongarticleService {
 		longarticleVO.setNickname(userVO.getNickname());
 		longarticleVO.setFaceImg(userVO.getFaceImg());
 		longarticleVO.setFaceImgThumb(userVO.getFaceImgThumb());
+		if (authenticatedUserService.checkUserIsAuth(longarticleVO.getUserId())){
+			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(longarticleVO.getUserId());
+			longarticleVO.setAuthType(authenticatedUserVO.getType());
+		} else {
+			longarticleVO.setAuthType(0);
+		}
 		// 添加和关于用户的点赞关系
 		longarticleVO.setIsLike(socialService.isUserLike(userId, PostType.LONGARTICLE, longarticleVO.getId()));
 		// 添加和关于用户的收藏关系

@@ -72,7 +72,7 @@ public class FeaturedArticleController extends BasicController {
     public JSONResult setToFeaturedArticle(@ApiParam(value="file", required=true) MultipartFile coverFile,
                                            String articleId) throws Exception{
         if (!featuredArticleService.isArticleFeatured(articleId)){
-            return JSONResult.ok("Already Featured");
+            return JSONResult.errorException("Already Featured");
         }
         FeaturedArticle featuredArticle = new FeaturedArticle();
         featuredArticle.setArticleId(articleId);
@@ -97,7 +97,7 @@ public class FeaturedArticleController extends BasicController {
                 return JSONResult.errorMsg("File name is blank");
             }
         }else {
-            return JSONResult.errorMsg("Covet upload error");
+            return JSONResult.errorMsg("Cover upload error");
         }
 
         String featuredArticleId = featuredArticleService.setToFeaturedArticle(featuredArticle); // 存入数据库

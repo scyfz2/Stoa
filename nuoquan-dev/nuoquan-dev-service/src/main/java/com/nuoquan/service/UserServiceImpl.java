@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.nuoquan.mapper.nq1.*;
+import com.nuoquan.pojo.Article;
+import com.nuoquan.pojo.vo.ArticleVO;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
+import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
@@ -14,10 +21,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nuoquan.enums.SignFlagEnum;
-import com.nuoquan.mapper.nq1.ChatMsgMapper;
-import com.nuoquan.mapper.nq1.UserFansMapper;
-import com.nuoquan.mapper.nq1.UserFansMapperCustom;
-import com.nuoquan.mapper.nq1.UserMapper;
 import com.nuoquan.pojo.ChatMsg;
 import com.nuoquan.pojo.User;
 import com.nuoquan.pojo.UserFans;
@@ -50,6 +53,8 @@ public class UserServiceImpl implements UserService {
 	private ResourceService resourceService;
 	@Autowired
 	private SensitiveFilterUtil sensitiveFilterUtil;
+	@Autowired
+	private AuthenticatedUserService authenticatedUserService;
 	
 	/**
 	 * 将user转换为UserVO 并为用户添加vo属性
@@ -72,6 +77,16 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(UserVO userVO) {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
+
+		
+				if (authenticatedUserService.checkUserIsAuth(userVO.getId())){
+					AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userVO.getId());
+					userVO.setAuthType(fromAuthenticatedUserVO.getType());
+				} else {
+					userVO.setAuthType(0);
+				}
+				userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
+		userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
 		userVO.setSignature(sensitiveFilterUtil.filter(userVO.getSignature()));
 		return userVO;
 	}
@@ -339,6 +354,48 @@ public class UserServiceImpl implements UserService {
 		}
 		else
 			return false;
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public String getUserByEmail(String email) {
+		User user = new User();
+		// 条件
+		user.setEmail(email);
+		//判断result是否为空
+		User result = userMapper.selectOne(user);
+
+		return result == null ? null : result.getId();
+
+	}
+
+
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public PagedResult listAllUsers(Integer page, Integer pageSize) {
+
+		// 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
+		PageHelper.startPage(page, pageSize);
+
+		Example userExample = new Example(User.class);
+		userExample.setOrderByClause("create_date desc");
+		List<User> list = userMapper.selectByExample(userExample);
+		List<UserVO> newList = new ArrayList<>();
+		for (User a : list) {
+			UserVO userVO = composeUser(a);
+			newList.add(userVO);
+		}
+
+		PageInfo<UserVO> pageList = new PageInfo<>(newList);
+
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(page);
+		pagedResult.setTotal(pageList.getPages());
+		pagedResult.setRows(newList);
+		pagedResult.setRecords(pageList.getTotal());
+
+		return pagedResult;
 	}
 
 }

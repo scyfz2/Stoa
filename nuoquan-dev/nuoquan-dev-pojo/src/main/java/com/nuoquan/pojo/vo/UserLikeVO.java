@@ -19,6 +19,17 @@ public class UserLikeVO {
 	private String nickname;
     private String faceImg;
     private String faceImgThumb;
+
+	public Integer getAuthType() {
+		return authType;
+	}
+
+	public void setAuthType(Integer authType) {
+		this.authType = authType;
+	}
+
+	private Integer authType;
+
 	
 	public String getId() {
 		return id;

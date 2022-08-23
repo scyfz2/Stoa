@@ -356,6 +356,34 @@ INSERT INTO `article_image` VALUES ('22081714M6YZZ0H0','22081714M3PH9400','nqpro
 UNLOCK TABLES;
 
 --
+-- Table structure for table `authenticated_user`
+--
+
+DROP TABLE IF EXISTS `authenticated_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `authenticated_user` (
+  `id` varchar(45) NOT NULL,
+  `user_id` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT 0,
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `authenticated_user_id_idx` (`id`),
+  CONSTRAINT `authenticated_user_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='认证用户';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chat_msg`
+--
+
+LOCK TABLES `authenticated_user` WRITE;
+/*!40000 ALTER TABLE `authenticated_user` DISABLE KEYS */;
+INSERT INTO `authenticated_user` VALUES ('1','oDwsO5MorWPzml_QeYekVZnRA1aw',1,'2019-10-16 16:27:31');
+/*!40000 ALTER TABLE `authenticated_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `chat_msg`
 --
 
