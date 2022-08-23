@@ -32,9 +32,9 @@
 				</view>
 			</view>
 			<!-- 招新推文以及介绍的二维码 -->
-			<view class="orgQRBox">
-				<image :src="resServerUrl + detail.imgList[0].imagePath" mode="aspectFill" class="orgQR1"></image>
-				<image :src="resServerUrl + detail.imgList[1].imagePath" mode="aspectFill" class="orgQR2"></image>
+			<view class="orgQRBox" v-if="detail.imgList">
+				<image :src="pathFilter(detail.imgList[0].imagePath)" mode="aspectFill" class="orgQR1"></image>
+				<image :src="pathFilter(detail.imgList[1].imagePath)" mode="aspectFill" class="orgQR2"></image>
 			</view>
 		</view>
 	</view>
@@ -58,7 +58,7 @@
 				navbarHeight: 0 ,//一次性储存 navbarheight
 				detail: '',
 				
-				resServerUrl: this.$resServerUrl,
+
 				showList:['组织简介','主要活动','部门组成']
 			}
 		},
