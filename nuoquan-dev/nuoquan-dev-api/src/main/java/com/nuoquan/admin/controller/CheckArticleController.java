@@ -89,11 +89,26 @@ public class CheckArticleController extends BasicController {
 		mmap.put("Article", article);
 		return prefix + "/edit";
 	}
-	
+
+	/**
+	 * 修改文章状态
+	 *
+	 * @param id 文章id
+	 * @param mmap
+	 * @return
+	 */
+
+	@GetMapping("/check/{id}")
+	public String check(@PathVariable("id") String id, ModelMap mmap) {
+		ArticleVO article = articleService.getArticleById(id, null);
+		mmap.put("Article", article);
+		return prefix + "/check";
+	}
+
 	/**
 	 * 修改文章状态
 	 * 
-	 * @param id 文章id
+	 * @param ids 文章id
 	 * @param mmap
 	 * @return
 	 */
