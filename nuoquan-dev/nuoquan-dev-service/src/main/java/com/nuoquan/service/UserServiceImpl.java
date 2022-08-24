@@ -7,8 +7,6 @@ import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.mapper.nq1.*;
-import com.nuoquan.pojo.Article;
-import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
@@ -64,9 +62,7 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(User user) {
 		UserVO userVO = new UserVO();
 		BeanUtils.copyProperties(user, userVO);
-		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
-		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
-		return userVO;
+		return composeUser(userVO);
 	}
 	
 	/**
@@ -77,15 +73,13 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(UserVO userVO) {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
-
-		
-				if (authenticatedUserService.checkUserIsAuth(userVO.getId())){
-					AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userVO.getId());
-					userVO.setAuthType(fromAuthenticatedUserVO.getType());
-				} else {
-					userVO.setAuthType(0);
-				}
-				userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
+		if (authenticatedUserService.checkUserIsAuth(userVO.getId())){
+			AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userVO.getId());
+			userVO.setAuthType(fromAuthenticatedUserVO.getType());
+		} else {
+			userVO.setAuthType(0);
+		}
+		userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
 		userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
 		userVO.setSignature(sensitiveFilterUtil.filter(userVO.getSignature()));
 		return userVO;
@@ -348,12 +342,8 @@ public class UserServiceImpl implements UserService {
 	 * 判断用户名是否合法
 	 */
 	@Override
-	public boolean JudgeNickNameIsValid(String nickName){
-		if (nickName.equals(sensitiveFilterUtil.filter(nickName))){
-			return true;
-		}
-		else
-			return false;
+	public boolean CheckNicknameIsLegal(String nickname){
+		return nickname.equals(sensitiveFilterUtil.filter(nickname));
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS)
@@ -364,7 +354,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(email);
 		//判断result是否为空
 		User result = userMapper.selectOne(user);
-
+		// 当有多个相同值会报错，需确保email的唯一性
 		return result == null ? null : result.getId();
 
 	}

@@ -237,7 +237,7 @@ public class UserController extends BasicController {
 		User user = new User();
 		UserVO userVO; //返回前端对象
 		// 2. 判断用户名是否存在以及昵称是否合法
-		boolean isNicknameValid = userService.JudgeNickNameIsValid(userData.getNickname());
+		boolean isNicknameValid = userService.CheckNicknameIsLegal(userData.getNickname());
 		if (isNicknameValid) {
 			return JSONResult.errorMsg("用户名不合法，请换一个试试");
 		}
@@ -246,7 +246,7 @@ public class UserController extends BasicController {
 		if (!isIdExist) {
 			// 新用户，只添加用户id（openId）头像和昵称
 			user.setId(userData.getId());
-			user.setNickname("微信用户"+ sid.userInitNickname());
+			user.setNickname("用户"+ sid.userInitNickname());
 			user.setFaceImg(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
 			user.setFaceImgThumb(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
 			user.setPassword("ChangeMe");
@@ -319,8 +319,8 @@ public class UserController extends BasicController {
 	@PostMapping("/queryUserWithFollow")
 	public JSONResult queryUserWithFollow(String userId, String fanId) throws Exception {
 
-		if (StringUtils.isBlank(userId)) {
-			return JSONResult.errorMsg("User id can not be null.");
+		if (StringUtils.isBlank(userId) || StringUtils.isBlank(fanId)) {
+			return JSONResult.errorMsg("Id can not be null.");
 		}
 		UserVO userVO = userService.getUserById(userId);
 		userVO.setFollow(userService.queryIfFollow(userId, fanId));
@@ -434,7 +434,7 @@ public class UserController extends BasicController {
 		if (!isIdExist) {
 			// 3.1 用户不存在，只添加用户id（openId）头像和昵称
 			user.setId(userData.getId());
-			user.setNickname("微信用户"+ sid.userInitNickname());
+			user.setNickname("用户"+ sid.userInitNickname());
 			user.setFaceImg(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
 			user.setFaceImgThumb(RandomInitFaceImg.getRandomPath(userData.getFaceImg()));
 			user.setPassword("ChangeMe");

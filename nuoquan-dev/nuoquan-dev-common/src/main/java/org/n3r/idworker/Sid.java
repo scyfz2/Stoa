@@ -54,11 +54,11 @@ public class Sid {
 
 
     /**
-     * 返回固定10位(6位日期+4位随机字符)的字母数字混编的字符串。
+     * 返回固定14位(4位日期+10位随机字符)的字母数字混编的字符串。
      */
     public String userInitNickname() {
         long id = idWorker.nextId();
-        String yyMMdd = new SimpleDateFormat("yyMMdd").format(new Date());
+        String yyMMdd = new SimpleDateFormat("MMdd").format(new Date());
         return yyMMdd + Utils.padLeft(Utils.encode(id), 4, '0');
     }
     

@@ -258,7 +258,7 @@ DROP TABLE IF EXISTS `article`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `article` (
   `id` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `article_title` varchar(45) NOT NULL,
+  `article_title` varchar(45) DEFAULT NULL,
   `user_id` varchar(45) CHARACTER SET utf8 NOT NULL,
   `tags` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `article_content` text NOT NULL,
@@ -424,12 +424,11 @@ DROP TABLE IF EXISTS `events_calendar`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `events_calendar` (
   `id` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `title` varchar(45) NOT NULL COMMENT '事件名称',
-  `description` text COMMENT '事件简介',
-  `faculty` varchar(45) NOT NULL COMMENT '学院',
-  `degree` varchar(45) NOT NULL COMMENT '学历',
-  `venue` varchar(45) NOT NULL COMMENT '事件地点',
-  `date` varchar(45) NOT NULL COMMENT '事件日期',
+  `title` varchar(255) NOT NULL COMMENT '事件名称',
+  `faculty` tinyint(4) NOT NULL COMMENT '学院',
+  `degree` tinyint(4) NOT NULL COMMENT '学历',
+  `venue` varchar(255) NOT NULL COMMENT '事件地点',
+  `date` tinyint(4) NOT NULL COMMENT '事件日期(只传入日期的日)',
   `time` varchar(45) NOT NULL COMMENT '事件具体时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0:unreadable/1:readable/2:checking',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
