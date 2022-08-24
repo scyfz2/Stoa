@@ -66,7 +66,7 @@ public class LongarticleServiceImpl implements LongarticleService {
 		longarticleVO.setFaceImg(userVO.getFaceImg());
 		longarticleVO.setFaceImgThumb(userVO.getFaceImgThumb());
 		if (authenticatedUserService.checkUserIsAuth(longarticleVO.getUserId())){
-			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(longarticleVO.getUserId());
+			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserByUserId(longarticleVO.getUserId());
 			longarticleVO.setAuthType(authenticatedUserVO.getType());
 		} else {
 			longarticleVO.setAuthType(0);

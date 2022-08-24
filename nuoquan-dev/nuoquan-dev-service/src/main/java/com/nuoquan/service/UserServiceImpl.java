@@ -7,8 +7,6 @@ import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.mapper.nq1.*;
-import com.nuoquan.pojo.Article;
-import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
@@ -76,7 +74,7 @@ public class UserServiceImpl implements UserService {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
 		if (authenticatedUserService.checkUserIsAuth(userVO.getId())){
-			AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userVO.getId());
+			AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userVO.getId());
 			userVO.setAuthType(fromAuthenticatedUserVO.getType());
 		} else {
 			userVO.setAuthType(0);

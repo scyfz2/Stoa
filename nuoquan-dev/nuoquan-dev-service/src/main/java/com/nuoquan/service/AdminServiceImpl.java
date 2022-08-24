@@ -164,7 +164,7 @@ public class AdminServiceImpl implements AdminService {
 		articleVO.setFaceImg(userVO.getFaceImg());
 		articleVO.setFaceImgThumb(userVO.getFaceImgThumb());
 		if (authenticatedUserService.checkUserIsAuth(articleVO.getUserId())){
-			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(articleVO.getUserId());
+			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserByUserId(articleVO.getUserId());
 			articleVO.setAuthType(authenticatedUserVO.getType());
 		} else {
 			articleVO.setAuthType(0);
