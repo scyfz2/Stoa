@@ -165,6 +165,7 @@
 		var dataUrl=window.rootPath+"/CheckArticle/list";
 		var updateUrl=window.rootPath+"/CheckArticle/edit/{id}";
 		var checkUrl=window.rootPath+"/CheckArticle/check/{id}";
+		var commentUrl=window.rootPath+"/CheckArticle/comment/{id}";
 		var exportUrl=window.rootPath+"/CheckArticle/export";
 
 		var options = {
@@ -172,6 +173,7 @@
 		        updateUrl: updateUrl,
 		        exportUrl: exportUrl,
 		        checkUrl: checkUrl,
+		        commentUrl:commentUrl,
 		        sortName: "articleSort",
 		        modalName: "文章",
 		        search: false,
@@ -273,6 +275,7 @@
 					        var actions = [];
 					        actions.push('<a class="btn btn-success btn-xs"  href="#" onclick="$.operate.edit(\'' + id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
 							actions.push('<a class="btn btn-info btn-xs" href="#" onclick="$.operate.check(\'' + id + '\')"><i class="fa fa-check"></i>查看</a>');
+							actions.push('<a class="btn btn-info btn-xs" href="#" onclick="$.operate.comment(\'' + id + '\')"><i class="fa fa-check"></i>评论</a>');
 					        return actions.join('');
 					
 					        // return

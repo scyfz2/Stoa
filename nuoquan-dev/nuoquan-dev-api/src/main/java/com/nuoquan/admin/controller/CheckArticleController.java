@@ -1,5 +1,7 @@
 package com.nuoquan.admin.controller;
 
+import com.nuoquan.enums.PostType;
+import com.nuoquan.pojo.vo.UserCommentVO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,6 +105,23 @@ public class CheckArticleController extends BasicController {
 		ArticleVO article = articleService.getArticleById(id, null);
 		mmap.put("Article", article);
 		return prefix + "/check";
+	}
+	/**
+	 * 修改文章状态
+	 *
+	 * @param id 文章id
+	 * @param mmap
+	 * @return
+	 */
+
+	@GetMapping("/comment/{id}")
+	public String comment(@PathVariable("id") String id, ModelMap mmap) {
+		PagedResult comment= socialService.getMainComments(1,100,0, PostType.valueOf("ARTICLE"), id, null);
+		mmap.put("Comment", comment);
+//		for (int i=0;i< comment.getRows().toArray().length;i++){
+//			String mainid=comment.getRows().toArray().id;
+//		}
+		return prefix + "/comment";
 	}
 
 	/**
