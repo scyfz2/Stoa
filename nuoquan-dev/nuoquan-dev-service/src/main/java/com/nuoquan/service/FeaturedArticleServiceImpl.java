@@ -4,9 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.FeaturedArticleMapper;
-import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.FeaturedArticle;
-import com.nuoquan.pojo.UserCollect;
 import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.pojo.vo.FeaturedArticleVO;
@@ -22,7 +20,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import javax.naming.AuthenticationNotSupportedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +57,7 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         // 添加用户昵称
         featuredArticleVO.setNickname(userVO.getNickname());
         if (authenticatedUserService.checkUserIsAuth(articleVO.getUserId())){
-            AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(articleVO.getUserId());
+            AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserByUserId(articleVO.getUserId());
             featuredArticleVO.setAuthType(authenticatedUserVO.getType());
         } else {
             featuredArticleVO.setAuthType(0);

@@ -21,7 +21,7 @@ public interface AuthenticatedUserService {
      * @param userId
      * @return
      */
-    public AuthenticatedUserVO getAuthUserById(String userId);
+    public AuthenticatedUserVO getAuthUserByUserId(String userId);
 
     /**
      * 按 userId 获取用户是否认证

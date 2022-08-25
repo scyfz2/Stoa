@@ -150,7 +150,7 @@ public interface UserService {
 	/**
 	 * 判断用户名是否合法
 	 */
-	public boolean JudgeNickNameIsValid(String nickName);
+	public boolean CheckNicknameIsLegal(String nickName);
 	
 	/*
 	 * 查询所有用户

@@ -115,8 +115,12 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService{
      * @return
      */
     @Override
-    public AuthenticatedUserVO getAuthUserById(String userId) {
-        AuthenticatedUser authenticatedUser = authenticatedUserMapper.selectByPrimaryKey(userId);
+    public AuthenticatedUserVO getAuthUserByUserId(String userId) {
+        AuthenticatedUser authUser = new AuthenticatedUser();
+        // 条件
+        authUser.setUserId(userId);
+        //判断result是否为空
+        AuthenticatedUser authenticatedUser = authenticatedUserMapper.selectOne(authUser);
         AuthenticatedUserVO authenticatedUserVO = composeAuthUserVO(authenticatedUser, userId);
         return authenticatedUserVO;
     }

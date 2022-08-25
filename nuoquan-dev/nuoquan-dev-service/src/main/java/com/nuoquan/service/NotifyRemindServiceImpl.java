@@ -130,7 +130,7 @@ public class NotifyRemindServiceImpl implements NotifyRemindService{
 		notifyRemindVO.setFaceImg(sender.getFaceImg());
 		notifyRemindVO.setFaceImgThumb(sender.getFaceImgThumb());
 		if (authenticatedUserService.checkUserIsAuth(notifyRemind.getSenderId())){
-			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserById(notifyRemind.getSenderId());
+			AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserByUserId(notifyRemind.getSenderId());
 			notifyRemindVO.setAuthType(authenticatedUserVO.getType());
 		} else {
 			notifyRemindVO.setAuthType(0);

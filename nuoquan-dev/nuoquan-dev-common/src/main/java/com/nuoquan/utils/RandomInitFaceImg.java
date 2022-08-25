@@ -19,18 +19,16 @@ public class RandomInitFaceImg {
      */
     public static String getRandomPath(String head) {
         // 每次修改默认头像的时候先根据头像数修改max(8张图片则max=8)
-        int max = 8;
+        // 储存桶中命名头像是theme+index+format, e.g., 叹气小动物第3个的jpg图像 ->  sigh3.jpg
+        int max = 6;    //TODO: 每次修改时，修改头像数量，头像主题，图片格式即可
+        String theme = "Sigh";
+        String imgFormat = ".jpg";
         String imgPath = "";
         // 逐个添加图片路径
         ArrayList<String> arr = new ArrayList<>();
-        arr.add("nqprod/img/220817169624068947968.png");
-        arr.add("nqprod/img/220817169604540268544.png");
-        arr.add("nqprod/img/220817169581068943360.png");
-        arr.add("nqprod/img/220817169533977395200.png");
-        arr.add("nqprod/img/220817169513874096128.png");
-        arr.add("nqprod/img/220817169486588051456.png");
-        arr.add("nqprod/img/220817169460325416960.png");
-        arr.add("nqprod/img/220817169434425589760.png");
+        for (int i = 1;i <= max; i++){
+            arr.add("nqprod/avatar/" + theme + i + imgFormat);
+        }
 
         /**
          * 获取[0, max-1)区间内随机整数

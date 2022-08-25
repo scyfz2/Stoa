@@ -87,7 +87,7 @@ public class SocialServiceImpl implements SocialService {
         userCommentVO.setNickname(fromUser.getNickname());
         userCommentVO.setFaceImg(fromUser.getFaceImg());
         if (authenticatedUserService.checkUserIsAuth(userCommentVO.getFromUserId())){
-            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userCommentVO.getFromUserId());
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userCommentVO.getFromUserId());
             userCommentVO.setFromUserAuthType(fromAuthenticatedUserVO.getType());
         } else {
             userCommentVO.setFromUserAuthType(0);
@@ -97,7 +97,7 @@ public class SocialServiceImpl implements SocialService {
         userCommentVO.setToNickname(toUser.getNickname());
 
         if (authenticatedUserService.checkUserIsAuth(userCommentVO.getToUserId())){
-            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userCommentVO.getToUserId());
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userCommentVO.getToUserId());
             userCommentVO.setToUserAuthType(fromAuthenticatedUserVO.getType());
         } else {
             userCommentVO.setToUserAuthType(0);
@@ -116,7 +116,7 @@ public class SocialServiceImpl implements SocialService {
         userLikeVO.setFaceImg(fromUser.getFaceImg());
 
         if (authenticatedUserService.checkUserIsAuth(userLikeVO.getUserId())){
-            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserById(userLikeVO.getUserId());
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userLikeVO.getUserId());
             userLikeVO.setAuthType(fromAuthenticatedUserVO.getType());
         } else {
             userLikeVO.setAuthType(0);
