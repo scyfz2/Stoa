@@ -117,17 +117,13 @@ public class CheckArticleController extends BasicController {
 	 */
 
 	@GetMapping("/comment/{id}")
-	public String comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
+	public Object comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
 		Integer page = tablepar.getPageNum();
 		Integer pageSize = tablepar.getPageSize();
-		PagedResult comment= socialService.getMainComments(page, pageSize, 0, PostType.valueOf("ARTICLE"), id, null);
-		mmap.put("Comment", comment);
-		
-		List<UserCommentVO> list = (List<UserCommentVO>)comment.getRows();
-		for (int i=0;i< list.size();i++){
-			String mainid = list.get(i).getId();
-		}
-		return prefix + "/comment";
+		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
+		return commentResult;
+//		mmap.put("Comment", commentResult);
+//		return prefix + "/comment";
 	}
 
 	/**
