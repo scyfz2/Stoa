@@ -22,6 +22,8 @@ import com.nuoquan.utils.PagedResult;
 
 import io.swagger.annotations.Api;
 
+import java.util.List;
+
 /**
  * 文章人工审核
  * 
@@ -115,12 +117,16 @@ public class CheckArticleController extends BasicController {
 	 */
 
 	@GetMapping("/comment/{id}")
-	public String comment(@PathVariable("id") String id, ModelMap mmap) {
-		PagedResult comment= socialService.getMainComments(1,100,0, PostType.valueOf("ARTICLE"), id, null);
+	public String comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
+		Integer page = tablepar.getPageNum();
+		Integer pageSize = tablepar.getPageSize();
+		PagedResult comment= socialService.getMainComments(page, pageSize, 0, PostType.valueOf("ARTICLE"), id, null);
 		mmap.put("Comment", comment);
-//		for (int i=0;i< comment.getRows().toArray().length;i++){
-//			String mainid=comment.getRows().toArray().id;
-//		}
+		
+		List<UserCommentVO> list = (List<UserCommentVO>)comment.getRows();
+		for (int i=0;i< list.size();i++){
+			String mainid = list.get(i).getId();
+		}
 		return prefix + "/comment";
 	}
 
