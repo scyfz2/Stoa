@@ -83,12 +83,8 @@
                                 </div>
                                 <div style="display:flex;">
                                     <button class="blue-font" type="button">置顶</button>
-                                    <div style="font-size:20px;margin-top: -2.5px;">|</div>
-                                    <button class="blue-font" type="button">删除</button>
-                                    <div style="font-size:20px;margin-top: -2.5px;">|</div>
-<!--                                    <script th:src="@{/static/admin/assets/js/bootstrap/js/base_list.js}"-->
-<!--                                            type="text/javascript"></script>-->
-<!--                                    <button onclick="subComment(id)" class="blue-font" type="button">查看回复</button>-->
+                                    <div style="font-size:26px;">|</div>
+                                    <button class="blue-font" type="button" th:onclick="delete([[${comment.id}]],[[${comment.targetId}]],[[${comment.targetType}]])">删除</button>
                                 </div>
                             </div>
                             <div class="partingLine"></div>
@@ -117,14 +113,27 @@
 
 
 <script type="text/javascript">
-	/**
-	 * 用户添加方法
-	 */
-<!--    function subComment(id){-->
-<!--        var commentUrl= window.rootPath+"/CheckArticle/comment/{id}"-->
-<!--        var url = commentUrl.replace("{id}", id);-->
-<!--        $.modal.open("评论" + $.table._option.modalName, url);-->
-<!--    },-->
+    function delete(commentId,targetId,targetType) {
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : rootPath + "/social/fDeleteComment",
+			data : {
+			    commentId：commentId,
+			    userId:null,
+			    targetId:targetId,
+			    targetType:targetType,
+			},
+			async : false,
+			error : function(request) {
+				$.modal.alertError("系统错误");
+			},
+			success : function(data) {
+				$.operate.saveSuccess(data);
+			}
+		});
+	}
+
 </script>
 
 

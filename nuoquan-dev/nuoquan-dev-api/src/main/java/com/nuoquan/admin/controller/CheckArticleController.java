@@ -121,9 +121,8 @@ public class CheckArticleController extends BasicController {
 		Integer page = tablepar.getPageNum();
 		Integer pageSize = tablepar.getPageSize();
 		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
-		return commentResult;
-//		mmap.put("Comment", commentResult);
-//		return prefix + "/comment";
+		mmap.put("Comment", commentResult);
+		return prefix + "/comment";
 	}
 
 	/**
