@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import com.nuoquan.mapper.nq1.UserMapper;
 import com.nuoquan.service.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
@@ -54,7 +55,10 @@ public class BasicController {
 	@Autowired
 	public EventsCalendarService eventsCalendarService;
 	@Autowired
-	FeaturedArticleService featuredArticleService;
+	public FeaturedArticleService featuredArticleService;
+	@Autowired
+	public UserMapper userMapper;
+
 	
 	// 每页分页的记录数
 	public static final Integer PAGE_SIZE = 10;

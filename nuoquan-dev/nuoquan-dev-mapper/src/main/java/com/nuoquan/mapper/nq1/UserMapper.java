@@ -2,7 +2,9 @@ package com.nuoquan.mapper.nq1;
 
 import com.nuoquan.pojo.User;
 import com.nuoquan.utils.MyMapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserMapper extends MyMapper<User> {
 	
 	

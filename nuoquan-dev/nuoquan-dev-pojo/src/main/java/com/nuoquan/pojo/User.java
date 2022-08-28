@@ -62,6 +62,12 @@ public class User {
     private Integer receiveLikeCounts;
 
     /**
+     * 0 = 封号, 1 = 正常, 2 = 禁言
+     */
+    @Column(name = "state")
+    private Integer state;
+
+    /**
      * Client-id 设备id，用于消息推送
      */
     private String cid;
@@ -294,6 +300,14 @@ public class User {
      */
     public void setReceiveLikeCounts(Integer receiveLikeCounts) {
         this.receiveLikeCounts = receiveLikeCounts;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     /**

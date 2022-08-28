@@ -19,6 +19,7 @@
     <result column="graduation_year" property="graduationYear" jdbcType="INTEGER" />
     <result column="degree" property="degree" jdbcType="TINYINT" />
     <result column="receive_like_counts" property="receiveLikeCounts" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
     <result column="cid" property="cid" jdbcType="VARCHAR" />
     <result column="reputation" property="reputation" jdbcType="INTEGER" />
     <result column="latest_login" property="latestLogin" jdbcType="TIMESTAMP" />
