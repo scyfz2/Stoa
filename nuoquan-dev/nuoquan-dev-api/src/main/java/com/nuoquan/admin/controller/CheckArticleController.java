@@ -126,6 +126,16 @@ public class CheckArticleController extends BasicController {
 	}
 
 	/**
+	 * 删除评论
+	 */
+	@RequiresPermissions("system:comment:delete")
+	@PostMapping("/delete")
+	@ResponseBody
+	public JSONResult deleteComment(String id, String targetId) {
+		return socialService.fDeleteComment(id, "AdminUser", targetId, PostType.ARTICLE) > 0 ? JSONResult.ok() : JSONResult.errorMsg("删除失败");
+	}
+
+	/**
 	 * 修改文章状态
 	 * 
 	 * @param ids 文章id
