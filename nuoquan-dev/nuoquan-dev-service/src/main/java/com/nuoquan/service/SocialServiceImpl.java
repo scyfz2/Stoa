@@ -318,7 +318,8 @@ public class SocialServiceImpl implements SocialService {
     @Override
     public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
         if (userId.equals(articleMapper.selectByPrimaryKey(userCommentMapper.selectByPrimaryKey(commentId).getTargetId()).getUserId())
-        || userId.equals(userCommentMapper.selectByPrimaryKey(commentId).getFromUserId())) {
+        || userId.equals(userCommentMapper.selectByPrimaryKey(commentId).getFromUserId())
+        || userId == "AdminUser") {
             Example example = new Example(UserComment.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("id", commentId);
@@ -329,7 +330,6 @@ public class SocialServiceImpl implements SocialService {
             return 1;
         }
         else{
-            System.out.println("你是小丑，小丑是你，小丑删不了评论");
             return 0;
         }
 
