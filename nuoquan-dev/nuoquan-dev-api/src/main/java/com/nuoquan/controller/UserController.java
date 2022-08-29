@@ -256,10 +256,10 @@ public class UserController extends BasicController {
 			userVO = userService.saveUserDirectly(user);
 		} else {
 			// 3.1 修改信息
-			boolean isNicknameExist = userService.checkNicknameIsExist(userData.getNickname());
-			if (isNicknameExist){
-				return JSONResult.errorMsg("用户名已存在，请换一个试试");
-			}
+//			boolean isNicknameExist = userService.checkNicknameIsExist(userData.getNickname());
+//			if (isNicknameExist){
+//				return JSONResult.errorMsg("用户名已存在，请换一个试试");
+//			}
 			user.setId(userData.getId()); // 用作索引
 			user.setNickname(userData.getNickname());
 			user.setFaceImg(userData.getFaceImg());
