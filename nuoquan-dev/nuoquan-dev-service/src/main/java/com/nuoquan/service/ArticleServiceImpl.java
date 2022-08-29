@@ -142,6 +142,10 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		Example articleExample = new Example(Article.class);
 		articleExample.setOrderByClause("create_date desc");
+		Criteria criteria = articleExample.createCriteria();
+		criteria.orEqualTo("status", 1);
+		criteria.orEqualTo("status", 2);
+		criteria.orEqualTo("status", 3);
 		List<Article> list = articleMapper.selectByExample(articleExample);
 		List<ArticleVO> newList = new ArrayList<ArticleVO>();
 		for (Article a : list) {

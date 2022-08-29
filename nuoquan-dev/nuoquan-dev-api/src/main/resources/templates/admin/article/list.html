@@ -201,12 +201,6 @@
 					    title: '图片',
 				    	formatter : function (value, row, index) {
 				    		if(value.length > 0){
-					    		// var str = "";
-					    		// for (var i = 0; i < value.length; i++){
-					    		// 	str += "<img style='width: 50px;height: 50px;' src='"+rootPath + value[i].imagePath+"' alt=''>"
-					    		// }
-					    	    // return str;
-
 								return '<span>有</span>';
 				    		}
 				    	}
@@ -225,7 +219,17 @@
 					},
 					{
 					    field: 'commentNum',
-					    title: '评论数'
+					    title: '评论数',
+						formatter : function (value, row, index) {
+							if (value > 0) {
+								var id = row.id;
+								var actions = [];
+								actions.push('<a style="color:#335dc7;" href="#" onclick="$.operate.comment(\'' + id + '\')"><b>'+value+'</b></a>');
+								return actions.join('');
+							} else {
+								return '<span>'+value+'</span>'
+							}
+						}
 					},
 					{
 						field: 'reportedNum',
@@ -266,7 +270,13 @@
 					},
 					{
 					    field: 'createDate',
-					    title: '创建时间'
+					    title: '创建时间',
+						formatter : function (value, row, index) {
+							let date = new Date(value)
+
+							return '<span>'+dateFormat("YYYY-mm-dd HH:MM:SS", date)+'</span>';
+
+						}
 					},
 					{
 					    title: '操作',
@@ -275,7 +285,7 @@
 					        var actions = [];
 					        actions.push('<a class="btn btn-success btn-xs"  href="#" onclick="$.operate.edit(\'' + id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
 							actions.push('<a class="btn btn-info btn-xs" href="#" onclick="$.operate.check(\'' + id + '\')"><i class="fa fa-check"></i>查看</a>');
-							actions.push('<a class="btn btn-info btn-xs" href="#" onclick="$.operate.comment(\'' + id + '\')"><i class="fa fa-check"></i>评论</a>');
+							// actions.push('<a class="btn btn-info btn-xs" href="#" onclick="$.operate.comment(\'' + id + '\')"><i class="fa fa-check"></i>评论</a>');
 					        return actions.join('');
 					
 					        // return
@@ -324,6 +334,27 @@
             url: url,
             silent: true
         })
+	}
+
+	// 入参 fmt-格式 date-日期
+	function dateFormat(fmt, date) {
+		let ret;
+		const opt = {
+			"Y+": date.getFullYear().toString(),        // 年
+			"m+": (date.getMonth() + 1).toString(),     // 月
+			"d+": date.getDate().toString(),            // 日
+			"H+": date.getHours().toString(),           // 时
+			"M+": date.getMinutes().toString(),         // 分
+			"S+": date.getSeconds().toString()          // 秒
+			// 有其他格式化字符需求可以继续添加，必须转化成字符串
+		};
+		for (let k in opt) {
+			ret = new RegExp("(" + k + ")").exec(fmt);
+			if (ret) {
+				fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+			};
+		};
+		return fmt;
 	}
 	
 	var oldCheck;
