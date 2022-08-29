@@ -80,11 +80,13 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="text-show" th:text="${comment.comment}"/>
+<!--                                    <div th:text="${comment.id}"/>-->
+<!--                                    <div th:text="${comment.targetId}"/>-->
                                 </div>
                                 <div style="display:flex;">
                                     <button class="blue-font" type="button">置顶</button>
                                     <div style="font-size:26px;">|</div>
-                                    <button class="blue-font" type="button" th:onclick="delete([[${comment.id}]],[[${comment.targetId}]],[[${comment.targetType}]])">删除</button>
+                                    <button class="blue-font" type="button" th:onclick="delete([[${comment.id}]],[[${comment.targetId}]])">删除</button>
                                 </div>
                             </div>
                             <div class="partingLine"></div>
@@ -113,16 +115,14 @@
 
 
 <script type="text/javascript">
-    function delete(commentId,targetId,targetType) {
+    function delete(id,targetId) {
 		$.ajax({
 			cache : true,
 			type : "POST",
-			url : rootPath + "/social/fDeleteComment",
+			url : rootPath + "/CheckArticle/delete",
 			data : {
-			    commentId：commentId,
-			    userId:null,
+			    id：id,
 			    targetId:targetId,
-			    targetType:targetType,
 			},
 			async : false,
 			error : function(request) {
