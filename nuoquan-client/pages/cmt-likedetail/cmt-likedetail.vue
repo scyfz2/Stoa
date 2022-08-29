@@ -793,12 +793,14 @@ page {
 
 .clID-text {
 	font-size: 13px;
+	line-height:15px;
 	font-weight: 500;
 	color: #3d3d3d;
 }
 
 .clID-operation {
 	font-size: 10px;
+	line-height:12px;
 	color: #919191;
 	margin-left: 8upx;
 }
@@ -847,6 +849,7 @@ page {
 	margin-bottom: 15upx;
 	height: 100%;
 	font-size: 12px;
+	line-height: 14px;
 	color: #3d3d3d;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;

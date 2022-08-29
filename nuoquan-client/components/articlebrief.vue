@@ -434,7 +434,7 @@ image {
 	font-size:14px;
 	font-family:Source Han Sans CN;
 	font-weight:500;
-	line-height:14px;
+	line-height:16px;
 	color:rgba(53,53,53,1);
 	opacity:1;
 	/* max-width: 24%; */
