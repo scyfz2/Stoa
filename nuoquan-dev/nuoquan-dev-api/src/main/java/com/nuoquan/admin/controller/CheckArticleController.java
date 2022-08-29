@@ -128,7 +128,6 @@ public class CheckArticleController extends BasicController {
 	/**
 	 * 删除评论
 	 */
-	@RequiresPermissions("system:comment:delete")
 	@PostMapping("/delete")
 	@ResponseBody
 	public JSONResult deleteComment(String id, String targetId) {
