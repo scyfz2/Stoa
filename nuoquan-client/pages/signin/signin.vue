@@ -161,9 +161,9 @@ export default {
 				{
 					title: '微信绑定'
 				},
-				// {
-				// 	title: '邮箱认证'
-				// },
+				{
+					title: '邮箱认证'
+				},
 				{
 					title: '登陆'
 				}
