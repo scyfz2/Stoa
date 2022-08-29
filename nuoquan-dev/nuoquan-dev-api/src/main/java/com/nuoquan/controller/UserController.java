@@ -461,6 +461,9 @@ public class UserController extends BasicController {
 		if (StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("User id can not be null.");
 		}
+		if (!userService.checkEmailIsExist(email)){
+			return JSONResult.errorException("Email already binding!");
+		}
 		// 生成验证码
 		int length = 6; // 位数
 		String code = "";
