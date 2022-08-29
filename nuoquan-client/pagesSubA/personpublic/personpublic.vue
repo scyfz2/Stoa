@@ -112,7 +112,7 @@
 		<view :style="{ width: windowWidth - 26  + 'px'}" v-bind:myArticleList="myArticleList">
 			<view id="public-articleCard" :style="{ width: windowWidth - 26  + 'px'}" v-for="thisArticle in myArticleList" :key="thisArticle.id" @click="jumpToDetail(thisArticle)">
 				<view style="height: 100%;width: 100%;border-radius: 8px;padding: 12px 0px;" hover-class="hoverColor">
-					<view class="articleTitle">{{ thisArticle.articleTitle }}</view>
+					<view v-if="!isNull(thisArticle.articleTitle)" class="articleTitle">{{ thisArticle.articleTitle }}</view>
 					<!-- 发布内容行 -->
 					<view class="articleContentLine">
 						<!-- 文字部分卡片 -->
@@ -172,6 +172,7 @@ export default {
 			serverUrl: this.$serverUrl,
 
 			thisUserInfo: '',
+			// myUserInfo:'',
 			myPublic: false,
 			windowHeight: 0,
 			windowWidth: 0,
@@ -190,6 +191,14 @@ export default {
 		userId = opt.userId;
 
 		me = this.getGlobalUserInfo();
+		if (this.isNull(me)) {
+			uni.redirectTo({
+				url: '../../pages/signin/signin'
+			})
+			return;
+		} else{
+			this.me = me;
+		}
 		if (me.id == userId) {
 			// 如果打开自己的页面，屏蔽关注和发私信按钮
 			this.myPublic = true;

@@ -85,6 +85,7 @@ export default {
 			cardWidth: '',
 			dataList: '',
 			adverts: {}, // 广告列表
+			userInfo:{},
 		};
 	},
 	components: {
@@ -104,7 +105,18 @@ export default {
 		this.thisUserInfo = this.getGlobalUserInfo();
 		var screenWidth = uni.getSystemInfoSync().screenWidth;
 		this.screenWidth = screenWidth;
-
+		// 获取全局用户信息
+		var userInfo = this.getGlobalUserInfo();
+		
+		if (!this.isNull(userInfo)) {
+			this.userInfo = this.getGlobalUserInfo();
+		} else {
+			uni.redirectTo({
+				url: '../signin/signin'
+			});
+			return;
+		}
+		
 		// 获取当前分页
 		var page = this.page;
 
@@ -124,6 +136,24 @@ export default {
 		
 		// 加载广告
 		this.getAdByPosition("MINE",5,this.thisUserInfo.id);
+	},
+
+	onShareAppMessage(res){
+		if (res.from === 'menu'){
+			return {
+				title: '速来围观' + this.userInfo.nickname + '的分享',
+				path: '/pagesSubA/personpublic/personpublic?data=' + this.userInfo.id,
+			};
+		}
+	},
+	
+	onShareTimeline(res){
+		if (res.from === 'menu'){
+			return {
+			title: '速来围观' + this.userInfo.nickname + '的分享',
+			path: '/pagesSubA/personpublic/personpublic?data=' + this.userInfo.id,	
+			};
+		}
 	},
 
 	onShow() {

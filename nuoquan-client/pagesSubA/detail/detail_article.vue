@@ -8,7 +8,7 @@
 				<view class="time">{{ timeDeal(articleCard.createDate) }}</view>
 			</view>
 			<!--标题-->
-			<text selectable="true" class="detail-title" :style="{width : '100%'}">{{ articleCard.articleTitle }}</text>
+			<text v-if="!isNull(articleCard.articleTitle)" selectable="true" class="detail-title" :style="{width : '100%'}">{{ articleCard.articleTitle }}</text>
 			<!-- <view class="detail-title" :style="{width : isfunCom ? 'calc(100%-75px)' : '100%'}">{{ articleCard.articleTitle }}</view> -->
 			<!-- 搞笑大赛 -->
 			<!-- <image v-if="isfunCom" src="../../static/BG/funCom.png" mode="aspectFit" 

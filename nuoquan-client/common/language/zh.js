@@ -57,6 +57,7 @@ module.exports = {
 	notUNNCEmail: "非 UNNC 邮箱地址！",
 	notEmptyEmail: "邮箱不能为空",
 	certificateFail:"验证失败",
+	repeatEmail:"邮箱已被注册",
 	emptyCaptcha:"验证码为空",
 	//主页
 	viewAllHot: "查看全部 >",

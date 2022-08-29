@@ -291,7 +291,7 @@ public class ArticleController extends BasicController {
 			// uniapp使用formData时，paramType要改成form
 			@ApiImplicitParam(name="userId", value="作者id", required=true, dataType="String", paramType="form"),
 			@ApiImplicitParam(name="articleTag", value="文章标签", required=false, dataType="String", paramType="form"),
-			@ApiImplicitParam(name="articleTitle", value="文章题目", required=true, dataType="String", paramType="form"),
+			@ApiImplicitParam(name="articleTitle", value="文章题目", required=false, dataType="String", paramType="form"),
 			@ApiImplicitParam(name="articleContent", value="文章内容", required=true, dataType="String", paramType="form")
 	})
 	@PostMapping(value="/uploadArticle")

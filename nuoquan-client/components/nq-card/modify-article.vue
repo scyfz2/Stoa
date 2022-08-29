@@ -13,7 +13,8 @@
 					@click="goToDetail(thisArticle)"
 					hover-class="hoverColor"
 				>
-					<view class="title">{{thisArticle.articleTitle}}</view>
+					<view v-if="!isNull(thisArticle.articleTitle)" class="title">{{thisArticle.articleTitle}}</view>
+					<view v-else-if="isNull(thisArticle.articleTitle)" style="padding: 20px;"></view>
 					<view class="cardBody">
 						<view class="picArea" v-if="thisArticle.imgList.length">
 							<image :src="pathFilter(thisArticle.imgList[0].imagePath)"></image>

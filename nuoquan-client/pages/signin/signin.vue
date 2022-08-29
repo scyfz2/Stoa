@@ -185,7 +185,7 @@ export default {
 	},
 	watch:{
 		emailMes(val, oldvalue){
-			console.log("emailMes=  " + val);
+			// console.log("emailMes=  " + val);
 		}
 	},
 
@@ -356,8 +356,18 @@ export default {
 								'content-type': 'application/x-www-form-urlencoded'
 							},
 							success: res => {
-								console.log(res);
+								if (res.data.status == 200){
+									console.log(res);
+								}
+								else {
+									uni.showToast({
+										title: this.lang.repeatEmail,
+										icon: 'none',
+										duration: 2000,
+									});
+								}
 							}
+							
 						});
 					}
 				}

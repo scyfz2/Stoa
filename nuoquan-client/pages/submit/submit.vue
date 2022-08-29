@@ -293,14 +293,14 @@
 			// TODO：图片上传需加上大小限制，后台限制10M
 			upload: function(e) {
 				var me = this;
-				if (this.isBlank(me.articleTitle) || this.isNull(me.articleTitle)) {
-					uni.showToast({
-						icon: 'none',
-						title: '文章标题不能为空～',
-						duration: 1000
-					});
-					return;
-				}
+				// if (this.isBlank(me.articleTitle) || this.isNull(me.articleTitle)) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '文章标题不能为空～',
+				// 		duration: 1000
+				// 	});
+				// 	return;
+				// }
 
 				if (this.isBlank(me.articleContent) || this.isNull(me.articleContent)) {
 					uni.showToast({
@@ -319,7 +319,7 @@
 				uni.showLoading({
 					title: '正在上传...'
 				});
-
+				// debugger
 				setTimeout(() => {
 					var finalTag = this.combineTagToString();
 
@@ -391,12 +391,12 @@
 						title: '已提交审核',
 						duration: 2000,
 						icon: 'success'
-					}),
-					setTimeout(() => {
-						uni.switchTab({
-							url: '/pages/tabPages/index'
-						});
-					}, 1800);
+				}),
+				setTimeout(() => {
+					uni.switchTab({
+						url: '/pages/tabPages/index'
+					});
+				}, 200);
 			},
 
 			uploadFail() {

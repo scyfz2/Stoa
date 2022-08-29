@@ -180,7 +180,7 @@
 				this.userInfo = this.getGlobalUserInfo();
 			} else {
 				uni.redirectTo({
-					url: '../signin/signin'
+					url: '../../pages/signin/signin'
 				});
 				return;
 			}
@@ -215,6 +215,16 @@
 		},
 
 		onShareAppMessage(res) {
+			if (res.from === 'menu') {
+				// 来自右上角菜单的分享
+				return {
+					title: '速来围观' + this.userInfo.nickname + '的分享',
+					path: '/pagesSubA/detail/detail?data=' + this.articleCard.id
+				};
+			}
+		},
+		
+		onShareTimeline(res){
 			if (res.from === 'menu') {
 				// 来自右上角菜单的分享
 				return {

@@ -67,7 +67,7 @@ export default {
 		return {
 			degree: 0, //旋转角度
 			rotateStatus: false, //旋转状态,判断静止or顺时针or逆时针
-			tabBarList: ''
+			tabBarList: '',
 		};
 	},
 	computed: {
@@ -121,7 +121,6 @@ export default {
 				}
 			]
 	},
-	
 	methods: {
 		onClick(e) {
 			// if (e.type == 1) {
@@ -136,13 +135,6 @@ export default {
 					url:e.url
 				})
 			}
-			// else if(e.name=="新生"){
-			// 	uni.showToast({
-			// 		icon:'loading',
-			// 		title: '正在开发中',
-			// 		duration: 2000
-			// 	})
-			// }
 			else{
 				console.log(e.name)
 				console.log(this.current)

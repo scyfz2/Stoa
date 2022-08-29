@@ -16,7 +16,7 @@
 		</view>
 		<!-- 标题 -->
 		<view>
-			<text selectable="true" class="title">{{ thisArticle.articleTitle }}</text>
+			<text v-if="!isNull(thisArticle.articleTitle)" selectable="true" class="title">{{ thisArticle.articleTitle }}</text>
 			<!-- <view class="briefarticleCard">{{ thisArticle.articleContent }}</view> -->
 		</view>
 		<!-- 标签行 -->

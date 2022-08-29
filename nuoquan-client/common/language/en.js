@@ -58,6 +58,7 @@ module.exports = {
 	notUNNCEmail: "It's not an UNNC Email address",
 	notEmptyEmail: "Email cannot be null",
 	certificateFail:"Authentication Failed",
+	repeatEmail:"Email is already bound",
 	emptyCaptcha:"Capcha is null",
 	//主页
 	viewAllHot: "Show All >",
