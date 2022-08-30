@@ -198,6 +198,9 @@ public class SocialController extends BasicController {
 	// 特别注意：返回值为1时代表执行此操作的人是文章发布者或评论发布者（此时可以删除评论），返回值为0时无法删除评论
 	public JSONResult fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
 			throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId) || StringUtils.isBlank(commentId) || StringUtils.isEmpty(commentId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
 		if (socialService.fDeleteComment(commentId, userId, targetId, targetType) == 1){
 			return JSONResult.ok();
 		}
