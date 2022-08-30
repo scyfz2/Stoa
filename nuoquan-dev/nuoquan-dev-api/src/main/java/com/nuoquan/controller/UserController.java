@@ -457,11 +457,10 @@ public class UserController extends BasicController {
 			@ApiImplicitParam(name = "email", required = true, dataType = "String", paramType = "form")})
 	@PostMapping("/getCode")
 	public JSONResult getCode(String userId, String email) throws Exception {
-
 		if (StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("User id can not be null.");
 		}
-		if (!userService.checkEmailIsExist(email)){
+		if (userService.checkEmailIsExist(email)){
 			return JSONResult.errorException("Email already binding!");
 		}
 		// 生成验证码
