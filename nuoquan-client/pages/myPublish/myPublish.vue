@@ -54,7 +54,7 @@
 </template>
 
 <script>
-	import modifyArticle from '../../components/nq-card/modify-article';
+	import modifyArticle from '../../components/nq-card/modify-article.vue';
 	import modifyLong from '../../components/nq-card/modify-longArticle.vue'
 	//import modifyVote from '../../components/nq-card/modify-vote.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
@@ -105,9 +105,9 @@
 		},
 
 		onLoad() {
-			var that = this;
+			// var that = this;
 			var userInfo = this.getGlobalUserInfo();
-			console.log(userInfo);
+			// console.log(userInfo);
 			if (this.isNull(userInfo)) {
 				uni.redirectTo({
 					url: '../signin/signin'
@@ -121,11 +121,11 @@
 			var page = this.currentPage;
 			this.showArticles(page);
 			//this.showVotes();
-			this.showLA(this.currentPageLA);
+			// this.showLA(this.currentPageLA);
 
 			uni.$on('refresh', () => {
 				this.showArticles(1);
-				this.showLA(1);
+				// this.showLA(1);
 			});
 			console.log(this.getnavbarHeight());
 
@@ -192,7 +192,8 @@
 							//延时加载
 							uni.hideLoading();
 							loadArticleFlag = false;
-
+							
+							// debugger
 							console.log(res);
 							if (page == 1) {
 								that.myArticleList = [];

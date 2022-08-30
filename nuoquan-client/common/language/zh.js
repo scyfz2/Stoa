@@ -57,6 +57,7 @@ module.exports = {
 	notUNNCEmail: "非 UNNC 邮箱地址！",
 	notEmptyEmail: "邮箱不能为空",
 	certificateFail:"验证失败",
+	repeatEmail:"邮箱已被注册",
 	emptyCaptcha:"验证码为空",
 	//主页
 	viewAllHot: "查看全部 >",
@@ -101,7 +102,7 @@ module.exports = {
 	engageComment: "评论点什么吧......",
 	
 	//新建文章&投票
-	addTitle: "添加标题",
+	addTitle: "添加标题（选填）",
 	optionContent: "选项内容",
 	addDescription : "添加描述",
 	postDraftModal:"是否继续上次编辑？",

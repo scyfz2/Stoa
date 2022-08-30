@@ -16,16 +16,16 @@
 		<view class="mainbody">
 			<view class="myCollectionText"> {{ myArticleList.length }} {{lang.collectionNumSuffix}}</view>
 		</view>		
-				<scroll-view scroll-y="true" class="scrollPage">
-					<view class="mainbody_scroll" v-for="(item, index) in myArticleList" :key="index">
-						<collection-card
-							:articleDelieverer="item" 
-							:lang="lang" @modifySwipedId="receiveSwiped" 
-							:swipedArticleId="swipedArticleId"
-							:userInfo="userInfo">
-						</collection-card>
-					</view>
-				</scroll-view>
+		<!-- <scroll-view scroll-y="true" class="scrollPage"> -->
+			<view class="mainbody_scroll" v-for="myArticle in myArticleList" :key="myArticle.id">
+				<collection-card
+					:articleDelieverer="myArticle" 
+					:lang="lang" @modifySwipedId="receiveSwiped" 
+					:swipedArticleId="swipedArticleId"
+					:userInfo="userInfo">
+				</collection-card>
+			</view>
+		<!-- </scroll-view> -->
 	</view>
 </template>
 
@@ -74,8 +74,8 @@ export default {
 		
 		this.showArticles(page);   
 		uni.$on('refresh', () => {
-			// this.showArticles(1);
-			this.refresh();
+			this.showArticles(1);
+			// this.refresh();
 		});
 	},
 
