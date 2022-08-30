@@ -555,33 +555,33 @@ public class UserController extends BasicController {
 		return JSONResult.ok(result);
 	}
 
-	@ApiOperation(value = "通过email认证")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "email", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "type", required = true, dataType = "Integer", paramType = "form")})
-	@PostMapping("/authenticateUserByEmail")
-	public JSONResult authenticateUserByEmail(String email, Integer type) throws Exception {
-
-		if (StringUtils.isBlank(email)) {
-			return JSONResult.errorMsg("email can not be null.");
-		}
-		if (type!=1 && type!=2){
-			return JSONResult.errorException("wrong authenticate type!");
-		}
-		String userId = userService.getUserByEmail(email);
-		if (userId == null){
-			return JSONResult.errorException("email not exists!");
-		}
-		if (authenticatedUserService.checkUserIsAuth(userId)){
-			return JSONResult.errorException("User Already be authenticated");
-		}
-		AuthenticatedUser authenticatedUser = new AuthenticatedUser();
-		authenticatedUser.setUserId(userId);
-		authenticatedUser.setType(type);
-		authenticatedUser.setCreateDate(new Date());
-		String authId = authenticatedUserService.saveAuth(authenticatedUser);
-		return JSONResult.ok(authId);
-	}
+//	@ApiOperation(value = "通过email认证")
+//	@ApiImplicitParams({
+//			@ApiImplicitParam(name = "email", required = true, dataType = "String", paramType = "form"),
+//			@ApiImplicitParam(name = "type", required = true, dataType = "Integer", paramType = "form")})
+//	@PostMapping("/authenticateUserByEmail")
+//	public JSONResult authenticateUserByEmail(String email, Integer type) throws Exception {
+//
+//		if (StringUtils.isBlank(email)) {
+//			return JSONResult.errorMsg("email can not be null.");
+//		}
+//		if (type!=1 && type!=2){
+//			return JSONResult.errorException("wrong authenticate type!");
+//		}
+//		String userId = userService.getUserByEmail(email);
+//		if (userId == null){
+//			return JSONResult.errorException("email not exists!");
+//		}
+//		if (authenticatedUserService.checkUserIsAuth(userId)){
+//			return JSONResult.errorException("User Already be authenticated");
+//		}
+//		AuthenticatedUser authenticatedUser = new AuthenticatedUser();
+//		authenticatedUser.setUserId(userId);
+//		authenticatedUser.setType(type);
+//		authenticatedUser.setCreateDate(new Date());
+//		String authId = authenticatedUserService.saveAuth(authenticatedUser);
+//		return JSONResult.ok();
+//	}
 
 
 	@ApiOperation(value = "撤销认证(真删除)")

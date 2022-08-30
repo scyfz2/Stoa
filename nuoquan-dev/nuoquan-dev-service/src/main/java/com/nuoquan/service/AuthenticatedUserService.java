@@ -1,6 +1,5 @@
 package com.nuoquan.service;
 
-import com.nuoquan.pojo.AuthenticatedUser;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.utils.PagedResult;
 
@@ -33,6 +32,8 @@ public interface AuthenticatedUserService {
     /**
      * 使用email对用户进行认证
      * @return
+     * @param email
+     * @param type
      */
-    public String saveAuth(AuthenticatedUser authenticatedUser);
+    public String saveAuth(String email, Integer type);
 }
