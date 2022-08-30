@@ -131,8 +131,9 @@
 			}
 
 			// major
-			const majors = ['','AEE', 'ABE', 'CS', 'CEE', 'CIVE', 'EG', 'ECON', 'EEE', 'ENGL', 'GEOG', 'IC', 'IS', 'MATH', 'PDM', 'NUBS'];
-
+			// const majors = ['','AEE', 'ABE', 'CS', 'CEE', 'CIVE', 'EG', 'ECON', 'EEE', 'ENGL', 'GEOG', 'IC', 'IS', 'MATH', 'PDM', 'NUBS'];
+			const majors = ['','AE','AEE','Arch','ChE','Chem','CE','CS','CSAI','Eco','EEE','ELAL','ELL','EIB','EE','ES','FAM','IBE','IBM','IBC','IBL','IC','ICL','IET','IS','ISL','MAM','ME','PDM','Sta'];
+			
 			// degree 顺序和数据库保持一致
 			const degrees = ['高中', '本科', '研究生'];
 

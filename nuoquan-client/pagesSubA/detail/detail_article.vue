@@ -9,6 +9,7 @@
 			</view>
 			<!--标题-->
 			<text v-if="!isNull(articleCard.articleTitle)" selectable="true" class="detail-title" :style="{width : '100%'}">{{ articleCard.articleTitle }}</text>
+			<text v-else style="padding: 15px;"></text>
 			<!-- <view class="detail-title" :style="{width : isfunCom ? 'calc(100%-75px)' : '100%'}">{{ articleCard.articleTitle }}</view> -->
 			<!-- 搞笑大赛 -->
 			<!-- <image v-if="isfunCom" src="../../static/BG/funCom.png" mode="aspectFit" 
