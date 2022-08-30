@@ -164,6 +164,14 @@
                 var url = $.table._option.updateUrl.replace("{id}", id);
                 $.modal.open("修改" + $.table._option.modalName, url);
             },
+            check: function(id) {
+                var url = $.table._option.checkUrl.replace("{id}", id);
+                $.modal.open("查看" + $.table._option.modalName, url);
+            },
+            comment: function(id) {
+                var url = $.table._option.commentUrl.replace("{id}", id);
+                $.modal.open("评论" + $.table._option.modalName, url);
+            },
 			remove:function(id){
 				$.modal.confirm("确定删除该条" +$.table._option.modalName+ "信息吗？", function() {
                     var url = $.common.isEmpty(id) ? $.table._option.removeUrl : $.table._option.removeUrl.replace("{id}", id);

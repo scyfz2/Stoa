@@ -24,7 +24,7 @@
 					</checkbox-group>
 				</view>
 			</view>
-			<!-- 邮箱认证页 -->
+			<!-- 邮箱认证页,并不会显示，保留可以防止错位-->
 			<view class="email-Box">
 				<view class="email-intro">
 					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">{{lang.welcome1}}</view>
@@ -75,33 +75,33 @@
 				</button>
 			</view>
 			<!-- 邮箱认证 -->
-			<view class="confirm-rel" v-else-if="swiperLeft == -100">
+<!-- 			<view class="confirm-rel" v-else-if="swiperLeft == -100">
 				<view v-if="!auth">
-					<!-- 上一步 button -->
+					上一步 button
 					<button class="backAngle" hover-class="hoverColorYellow" @click="lastStep(true)">
 						<view class="back"><image style="width: 40px;height: 40px;position: absolute;left: -14px;" src="../../static/icon/angle-left.png"></image></view>
 					</button>
-					<!-- 游客通道 button -->
+					游客通道 button
 					<button v-if="emailMes == ''" class="confirm-button-visitor super_center" hover-class="hoverColorYellow" @click="visitorLogin">
 						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.guestLogin}}</view>
 					</button>
-					<!-- 邮箱认证 button -->
+					邮箱认证 button
 					<button v-else class="confirm-button-checked super_center" hover-class="hoverColorYellow" @click="confirmCode">
 						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.emailAuth}}</view>
 					</button>
 				</view>
 				<view v-else>
-					<!-- 上一步 button -->
+					上一步 button
 					<button class="backAngle" hover-class="hoverColorYellow" @click="cancleAuth">
 						<view class="back"><image style="width: 40px;height: 40px;position: absolute;left: -14px;" src="../../static/icon/angle-left.png"></image></view>
 					</button>
-					<!-- 确认登陆 button -->
+					确认登陆 button
 					<button class="confirm-button-checked super_center" hover-class="hoverColorYellow" @click="login">
 						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.finishLogin}}</view>
 					</button>
 				</view>
-				<!-- <view class="conform-bgBox"></view> -->
-			</view>
+				<view class="conform-bgBox"></view>
+			</view> -->
 		</view>
 
 		<image src="../../static/BG/signin_bottom.png" mode="scaleToFill" class="bottom-picBox"></image>
@@ -121,7 +121,7 @@
 		<view style="position: fixed;width: 70%;top: 66%;left: 15%;height: 30px;">
 			<view style="display: flex;justify-content: space-around;width: 100%;height: 100%;">
 				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.wechatLogin}}</view>
-				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.emailAuth}}</view>
+<!-- 				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.emailAuth}}</view> -->
 				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.finishLogin}}</view>
 			</view>
 		</view>
@@ -264,7 +264,8 @@ export default {
 								uni.hideLoading();
 
 								// 下一步
-								that.nextStep(true);
+								// that.nextStep(true);
+								that.login();
 							}
 						}
 					});

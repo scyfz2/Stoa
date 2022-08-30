@@ -32,10 +32,13 @@
 				</view>
 			</view>
 			<!-- 招新推文以及介绍的二维码 -->
-			<view class="orgQRBox">
-				<image :src="pathFilter(detail.imgList[0].imagePath)" mode="aspectFill" class="orgQR1"></image>
-				<image :src="pathFilter(detail.imgList[1].imagePath)" mode="aspectFill" class="orgQR2"></image>
-			</view>
+			<view class="orgQRBox" v-if="detail.imgList">
+				<view v-if="detail.imgList[0]">
+					<image :src="pathFilter(detail.imgList[0].imagePath)" mode="aspectFill" class="orgQR"></image>
+				</view>
+				<view v-if="detail.imgList[1]">
+					<image :src="pathFilter(detail.imgList[1].imagePath)" mode="aspectFill" class="orgQR"></image>
+				</view></view>
 		</view>
 	</view>
 </template>
@@ -58,6 +61,7 @@
 				navbarHeight: 0 ,//一次性储存 navbarheight
 				detail: '',
 				
+
 				showList:['组织简介','主要活动','部门组成']
 			}
 		},
@@ -75,18 +79,18 @@
 
 <style>
 	.orgImage{
-		width: 90px;
-		height: 90px;
+		width: 80px;
+		height: 80px;
 		border: 0.5px solid gray;
 		border-radius: 50%;
-		margin-left: 30px;
+		margin-left: 20px;
 	}
 	.orgTitle{
 		margin-top: 35px;
 		margin-left: 20px;
-		font-size: 20px;
+		font-size: 24px;
 		font-weight:bold;
-		line-height: 22px;
+		line-height: 25px;
 	}
 	
 	.orgContentBox{
@@ -112,12 +116,8 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
-	.orgQR1{
+	.orgQR{
 		width: 90px;
 		height: 90px;
-	}
-	.orgQR2{
-		width: 110px;
-		height: 110px;
 	}
 </style>
