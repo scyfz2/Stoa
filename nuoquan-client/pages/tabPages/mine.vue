@@ -20,7 +20,9 @@
 				<view class="person_info">
 					<!-- 名字 -->
 					<view class="nameBox">
-						<view class="name-text">{{ thisUserInfo.nickname }}</view>
+						<text class="name-text">{{ thisUserInfo.nickname }}</text>
+						<image v-if="thisUserInfo.authType == 1||thisUserInfo.authType == 2" style="width: 17px;height: 17px;margin-left: 5px;" src="../../static/icon/auth.png"></image>
+						<!-- <image v-if="thisUserInfo.authType == 1 || thisUserInfo.authType == 2" style="width: 20px;height: 20px;" src="../../static/icon/auth.png"></image> -->
 					</view>
 					<!-- 粉丝 关注 影响力 -->
 					<view class="operationTitle">
@@ -381,6 +383,7 @@ page {
 }
 
 .nameBox {
+	display: flex;
 	margin-top: 12px;
 	height: 17px;
 	line-height: 17px;

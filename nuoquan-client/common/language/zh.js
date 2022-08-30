@@ -102,7 +102,7 @@ module.exports = {
 	engageComment: "评论点什么吧......",
 	
 	//新建文章&投票
-	addTitle: "添加标题",
+	addTitle: "添加标题（选填）",
 	optionContent: "选项内容",
 	addDescription : "添加描述",
 	postDraftModal:"是否继续上次编辑？",

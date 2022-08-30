@@ -10,8 +10,10 @@
 		<!-- 用户信息行 -->
 		<view class="userLine hor_center">
 			<image :src="pathFilter(thisArticle.faceImg)" class="touxiang" @tap.stop="goToPersonPublic(thisArticle.userId)"></image>
-			<view class="name" @tap.stop="goToPersonPublic(thisArticle.userId)">{{ thisArticle.nickname }}</view>
-			<image src="../static/icon/auth.png" class="authLogo" ></image>
+			<view class="name">
+				<view @tap.stop="goToPersonPublic(thisArticle.userId)">{{ thisArticle.nickname }}</view>
+				<image v-if="thisArticle.authType == 1 || thisArticle.authType == 2" src="../static/icon/auth.png" class="authLogo" ></image>
+			</view>
 			<view class="time" :style="timeLeft">{{ timeDeal(thisArticle.createDate) }}</view>
 		</view>
 		<!-- 标题 -->
@@ -454,6 +456,7 @@ image {
 	} */
 
 .name {
+	display: flex;
 	position: absolute;
 	left: 57px;
 	top: 0;
@@ -566,7 +569,7 @@ image {
 .authLogo {
 	width: 15px;
 	height: 15px;
-	position: absolute;
+	margin-left: 5px;
 }
 
 </style>

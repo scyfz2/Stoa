@@ -105,7 +105,7 @@ module.exports = {
 	
 	
 	//新建文章&投票
-	addTitle: "Add title",
+	addTitle: "Add title (Optional)",
 	optionContent: "Option content",
 	addDescription : "Add description",
 	postDraftModal:'Continue with draft of your post ?',

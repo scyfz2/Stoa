@@ -15,7 +15,8 @@
 		<block v-for="(thisArticle,index) in myArticleList" :key="thisArticle.id">
 			<view class="oneArticle" @click="goToDetail(thisArticle)">
 				<image class="index" :src="'../../static/icon/' + (index+1) + '.png'"></image>
-				<view class="title"> {{ thisArticle.articleTitle }}</view>
+				<view v-if="!isNull(thisArticle.articleTitle)" class="title"> {{ thisArticle.articleTitle }}</view>
+				<view v-else style="padding: 20px;"></view>
 				<view class="cardBody">
 					<view class="left-body" :class="{ leftBodyWithPic : thisArticle.imgList.length!=0 }">
 						<view class="content">{{ thisArticle.articleContent }}</view>

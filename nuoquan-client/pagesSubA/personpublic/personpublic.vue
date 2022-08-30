@@ -23,7 +23,7 @@
 				<!-- ID -->
 				<view class="nameBox super_center">
 					<text class="name-text">{{ thisUserInfo.nickname }}</text>
-					<image v-if="thisUserInfo.authType == 1 || thisUserInfo.authType == 2" style="width: 20px;height: 20px;" src="../../static/icon/auth.png"></image>
+					<image v-if="thisUserInfo.authType == 1 || thisUserInfo.authType == 2" style="width: 20px;height: 20px;margin-left: 5px;" src="../../static/icon/auth.png"></image>
 					<!-- <image v-if="thisUserInfo.authType == '1'" style="width: 20px;height: 20px;" src="../../static/icon/auth.png"></image> -->
 				</view>
 				<!-- 个人简介 -->
