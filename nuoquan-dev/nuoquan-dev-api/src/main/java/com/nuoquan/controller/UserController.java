@@ -249,8 +249,8 @@ public class UserController extends BasicController {
 		UserVO userVO; // 返回前端对象
 		// 2. 判断用户名是否存在以及昵称是否合法
 		boolean isNicknameValid = userService.CheckNicknameIsLegal(userData.getNickname());
-		if (isNicknameValid) {
-			return JSONResult.errorMsg("用户名不合法，请换一个试试");
+		if (!isNicknameValid) {
+			return JSONResult.errorException("用户名不合法，请换一个试试");
 		}
 		boolean isIdExist = userService.checkIdIsExist(userData.getId());
 		// 3. 注册信息
@@ -477,6 +477,9 @@ public class UserController extends BasicController {
 	public JSONResult getCode(String userId, String email) throws Exception {
 		if (StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("User id can not be null.");
+		}
+		if (userService.checkEmailIsExist(email)){
+			return JSONResult.errorException("Email already binding!");
 		}
 		// 生成验证码
 		int length = 6; // 位数
