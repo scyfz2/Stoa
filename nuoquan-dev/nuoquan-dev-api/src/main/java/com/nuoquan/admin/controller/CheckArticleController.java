@@ -1,7 +1,5 @@
 package com.nuoquan.admin.controller;
 
-import com.nuoquan.enums.PostType;
-import com.nuoquan.pojo.vo.UserCommentVO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +19,6 @@ import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 
 import io.swagger.annotations.Api;
-
-import java.util.List;
 
 /**
  * 文章人工审核
@@ -93,51 +89,11 @@ public class CheckArticleController extends BasicController {
 		mmap.put("Article", article);
 		return prefix + "/edit";
 	}
-
-	/**
-	 * 修改文章状态
-	 *
-	 * @param id 文章id
-	 * @param mmap
-	 * @return
-	 */
-
-	@GetMapping("/check/{id}")
-	public String check(@PathVariable("id") String id, ModelMap mmap) {
-		ArticleVO article = articleService.getArticleById(id, null);
-		mmap.put("Article", article);
-		return prefix + "/check";
-	}
-	/**
-	 * 修改文章状态
-	 *
-	 * @param id 文章id
-	 * @param mmap
-	 * @return
-	 */
-
-	@GetMapping("/comment/{id}")
-	public Object comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
-		Integer page = tablepar.getPageNum();
-		Integer pageSize = tablepar.getPageSize();
-		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
-		mmap.put("Comment", commentResult);
-		return prefix + "/comment";
-	}
-
-	/**
-	 * 删除评论
-	 */
-	@PostMapping("/delete")
-	@ResponseBody
-	public JSONResult deleteComment(String id, String targetId) {
-		return socialService.fDeleteComment(id, "AdminUser", targetId, PostType.ARTICLE) > 0 ? JSONResult.ok() : JSONResult.errorMsg("删除失败");
-	}
-
+	
 	/**
 	 * 修改文章状态
 	 * 
-	 * @param ids 文章id
+	 * @param id 文章id
 	 * @param mmap
 	 * @return
 	 */

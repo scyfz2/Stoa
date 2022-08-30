@@ -308,44 +308,6 @@ public class SocialServiceImpl implements SocialService {
         return commentVO;
     }
 
-    /**
-     * 分页获取文章所有评论
-     *
-     * @param page       页数
-     * @param pageSize   页面大小
-     * @param targetType 目标类型
-     * @param targetId   目标id
-     * @return
-     */
-    @Override
-    public PagedResult getCommentsByTargetId(Integer page, Integer pageSize, PostType targetType, String targetId) {
-        PageHelper.startPage(page, pageSize);
-        PagedResult mainCommentResult = getMainComments(page, pageSize, 0, targetType, targetId, null);
-        List<UserCommentVO> mainCommentListVO = (List<UserCommentVO>) mainCommentResult.getRows();
-        List<UserCommentVO> allCommentListVO  = new ArrayList<>();
-        for (int i = 0; i < mainCommentListVO.size(); i++){
-            // 先添加主评论
-            allCommentListVO.add(mainCommentListVO.get(i));
-            // 获取主评论下的次级评论
-            PagedResult subCommentResult = getSubComments(page, pageSize, 0, mainCommentListVO.get(i).getId(), null);
-            List<UserCommentVO> subCommentListVO = (List<UserCommentVO>) subCommentResult.getRows();
-            for (int j = 0; j < subCommentListVO.size(); j++){
-                //添加该主评论下的次级评论
-                allCommentListVO.add(subCommentListVO.get(j));
-            }
-
-        }
-        PageInfo<UserCommentVO> pageList = new PageInfo<>(allCommentListVO);
-
-        PagedResult pagedResult = new PagedResult();
-        pagedResult.setPage(page);
-        pagedResult.setTotal(pageList.getPages());
-        pagedResult.setRows(allCommentListVO);
-        pagedResult.setRecords(pageList.getTotal());
-
-        return pagedResult;
-    }
-
 
     /**
      * 删除评论
@@ -356,8 +318,8 @@ public class SocialServiceImpl implements SocialService {
     @Override
     public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
         if (userId.equals(articleMapper.selectByPrimaryKey(userCommentMapper.selectByPrimaryKey(commentId).getTargetId()).getUserId())
-                || userId.equals(userCommentMapper.selectByPrimaryKey(commentId).getFromUserId())
-                || userId == "AdminUser") {
+        || userId.equals(userCommentMapper.selectByPrimaryKey(commentId).getFromUserId())
+        || userId == "AdminUser") {
             Example example = new Example(UserComment.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("id", commentId);

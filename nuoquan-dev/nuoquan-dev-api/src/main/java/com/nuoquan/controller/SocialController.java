@@ -186,38 +186,6 @@ public class SocialController extends BasicController {
 		return JSONResult.ok(reCommentList);
 	}
 
-	/** 此方法是后台中的方法，在这里不适用（仅临时用于测试函数是否正确）
-	 * @param page
-	 * @param pageSize
-	 * @param targetId
-	 * @return
-	 * @throws Exception
-	 */
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "page", required = false, dataType = "Integer", paramType = "form"),
-			@ApiImplicitParam(name = "pageSize", required = false, dataType = "Integer", paramType = "form"),
-			@ApiImplicitParam(name = "targetId", required = false, dataType = "Integer", paramType = "form")})
-	@PostMapping("/getAllComments")
-	public JSONResult getAllComments(Integer page, Integer pageSize, String targetId)throws Exception {
-
-		if (StringUtils.isBlank(targetId)) {
-			return JSONResult.errorMsg("targetId can't be null");
-		}
-
-		if (page == null) {
-			page = 1;
-		}
-
-		if (pageSize == null) {
-			pageSize = PAGE_SIZE;
-		}
-
-		// type: 0 -- 按时间查询, 1 -- 按热度查询
-		PagedResult allCommentList = socialService.getCommentsByTargetId(page, pageSize, ARTICLE, targetId);
-
-		return JSONResult.ok(allCommentList);
-	}
-
 	@ApiOperation(value = "更改评论状态为unreadable")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "commentId", value = "评论id", required = true, dataType = "String", paramType = "form"),
@@ -230,9 +198,6 @@ public class SocialController extends BasicController {
 	// 特别注意：返回值为1时代表执行此操作的人是文章发布者或评论发布者（此时可以删除评论），返回值为0时无法删除评论
 	public JSONResult fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
 			throws Exception {
-		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId) || StringUtils.isBlank(commentId) || StringUtils.isEmpty(commentId)) {
-			return JSONResult.errorMsg("Id can't be null");
-		}
 		if (socialService.fDeleteComment(commentId, userId, targetId, targetType) == 1){
 			return JSONResult.ok();
 		}

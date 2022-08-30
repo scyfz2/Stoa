@@ -34,21 +34,29 @@ public class RegistLoginController extends BasicController{
 		if (StringUtils.isEmpty(user.getNickname()) || StringUtils.isEmpty(user.getPassword())) {
 			return JSONResult.errorMsg("用户名和密码不能为空");
 		}
-		//2. 判断用户名是否存在
-		boolean nicknameIsExist = userService.checkNicknameIsExist(user.getNickname());
-		//3. 保存用户，注册信息
-		if (!nicknameIsExist) {
-			user.setNickname(user.getNickname());
-			// 会提示 unhandled exception type Exception， 在regist处throw
-			user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
-			user.setFollowNum(0);
-			user.setEmail("x.nottingham.edu.cn");
-			user.setFaceImg(null);
-			user.setCreateDate(new Date());
-			userService.saveUser(user);
-		} else {
-			return JSONResult.errorMsg("用户名已存在，请换一个试试");
-		}
+		user.setNickname(user.getNickname());
+		// 会提示 unhandled exception type Exception， 在regist处throw
+		user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
+		user.setFollowNum(0);
+		user.setEmail("x.nottingham.edu.cn");
+		user.setFaceImg(null);
+		user.setCreateDate(new Date());
+		userService.saveUser(user);
+//		//2. 判断用户名是否存在
+//		boolean nicknameIsExist = userService.checkNicknameIsExist(user.getNickname());
+//		//3. 保存用户，注册信息
+//		if (!nicknameIsExist) {
+//			user.setNickname(user.getNickname());
+//			// 会提示 unhandled exception type Exception， 在regist处throw
+//			user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
+//			user.setFollowNum(0);
+//			user.setEmail("x.nottingham.edu.cn");
+//			user.setFaceImg(null);
+//			user.setCreateDate(new Date());
+//			userService.saveUser(user);
+//		} else {
+//			return JSONResult.errorMsg("用户名已存在，请换一个试试");
+//		}
 		// user.setPassword(null);
 		// 将 user 对象转换为 userVO 输出，userVO 中不返回密码，且可加上其他属性。
 		UserVO userVO = ConvertUserToUserVO(user);
