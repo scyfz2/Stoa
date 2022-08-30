@@ -23,7 +23,7 @@
 		<!--第一个大块二，评论区域-->
 
 		<commentarea class="comment-area" :commentList="commentList" :commentNum="articleCard.commentNum" @onChange="changeType"
-		 @like="swLikeComment" @goToCommentDetail="goToCommentDetail"></commentarea>
+		 @like="swLikeComment" @goToCommentDetail="goToCommentDetail" :articleId="articleId" :userInfo="userInfo"></commentarea>
 		<view style="width:100%;height:88px;"></view><!--占位块，上下对称-->
 		<view v-if="showInput" style="width: 100%;height: 160px;"></view><!-- 占位，评论框弹起出现 -->
 		<!--触底提示和功能  start-->
@@ -127,6 +127,7 @@
 			return {
 				userInfo: {},
 				articleCard: '', //detail的主角，由index传过来的单个文章信息
+				articleId:'',
 				commentContent: '', //用户准备提交的评论内容
 				commentList: [], //返回值，获取评论列表信息
 
@@ -178,6 +179,7 @@
 			var userInfo = this.getGlobalUserInfo();
 			if (!this.isNull(userInfo)) {
 				this.userInfo = this.getGlobalUserInfo();
+				console.log("userinfo++"+this.userInfo.id);
 			} else {
 				uni.redirectTo({
 					url: '../signin/signin'
@@ -186,6 +188,7 @@
 			}
 
 			var articleId = options.data || options.scene;
+			this.articleId=articleId;
 			// console.log("data="+options.data); //跳转进入
 			// console.log("sence="+options.scene); //扫码进入
 			this.getArticleById(articleId, this.userInfo.id).then(() => {
@@ -601,7 +604,8 @@
 			goToCommentDetail(mainComment) {
 				var data = {
 					mainComment: mainComment,
-					type: "article"
+					type: "article",
+					articleId:this.articleId,
 				}
 				uni.navigateTo({
 					url: '/pages/comment-detail/comment-detail?data=' + encodeURIComponent(JSON.stringify(data))

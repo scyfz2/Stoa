@@ -70,10 +70,12 @@ export default {
 		 * 		}
 		 * ]
 		 */
+		articleId:'',
 		commentList: '',
 		commentNum: '',
 		areaWidth: '100%',
-		areaMargin: ''
+		areaMargin: '',
+		userInfo: '',
 	},
 	components: {
 		nqSwitch,
@@ -103,20 +105,20 @@ export default {
 			// commentList: this.commentList,
 			order: 0 ,//评论排序方式 0：按时间查询, 1：按热度查询
 			mainCommentId:'',
-			userInfo:{},
 		};
 	},
 	onLoad(options) {
 		//获取全局用户信息
-		var userInfo = this.getGlobalUserInfo();
-		if (!this.isNull(userInfo)) {
-			this.userInfo = this.getGlobalUserInfo();
-		} else {
-			uni.redirectTo({
-				url: '../signin/signin'
-			});
-			return;
-		}
+		// var userInfo = this.getGlobalUserInfo();
+		// if (!this.isNull(userInfo)) {
+		// 	this.userInfo = this.getGlobalUserInfo();
+		// 	console.log("userinfo++"+this.userInfo.id);
+		// } else {
+		// 	uni.redirectTo({
+		// 		url: '../signin/signin'
+		// 	});
+		// 	return;
+		// }
 	},
 	methods: {
 		swLikeComment(comment, index) {
@@ -127,20 +129,21 @@ export default {
 			console.log('触发长按操作,复制或者是快速回复');
 			console.log(e);
 			var that=this;
-			uni.showModal({
-				title: '提示',
-				content: '是否举报',
+			uni.showActionSheet({
+				itemList: ['举报', '删除'],
 				success: function (res) {
-					if (res.confirm) {
-						console.log('用户点击确定');
-						that.mainCommentId=e;
+					console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+					that.mainCommentId=e;
+					if(res.tapIndex==0){
 						that.reportComment();
-					} else if (res.cancel) {
-						console.log('用户点击取消');
+					}else{
+						that.deleteComment();
 					}
+				},
+				fail: function (res) {
+					console.log(res.errMsg);
 				}
-			})
-
+			});
 		},
 		reportComment(){
 			console.log('举报评论');
@@ -158,13 +161,51 @@ export default {
 				},
 				success: res => {
 					console.log(res);
-					//this.$emit('swLikeArticleSignal', false);
 					uni.showToast({
 						title:'举报成功',
 						icon:'success',
 						duration:1000,
 					});
 				}
+			});
+		},
+		deleteComment(){
+			console.log('删除评论');
+			var that = this;
+			uni.request({
+				method: 'POST',
+				url: that.$serverUrl + '/social/fDeleteComment',
+				data: {
+					commentId:that.mainCommentId,
+					userId: that.userInfo.id,
+					targetId:that.articleId,
+					targetType: "ARTICLE",
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res.data.msg);
+					if(res.data.msg=="OK"){
+						uni.showToast({
+							title:'删除成功',
+							icon:'success',
+							duration:1000,
+						});
+						uni.$emit("refresh");
+					}else{
+						uni.showModal({
+							title: '提示',
+							showCancel:false,
+							content: '你不是文章发布者或评论发布者，无法删除',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+								}
+							}
+						});
+					}
+				},
 			});
 		},
 		goToCommentDetail(mainComment) {
