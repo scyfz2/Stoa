@@ -131,7 +131,6 @@
 			}
 
 			// major
-			// const majors = ['','AEE', 'ABE', 'CS', 'CEE', 'CIVE', 'EG', 'ECON', 'EEE', 'ENGL', 'GEOG', 'IC', 'IS', 'MATH', 'PDM', 'NUBS'];
 			const majors = ['','AE','AEE','Arch','ChE','Chem','CE','CS','CSAI','Eco','EEE','ELAL','ELL','EIB','EE','ES','FAM','IBE','IBM','IBC','IBL','IC','ICL','IET','IS','ISL','MAM','ME','PDM','Sta'];
 			
 			// degree 顺序和数据库保持一致
@@ -307,6 +306,7 @@
 					signature: this.signature
 				};
 				console.log(data);
+				// debugger
 				var that = this;
 				uni.request({
 					url: this.$serverUrl + '/user/updateUser',
@@ -325,6 +325,9 @@
 							console.log(this.userInfo);
 							that.needUpdateFlag = false;
 						}
+					},
+					fail: (res) => {
+						console.log(res);
 					}
 				});
 
@@ -388,6 +391,9 @@
 									'content-type': 'application/x-www-form-urlencoded'
 								},
 								success: res => {
+									console.log(res);
+								},
+								fail() {
 									console.log(res);
 								}
 							});
