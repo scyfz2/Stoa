@@ -4,7 +4,10 @@
 		<view class="comment">
 			<view class="comment-info">
 				<image :src="pathFilter(commentDetail.faceImg)" @tap="goToPersonPublic(commentDetail.fromUserId)"></image>
-				<text selectable="true" class="name_text">{{ commentDetail.nickname }}</text>
+				<view style="display: flex;">
+					<text selectable="true" class="name_text">{{ commentDetail.nickname }}</text>
+					<image v-if="commentDetail.fromUserAuthtype == 1 || commentDetail.fromUserAuthType == 2" src="../../static/icon/auth.png" style="width: 15px; height: 15px;margin-top: 2px;margin-left: 3px;"></image>
+				</view>
 				<view class="replyTo" v-if="commentDetail.toNickname != null && commentDetail.toNickname != undefined">
 					{{commentDetail.toNickname}}
 				</view>
