@@ -45,7 +45,7 @@
 							<swiper-item @click="goToDetail(item.id)" v-for="(item, index) in topArticles" :key="index">
 								<view class="itemCard" :style="{'height':roleup == false ? '62px;' :'33px' ,}">
 									<view v-if="!isNull(item.articleTitle)" class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{ item.articleTitle }}</view>
-									<view v-else-if="isNull(item.articleTitle)" style="padding: 20px;"></view>
+									<view v-else-if="isNull(item.articleTitle)" class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{item.articleContent}}</view>
 									<view v-if="roleup == false" class="userInfo">
 										<image :src="pathFilter(item.faceImg)" style="width: 17px;height: 17px;border-radius: 50%;"></image>
 										<view class="userid_mainpagetop" style="display: flex;">

@@ -86,7 +86,7 @@ export default {
 				{
 					name:'更新公告	Update Announcement',
 					subtitle:this.versionNum,
-					body:'\ GT Channel v3.0.1 版本更新！\n \
+					body:'\ STOA v3.0.1 版本更新！\n \
 						1. 修复部分影响体验的bug\n \
 						2. 优化部分使用体验\n \
 						3. 即将推出迎新板块，敬请期待\n \
