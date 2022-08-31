@@ -179,7 +179,7 @@
 			var userInfo = this.getGlobalUserInfo();
 			if (!this.isNull(userInfo)) {
 				this.userInfo = this.getGlobalUserInfo();
-				console.log("userinfo++"+this.userInfo.id);
+				// console.log("userinfo++"+this.userInfo.id);
 			} else {
 				uni.redirectTo({
 					url: '../../pages/signin/signin'

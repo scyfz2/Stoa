@@ -127,6 +127,10 @@ module.exports = {
 	
 	//我的消息
 	myMessage : "Message",
+	likedYourArticle: "liked your article",
+	commentedYourArticle: "commented your article",
+	likedYourComment: "liked your comment",
+	replyYourComment: "回复了你的评论",
 	
 	//我的
 	chinese: "中",

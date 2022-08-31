@@ -4,7 +4,10 @@
 			<!--作者信息，头像名字时间-->
 			<view class="author-info-bar">
 				<image :src="pathFilter(articleCard.faceImg)" class="touxiang" @click="goToPersonPublic()"></image>
-				<text selectable="true" class="name" @tap="goToPersonPublic()">{{ articleCard.nickname }}</text>
+				<view class="name">
+					<text selectable="true" @tap="goToPersonPublic()">{{ articleCard.nickname }}</text>
+					<image v-if="articleCard.authType == 1 || articleCard.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 5px;"></image>
+				</view>
 				<view class="time">{{ timeDeal(articleCard.createDate) }}</view>
 			</view>
 			<!--标题-->
@@ -248,6 +251,7 @@ export default {
 }
 
 .name {
+	display: flex;
 	font-size: 14px;
 	/* height: 16px; */
 	position: absolute;

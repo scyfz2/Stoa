@@ -30,7 +30,10 @@
 				<view class="comment">
 					<view class="comment-info">
 						<image :src="pathFilter(comment.mainComment.faceImg)" @tap="goToPersonPublic(comment.mainComment.fromUserId)"></image>
-						<text selectable="true" class="name_text">{{ comment.mainComment.nickname }}</text>
+						<view class="name_text" style="display: flex;">
+							<text selectable="true">{{ comment.mainComment.nickname }}</text>
+							<image v-if="comment.mainComment.fromUserAuthType == 1 || comment.mainComment.fromUserAuthType == 2" src="../../static/icon/auth.png" style="height: 18px;width: 18px;margin-left: 3px;"></image>
+						</view>
 						<view class="time_text">{{ timeDeal(comment.mainComment.createDate) }}</view>
 					</view>
 					<text selectable="true" class="comment-content" @longpress="onLongpress(comment.mainComment.id)" @tap="goToCommentDetail(comment.mainComment)">{{ comment.mainComment.comment }}</text>

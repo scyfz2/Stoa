@@ -23,7 +23,7 @@
 					<!-- <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
 					 name="nickname" maxlength="15" :value="userInfo.nickname" v-if="isEditNickname" /> -->
 					 <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
-					  name="nickname" maxlength="10" :value="userInfo.nickname" v-if="isEditNickname" />
+					  name="nickname" maxlength="12" :value="userInfo.nickname" v-if="isEditNickname" />
 					<view class="line" v-if="isEditNickname"></view>
 				</view>
 				<view class="gender">
