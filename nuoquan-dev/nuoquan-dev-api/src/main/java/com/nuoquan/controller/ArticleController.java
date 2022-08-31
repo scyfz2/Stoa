@@ -115,6 +115,9 @@ public class ArticleController extends BasicController {
 		if(pageSize == null) {
 			pageSize = PAGE_SIZE;
 		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
 		if(userId.equals(targetId)) {
 			// 查询所有状态的文章
 			PagedResult result = articleService.getAllMyHisArticle(page, pageSize, userId);
@@ -347,6 +350,9 @@ public class ArticleController extends BasicController {
 	@PostMapping(value="/uploadArticleImg")
 	public JSONResult uploadArticleImg(String userId ,String articleId, String order, @ApiParam(value="file", required=true) MultipartFile file) throws Exception {
 
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
 		if (StringUtils.isNoneBlank(userId) && file != null) {
 			// 判断是否超出大小限制
 			if (file.getSize() > MAX_IMAGE_SIZE) {
@@ -564,6 +570,9 @@ public class ArticleController extends BasicController {
 		}
 		if(pageSize == null) {
 			pageSize = PAGE_SIZE;
+		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
 		}
 
 		// 查询targetId收藏状态为1的文章

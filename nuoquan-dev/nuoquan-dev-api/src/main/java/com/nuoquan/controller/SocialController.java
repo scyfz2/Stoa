@@ -137,6 +137,9 @@ public class SocialController extends BasicController {
 		if (StringUtils.isBlank(targetId)) {
 			return JSONResult.errorMsg("targetId can't be null");
 		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
 
 		if (page == null) {
 			page = 1;
@@ -178,6 +181,9 @@ public class SocialController extends BasicController {
 
 		if (StringUtils.isBlank(underCommentId)) {
 			return JSONResult.errorMsg("underCommentId can't be null");
+		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
 		}
 
 		if (page == null) {
