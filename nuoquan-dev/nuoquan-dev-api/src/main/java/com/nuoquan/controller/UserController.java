@@ -635,4 +635,25 @@ public class UserController extends BasicController {
 		return JSONResult.ok(result);
 	}
 
+	/**
+	 * 分页和搜索用户
+	 *
+	 * @param searchText
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "综合搜索")
+	@PostMapping(value = "/searchUserYang")
+	public JSONResult searchUserYang(String searchText, Integer page, String userId)
+			throws Exception {
+
+		if (page == null) {
+			page = 1;
+		}
+
+		PagedResult result = userService.searchUserYang(page, PAGE_SIZE, searchText, userId);
+		return JSONResult.ok(result);
+	}
+
 }

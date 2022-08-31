@@ -604,7 +604,7 @@ public class SocialServiceImpl implements SocialService {
         key = key.replace("userId", userId).replace("targetType", targetType.value).replace("targetId", targetId);
         String value = redis.get(key);
         if (StringUtils.isBlank(value)) {
-            redis.set(key, "ture", 7200); //两小时内不重复计算浏览量
+            redis.set(key, "ture", 86400); //两小时内不重复计算浏览量
 
             switch (targetType){
                 case ARTICLE:

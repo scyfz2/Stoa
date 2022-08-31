@@ -6,8 +6,12 @@ import java.util.List;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.*;
+import com.nuoquan.pojo.*;
+import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
+import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -19,9 +23,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nuoquan.enums.SignFlagEnum;
-import com.nuoquan.pojo.ChatMsg;
-import com.nuoquan.pojo.User;
-import com.nuoquan.pojo.UserFans;
 import com.nuoquan.pojo.netty.ChatMessage;
 import com.nuoquan.pojo.vo.UserVO;
 
@@ -384,6 +385,50 @@ public class UserServiceImpl implements UserService {
 		pagedResult.setTotal(pageList.getPages());
 		pagedResult.setRows(newList);
 		pagedResult.setRecords(pageList.getTotal());
+
+		return pagedResult;
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public PagedResult searchUserYang(Integer page, Integer pageSize,
+										 String searchText, String userId) {
+
+		String[] texts = searchText.split(" ");
+
+		// 开启分页查询并转换为vo对象
+		// 在Example中的每一个Criteria相当于一个括号，把里面的内容当成一个整体
+		Example userExample = new Example(User.class);
+		userExample.setOrderByClause("create_date desc");
+		Criteria criteria = userExample.createCriteria();
+		for(String text : texts) {
+			criteria.orLike("nickname", "%" + text + "%");
+		}
+//
+//		Criteria criteria2 = articleExample.createCriteria();
+//		criteria2.andEqualTo("status", StatusEnum.READABLE.type);
+//		articleExample.and(criteria2);
+
+		PageHelper.startPage(page, pageSize);
+		List<User> list = userMapper.selectByExample(userExample);
+		PageInfo<User> pageInfo = new PageInfo<>(list);
+		PageInfo<UserVO> pageInfoVo = PageUtils.PageInfo2PageInfoVo(pageInfo);
+
+		List<UserVO> listVo = new ArrayList<>();
+		for (User u : list) {
+			UserVO uv = new UserVO();
+			BeanUtils.copyProperties(u, uv); //转换对象
+			uv = composeUser(uv);
+			listVo.add(uv);
+		}
+		pageInfoVo.setList(listVo);
+
+		//为最终返回对象 pagedResult 添加属性
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(pageInfoVo.getPageNum());
+		pagedResult.setTotal(pageInfoVo.getPages());
+		pagedResult.setRows(pageInfoVo.getList());
+		pagedResult.setRecords(pageInfoVo.getTotal());
 
 		return pagedResult;
 	}
