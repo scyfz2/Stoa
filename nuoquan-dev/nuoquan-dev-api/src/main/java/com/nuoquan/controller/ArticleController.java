@@ -300,6 +300,10 @@ public class ArticleController extends BasicController {
 		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
 			return JSONResult.errorMsg("Id can't be null");
 		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		boolean isLegal = false;
 		// 保存文章信息到数据库
 		Article article = new Article();
