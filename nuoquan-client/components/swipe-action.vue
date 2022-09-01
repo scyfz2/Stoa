@@ -36,7 +36,10 @@
 								</view>
 								<!-- 中间区域 -->
 								<view class="item-middle">
-									<text :class="it.unreadCount > 0 ? 'title' : 'title-read'">{{ it.friendInfo.nickname }}</text>
+									<view style="display: flex;">
+										<text :class="it.unreadCount > 0 ? 'title' : 'title-read'">{{ it.friendInfo.nickname }}</text>
+										<image src="../static/icon/auth.png" style="width: 15px;height: 15px;margin-top: 3px;margin-left: 3px;"></image>
+									</view>
 									<text :class="it.unreadCount > 0 ? 'message' : 'message-read'">{{ it.msg }}</text>
 								</view>
 

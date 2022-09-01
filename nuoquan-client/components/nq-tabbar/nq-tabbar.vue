@@ -137,7 +137,7 @@ export default {
 			}
 			else if (e.name == "新生"){
 				uni.showToast({
-					icon:'error',
+					icon:'loading',
 					duration: 2000,
 					title:'该功能开发中'
 				})
