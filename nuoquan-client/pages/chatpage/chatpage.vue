@@ -12,7 +12,7 @@
 			 :id="item.id"></onemessage>
 			<view class="marginHelper" :style="{ height : marginHelperHeight }"></view>
 		</scroll-view>
-		<chat-input id="chatarea" :inputMessageFromPage="textMsg" :maxlength="maxTextLength" @send="sendText()" :windowWidth="windowWidth" :lang="lang"
+		<chat-input id="chatarea" :inputMessageFromPage="textMsg" :maxlength="maxTextLength" @send="sendText()" @change="change()" @recover="recover()" :windowWidth="windowWidth" :lang="lang"
 		 style="position: fixed;bottom:0;width:100%;"></chat-input>
 	</view>
 </template>
@@ -88,7 +88,7 @@
 					this.scrollToBottom();
 				}
 			},
-
+			
 			// 监听发送的消息
 			// flashChatPage(newVal, oldVal) {
 			// 	// 载入最后一条消息
@@ -127,8 +127,7 @@
 					that.windowWidth = res.windowWidth;
 				}
 			});
-
-
+			
 			// 获取与该用户的聊天历史记录
 			chatKey = 'chat-' + this.userInfo.id + '-' + this.friendInfo.id;
 			chatHistory = this.getListByKey(chatKey);
@@ -169,7 +168,7 @@
 			scroll(e) {
 				// console.log(e.detail);
 			},
-
+			
 			sendText(msgToSend) {
 				this.textMsg = msgToSend
 				if (!this.textMsg) {
@@ -183,8 +182,12 @@
 				// this.chatContent.push(list[list.length-1]);
 				// this.scrollToBottom();
 			},
-
-
+			change(height){
+				this.textareaHeight=this.textareaHeight-height
+			},
+			recover(height){
+				this.textareaHeight=this.textareaHeight+height
+			},
 			// 进入获取聊天
 			getChatHistory() {
 				var localChatHistory = this.getChatHistoryPage(page);
