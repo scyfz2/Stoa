@@ -166,7 +166,9 @@ public class SocialServiceImpl implements SocialService {
             addTargetCommentCount(PostType.COMMENT.value, underCommentId);
         }
         // 被评论人影响力++
-        userService.updateReputation(toUserId, ReputeWeight.COMMENT.weight, 1);
+        if (toUserId!=fromUserId){
+            userService.updateReputation(toUserId, ReputeWeight.COMMENT.weight, 1);
+        }
         return id;
     }
 
