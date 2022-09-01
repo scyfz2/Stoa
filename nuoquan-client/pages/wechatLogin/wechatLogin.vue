@@ -60,11 +60,11 @@
 				uni.login({
 					success: res_login => {
 						// console.log('-------res_login，获取code-------')
-						// console.log(res_login);
+						 console.log(res_login);
 						uni.getUserInfo({
 							success: info => {
 								// console.log('-------获取sessionKey、openid(unionid)-------')
-								// console.log(info);
+								 console.log(info);
 								// 后端获取openid 并设置用户信息
 								uni.request({
 									url: that.$serverUrl + '/user/getWxUserInfo',

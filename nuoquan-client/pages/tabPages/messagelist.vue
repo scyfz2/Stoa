@@ -46,7 +46,7 @@
 			<swipe-action :lang="lang" :options="options" :messagesList="chatSnapShotList" @tapCard="goToChatpage()" @tapDelete="deleteChat()"></swipe-action>
 			<view style="width: 100%;height: 100px;"></view>
 		</view>
-		<tab-bar :current="2"></tab-bar>
+		<tab-bar :current="3"></tab-bar>
 	</view>
 </template>
 
@@ -110,7 +110,6 @@ export default {
 	},
 
 	onShow() {
-		
 		this.loadingChatSnapshot(); // 载入聊天快照
 	},
 

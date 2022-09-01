@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.nuoquan.pojo.ArticleImage;
 
+import javax.persistence.Column;
+
 public class ArticleVO {
     private String id;
     private String articleTitle;
@@ -15,6 +17,8 @@ public class ArticleVO {
     private Integer dislikeNum;
     private Integer commentNum;
     private Integer collectNum;
+
+    private Integer reportedNum;
     private Integer popularity;
     private Integer status;
     private Date createDate;
@@ -29,6 +33,16 @@ public class ArticleVO {
     private String faceImg;
     private String faceImgThumb;
     private List<String> tagList;
+
+    public Integer getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(Integer authType) {
+        this.authType = authType;
+    }
+
+    private Integer authType;
     
     /**
      * @return id
@@ -140,6 +154,14 @@ public class ArticleVO {
      */
     public void setCommentNum(Integer commentNum) {
         this.commentNum = commentNum;
+    }
+
+    public Integer getReportedNum() {
+        return reportedNum;
+    }
+
+    public void setReportedNum(Integer reportedNum) {
+        this.reportedNum = reportedNum;
     }
 
     /**

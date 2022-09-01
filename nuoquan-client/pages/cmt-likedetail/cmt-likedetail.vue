@@ -42,7 +42,7 @@
 						<view v-for="(item, index2) in index1 == 0 ? likeList : commentList" :key="index2">
 							<!-- ******************** 点赞文章卡片 ********************** -->
 							<view v-if="item.senderAction == 'like' && item.targetType == 'article'" 
-							class="cmtlikeDetail-card" @tap="goToArticle(likeList[index2].targetId)">
+							class="cmtlikeDetail-card" >
 								<view style="width: 100%;height: 100%;" hover-class="hoverColor">
 									<!-- 卡片高度未定义，上下边距会失效，用 marginHelper 填充空白 -->
 									<view class="marginHelper1"></view>
@@ -60,7 +60,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">点赞了你的文章</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.likedYourArticle}}</text>
 											</view>
 											<!-- 获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
@@ -68,6 +69,15 @@
 									</view>
 
 									<!-- 文章预览块 -->
+									<!-- 
+									 Author: Yifei
+									 Date: July 7, 2022
+									 Description: 这里就不用跳转了不然会导致跳转两次
+									 -->
+									<!-- <view
+										:class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']"
+										@tap="goToArticle(likeList[index2].targetId)"
+									> -->
 									<view
 										:class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']"
 										@tap="goToArticle(likeList[index2].targetId)"
@@ -82,7 +92,8 @@
 											</view>
 											<view :class="[item.target.imgList.length > 0 ? 'origin-briefBox-img' : 'origin-briefBox-noimg']">
 												<view class="origin-briefTitlebox">
-													<text class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+													<text v-if="!isNull(item.target.articleTitle)" class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+													<text v-if="isNull(item.target.articleTitle)" style="padding: 10px;"></text>
 												</view>
 												<view class="origin-briefTextbox">
 													<text class="origin-briefText">{{ item.target.articleContent }}</text>
@@ -114,14 +125,15 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">点赞了你的评论</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.likedYourComment}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
 										</view>
 									</view>
 									<!-- 点赞预览块 -->
-									<view class="brief-bar-abs" @tap="goToComment(likeList[index2].targetId)">
+									<view class="brief-bar-abs" @tap="goToArticle(likeList[index2].target.targetId)">
 										<view class="brief-bar-rel">{{ item.target.comment }}</view>
 									</view>
 
@@ -150,19 +162,21 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">评论了你的文章</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.commentedYourArticle}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
 										</view>
 									</view>
-									<view @tap="goToComment(commentList[index2].source.articleId)">
+									<!-- <view @tap="goToComment(commentList[index2].source.articleId)"> -->
+									<view >
 										<!-- 点赞 or 评论预览块 -->
-										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea">
+										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea(index2,0)">
 											<view class="brief-bar-rel">{{ item.source.comment }}</view>
 										</view>
 										<!-- 原文章预览块 -->
-										<view :class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']">
+										<view :class="[item.target.imgList.length > 0 ? 'origin-bar-abs-img' : 'origin-bar-abs-noimg']" @tap="goToComment(commentList[index2].targetId)">
 											<view class="origin-bar-rel">
 												<view class="origin-imageBox" v-if="item.target.imgList.length > 0">
 													<view class="origin-imageMask"></view>
@@ -174,7 +188,8 @@
 												</view>
 												<view :class="[item.target.imgList.length > 0 ? 'origin-briefBox-img' : 'origin-briefBox-noimg']">
 													<view class="origin-briefTitlebox">
-														<text class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+														<text v-if="!isNull(item.target.articleTitle)" class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+														<text v-else style="padding: 10px;"></text>
 													</view>
 													<view class="origin-briefTextbox">
 														<text class="origin-briefText">{{ item.target.articleContent }}</text>
@@ -207,19 +222,20 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">回复了你的评论</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.replyYourComment}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
 										</view>
 									</view>
-									<view @tap="goToComment(commentList[index2].source.targetId)">
+									<view >
 										<!-- 点赞 or 评论预览块 -->
-										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea" hover-class="hoverColor" hover-stop-propagation="false">
+										<view class="brief-bar-nocolor" @click.native.stop="showCommitArea(index2,1)" hover-class="hoverColor" hover-stop-propagation="false">
 											<view class="brief-bar-rel">{{ item.source.comment }}</view>
 										</view>
 										<!-- 原评论预览块 -->
-										<view class="brief-bar-abs-cmtofcmt">
+										<view class="brief-bar-abs-cmtofcmt" @tap="goToComment(commentList[index2].source.targetId)">
 											<view class="brief-bar-rel-cmtofcmt">{{ item.target.comment }}</view>
 										</view>
 									</view>
@@ -238,7 +254,8 @@
 		<commitArea v-if="isReplying" 
 			openOrigin="cmt-likedetail" 
 			:isShow="isReplying" 
-			@killCommitArea="killCommitArea">
+			@killCommitArea="killCommitArea"
+			@submit="submit">
 		</commitArea>
 	</view>
 </template>
@@ -248,7 +265,7 @@
 import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
 import { mapState, mapMutations } from 'vuex';
 import commitArea from '../../components/nq-commitArea/nq-commitArea.vue';
-
+var uploadFlag = false;
 export default {
 	components: {
 		uniNavBar,
@@ -288,6 +305,13 @@ export default {
 
 			isNavHome: getApp().globalData.isNavHome, //判断导航栏左侧是否显示home按钮
 			isReplying: false, //是否展示回复输入框
+			
+			toUserId:"",
+			targetId:"",
+			commentInfo:"",//回复内容
+			commentContent:"",
+			underCommentId:"",
+			commentIndex:999,
 		};
 	},
 
@@ -470,14 +494,101 @@ export default {
 			});
 		},
 		
-		showCommitArea(){
+		showCommitArea(index2,data){
 			this.isReplying = !this.isReplying;
+			this.toUserId=this.commentList[index2].senderId;
+			if(data==0){
+				this.targetId=this.commentList[index2].targetId;
+				this.underCommentId=this.commentList[index2].sourceId;
+			}else if(data==1){
+				this.targetId=this.commentList[index2].source.targetId;
+				this.underCommentId=this.commentList[index2].source.underCommentId;
+			}
+			this.commentIndex=index2;
 		},
 		
 		killCommitArea(e){
 			console.log(e);
 			this.isReplying = e;
-		}
+		},
+		
+		submit(data){
+			this.commentInfo=data;
+			console.log(this.commentInfo);
+			this.saveComment(this.commentInfo);
+		},
+		
+		saveComment: function(content) {
+			console.log('conteng =' + content);
+			console.log('tragger savecomment');
+			// 赋值评论内容
+			this.commentContent = content;
+			if (uploadFlag) {
+				console.log('正在上传...');
+				return;
+			}
+			uploadFlag = true;
+			uni.showLoading({
+				title: '正在上传...'
+			});
+			var submitData = {
+				fromUserId: this.userInfo.id,
+				toUserId: this.toUserId,
+				targetType: "ARTICLE",
+				targetId: this.targetId,
+				comment: content,
+				underCommentId:this.underCommentId,
+			}
+			console.log(submitData);
+			var that = this;
+			if (this.commentContent == '') {
+				uni.showToast({
+					title: '好像忘写评论了哦~',
+					duration: 1000,
+					icon: 'none'
+				});
+			} else {
+				uni.request({
+					url: that.$serverUrl + '/social/saveComment',
+					method: 'POST',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					data: submitData,
+					success: res => {
+						if (res.data.status == 200) {
+							uni.hideLoading();
+							uploadFlag = false;
+		
+							that.resetInput(false);
+							// 强制子组件重新刷新
+							
+							// this.commentList[this.commentIndex].source.commentNum++;
+						} else if (res.data.status == 500) {
+							that.contentIllegal();
+						}
+					}
+				});
+			}
+		},
+		resetInput(e) { //传入组件内的 "isShow"
+			console.log('resetInput' + e);
+			this.commentInfo = "";
+			this.toUserId="";
+			this.targetId="";
+			this.underCommentId="";
+			this.commentIndex=999;
+		},
+		
+		contentIllegal() {
+			// 内容非法 用户提醒
+			uni.hideLoading();
+			uni.showToast({
+				title: '内容涉嫌违规，请联系管理员。',
+				duration: 2000,
+				icon: 'none'
+			});
+		},
 	}
 };
 </script>
@@ -688,12 +799,14 @@ page {
 
 .clID-text {
 	font-size: 13px;
+	line-height:15px;
 	font-weight: 500;
 	color: #3d3d3d;
 }
 
 .clID-operation {
 	font-size: 10px;
+	line-height:12px;
 	color: #919191;
 	margin-left: 8upx;
 }
@@ -742,6 +855,7 @@ page {
 	margin-bottom: 15upx;
 	height: 100%;
 	font-size: 12px;
+	line-height: 14px;
 	color: #3d3d3d;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -898,3 +1012,4 @@ page {
 	overflow: hidden;
 }
 </style>
+

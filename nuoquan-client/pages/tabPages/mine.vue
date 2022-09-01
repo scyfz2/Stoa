@@ -20,7 +20,9 @@
 				<view class="person_info">
 					<!-- 名字 -->
 					<view class="nameBox">
-						<view class="name-text">{{ thisUserInfo.nickname }}</view>
+						<text class="name-text">{{ thisUserInfo.nickname }}</text>
+						<image v-if="thisUserInfo.authType == 1||thisUserInfo.authType == 2" style="width: 17px;height: 17px;margin-left: 5px;" src="../../static/icon/auth.png"></image>
+						<!-- <image v-if="thisUserInfo.authType == 1 || thisUserInfo.authType == 2" style="width: 20px;height: 20px;" src="../../static/icon/auth.png"></image> -->
 					</view>
 					<!-- 粉丝 关注 影响力 -->
 					<view class="operationTitle">
@@ -54,16 +56,13 @@
 				<!-- <view class="swiper-item swiperBg"></view> -->
 				<image class="swiperBg" :src=item.resourceUrl mode="aspectFill" @click="jumpToWeb()"></image>
 			</swiper-item>
-			<!-- <swiper-item>
-				<image class="swiperBg" src="https://nqbucket-1258460770.cos.ap-shanghai.myqcloud.com/nqstatic/ad/%E7%B2%BE%E9%85%BF%E5%95%A4%E9%85%92%E5%90%A7.jpg" mode="aspectFill"></image>
-			</swiper-item> -->
 		</swiper>
 
 		<view class="navigator_box">
 			<mynavigator :objList="dataList" @trigger="navigatorEvent()"></mynavigator>
 		</view>
 
-		<tab-bar :current="3"></tab-bar>
+		<tab-bar :current="4"></tab-bar>
 	</view>
 </template>
 
@@ -88,6 +87,7 @@ export default {
 			cardWidth: '',
 			dataList: '',
 			adverts: {}, // 广告列表
+			userInfo:{},
 		};
 	},
 	components: {
@@ -107,7 +107,18 @@ export default {
 		this.thisUserInfo = this.getGlobalUserInfo();
 		var screenWidth = uni.getSystemInfoSync().screenWidth;
 		this.screenWidth = screenWidth;
-
+		// 获取全局用户信息
+		var userInfo = this.getGlobalUserInfo();
+		
+		if (!this.isNull(userInfo)) {
+			this.userInfo = this.getGlobalUserInfo();
+		} else {
+			uni.redirectTo({
+				url: '../signin/signin'
+			});
+			return;
+		}
+		
 		// 获取当前分页
 		var page = this.page;
 
@@ -127,6 +138,24 @@ export default {
 		
 		// 加载广告
 		this.getAdByPosition("MINE",5,this.thisUserInfo.id);
+	},
+
+	onShareAppMessage(res){
+		if (res.from === 'menu'){
+			return {
+				title: '速来围观' + this.userInfo.nickname + '的分享',
+				path: '/pagesSubA/personpublic/personpublic?data=' + this.userInfo.id,
+			};
+		}
+	},
+	
+	onShareTimeline(res){
+		if (res.from === 'menu'){
+			return {
+			title: '速来围观' + this.userInfo.nickname + '的分享',
+			path: '/pagesSubA/personpublic/personpublic?data=' + this.userInfo.id,	
+			};
+		}
 	},
 
 	onShow() {
@@ -354,6 +383,7 @@ page {
 }
 
 .nameBox {
+	display: flex;
 	margin-top: 12px;
 	height: 17px;
 	line-height: 17px;

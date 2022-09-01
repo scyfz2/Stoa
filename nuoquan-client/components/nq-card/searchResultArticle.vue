@@ -3,18 +3,18 @@
 		<view class="title" v-html="$markdownParse.parse(articleCard.articleTitle)"></view>
 		
 		<view class="picturearea" v-if="articleCard.imgList.length">
-			<image :src="pathFilter(articleCard.imgList[0].imagePath)"></image>
+			<image :src="serverUrl + articleCard.imgList[0].imagePath"></image>
 			<view class="picNum" v-if="articleCard.imgList.length > 1">{{articleCard.imgList.length}}</view>
 		</view>
 		
 		<view class="right-body" :class="{ rightBodyWithPic: articleCard.imgList.length != 0 }">
-			<view class="briefarticleCard" v-html="$markdownParse.parse(articleCard.articleContent)"></view>
+			<view class="briefarticleCard" v-html="articleCard.articleContent"></view>
 			<view class="menubar">
 				<image :src="pathFilter(articleCard.faceImg)" class="touxiang"></image>
 				<view class="name">{{ articleCard.nickname }}</view>
+				<image v-if="articleCard.authType == 1 || articleCard.authType == 2" src="../../static/icon/auth.png" style="width: 18px; height: 18px;z-index: 1000;margin-left: 3px;margin-top: 2px;"></image>
 				<view class="time">{{ timeDeal(articleCard.createDate) }}</view>
-			</view>
-			
+			</view>	
 		</view>
 
 		<!-- 		<view class="tags">
@@ -33,7 +33,7 @@
 		},
 		data() {
 			return {
-				serverUrl: this.$serverUrl,
+				serverUrl: this.$resServerUrl,
 				tagColorList: [],
 			};
 		},
@@ -115,6 +115,7 @@
 	}
 
 	.menubar {
+		display: flex;
 		height:20px;
 		position: relative;
 		vertical-align: middle;
@@ -122,7 +123,7 @@
 	}
 
 	.touxiang {
-		position: absolute;
+		/* position: absolute; */
 		left:0;
 		bottom: 0;
 		border-radius: 30px;
@@ -133,7 +134,7 @@
 	}
 
 	.name {
-		position: absolute;
+		/* position: absolute; */
 		left:28px;
 		height:20px;
 		line-height: 20px;

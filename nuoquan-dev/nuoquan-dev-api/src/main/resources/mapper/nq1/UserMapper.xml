@@ -23,6 +23,13 @@
     <result column="reputation" property="reputation" jdbcType="INTEGER" />
     <result column="latest_login" property="latestLogin" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <select id="list" resultMap="BaseResultMap">
+    select u.* from nuoquan.user u
+    where
+      1 = 1
+    order by a.create_date desc
+  </select>
   
   <update id="addReceiveLikeCount" parameterType="String">
   	update nuoquan.user set receive_like_counts=receive_like_counts+1 where id = #{userId}

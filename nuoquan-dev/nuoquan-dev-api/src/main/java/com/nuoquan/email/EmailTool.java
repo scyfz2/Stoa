@@ -32,6 +32,10 @@ public class EmailTool {
 	    javaMailSender.send(message);
 	}
 
+	/**
+	 * 测试用发送验证码
+	 */
+
 	public void sendSimpleMail() {
 		MimeMessage message = null;
 		try {
@@ -65,14 +69,14 @@ public class EmailTool {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(from); //确保发送邮件地址与认证地址，如果不一致， 一些邮箱服务器会退信
 			helper.setTo(toAddr);
-			helper.setSubject(code + " - 您的 Nottinghome 验证码");
+			helper.setSubject(code + " - 您的 Stoa 验证码");
 			
 			StringBuffer content = new StringBuffer();
 			
-			content.append("<p>亲爱的 Unncer：</p>")
-				.append("<p>欢迎你加入 Nottinghome 大家庭，下面是你的验证码：</p>")
+			content.append("<p>亲爱的同学：</p>")
+				.append("<p>欢迎你加入【 Stoa™ 】共创社区，以下是您的验证码：</p>")
 				.append("<p><b>["+ code +"]</b> 有效期十分钟</p>")
-				.append("<p>祝：生活愉快，学习顺利，<br>Jumbox 开发组敬上。</br></p>");
+				.append("<p>期待您与聚像科技一起创造价值，分享价值。</br></p>");
 			helper.setText(content.toString(), true);
 		     
 		    javaMailSender.send(message);

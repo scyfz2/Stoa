@@ -132,13 +132,19 @@
 				this.ctx.draw(false, () => {
 					uni.setStorageSync('canvasdrawer_pic_cache', this.cache)
 					const system = uni.getSystemInfoSync().system
+					// Description:  ios和安卓机型都需要延迟保存图片，以解决异步问题--还是解决不了...
+					// Author: Yifei
+					// Date: 4 July, 2022
+					//debugger
 					if (/ios/i.test(system)) {
-						this.saveImageToLocal()
+						setTimeout(()=>{
+							this.saveImageToLocal()
+						},800)
 					} else {
 						// 延迟保存图片，解决安卓生成图片错位bug。
 						setTimeout(() => {
 							this.saveImageToLocal()
-						}, 800)
+						}, 1600)
 					}
 				})
 		    },

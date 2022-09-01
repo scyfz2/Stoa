@@ -1,10 +1,12 @@
+<!-- 
+	Date: July 12, 2022
+	Editor: Yifei
+	Description: 用于messageList，对话消息左滑拉出删除键
+ -->
 <template>
 	<view class="message-list">
 		<block v-for="(it, i) in messagesList" :key="i">
 			<view class="uni-swipe-action">
-				<view class="delete-button super_center" v-if="showdelete == 1 && messageIndex == i" @tap="tapDelete(it)">
-					<text style="color: white;text-align: center;font-size: small;">{{lang.delete}}</text>
-				</view>
 				<view
 					class="uni-swipe-action__container"
 					style="width: 90.6%;
@@ -25,7 +27,7 @@
 					:data-index="i"
 					:data-disabled="it.disabled"
 				>
-					<view class="uni-swipe-action__content " style="box-shadow:0px 0px 6px rgba(0,0,0,0.16);" hover-class="hoverColor" @click="toMessageDetail(i, it.type)">
+					<view class="uni-swipe-action__content" style="box-shadow:0px 0px 6px rgba(0,0,0,0.16);" hover-class="hoverColor" @click="toMessageDetail(i, it.type)">
 						<view class="item" :class="it.stick ? 'stick' : ''" @tap="tapCard(it)">
 							<block>
 								<view class="item-left">
@@ -34,7 +36,10 @@
 								</view>
 								<!-- 中间区域 -->
 								<view class="item-middle">
-									<text :class="it.unreadCount > 0 ? 'title' : 'title-read'">{{ it.friendInfo.nickname }}</text>
+									<view style="display: flex;">
+										<text :class="it.unreadCount > 0 ? 'title' : 'title-read'">{{ it.friendInfo.nickname }}</text>
+										<image src="../static/icon/auth.png" style="width: 15px;height: 15px;margin-top: 3px;margin-left: 3px;"></image>
+									</view>
 									<text :class="it.unreadCount > 0 ? 'message' : 'message-read'">{{ it.msg }}</text>
 								</view>
 
@@ -47,6 +52,9 @@
 						</view>
 					</view>
 				</view>
+				<view class="delete-button super_center" v-if="showdelete == 1 && messageIndex == i" @tap="tapDelete(it)">
+									<text style="color: white;text-align: center;font-size: small;">{{lang.delete}}</text>
+								</view>
 			</view>
 		</block>
 	</view>
@@ -110,8 +118,8 @@ export default {
 				return;
 			}
 			var moveY = event.touches[0].pageY - this.startY,
-				//  moveX用于判断方向
-				moveX = -(event.touches[0].pageX - this.startX);
+				//  moveX用于判断方向，向右滑动为负，向左滑动为正
+				moveX = event.touches[0].pageX - this.startX;
 			if ((!this.isMoving && Math.abs(moveY) > Math.abs(moveX)) || Math.abs(moveY) > 100 || Math.abs(moveX) < 50) {
 				//纵向滑动//参数100与50可调节侧滑灵敏度
 				this.direction = 'Y';
@@ -120,6 +128,7 @@ export default {
 			// 移动距离
 			console.log(moveX);
 			this.direction = moveX > 0 ? 'right' : 'left';
+			// this.direction = moveX > 0 ? 'left' : 'right';
 			// 输出方向
 			console.log(this.direction);
 			this.messageIndex = moveX < 0 ? event.currentTarget.dataset.index : -1;
@@ -146,8 +155,8 @@ export default {
 			}
 			if (this.messageIndex !== -1) {
 				// 负号控制块左右移动
-				this.transformX = `translateX(${0}px)`;
-				// this.transformX = `translateX(${58}px)`;
+				// this.transformX = `translateX(${0}px)`;
+				this.transformX = `translateX(${-18}px)`;
 				this.$emit('opened');
 				this.showdelete = 1;
 			} else {
@@ -176,7 +185,7 @@ export default {
 	width: 50px;
 	height: 26px;
 	margin-top: 26px;
-	margin-left: 16px;
+	margin-right: 26px;
 	background-color: #fccf41;
 	border-radius: 4px;
 }

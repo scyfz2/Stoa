@@ -5,9 +5,9 @@
 			<!-- 用户协议签订页 -->
 			<view class="introduction-contentBox">
 				<view class="email-intro">
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">亲爱的 UNNCer，</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">欢迎回家。</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">请您先接受《用户协议》。</view>
+					<view>{{lang.welcome1}}</view>
+					<view>{{lang.welcome2}}</view>
+					<view>{{lang.welcome3}}</view>
 				</view>
 				<!-- <view style="position: absolute;top: 45%;height: 45%;width: 100%;" class="super_center">
 					<view class="icon-logoBox super_center">
@@ -24,12 +24,12 @@
 					</checkbox-group>
 				</view>
 			</view>
-			<!-- 邮箱认证页 -->
+			<!-- 邮箱认证页,并不会显示，保留可以防止错位-->
 			<view class="email-Box">
 				<view class="email-intro">
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">亲爱的 UNNCer，</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">最后一步。</view>
-					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">请认证您的 UNNC 邮箱。</view>
+					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">{{lang.welcome1}}</view>
+					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">{{lang.lastStep}}</view>
+					<view style="width: 100%;font-size: 42upx;font-weight: 550;color: #C0C0C0;">{{lang.certificateEmail}}</view>
 				</view>
 
 				<view class="email-content">
@@ -52,7 +52,7 @@
 						:disabled="auth"
 					/>
 					<wh-captcha
-						style="font-size: 15px;margin-top: 15px;"
+						class="captcha"
 						ref="captcha"
 						:secord="60"
 						:title="lang.getCaptcha"
@@ -75,33 +75,33 @@
 				</button>
 			</view>
 			<!-- 邮箱认证 -->
-			<view class="confirm-rel" v-else-if="swiperLeft == -100">
+<!-- 			<view class="confirm-rel" v-else-if="swiperLeft == -100">
 				<view v-if="!auth">
-					<!-- 上一步 button -->
+					上一步 button
 					<button class="backAngle" hover-class="hoverColorYellow" @click="lastStep(true)">
 						<view class="back"><image style="width: 40px;height: 40px;position: absolute;left: -14px;" src="../../static/icon/angle-left.png"></image></view>
 					</button>
-					<!-- 游客通道 button -->
+					游客通道 button
 					<button v-if="emailMes == ''" class="confirm-button-visitor super_center" hover-class="hoverColorYellow" @click="visitorLogin">
-						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">游客登陆</view>
+						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.guestLogin}}</view>
 					</button>
-					<!-- 邮箱认证 button -->
+					邮箱认证 button
 					<button v-else class="confirm-button-checked super_center" hover-class="hoverColorYellow" @click="confirmCode">
 						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.emailAuth}}</view>
 					</button>
 				</view>
 				<view v-else>
-					<!-- 上一步 button -->
+					上一步 button
 					<button class="backAngle" hover-class="hoverColorYellow" @click="cancleAuth">
 						<view class="back"><image style="width: 40px;height: 40px;position: absolute;left: -14px;" src="../../static/icon/angle-left.png"></image></view>
 					</button>
-					<!-- 确认登陆 button -->
+					确认登陆 button
 					<button class="confirm-button-checked super_center" hover-class="hoverColorYellow" @click="login">
 						<view style="color: white;font-weight: 550;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.finishLogin}}</view>
 					</button>
 				</view>
-				<!-- <view class="conform-bgBox"></view> -->
-			</view>
+				<view class="conform-bgBox"></view>
+			</view> -->
 		</view>
 
 		<image src="../../static/BG/signin_bottom.png" mode="scaleToFill" class="bottom-picBox"></image>
@@ -121,7 +121,7 @@
 		<view style="position: fixed;width: 70%;top: 66%;left: 15%;height: 30px;">
 			<view style="display: flex;justify-content: space-around;width: 100%;height: 100%;">
 				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.wechatLogin}}</view>
-				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.emailAuth}}</view>
+<!-- 				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.emailAuth}}</view> -->
 				<view style="width: 33%;height: 100%;color:#C0C0C0;font-size:15px;" class="super_center">{{lang.finishLogin}}</view>
 			</view>
 		</view>
@@ -185,7 +185,7 @@ export default {
 	},
 	watch:{
 		emailMes(val, oldvalue){
-			console.log("emailMes=  " + val);
+			// console.log("emailMes=  " + val);
 		}
 	},
 
@@ -217,14 +217,15 @@ export default {
 			isLoding = true;
 
 			uni.showLoading({
-				title: '载入中...'
+				// title: '载入中...'
+				title:this.lang.loading,
 			});
 			setTimeout(() => {
 				if (isLoding) {
 					isLoding = false; // 解锁
 					uni.hideLoading();
 					uni.showToast({
-						title: '网络未知错误',
+						title: this.lang.networkError,
 						icon: 'none',
 						duration: 2000
 					});
@@ -263,7 +264,8 @@ export default {
 								uni.hideLoading();
 
 								// 下一步
-								that.nextStep(true);
+								// that.nextStep(true);
+								that.login();
 							}
 						}
 					});
@@ -302,10 +304,40 @@ export default {
 					this.nextStep(false);
 					return;
 				}
+				
+				// Date: July 13,2022
+				// Author: Yifei
+				// Description: 外校体验用户，直接加在这里给判断就行
+				if (email == '1193874@wku.edu.cn') {
+					uni.showToast({
+						title:'欢迎外校用户',
+						icon: 'none',
+						duration: 2000,
+					});
+					
+					this.$refs.captcha.begin();
+					
+					uni.request({
+						url: this.$serverUrl + '/user/getCode',
+						method: 'POST',
+						data: {
+							userId: this.userInfo.id,
+							email: email
+						},
+						header: {
+							'content-type': 'application/x-www-form-urlencoded'
+						},
+						success: res => {
+							console.log(res);
+						}
+					});
+					return;
+				}
+				
 				// 检测邮箱
 				if (this.$util.regEmail(email) || this.$util.regUNNCEmail(email)) {
 					uni.showToast({
-						title: '非 UNNC 邮箱地址！',
+						title: this.lang.notUNNCEmail,
 						icon: 'none',
 						duration: 2000,
 					});
@@ -325,14 +357,24 @@ export default {
 								'content-type': 'application/x-www-form-urlencoded'
 							},
 							success: res => {
-								console.log(res);
+								if (res.data.status == 200){
+									console.log(res);
+								}
+								else {
+									uni.showToast({
+										title: this.lang.repeatEmail,
+										icon: 'none',
+										duration: 2000,
+									});
+								}
 							}
+							
 						});
 					}
 				}
 			} else {
 				uni.showToast({
-					title: 'Email不能为空',
+					title: this.lang.notEmptyEmail,
 					icon: 'none',
 					duration: 2000,
 				});
@@ -359,7 +401,7 @@ export default {
 		confirmCode() {
 			if (captcha) {
 				uni.showLoading({
-					title: '请等待'
+					title: this.lang.waiting,
 				});
 				uni.request({
 					url: this.$serverUrl + '/user/confirmCode',
@@ -390,7 +432,7 @@ export default {
 						} else {
 							console.log('验证失败 ' + res.data.msg);
 							uni.showToast({
-								title: '验证失败',
+								title: this.lang.certificateFail,
 								icon: 'none',
 								duration: 2000,
 							});
@@ -402,7 +444,7 @@ export default {
 				});
 			} else {
 				uni.showToast({
-					title: '验证码为空',
+					title: this.lang.emptyCaptcha,
 					icon: 'none',
 					duration: 2000,
 				});
@@ -412,7 +454,7 @@ export default {
 		login() {
 			this.nextStep(false);
 			uni.showLoading({
-				title: '正在登陆...'
+				title: this.lang.logining,
 			});
 
 			// 5.写入缓存
@@ -549,6 +591,9 @@ button::after {
 	flex-direction: column;
 	width: 100%;
 	height: 30%;
+	font-size: 42upx;
+	font-weight: 550;
+	color: #C0C0C0;
 }
 
 .email-content {
@@ -681,5 +726,17 @@ button::after {
 	z-index: 20;
 	background: #fdd041;
 	position: relative;
+}
+
+.captcha {
+	margin-top: 15px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10upx;
+	width: 130px;
+	color:#FFFFFF;
+	background-color:#FFCD2E;
 }
 </style>

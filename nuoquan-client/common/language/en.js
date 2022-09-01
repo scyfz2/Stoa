@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'en',
 	
-	tabbarName : ["Home","Explore","Message","Mine"],
+	tabbarName : ["Home","Zone","","Msg","Me"],
 	tabList : ["Post Article","Create Vote"],
 	version : "v1.1.1",
 	back : "Back",
@@ -10,6 +10,8 @@ module.exports = {
 	submit : "Submit",
 	delete : "Delete",
 	time : "Time",
+	// 防止评论hot冲突
+	hot:"Hot",
 	hot : "Hot",
 	all : "All",
 	follow : "Follow",
@@ -33,21 +35,41 @@ module.exports = {
 	yes:"Yes",
 	no:"No",
 	
+	
+	// 注册页面
+	welcome1: "Dear Student,",
+	welcome2:"Welcome Home,",
+	welcome3:"Please Accept The User Protocol.",
+	lastStep:"Last step,",
+	certificateEmail:"Please certificate your UNNC Email.",
+	
 	//登陆
 	isReadProtocol : "I have read and agree :",
 	userProtocol : "User Protocol",
 	wechatLogin : "Login",
 	emailAuth : "EmailAuth",
+	logining: "Logging in",
 	finishLogin : "Finish",
-	emailPrompt : " UNNC email address",
+	emailPrompt : "UNNC email address",
 	captcha : " Captcha",
 	getCaptcha : "Get captcha",
 	waitCaptcha : "Please wait (SECORD)s",
-	
+	guestLogin: "GuestLogin",
+	notUNNCEmail: "It's not an UNNC Email address",
+	notEmptyEmail: "Email cannot be null",
+	certificateFail:"Authentication Failed",
+	repeatEmail:"Email is already bound",
+	emptyCaptcha:"Capcha is null",
 	//主页
 	viewAllHot: "Show All >",
 	tagPick: "",
 	
+	// 轮滑
+	hot: "Hot",
+	viewAll: "View all",
+	tagSelected: "Tags Selected",
+	noMoreArticles: "没有更多文章了...",
+
 	//新建按钮
 	postArticle: "Post",
 	postLongArticle: "Article",
@@ -60,9 +82,9 @@ module.exports = {
 	addTags : "Add Tags",
 	
 	//详情页&长文章详情
-	sharetoMoments: "Share to moments",
+	sharetoMoments: "Save & Share",
 	menu_more:"More",
-	share:"Share",
+	report:"Report",
 	collect:"Collect",
 	backToTop:"Top",
 	backToLastPage:"Back",
@@ -83,7 +105,7 @@ module.exports = {
 	
 	
 	//新建文章&投票
-	addTitle: "Add title",
+	addTitle: "Add title (Optional)",
 	optionContent: "Option content",
 	addDescription : "Add description",
 	postDraftModal:'Continue with draft of your post ?',
@@ -105,6 +127,10 @@ module.exports = {
 	
 	//我的消息
 	myMessage : "Message",
+	likedYourArticle: "liked your article",
+	commentedYourArticle: "commented your article",
+	likedYourComment: "liked your comment",
+	replyYourComment: "回复了你的评论",
 	
 	//我的
 	chinese: "中",
@@ -121,6 +147,7 @@ module.exports = {
 	like : "Like",
 	comment : "Comment",
 	editSignature: "Please edit your signature in 'profile'",
+	deleteHint: "<--The left side to delete",
 	
 	
 	//我的发布
@@ -135,7 +162,7 @@ module.exports = {
 	
 	//关注粉丝列表
 	fanAndFollow : "Follow List",
-	followed : "已关注",
+	followed : "Followed",
 	
 	//个人信息
 	nickname : "Nickname",
@@ -152,19 +179,20 @@ module.exports = {
 	schoolEmail : "School Email",
 	noEmail: "No email, please bind your email!",
 	changeEmail : "Change Email",
-	genderList : ["Ms", "Mr", "Unknown"], //顺序请和数据库保持一致
+	genderList : ["Ms", "Mr", "Other","Unknown"], //顺序请和数据库保持一致
 	degreeList : ["High school", "Undergraduate", "Graduate"], //顺序请和数据库保持一致
 	relevantInfo: "Correlation",
 	editInfo: "Click text to modify information",
 	editEmail: "Click text to modify email",
 	bindEmail: "Click to bind email",
 	//他人页
+	personalHome: "Personal Home",
 	whosHome : "'s Home",
 	lazyNoSignature: "This signature has losed...",
 	
 	//关于
 	contact : "Contact Us",
-	updateLog : "Update Log",
+	updateLog : "Update Announcement",
 	
 	//探索
 	explore:'Explore',
@@ -180,4 +208,23 @@ module.exports = {
 	redWallEvent: 'Red Wall Photography Competition',
 	voteCount: 'votes',
 	voteToLastTeam: ',To catch up the next team, they need',
+	
+	// toast相关
+	loading: "Loading...",
+	networkError: "Network Unknown Error",
+	waiting: "Waiting...",
+	developing: "Function developing...",
+	
+	// iweek相关
+	iweek: "I-week",
+	functionList : ["Society","U Course","UNNC Map","Foodie"],
+	dailySchedule : "Daily Schedule",
+	noMore: "No More",
+	organizationList:"organizationList",
+	organizationDetail:"organizationDetail",
+	date: 'date',
+	time: 'time',
+	venue: 'venue',
+	targetStudent: 'Target Student',
+	eventsType: 'eventsType',
 }

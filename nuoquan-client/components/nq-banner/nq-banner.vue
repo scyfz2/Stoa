@@ -19,6 +19,7 @@
 		data() {
 			return {	
 				showAd: false,
+				// bannerInterval: 10,		// 测试数据，每分钟都能看到广告啦！
 				bannerInterval: 432000000,  //毫秒，时间戳差值  目前值 12h 
 				fromSrc: this.origin, // 本地化
 				adImgSrc: '',
@@ -33,12 +34,12 @@
 				// if(1600419600000 < currentTime && currentTime < 1600703940000 ){
 				// 	console.log('currentTime' + currentTime);
 				// 	this.showAd = true
-				// 	this.adImgSrc = "https://nqbucket-1258460770.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/redWallPoster-min.png"
+				// 	this.adImgSrc = "https://nqbucket-1308006370.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/redWallPoster-min.png"
 				// }
-				this.adImgSrc = "https://nqbucket-1258460770.cos.ap-shanghai.myqcloud.com/nqstatic/ad/%E6%8B%9B%E8%81%98%E6%B5%B7%E6%8A%A5.jpg"
+				this.adImgSrc = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad000001.jpeg"
 			}else if(this.fromSrc == "redWallEvent"){
 				console.log("红墙活动页banner");
-				this.adImgSrc = "https://nqbucket-1258460770.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/%E6%B5%B7%E6%8A%A5.jpg";
+				this.adImgSrc = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/%E6%B5%B7%E6%8A%A5.jpg";
 			}
 			
 			var userInfo = this.getGlobalUserInfo();
@@ -78,7 +79,8 @@
 				this.showAd = !this.showAd;
 			},
 			showBanner_update(id,currentTime){
-				this.showAd = true;
+				// 这里设置成false，则广告永不出现
+				this.showAd = false;
 				uni.setStorage({
 				    key: id + ':bannerVisitTime',
 				    data: currentTime,

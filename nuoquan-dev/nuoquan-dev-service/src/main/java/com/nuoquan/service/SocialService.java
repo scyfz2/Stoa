@@ -73,6 +73,12 @@ public interface SocialService {
     public UserCommentVO getCommentById(String commentId, String userId);
 
     /**
+     * Set the status to unreadable
+     * @param commentId
+     */
+    public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType);
+
+    /**
      * 用户点赞对象
      * @param userId
      * @param targetType
@@ -87,7 +93,7 @@ public interface SocialService {
      * @param targetType
      * @param targetId
      */
-    public void userUnlike(String userId, PostType targetType, String targetId);
+    public void userUnLike(String userId, PostType targetType, String targetId);
 
     /**
      * 查询用户是否点赞了对象
@@ -111,8 +117,9 @@ public interface SocialService {
      * @param userId
      * @param targetType
      * @param targetId
+     * @return
      */
-    public void userUncollect(String userId, PostType targetType, String targetId);
+    public String userUncollect(String userId, PostType targetType, String targetId);
 
     /**
      * 查询用户是否收藏了对象
@@ -147,5 +154,23 @@ public interface SocialService {
      * @param targetType
      */
     public void userRead(String userId, PostType targetType, String targetId);
+
+    /**
+     * 查询全部给我的评论
+     * @param page
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    public PagedResult getAllCommentToMe(Integer page, Integer pageSize, String userId);
+
+    /**
+     * 查询全部给我的赞
+     * @param page
+     * @param pageSize
+     * @param userId
+     * @return
+     */
+    public PagedResult getAllLikeToMe(Integer page, Integer pageSize, String userId);
 
 }

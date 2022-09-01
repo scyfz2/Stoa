@@ -6,11 +6,11 @@
 			<view v-if="articleDelieverer.targetType == 'article'" class="swipe-contain" :style="{ transform: swipedArticleId == thisArticle.id ? transformX : 'translateX(0px)' }"
 			 :data-index="thisArticle.id" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" @touchcancel="touchEnd"
 			 @click="goToDetail(thisArticle)" hover-class="hoverColor">
-				<view class="title">{{thisArticle.articleTitle}}</view>
+				<view v-if="!isNull(thisArticle.articleTitle)" class="title">{{thisArticle.articleTitle}}</view>
+				<view v-else-if="isNull(thisArticle.articleTitle)" style="padding: 20px;"></view>
 				<view class="cardBody">
 					<view class="picArea" v-if="thisArticle.imgList.length">
 						<image :src="pathFilter(thisArticle.imgList[0].imagePath)"></image>
-						<!-- 						<view class="picNum"></view>第二版不显示图片总数了，此处注释掉 -->
 					</view>
 					<view class="left-body" :class="{ leftBodyWithPic: thisArticle.imgList.length != 0 && thisArticle.imgList != null}">
 						<view class="content">{{thisArticle.articleContent}}</view>
@@ -34,11 +34,11 @@
 				</view>
 			</view>
 			<!--长文章状态-->
-			<view v-if="articleDelieverer.targetType == 'longarticle'" class="swipe-contain-LA" :style="{ transform: swipedArticleId == thisArticle.id ? transformX : 'translateX(0px)' }"
+			<!-- <view v-if="articleDelieverer.targetType == 'longarticle'" class="swipe-contain-LA" :style="{ transform: swipedArticleId == thisArticle.id ? transformX : 'translateX(0px)' }"
 			 :data-index="thisArticle.id" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" @touchcancel="touchEnd"
 			 @click="goToDetail(thisArticle)" hover-class="hoverColor">
 				<longarticle :longArticle="thisArticle"></longarticle>
-			</view>
+			</view> -->
 			<view class="menu-area" v-if="swipedArticleId == thisArticle.id" @click="unCollectArticle()">
 				<view>
 					<image src="../../static/icon/bin.png"></image>
@@ -158,14 +158,21 @@
 			unCollectArticle() {
 				console.log('取消收藏文章');
 				var that = this;
+				// console.log(that.thisArticle.userId);
 				// debugger;
 				uni.request({
 					method: 'POST',
-					url: that.$serverUrl + '/social/userUncollectArticle',
+					url: that.$serverUrl + '/social/userUncollect',
 					data: {
+						// Modifier: Yifei
+						// Date: Aug 15, 2022
+						// Description: 最好别让我知道是谁这么写的不然我杀了他
+						// userId: that.userInfo.id,
+						// articleId: that.thisArticle.id,
+						// articleCreaterId: that.thisArticle.userId,
 						userId: that.userInfo.id,
-						articleId: that.thisArticle.id,
-						articleCreaterId: that.thisArticle.userId,
+						targetType: 'ARTICLE',
+						targetId: that.thisArticle.id,
 					},
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'

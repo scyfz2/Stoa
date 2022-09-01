@@ -11,4 +11,8 @@
     <result column="target_id" property="targetId" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <select id="queryLikeToMe" resultMap="BaseResultMap">
+    select * from nuoquan.user_like ul where user_id=#{userId} order by ul.create_date desc
+  </select>
 </mapper>

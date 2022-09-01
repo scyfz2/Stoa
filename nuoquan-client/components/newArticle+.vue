@@ -2,17 +2,27 @@
 	<view class="plus_view" :style="{top:topHeight + 'px'}" >
 		<!-- 加号 -->
 		<view class="ic super_center" @tap='controlShowPop()'>
-			<image :class="[showPop ? 'midIcon' : 'midIconBack']" :style="{ width: '18px', height: '18px', transition: 'all 500ms linear 200ms', transform: 'rotate(' + degree + 'deg)' }"
-			 src="../static/icon/plus_tab.png" mode="aspectFit"></image>
+		<!--
+		Author:Yifei
+		Date: July 6, 2022
+		Description: 原来有发帖子和发文章两个功能，现在只留了发帖子功能，点击加号就不用让图标旋转并给出选项，直接进入发帖页面就行了
+		 -->
+		<!-- <image :class="[showPop ? 'midIcon' : 'midIconBack']" :style="{ width: '18px', height: '18px', transition: 'all 500ms linear 200ms', transform: 'rotate(' + degree + 'deg)' }" -->
+		<image :class="[showPop ? 'midIcon' : 'midIconBack']" :style="{ width: '18px', height: '18px', transition: 'all 500ms linear 200ms'}"
+		 src="../static/icon/plus_tab.png" mode="aspectFit" @tap="creatArticle('short')"></image>
 		</view>
 		<view v-show="degree==45" style="position: fixed;width: 100%;height:100%;top:0;left: 0;z-index: 30;" @tap="controlShowPop"></view> <!-- 透明底板 -->
 		<!-- 展开的菜单 -->
-		<view v-show="degree == 45" class="popMenu" :style="{top:this.getnavbarHeight().bottom + 20 + 'px'}">
+		<!-- 
+		Author:Yifei
+		Date: July 6, 2022
+		Description: 原来有发帖子和发文章两个功能，现在只留了发帖子功能，所以点击加号直接进入发帖页面就行不需要给选项了
+		 -->
+		<!-- <view v-show="degree == 45" class="popMenu" :style="{top:this.getnavbarHeight().bottom + 20 + 'px'}">
 			<view class="super_center" @tap="creatArticle('short')"><text>{{lang.postArticle}}</text></view>
 			<view style="height:1px;width:83px;background:rgba(236,236,236,1);margin-left:16px;"></view>
 			<view class="super_center" @tap="creatArticle('long')"><text>{{lang.postLongArticle}}</text></view>
-			
-		</view>
+		</view> -->
 	</view>
 </template>
 <script>

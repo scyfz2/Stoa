@@ -51,6 +51,15 @@ public class Sid {
         String yyMMdd = new SimpleDateFormat("yyMMdd").format(new Date());
         return yyMMdd + Utils.padLeft(Utils.encode(id), 10, '0');
     }
+
+
+    /**
+     * 返回固定10位随机字符的字母数字混编的字符串。
+     */
+    public String userInitNickname() {
+        long id = idWorker.nextId();
+        return Utils.padLeft(Utils.encode(id), 4, '0');
+    }
     
 //    public static void main(String[] args) {
 //		String aa = new Sid().nextShort();

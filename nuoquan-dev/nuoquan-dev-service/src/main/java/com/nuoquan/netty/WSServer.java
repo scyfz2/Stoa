@@ -35,7 +35,7 @@ public class WSServer {
 	}
 	
 	public void start() {
-		this.future = server.bind(8088); //这里无需同步
+		this.future = server.bind(8088);
 		System.err.println("netty webSocket server 启动完毕，Binding Port：8088");
 	}
 	

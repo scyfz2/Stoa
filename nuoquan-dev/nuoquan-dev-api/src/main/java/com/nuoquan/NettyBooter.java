@@ -1,11 +1,9 @@
 package com.nuoquan;
 
+import com.nuoquan.netty.WSServer;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import com.nuoquan.netty.WSServer;
 
 /**
  * 启动 netty 服务
@@ -19,6 +17,7 @@ public class NettyBooter implements ApplicationListener<ContextRefreshedEvent> {
 		if (event.getApplicationContext().getParent() == null) {
 			try {
 				WSServer.getInstance().start();
+				com.nuoquan.netty.WSServer.getInstance().start();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

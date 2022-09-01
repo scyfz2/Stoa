@@ -10,7 +10,10 @@
 		<view class="comment-Box">
 			<view class="comment-info">
 				<image :src="pathFilter(mainComment.faceImg)" @tap="goToPersonPublic(mainComment.fromUserId)"></image>
-				<text selectable="true" class="name_text">{{ mainComment.nickname }}</text>
+				<view style="display: flex;">
+					<text selectable="true" class="name_text">{{ mainComment.nickname }}</text>
+					<image v-if="mainComment.fromUserAuthType == 1 || mainComment.fromUserAuthType == 2" src="../../static/icon/auth.png" style="height: 15px;width: 15px;margin-left: 3px;margin-top: 3px;"></image>
+				</view>
 				<view class="time_text">{{ timeDeal(mainComment.createDate) }}</view>
 			</view>
 			<text selectable="true" class="comment-content" @tap="activeInput(mainComment)">{{ mainComment.comment }}</text>
@@ -26,7 +29,7 @@
 		<view style="width: 100%;">
 			<!--移到了sonCommentBox组件，考虑评论之间的点赞方程容易混淆，做了组件，就互不影响了-->
 			<sonCommentBox v-for="i in subCommentList" :key="i.id" :reCommentDetail="i" @controlInputSignal="activeInput"
-			 @swLikeComment="swLikeComment" @goToPersonPublic="goToPersonPublic"></sonCommentBox>
+			 @swLikeComment="swLikeComment" @goToPersonPublic="goToPersonPublic" @longpress="onLongpress(i.id)"></sonCommentBox>
 			<!-- 占位块 -->
 			<view style="width: 100%; height: 40px;"></view>
 		</view>
@@ -43,12 +46,12 @@
 		<!--触底提示和功能  END-->
 
 		<view class="bottoLayerOfInput" v-show="showInput" @tap="resetInput()" @touchmove="resetInput()">
-			<view class="commentPart" :style="{ bottom: textAreaAdjust }">
+			<view class="commentPart" :style="{ top: textAreaAdjust + 'px' }">
 				<!--<view class="emoji"></view><view class="add-pic"></view>-->
 				<view class="submit" @tap="saveComment()">{{ lang.send }}</view>
 				<view class="commentSth">
-					<textarea class="comment-text" :placeholder="placeholderText" :focus="writingComment" auto-height="true"
-					 adjust-position="false" v-model="commentContent" :show-confirm-bar="false" cursor-spacing="20" />
+					<textarea class="comment-text" :placeholder="placeholderText" @focus="getKeyBoardHeight" :focus="writingComment" auto-height="true"
+					 :adjust-position="false" v-model="commentContent" :show-confirm-bar="false" cursor-spacing="20" />
 					<!-- <view class="comment-pic-area"><image src="../../static/BG/indexBG.png"></image><image src="../../static/icon/about.png"></image><image src="../../static/icon/1575235531(1).png"></image></view> -->
 					<view class="word-count-left">{{ wordNotice }}</view>
 				</view>
@@ -95,14 +98,16 @@ export default {
 		return {
 			mainComment: '', //用于接受跳转传过来的underCommentId,然后申请获取sonComment  yaoyao 9.16
 			type: '', //文章 or 投票
+			articleId:'',
 			userInfo: '',
+			commentId:'',
 			commentContent: '', //用户准备提交的评论内容
 			subCommentList: '', //返回值，获取评论列表信息,循环展示的东西，sonComment
 			showInput: false, //控制输入框，true时显示输入框
 			writingComment: false, //控制输入框，true时自动获取焦点，拉起输入法
 			submitData: {},//当前页面saveComment需要6元素，4 于 activeInput()， 2 内容和 article/vote ID在请求前加入
 			placeholderText: '',
-			textAreaAdjust: 0,
+			textAreaAdjust: 1500,
 
 			totalPage: 1,
 			currentPage: 1,
@@ -133,16 +138,32 @@ export default {
 		var data = JSON.parse(decodeURIComponent(options.data));
 		this.mainComment = data.mainComment;
 		this.type = data.type;
+		this.articleId=data.articleId;
 		// 获取次评论
 		this.getSubComments(1);
 		
 		this.placeholderText = this.lang.engageComment; //设置评论默认值
+		// console.log(this.mainComment);
 	},
 
 	onReachBottom() {
 		this.loadMore();
 	},
 	methods: {
+		getKeyBoardHeight(e){
+			// debugger
+			var textAreaAdjust_ = e.detail.height;
+			var phoneHeight;
+			console.log("键盘高度" + e.detail.height);
+			uni.getSystemInfo({
+				success(res) {
+					phoneHeight = res.windowHeight;
+					console.log(phoneHeight);//812
+				}
+			});
+			this.textAreaAdjust = phoneHeight - textAreaAdjust_ - 12 - 100;
+			console.log(this.textAreaAdjust);//640
+		},
 		getSubComments(page){
 			var url = "";
 			//判断是文章评论还是投票评论
@@ -221,7 +242,92 @@ export default {
 			this.writingComment = false;
 			this.commentContent = "";
 		},
-
+		
+		onLongpress(e) {
+			console.log('触发长按操作,复制或者是快速回复');
+			console.log(e);
+			var that=this;
+			uni.showActionSheet({
+				itemList: ['举报', '删除'],
+				success: function (res) {
+					console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+					that.commentId=e;
+					if(res.tapIndex==0){
+						that.reportComment();
+					}else{
+						that.deleteComment();
+					}
+				},
+				fail: function (res) {
+					console.log(res.errMsg);
+				}
+			});
+		},
+		reportComment(){
+			console.log('举报评论');
+			var that = this;
+			uni.request({
+				method: 'POST',
+				url: that.$serverUrl + '/Report/reportPublished',
+				data: {
+					userId: that.userInfo.id,
+					targetId:that.commentId,
+					targetType: "COMMENT",
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res);
+					//this.$emit('swLikeArticleSignal', false);
+					uni.showToast({
+						title:'举报成功',
+						icon:'success',
+						duration:1000,
+					});
+				}
+			});
+		},
+		deleteComment(){
+			console.log('删除评论');
+			var that = this;
+			uni.request({
+				method: 'POST',
+				url: that.$serverUrl + '/social/fDeleteComment',
+				data: {
+					commentId:that.commentId,
+					userId: that.userInfo.id,
+					targetId:that.articleId,
+					targetType: "ARTICLE",
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res.data.msg);
+					if(res.data.msg=="OK"){
+						uni.showToast({
+							title:'删除成功',
+							icon:'success',
+							duration:1000,
+						});
+						uni.$emit("refresh");
+					}else{
+						uni.showModal({
+							title: '提示',
+							showCancel:false,
+							content: '你不是文章发布者或评论发布者，无法删除',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+								}
+							}
+						});
+					}
+				},
+			});
+		},
+		
 		/**
 		 * fromUserId 必填
 		 * toUserId 必填
@@ -261,6 +367,7 @@ export default {
 					this.submitData.targetId = this.mainComment.targetId;
 				}
 				this.submitData.comment = this.commentContent;
+				console.log(this.submitData);
 				uni.request({
 					url: this.$serverUrl + url,
 					method: 'POST',
@@ -334,7 +441,7 @@ export default {
 			console.log('取消点赞评论');
 			uni.request({
 				method: 'POST',
-				url: this.$serverUrl + "/social/userUnlike",
+				url: this.$serverUrl + "/social/userUnLike",
 				data: {
 					userId: this.userInfo.id,
 					targetType: "COMMENT",
@@ -458,7 +565,7 @@ page {
 
 .commentPart {
 	box-shadow: 0px 1px 5px 0px rgba(139, 139, 139, 0.32);
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	z-index: 900;
 	left: 0;
@@ -493,7 +600,7 @@ page {
 	display: inline-block;
 	width: 42px;
 	position: absolute;
-	top: 15px;
+	top: 25px;
 	right: 15px;
 	height: 21px;
 	/* 	background: url(../../static/icon/arrow-right.png);
@@ -517,9 +624,10 @@ page {
 .comment-text {
 	width: calc(670upx - 60px);
 	font-size: 14px;
-	max-height: 95px;
+	/* max-height: 95px; */
 	line-height: 20px;
-	max-height: 100px;
+	/* max-height: 100px; */
+	height: 100px;
 	padding-bottom: 14px;
 }
 .comment-pic-area {

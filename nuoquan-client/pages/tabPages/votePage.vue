@@ -58,13 +58,13 @@ Date: 17 Aug, 2020
 				</swiper-item>
 				
 				<!-- 学术版块 -->
-				<swiper-item class="swiper-box">
+				<!-- <swiper-item class="swiper-box">
 					<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-test" enable-back-to-top="true">
 						<academicarea></academicarea>
 						<academiccardflow></academiccardflow>
 						<view style="height: 63px;width: 100%;"></view>
 					</scroll-view>
-				</swiper-item>
+				</swiper-item> -->
 			</swiper>
 		</view>
 		<tab-bar :current="1" @clickTab="onClickTab"></tab-bar>
@@ -99,10 +99,10 @@ Date: 17 Aug, 2020
 				loadArticleFlag: false, // 为文章加锁
 				showSearch: 0,
 				currentTab: 0,
+				scrollTop: 0,
 				old: {
 					scrollTop: 0
 				},
-				scrollTop: 0,
 				scrollLeft: 0,
 				userInfo: '', // 当前用户信息
 				// 文章流
@@ -137,15 +137,15 @@ Date: 17 Aug, 2020
 			...mapState(['lang'])
 		},
 		onLoad() {
-			// var userInfo = this.getGlobalUserInfo();
-			// if (this.isNull(userInfo)) {
-			// 	uni.redirectTo({
-			// 		url: '../signin/signin'
-			// 	});
-			// 	return;
-			// } else {
-			// 	this.userInfo = userInfo; // 刷去默认值(若有)
-			// }
+			var userInfo = this.getGlobalUserInfo();
+			if (this.isNull(userInfo)) {
+				uni.redirectTo({
+					url: '../signin/signin'
+				});
+				return;
+			} else {
+				this.userInfo = userInfo; // 刷去默认值(若有)
+			}
 			
 			this.flash() //获取刷新内容
 			

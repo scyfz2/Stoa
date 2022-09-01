@@ -14,16 +14,16 @@
 				<view class="topBarSearch" :style="{'margin-top': this.getnavbarHeight().top + 2 + 'px'}" @click="controlShowSearch(1)">
 					<image src="../static/icon/search_B79144.png" mode="aspectFit"></image>
 				</view>
-				<view class="topBarwaiting"></view>
-				<creatarticle :topHeight='this.getnavbarHeight().top'></creatarticle>
+				<!-- <view class="topBarwaiting"></view> -->
+				<!-- <creatarticle :topHeight='this.getnavbarHeight().top'></creatarticle> -->
 			</view>
 			<!-- 标题行 -->
 			<view v-if="!roleup" class="titleLine">
 				<view class="titleLine_left">
-					<text>热门讨论</text>
+					<text>{{lang.hot}}</text>
 				</view>
 				<view @click="jumpTohot" class="titleLine_right">
-					<text>查看全部 ></text>
+					<text>{{lang.viewAll}} ></text>
 				</view>
 			</view>
 			<!-- 热门卡片 -->
@@ -44,13 +44,15 @@
 						<view>
 							<swiper-item @click="goToDetail(item.id)" v-for="(item, index) in topArticles" :key="index">
 								<view class="itemCard" :style="{'height':roleup == false ? '62px;' :'33px' ,}">
-									<view class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{ item.articleTitle }}</view>
+									<view v-if="!isNull(item.articleTitle)" class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{ item.articleTitle }}</view>
+									<view v-else-if="isNull(item.articleTitle)" class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{item.articleContent}}</view>
 									<view v-if="roleup == false" class="userInfo">
-										<image :src=pathFilter(item.faceImg) mode="aspectFit"></image>
-										<view class="userid_mainpagetop">
-											{{item.nickname}}
+										<image :src="pathFilter(item.faceImg)" style="width: 17px;height: 17px;border-radius: 50%;"></image>
+										<view class="userid_mainpagetop" style="display: flex;">
+											<text>{{item.nickname}}</text>
+											<image v-if="item.authType == 1 || item.authType == 2" src="../static/icon/auth.png" style="width: 17px; height: 17px;z-index: 1000;margin-left: 3px;"></image>
 										</view>
-									</view>
+										</view>
 								</view>
 							</swiper-item>
 						</view>
@@ -61,7 +63,7 @@
 			<view v-if="roleup == false" class="tagsLine column_center">
 				<!-- 左侧打开标签选择按钮 -->
 				<view v-if="!selectedTag" @click="toggleShowTag" class="tagsButton">
-					<view class="text">标签筛选</view>
+					<view class="text">{{lang.tagSelected}}</view>
 					<view class="icon super_center">
 						<image v-if="!showTagBox" src="../static/icon/tag-white.png" mode="aspectFit"></image>
 						<image v-else src="../static/icon/angle-up-white.png" mode="aspectFit"></image>
@@ -71,7 +73,7 @@
 				<tagSelected v-if="selectedTag" style="margin-left: 4.5%;" :tag='selectedTag' @click="deleteTag"></tagSelected>
 				<!-- 右侧排列筛选 -->
 				<nqSwitch v-if="lang.langType == 'zh-CN'" :bgSwitchLeft="'-13px'" :bgSwitchRight="'41px'" :options='[lang.all, lang.follow]'
-				 :initStatus='iniStatus1' @onChange="change_article_order1" style="position:absolute;right: 4.5%;">
+				 :initStatus='iniStatus1' @onChange="change_article_order1" style="position:absolute;right: 6.5%;">
 				</nqSwitch>
 				<nqSwitch v-else :bgSwitchLeft="'-13px'" :bgSwitchRight="'47px'" :options='[lang.all, lang.follow]' :initStatus='iniStatus1'
 				 @onChange="change_article_order1" style="position:absolute;right: 4.5%;">
@@ -277,7 +279,8 @@
 		background: rgba(230, 230, 230, 1);
 		opacity: 1;
 		border-radius: 10px;
-		width: calc(100% - 3.47% - 101px - 32px - 7px);
+		/* width: calc(100% - 3.47% - 101px - 32px - 7px); */
+		width: calc(100% - 3.47% - 101px - 7px);
 		font-size: 15px;
 		display: inline-block;
 		vertical-align: middle;
@@ -413,7 +416,7 @@
 		position: absolute;
 		display: flex;
 		left: 4.5%;
-		width: 110px;
+		width: 140px;
 		height: 30px;
 		background: rgba(255, 238, 201, 1);
 		opacity: 1;
@@ -421,7 +424,7 @@
 	}
 
 	.tagsButton .text {
-		width: 80px;
+		width: 110px;
 		height: 30px;
 		font-size: 14px;
 		font-family: Source Han Sans CN;
@@ -470,18 +473,19 @@
 	}
 
 	.userInfo {
-		position: relative;
+		display: flex;
+		position: absolute;
 		width: 100%;
 		height: 17px;
 		margin-top: 8px;
 	}
 
-	.userInfo image {
+	/* .userInfo image {
 		position: absolute;
 		width: 17px;
 		height: 17px;
 		border-radius: 50%;
-	}
+	} */
 
 	.userid_mainpagetop {
 		position: absolute;

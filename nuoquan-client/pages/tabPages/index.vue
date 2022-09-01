@@ -70,15 +70,15 @@
 
 		onLoad() {
 			console.log('this.getnavbarHeight()=' + this.getnavbarHeight());
-			// var userInfo = this.getGlobalUserInfo();
-			// if (this.isNull(userInfo)) {
-			// 	uni.redirectTo({
-			// 		url: '../signin/signin'
-			// 	});
-			// 	return;
-			// } else {
-			// 	this.userInfo = userInfo; // 刷去默认值(若有)
-			// }
+			var userInfo = this.getGlobalUserInfo();
+			if (this.isNull(userInfo)) {
+				uni.redirectTo({
+					url: '../signin/signin'
+				});
+				return;
+			} else {
+				this.userInfo = userInfo; // 刷去默认值(若有)
+			}
 			this.updateLatestLoginTime(); //更新登陆时间
 
 			this.mySocket.init(); // 初始化 Socket, 离线调试请注释掉
@@ -103,7 +103,25 @@
 				}
 			});
 		},
-
+		
+		onShareAppMessage(res) {
+			if (res.from === 'menu'){
+				return{
+					title: '来轮滑看看吧',
+					path: '/pages/tabPages/index.vue'
+				}
+			}
+		},
+		
+		onShareTimeline(res){
+			if (res.from === 'menu'){
+				return{
+					title: '来轮滑看看吧',
+					path: '/pages/tabPages/index.vue'
+				}
+			}
+		},
+		
 		onUnload() {
 			// 移除监听刷新事件
 			uni.$off('flash');
@@ -150,7 +168,7 @@
 						loadArticleFlag = false; // 解锁
 						uni.hideLoading();
 						uni.showToast({
-							title: '网络未知错误',
+							title: this.lang.networkError,
 							icon: 'none',
 							duration: 1000
 						});
@@ -200,6 +218,7 @@
 			},
 
 			loadMore: function() {
+				// nq-tabbar.selectIcon = '/static/icon/arrow-up-FFFFF.png'
 				var that = this;
 				var currentPage = that.currentPage;
 				console.log(currentPage);
@@ -209,7 +228,7 @@
 				if (currentPage == totalPage) {
 					// that.showArticles(1);
 					uni.showToast({
-						title: '没有更多文章了',
+						title: '没有更多文章咯',
 						icon: 'none',
 						duration: 1000
 					});
@@ -315,6 +334,7 @@
 				// console.log( y + "scrollTop" )
 				// console.log(timer + "//  timer");
 				var that = this;
+				// 当下滑超过160后，顶部热门讨论及标签部分全部向上隐藏
 				if (y >= 160) {
 					that.roleup = true;
 					// console.log(that.roleup);

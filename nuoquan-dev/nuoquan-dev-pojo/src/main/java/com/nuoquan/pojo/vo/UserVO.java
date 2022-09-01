@@ -4,6 +4,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nuoquan.utils.EncryptUtils;
 
 public class UserVO {
  
@@ -44,6 +45,8 @@ public class UserVO {
     private Date latestLogin;
 
     private boolean isFollow; // 是否关注该用户
+
+    private Integer authType; // 认证类型
     
     
     /**
@@ -64,6 +67,10 @@ public class UserVO {
      * @return email
      */
     public String getEmail() {
+//        return email;
+        if (email!=null && !email.endsWith("@nottingham.edu.cn")){
+            email = EncryptUtils.base64Decode(email);
+        }
         return email;
     }
 
@@ -315,4 +322,12 @@ public class UserVO {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+
+    public Integer getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(Integer authType) {
+        this.authType = authType;
+    }
 }

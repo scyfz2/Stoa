@@ -10,12 +10,15 @@
 		<!-- 用户信息行 -->
 		<view class="userLine hor_center">
 			<image :src="pathFilter(thisArticle.faceImg)" class="touxiang" @tap.stop="goToPersonPublic(thisArticle.userId)"></image>
-			<view class="name" @tap.stop="goToPersonPublic(thisArticle.userId)">{{ thisArticle.nickname }}</view>
+			<view class="name">
+				<view @tap.stop="goToPersonPublic(thisArticle.userId)">{{ thisArticle.nickname }}</view>
+				<image v-if="thisArticle.authType == 1 || thisArticle.authType == 2" src="../static/icon/auth.png" class="authLogo" ></image>
+			</view>
 			<view class="time" :style="timeLeft">{{ timeDeal(thisArticle.createDate) }}</view>
 		</view>
 		<!-- 标题 -->
 		<view>
-			<text selectable="true" class="title">{{ thisArticle.articleTitle }}</text>
+			<text v-if="!isNull(thisArticle.articleTitle)" selectable="true" class="title">{{ thisArticle.articleTitle }}</text>
 			<!-- <view class="briefarticleCard">{{ thisArticle.articleContent }}</view> -->
 		</view>
 		<!-- 标签行 -->
@@ -122,6 +125,7 @@ export default {
 			heightWidthRate: 0,
 			imgList: [],
 			thisArticle: this.articleCard, // 转为局部变量
+			articleUser: '',
 			tagColorList: [], // 储存每个tag的颜色
 			timeLeft: '',
 			isfunCom: false,//显示搞笑大赛图标
@@ -129,6 +133,8 @@ export default {
 	},
 
 	created() {
+		// queryUser()
+		
 		// console.log(this.thisArticle);
 		if (this.thisArticle.imgList.length > 3) {
 			// 只取前三
@@ -212,7 +218,7 @@ export default {
 		// 		}
 		// 	}
 		// },
-		swtichIsLike(){
+		switchIsLike(){
 			this.thisArticle.isLike = !this.thisArticle.isLike;
 		},
 		
@@ -241,7 +247,7 @@ export default {
 				success: res => {
 					console.log(res);
 					if (res.data.status == 200){
-						this.swtichIsLike();
+						this.switchIsLike();
 						this.thisArticle.likeNum++;
 					}
 				}
@@ -253,7 +259,7 @@ export default {
 			var that = this;
 			uni.request({
 				method: 'POST',
-				url: that.$serverUrl + '/social/userUnlike',
+				url: that.$serverUrl + '/social/userUnLike',
 				data: {
 					userId: that.userInfo.id,
 					targetType: "ARTICLE",
@@ -265,7 +271,7 @@ export default {
 				success: res => {
 					console.log(res);
 					if (res.data.status == 200){
-						this.swtichIsLike();
+						this.switchIsLike();
 						this.thisArticle.likeNum--;
 					}
 				}
@@ -306,6 +312,28 @@ export default {
 		buttomCaculation(timeWidth) {
 			var bottmWidth = this.$refs.articleCard.offsetWidth;
 			console.log(bottmWidth);
+		},
+		
+		queryUser(){
+			console.log('query user');
+			var that = this;
+			uni.request({
+				method:'POST',
+				url:that.$serverUrl + '/queryUser',
+				data:{
+					// userId = that.thisArticle.userId,
+					userId: that.thisArticle.userId,
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res);
+					if (res.data.status == 200){
+						
+					}
+				}
+			})
 		}
 	}
 };
@@ -330,7 +358,6 @@ image {
 	background-color: rgba(255, 255, 255, 1);
 	/* box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.16); */
 	opacity: 1;
-	border-radius: 8px;
 	border-bottom: 1px solid rgba(236,236,236,1);
 }
 
@@ -338,11 +365,11 @@ image {
 	width: calc(100% - 34px);
 	font-size: 17px;
 	font-family: Source Han Sans CN;
-	line-height: 21px;
+	line-height: 24px;
 	color: rgba(74, 74, 74, 1);
 	opacity: 1;
 	font-weight: 550;
-	margin: 8px 17px 12px 17px;
+	margin: 8px 17px 10px 17px;
 	/* 保证文章正常显示 */
 	word-wrap: break-word;
 	word-break: break-all;
@@ -363,7 +390,7 @@ image {
 	font-weight: 400;
 	margin: 12px 17px 12px 17px;
 	color: rgba(53, 53, 53, 1);
-	line-height:16px;
+	line-height:22px;
 	/* 保证文章正常显示 */
 	word-wrap: break-word;
 	word-break: break-all;
@@ -429,13 +456,14 @@ image {
 	} */
 
 .name {
+	display: flex;
 	position: absolute;
 	left: 57px;
 	top: 0;
 	font-size:14px;
 	font-family:Source Han Sans CN;
 	font-weight:500;
-	line-height:14px;
+	line-height:19px;
 	color:rgba(53,53,53,1);
 	opacity:1;
 	/* max-width: 24%; */
@@ -537,6 +565,11 @@ image {
 	background-color: rgba(74,74,74,1);
 	opacity: 0.5;
 	z-index: 10;
+}
+.authLogo {
+	width: 15px;
+	height: 15px;
+	margin-left: 5px;
 }
 
 </style>

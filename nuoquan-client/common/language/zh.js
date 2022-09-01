@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'zh-CN',
 	
-	tabbarName : ["轮滑","探索","动态","我的"],
+	tabbarName : ["轮滑","迎新","","动态","我的"],
 	tabList : ["发文章","发投票"],
 	version : "v1.1.1",
 	back : "返回",
@@ -10,6 +10,8 @@ module.exports = {
 	submit : "发表",
 	delete : "删除",
 	time : "时间",
+	// 防止评论hot冲突
+	hotcomment:"热门",
 	hot : "热度",
 	all : "所有",
 	follow : "关注",
@@ -33,19 +35,38 @@ module.exports = {
 	yes:"是",
 	no:"否",
 	
+	// 注册页面
+	welcome1: "亲爱的 同学，",
+	welcome2:"欢迎回家，",
+	welcome3:"请您先接受《用户协议》。",
+	lastStep:"最后一步，",
+	certificateEmail:"请认证您的UNNC邮箱。",
+	
 	//登陆
 	isReadProtocol : "我已阅读并同意遵守",
 	userProtocol : "《用户协议》",
 	wechatLogin : "微信绑定",
 	emailAuth : "邮箱认证",
+	logining: "正在登陆",
 	finishLogin : "登陆完成",
 	emailPrompt : " 请输入 UNNC 邮箱",
 	captcha : " 验证码",
 	getCaptcha : "获取验证码",
 	waitCaptcha : "重新发送 (SECORD)",
-	
+	guestLogin: "游客登录",
+	notUNNCEmail: "非 UNNC 邮箱地址！",
+	notEmptyEmail: "邮箱不能为空",
+	certificateFail:"验证失败",
+	repeatEmail:"邮箱已被注册",
+	emptyCaptcha:"验证码为空",
 	//主页
 	viewAllHot: "查看全部 >",
+	
+	// 轮滑
+	hot: "热门讨论",
+	viewAll: "查看全部",
+	tagSelected: "标签筛选",
+	noMoreArticles: "没有更多文章了...",
 	
 	//新建按钮
 	postArticle: "发帖子",
@@ -59,9 +80,9 @@ module.exports = {
 	addTags : "添加标签",
 	
 	//详情页&长文章详情
-	sharetoMoments: "分享到朋友圈",
+	sharetoMoments: "保存图片",
 	menu_more:"更多",
-	share:"分享",
+	report:"举报",
 	collect:"收藏",
 	backToTop:"返回顶部",
 	backToLastPage:"回到上页",
@@ -81,7 +102,7 @@ module.exports = {
 	engageComment: "评论点什么吧......",
 	
 	//新建文章&投票
-	addTitle: "添加标题",
+	addTitle: "添加标题（选填）",
 	optionContent: "选项内容",
 	addDescription : "添加描述",
 	postDraftModal:"是否继续上次编辑？",
@@ -104,6 +125,10 @@ module.exports = {
 	
 	//我的消息
 	myMessage : "动态",
+	likedYourArticle: "点赞了你的文章",
+	commentedYourArticle: "评论了你的文章",
+	likedYourComment: "点赞了你的评论",
+	replyYourComment: "回复了你的评论",
 	
 	//我的
 	chinese: "中",
@@ -120,7 +145,7 @@ module.exports = {
 	like : "点赞",
 	comment : "评论",
 	editSignature: "请打开“个人信息”编辑个性签名",
-	
+	deleteHint: "<--左滑删除帖子",
 	
 	//我的发布
 	passCheck: '审核通过',
@@ -151,7 +176,7 @@ module.exports = {
 	schoolEmail : "学校邮箱",
 	noEmail: "未绑定邮箱",
 	changeEmail : "更改邮箱",
-	genderList : ["女", "男","未知"], //顺序请和数据库保持一致
+	genderList : ["女", "男", "其他", "未知"], //顺序请和数据库保持一致
 	degreeList : ["高中", "本科", "研究生"], //顺序请和数据库保持一致
 	relevantInfo: "关联信息",
 	editInfo: "点击对应文字修改信息",
@@ -160,6 +185,7 @@ module.exports = {
 	
 	
 	//他人页
+	personalHome: "个人主页",
 	whosHome : "的主页",
 	lazyNoSignature: "这个人很懒，什么都没写哦~",
 	
@@ -181,4 +207,23 @@ module.exports = {
 	redWallEvent: '红墙摄影大赛',
 	voteCount: '票',
 	voteToLastTeam: '，距上一名还差',
+	
+	// toast相关
+	loading: "载入中...",
+	networkError: "网络未知错误",
+	waiting: "请等待...",
+	developing: "开发小哥正在玩命实现中...",
+	
+	// iweek相关
+	iweek: "新生",
+	functionList : ["社团组织","我的课程","校园地图","吃喝玩乐"],
+	dailySchedule : "每日日程",
+	noMore: "没有更多了",
+	organizationList:"校内组织",
+	organizationDetail:"组织详情",
+	date: '日期',
+	time: '时间',
+	venue: '地点',
+	targetStudent: '面向学生',
+	eventsType: '活动类型',
 }

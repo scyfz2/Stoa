@@ -1,4 +1,4 @@
-const request = {
+ const request = {
 	namespaced: false,
 	state: {
 		API:{
@@ -75,7 +75,7 @@ const request = {
 				},
 				success: res => {
 					if(res.data.status == 200){
-						debugger;
+						//debugger;
 						
 						payload.success(res.data.data.rows);
 						context.commit('hideLoading');

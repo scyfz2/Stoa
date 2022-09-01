@@ -13,6 +13,9 @@
 			"path": "pages/tabPages/messagelist",
 			"style": {}
 		}, {
+			"path":"pages/tabPages/iweek",
+			"style":{}
+		}, {
 			"path": "pages/submit/submit",
 			"style": {}
 		}, {
@@ -78,12 +81,79 @@
 		}, {
 			"path": "pages/test/test",
 			"style": {}
-		}, {
-			"path": "pages/officialAccountList/officialAccountList",
-			"style": {}
-		}
-
-	],
+		},{
+            "path" : "pages/authLogin/authLogin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/schedule/schedule",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/schedule-card/schedule-card",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/schedule-detail/schedule-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/swiper-date/swiper-date",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/Iweek/organizationList/organizationList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/iweek-components/organizationCard/organizationCard/organizationCard",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/Iweek/organizationDetail/organizationDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 
 	"subPackages": [{
 	        "root": "pagesSubA",
@@ -91,18 +161,12 @@
 	            "path": "detail/detail",
 	            "style": {}
 	        },{
-	            "path": "longArticleDetail/longArticleDetail",
-	            "style": {}
-	        },{
 	            "path": "hot/hot",
 	            "style": {}
 	        },{
 	            "path": "personpublic/personpublic",
 	            "style": {}
-	        },{
-				"path" : "longArticleComment/longArticleComment",
-				"style" : {}
-			}, {
+	        }, {
 			"path": "topList/topList",
 			"style": {}
 			}]
@@ -119,10 +183,10 @@
 			"network": "all",
 			"packages": ["__APP__"]
 		},
-		"pagesSubA/longArticleDetail/longArticleDetail": {
-			"network": "all",
-			"packages": ["__APP__"]
-		},
+		// "pagesSubA/longArticleDetail/longArticleDetail": {
+		// 	"network": "all",
+		// 	"packages": ["__APP__"]
+		// },
 		"pagesSubA/hot/hot": {
 			"network": "all",
 			"packages": ["__APP__"]
@@ -131,10 +195,10 @@
 			"network": "all",
 			"packages": ["__APP__"]
 		},
-		"pagesSubA/longArticleComment/longArticleComment": {
-			"network": "all",
-			"packages": ["__APP__"]
-		},
+		// "pagesSubA/longArticleComment/longArticleComment": {
+		// 	"network": "all",
+		// 	"packages": ["__APP__"]
+		// },
 		"pagesSubEvent/eventVote/eventVote": {
 			"network": "all",
 			"packages": ["pagesSubEvent"]
@@ -154,10 +218,10 @@
 			"selectedIconPath": "static/icon/star.png",
 			"text": "主页"
 		}, {
-			"pagePath": "pages/tabPages/votePage",
+			"pagePath": "pages/tabPages/iweek",
 			"iconPath": "static/icon/star.png",
 			"selectedIconPath": "static/icon/star.png",
-			"text": "投票"
+			"text": "新生"
 		}, {
 			"pagePath": "pages/tabPages/messagelist",
 			"iconPath": "static/icon/star.png",
@@ -280,14 +344,6 @@
 				"name": "我的收藏",
 				"path": "pages/myFavorite/myFavorite",
 				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}, {
-				"path": "pages/submit/submitLongArticle",
-				"name": "新建长文章",
-				"query": ""
-			}, {
-				"path": "pagesSubA/longArticleDetail/longArticleDetail",
-				"name": "长文章详情",
-				"query": "data=2008090NZ43XRDS8"
 			}, {
 				"path": "pages/adWebPage/adWebPage",
 				"name": "广告网页webview",

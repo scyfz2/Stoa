@@ -147,7 +147,7 @@
 						this.voteOptions.length, "@",
 						this.voteOptions[2],"@",
 						);
-						debugger;
+						// debugger;
 				uni.setStorage({
 					key: _this.userInfo.id + ':draftVote',
 					data: {

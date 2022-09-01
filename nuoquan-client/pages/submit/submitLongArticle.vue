@@ -49,8 +49,8 @@ Date: 17 Aug, 2020
 			<button v-if="!componentsEditable&&savedArticleContent.length != 0" class="submit-button" :class="{'choosingStatusButton':showTypeSelector}"
 			 @tap="submitLongArticle">{{ lang.submit }}</button>
 			<button v-if="!componentsEditable&&savedArticleContent.length != 0" class="submit-button" @tap="controlComponentsDisplayMode()">编辑</button>
-			<button v-if="componentsEditable" class="submit-button" @tap="controlComponentsDisplayMode()">退出编辑</button>
-
+			<button v-if="componentsEditable"  class="submit-button" @tap="controlComponentsDisplayMode()">退出编辑</button>
+			<view style="width: 100%; height: 200px;"></view>
 		</view>
 		<modal></modal>
 	</view>
@@ -305,14 +305,14 @@ Date: 17 Aug, 2020
 							},
 							fail: res => {
 								console.log(res);
-								debugger;
+								// debugger;
 							},
 						});
 					}
 				});
 			},
 			chooseContentVideo: async function() {
-				debugger;
+				// debugger;
 				var that = this;
 				uni.chooseVideo({
 					sourceType: ['album'],

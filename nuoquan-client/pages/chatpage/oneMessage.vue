@@ -143,7 +143,7 @@
 	}
 
 	.contentText-send {
-		
+		min-width: 100upx;
 		font-size: 12px;
 		word-break: break-all;
 		white-space: pre-line;
@@ -183,6 +183,7 @@
 	}
 
 	.contentText-recieve {
+		min-width: 100upx;
 		max-width: 400upx;
 		font-size: 12px;
 		word-break: break-all;

@@ -1,5 +1,7 @@
 package com.nuoquan.pojo.vo;
 
+import io.swagger.models.auth.In;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
 import java.util.Date;
@@ -74,6 +76,16 @@ public class NotifyRemindVO {
      */
     private Object source;
     private Object target;
+
+    public Integer getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(Integer authType) {
+        this.authType = authType;
+    }
+
+    private Integer authType;
 
     /**
      * @return id
