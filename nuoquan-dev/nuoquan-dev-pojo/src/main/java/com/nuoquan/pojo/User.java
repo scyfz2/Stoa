@@ -1,5 +1,6 @@
 package com.nuoquan.pojo;
 
+import com.nuoquan.utils.EncryptUtils;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -99,6 +100,9 @@ public class User {
      * @param email
      */
     public void setEmail(String email) {
+        if (email!=null && email.endsWith("@nottingham.edu.cn")){
+            email = EncryptUtils.base64Encode(email);
+        }
         this.email = email;
     }
 

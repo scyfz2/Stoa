@@ -10,12 +10,12 @@ import com.nuoquan.pojo.OrganizationImage;
 import com.nuoquan.pojo.vo.OrganizationVO;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class OrganizationServiceImpl implements OrganizationService{
     @Autowired
     private OrganizationImageMapper organizationImageMapper;
     @Autowired
-    private SensitiveFilterServiceImpl sensitiveFilterService;
+    private SensitiveFilterUtil sensitiveFilterUtil;
 
     /**
      * 将Organization转换为OrganizationVO 并为组织添加VO属性
@@ -52,11 +52,12 @@ public class OrganizationServiceImpl implements OrganizationService{
         // 添加图片列表
         organizationVO = addOrganizationImage(organizationVO);
         organizationVO.setLogoPath(resourceService.composeUrl(organizationVO.getLogoPath()));
+
         // 敏感词检测
-        organizationVO.setIntro(sensitiveFilterService.checkSensitiveWord(organizationVO.getIntro()));
-        organizationVO.setName(sensitiveFilterService.checkSensitiveWord(organizationVO.getName()));
-        organizationVO.setActivityIntro(sensitiveFilterService.checkSensitiveWord(organizationVO.getActivityIntro()));
-        organizationVO.setDivision(sensitiveFilterService.checkSensitiveWord(organizationVO.getDivision()));
+        organizationVO.setIntro(sensitiveFilterUtil.filter(organizationVO.getIntro()));
+        organizationVO.setName(sensitiveFilterUtil.filter(organizationVO.getName()));
+        organizationVO.setActivityIntro(sensitiveFilterUtil.filter(organizationVO.getActivityIntro()));
+        organizationVO.setDivision(sensitiveFilterUtil.filter(organizationVO.getDivision()));
         return organizationVO;
     }
 
@@ -188,12 +189,14 @@ public class OrganizationServiceImpl implements OrganizationService{
     /**
      * 将图片存入数据库
      * @param organizationImage
+     * @return 图片id
      */
     @Override
-    public void saveOrganizationImages(OrganizationImage organizationImage) {
+    public String saveOrganizationImage(OrganizationImage organizationImage) {
         String id = sid.nextShort();
         organizationImage.setId(id);
         organizationImageMapper.insertSelective(organizationImage);
+        return id;
     }
 
 

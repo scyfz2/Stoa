@@ -34,8 +34,8 @@ public class ArticleController extends BasicController {
 			// userId 查询用户和文章的点赞关系
 			// dataType 为 String, 应该改为 Integer
 			@ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "page", value = "页数", required = true, dataType = "Integer", paramType = "form"),
+			@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "queryType", value = "排列方式", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "orderType", value = "排列方式", required = true, dataType = "Integer", paramType = "form"),
 			@ApiImplicitParam(name = "selectedTag", value = "选择的标签", required = false, dataType = "String", paramType = "form")
@@ -115,13 +115,16 @@ public class ArticleController extends BasicController {
 		if(pageSize == null) {
 			pageSize = PAGE_SIZE;
 		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
 		if(userId.equals(targetId)) {
 			// 查询所有状态的文章
 			PagedResult result = articleService.getAllMyHisArticle(page, pageSize, userId);
 			finalResult = result;
 		} else if (!userId.equals(targetId)) {
 			// 查询他人文章状态为1的文章
-			PagedResult result = articleService.gerOtherslegalHisArticle(page, pageSize, userId, targetId);
+			PagedResult result = articleService.getOthersLegalHisArticle(page, pageSize, userId, targetId);
 			finalResult = result;
 		}
 
@@ -291,7 +294,7 @@ public class ArticleController extends BasicController {
 			// uniapp使用formData时，paramType要改成form
 			@ApiImplicitParam(name="userId", value="作者id", required=true, dataType="String", paramType="form"),
 			@ApiImplicitParam(name="articleTag", value="文章标签", required=false, dataType="String", paramType="form"),
-			@ApiImplicitParam(name="articleTitle", value="文章题目", required=true, dataType="String", paramType="form"),
+			@ApiImplicitParam(name="articleTitle", value="文章题目", required=false, dataType="String", paramType="form"),
 			@ApiImplicitParam(name="articleContent", value="文章内容", required=true, dataType="String", paramType="form")
 	})
 	@PostMapping(value="/uploadArticle")
@@ -300,6 +303,10 @@ public class ArticleController extends BasicController {
 		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
 			return JSONResult.errorMsg("Id can't be null");
 		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		boolean isLegal = false;
 		// 保存文章信息到数据库
 		Article article = new Article();
@@ -343,6 +350,9 @@ public class ArticleController extends BasicController {
 	@PostMapping(value="/uploadArticleImg")
 	public JSONResult uploadArticleImg(String userId ,String articleId, String order, @ApiParam(value="file", required=true) MultipartFile file) throws Exception {
 
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
 		if (StringUtils.isNoneBlank(userId) && file != null) {
 			// 判断是否超出大小限制
 			if (file.getSize() > MAX_IMAGE_SIZE) {
@@ -560,6 +570,9 @@ public class ArticleController extends BasicController {
 		}
 		if(pageSize == null) {
 			pageSize = PAGE_SIZE;
+		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
 		}
 
 		// 查询targetId收藏状态为1的文章

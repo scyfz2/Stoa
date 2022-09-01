@@ -6,6 +6,7 @@ import com.nuoquan.pojo.ChatMsg;
 import com.nuoquan.pojo.User;
 import com.nuoquan.pojo.netty.ChatMessage;
 import com.nuoquan.pojo.vo.UserVO;
+import com.nuoquan.utils.PagedResult;
 
 public interface UserService {
 	/**
@@ -14,13 +15,20 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean checkIdIsExist(String id);
-	
+
 	/**
-	 * @Description: 判断昵称是否存在
-	 * @param nickname
-	 * @return
+	 * @param nickname 昵称
+	 * @return true:昵称不存在，可以使用；false: 昵称存在，需要更换
+	 * @Description: 判断nickname是否已经存在
 	 */
 	public boolean checkNicknameIsExist(String nickname);
+
+	/**
+	 * @param email 邮箱
+	 * @return true：邮箱未绑定，可以绑定；false: 邮箱已绑定
+	 * @Description: 判断email所属用户 是否已经存在
+	 */
+	public boolean checkEmailIsExist(String email);
 	
 	/**
 	 * 保存用户（用户注册）
@@ -104,6 +112,14 @@ public interface UserService {
 	 */
 	public List<ChatMsg> getUnsignedChat(String acceptUserId);
 
+
+	/**
+	 * 通过email获取用户id
+	 * @param userId
+	 * @return
+	 */
+	public String getUserByEmail(String userId);
+
 	/**
 	 * 更新用户的影响力数值
 	 * @param userId
@@ -130,4 +146,19 @@ public interface UserService {
 	 * @param userId
 	 */
 	public void reduceReceiveLikeCount(String userId);
+
+	/**
+	 * 判断用户名是否合法
+	 */
+	public boolean CheckNicknameIsLegal(String nickName);
+	
+	/*
+	 * 查询所有用户
+	 */
+	public PagedResult listAllUsers(Integer page, Integer pageSize);
+
+	/*
+	 * 搜索用户
+	 */
+	public PagedResult searchUserYang(Integer page, Integer pageSize, String searchText, String userId);
 }

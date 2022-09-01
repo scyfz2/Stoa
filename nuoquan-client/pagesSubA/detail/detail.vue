@@ -23,7 +23,7 @@
 		<!--第一个大块二，评论区域-->
 
 		<commentarea class="comment-area" :commentList="commentList" :commentNum="articleCard.commentNum" @onChange="changeType"
-		 @like="swLikeComment" @goToCommentDetail="goToCommentDetail"></commentarea>
+		 @like="swLikeComment" @goToCommentDetail="goToCommentDetail" :articleId="articleId" :userInfo="userInfo"></commentarea>
 		<view style="width:100%;height:88px;"></view><!--占位块，上下对称-->
 		<view v-if="showInput" style="width: 100%;height: 160px;"></view><!-- 占位，评论框弹起出现 -->
 		<!--触底提示和功能  start-->
@@ -74,9 +74,9 @@
 				{{lang.menu_more}}
 			</view>
 			<view class="menu_more_items" v-if="menu_status.more">
-				<view class="menu_more_item" @tap="toggleShare(),toggleMenu('reset')">
-					<image src="../../static/icon/share-alt-888888.png"></image>
-					{{lang.share}}
+				<view class="menu_more_item" @tap="reportArticle(),toggleMenu('reset')">
+					<image src="../../static/icon/report-alt.png"></image>
+					{{lang.report}}
 				</view>
 				<view class="menu_more_item" @tap="toggleCollect(),toggleMenu('reset')">
 					<image v-if="!articleCard.isCollect" src="../../static/icon/star-888888.png"></image>
@@ -127,6 +127,7 @@
 			return {
 				userInfo: {},
 				articleCard: '', //detail的主角，由index传过来的单个文章信息
+				articleId:'',
 				commentContent: '', //用户准备提交的评论内容
 				commentList: [], //返回值，获取评论列表信息
 
@@ -178,14 +179,16 @@
 			var userInfo = this.getGlobalUserInfo();
 			if (!this.isNull(userInfo)) {
 				this.userInfo = this.getGlobalUserInfo();
+				// console.log("userinfo++"+this.userInfo.id);
 			} else {
 				uni.redirectTo({
-					url: '../signin/signin'
+					url: '../../pages/signin/signin'
 				});
 				return;
 			}
 
 			var articleId = options.data || options.scene;
+			this.articleId=articleId;
 			// console.log("data="+options.data); //跳转进入
 			// console.log("sence="+options.scene); //扫码进入
 			this.getArticleById(articleId, this.userInfo.id).then(() => {
@@ -223,11 +226,21 @@
 				};
 			}
 		},
+		
+		onShareTimeline(res){
+			if (res.from === 'menu') {
+				// 来自右上角菜单的分享
+				return {
+					title: '速来围观' + this.userInfo.nickname + '的分享',
+					path: '/pagesSubA/detail/detail?data=' + this.articleCard.id
+				};
+			}
+		},
 
 		methods: {
-			toggleShare() { //控制是否显示分享海报
-				this.share = !this.share;
-			},
+			// toggleShare() { //控制是否显示分享海报
+			// 	this.share = !this.share;
+			// },
 			resetInput(e) { //传入组件内的 "isShow"
 				console.log('resetInput' + e);
 				this.commentContent = "";
@@ -601,7 +614,8 @@
 			goToCommentDetail(mainComment) {
 				var data = {
 					mainComment: mainComment,
-					type: "article"
+					type: "article",
+					articleId:this.articleId,
 				}
 				uni.navigateTo({
 					url: '/pages/comment-detail/comment-detail?data=' + encodeURIComponent(JSON.stringify(data))
@@ -705,6 +719,31 @@
 					}
 				});
 			}, //点赞主文章函数结束
+			reportArticle(){
+				console.log('举报文章');
+				var that = this;
+				uni.request({
+					method: 'POST',
+					url: that.$serverUrl + '/Report/reportPublished',
+					data: {
+						userId: that.userInfo.id,
+						targetId: that.articleCard.id,
+						targetType: "ARTICLE",
+					},
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: res => {
+						console.log(res);
+						//this.$emit('swLikeArticleSignal', false);
+						uni.showToast({
+							title:'举报成功',
+							icon:'success',
+							duration:1000,
+						});
+					}
+				});
+			},
 			collectArticle(){
 				console.log('收藏文章');
 				var that = this;

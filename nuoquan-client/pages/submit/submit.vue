@@ -41,7 +41,7 @@
 			:show-confirm-bar="false"/>
 <!-- 			<type-setting :articleContent="articleContent"></type-setting> -->			
 			<view style="position: absolute;bottom: 8px;right:8px;font-size: 11px;color:#888888;">{{ maxContentLength - articleContent.length }}</view>
-			<image src="../../static/icon/emoji.png" style="position: absolute;left:12px;top:8px;width:20px;height:20px;" @click="showToast()"></image>
+			<!-- <image src="../../static/icon/emoji.png" style="position: absolute;left:12px;top:8px;width:20px;height:20px;" @click="showToast()"></image> -->
 		</view>
 
 		<view class="picturearea">
@@ -293,14 +293,14 @@
 			// TODO：图片上传需加上大小限制，后台限制10M
 			upload: function(e) {
 				var me = this;
-				if (this.isBlank(me.articleTitle) || this.isNull(me.articleTitle)) {
-					uni.showToast({
-						icon: 'none',
-						title: '文章标题不能为空～',
-						duration: 1000
-					});
-					return;
-				}
+				// if (this.isBlank(me.articleTitle) || this.isNull(me.articleTitle)) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '文章标题不能为空～',
+				// 		duration: 1000
+				// 	});
+				// 	return;
+				// }
 
 				if (this.isBlank(me.articleContent) || this.isNull(me.articleContent)) {
 					uni.showToast({
@@ -319,7 +319,7 @@
 				uni.showLoading({
 					title: '正在上传...'
 				});
-
+				// debugger
 				setTimeout(() => {
 					var finalTag = this.combineTagToString();
 
@@ -381,19 +381,22 @@
 				uni.hideLoading();
 				this.cleanDraft();
 				uni.$emit('flash'); // 给 index 发送刷新信号
-				uni.navigateBack({
-					delta: 1
-				});
+				// uni.navigateBack({
+				// 	delta: 1
+				// });
+				uni.navigateTo({
+					url: 'pages/tabPages/index'
+				})
 				uni.showToast({
 						title: '已提交审核',
 						duration: 2000,
 						icon: 'success'
-					}),
-					setTimeout(() => {
-						uni.switchTab({
-							url: '/pages/tabPages/index'
-						});
-					}, 1800);
+				}),
+				setTimeout(() => {
+					uni.switchTab({
+						url: '/pages/tabPages/index'
+					});
+				}, 200);
 			},
 
 			uploadFail() {
@@ -610,7 +613,7 @@
 		margin-top: 13px;
 		width: calc(100% - 12px);
 		overflow: scroll;
-		padding: 36px 4px 24px;
+		padding: 16px 4px 24px;
 		border: 2px solid rgba(252, 192, 65, 1);
 		border-radius: 8px;
 		font-size: 14px;

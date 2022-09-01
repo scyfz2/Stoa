@@ -122,9 +122,16 @@ export default {
 	},
 	methods: {
 		onClickLeft() {
-			uni.navigateBack({
-				delta: 1
-			});
+			var current=getCurrentPages()
+			if(current!=1){
+				uni.navigateBack({
+					delta: 1
+				});
+			}else{
+				uni.reLaunch({
+					url:'../../pages/tabPages/index'
+				})
+			}
 		},
 		goIndex(){
 			getApp().globalData.isNavHome = false; 

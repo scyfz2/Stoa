@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'en',
 	
-	tabbarName : ["Home","I-week","Message","Mine"],
+	tabbarName : ["Home","Zone","","Msg","Me"],
 	tabList : ["Post Article","Create Vote"],
 	version : "v1.1.1",
 	back : "Back",
@@ -37,7 +37,7 @@ module.exports = {
 	
 	
 	// 注册页面
-	welcome1: "Dear UNNCer,",
+	welcome1: "Dear Student,",
 	welcome2:"Welcome Home,",
 	welcome3:"Please Accept The User Protocol.",
 	lastStep:"Last step,",
@@ -58,6 +58,7 @@ module.exports = {
 	notUNNCEmail: "It's not an UNNC Email address",
 	notEmptyEmail: "Email cannot be null",
 	certificateFail:"Authentication Failed",
+	repeatEmail:"Email is already bound",
 	emptyCaptcha:"Capcha is null",
 	//主页
 	viewAllHot: "Show All >",
@@ -83,7 +84,7 @@ module.exports = {
 	//详情页&长文章详情
 	sharetoMoments: "Save & Share",
 	menu_more:"More",
-	share:"Share",
+	report:"Report",
 	collect:"Collect",
 	backToTop:"Top",
 	backToLastPage:"Back",
@@ -104,7 +105,7 @@ module.exports = {
 	
 	
 	//新建文章&投票
-	addTitle: "Add title",
+	addTitle: "Add title (Optional)",
 	optionContent: "Option content",
 	addDescription : "Add description",
 	postDraftModal:'Continue with draft of your post ?',
@@ -126,6 +127,10 @@ module.exports = {
 	
 	//我的消息
 	myMessage : "Message",
+	likedYourArticle: "liked your article",
+	commentedYourArticle: "commented your article",
+	likedYourComment: "liked your comment",
+	replyYourComment: "回复了你的评论",
 	
 	//我的
 	chinese: "中",
@@ -181,6 +186,7 @@ module.exports = {
 	editEmail: "Click text to modify email",
 	bindEmail: "Click to bind email",
 	//他人页
+	personalHome: "Personal Home",
 	whosHome : "'s Home",
 	lazyNoSignature: "This signature has losed...",
 	

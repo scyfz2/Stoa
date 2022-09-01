@@ -1,12 +1,9 @@
 package com.nuoquan.service;
 
-import com.nuoquan.pojo.Article;
-import com.nuoquan.pojo.ArticleImage;
 import com.nuoquan.pojo.Organization;
 import com.nuoquan.pojo.OrganizationImage;
 import com.nuoquan.pojo.vo.OrganizationVO;
 import com.nuoquan.utils.PagedResult;
-import java.util.Date;
 
 public interface OrganizationService {
     /**
@@ -57,6 +54,7 @@ public interface OrganizationService {
     /**
      * 保存组织图片
      * @param organizationImage
+     * @return 图片id
      */
-    void saveOrganizationImages(OrganizationImage organizationImage);
+    String saveOrganizationImage(OrganizationImage organizationImage);
 }

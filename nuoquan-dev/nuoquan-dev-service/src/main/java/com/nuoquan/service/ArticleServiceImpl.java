@@ -8,7 +8,9 @@ import com.nuoquan.enums.PostType;
 import com.nuoquan.enums.ReputeWeight;
 import com.nuoquan.mapper.nq1.*;
 import com.nuoquan.pojo.*;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.utils.RedisOperator;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
@@ -54,7 +56,9 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private SocialService socialService;
 	@Autowired
-	private SensitiveFilterServiceImpl sensitiveFilterService;
+	private SensitiveFilterUtil sensitiveFilterUtil;
+	@Autowired
+	private AuthenticatedUserService authenticatedUserService;
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public ArticleVO addArticleImgs(ArticleVO articleVO) {
@@ -69,7 +73,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	/**
-	 * 组装文章VO对象
+	 * 组装文章VO对象（注意：后台调用composeVO时userId为空）
 	 * @param articleVO
 	 * @param userId 操作者（我）
 	 * @return
@@ -80,12 +84,20 @@ public class ArticleServiceImpl implements ArticleService {
 		articleVO.setNickname(userVO.getNickname());
 		articleVO.setFaceImg(userVO.getFaceImg());
 		articleVO.setFaceImgThumb(userVO.getFaceImgThumb());
+        if (authenticatedUserService.checkUserIsAuth(articleVO.getUserId())){
+            AuthenticatedUserVO authenticatedUserVO = authenticatedUserService.getAuthUserByUserId(articleVO.getUserId());
+            articleVO.setAuthType(authenticatedUserVO.getType());
+        } else {
+            articleVO.setAuthType(0);
+        }
 		// 添加图片列表
 		articleVO = addArticleImgs(articleVO);
-		// 添加和关于用户的点赞关系
-		articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
-		// 添加和关于用户的收藏关系
-		articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
+		if (StringUtils.isNotBlank(userId)){
+			// 添加和关于用户的点赞关系
+			articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
+			// 添加和关于用户的收藏关系
+			articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
+		}
 		// 添加标签列表
 		if (!StringUtils.isBlank(articleVO.getTags())) {
 			String[] tagList = articleVO.getTags().split("#");
@@ -99,9 +111,12 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 
 		// 检查是否有屏蔽词并替换
-		articleVO.setArticleContent(sensitiveFilterService.checkSensitiveWord(articleVO.getArticleContent()));
-		articleVO.setArticleTitle(sensitiveFilterService.checkSensitiveWord(articleVO.getArticleTitle()));
-		socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
+		articleVO.setArticleContent(sensitiveFilterUtil.filter(articleVO.getArticleContent()));
+		articleVO.setArticleTitle(sensitiveFilterUtil.filter(articleVO.getArticleTitle()));
+
+		if (StringUtils.isNotBlank(userId)){socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
+		}
+
 
 		return articleVO;
 	}
@@ -497,7 +512,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
-	public PagedResult gerOtherslegalHisArticle(Integer page, Integer pageSize, String userId, String targetId) {
+	public PagedResult getOthersLegalHisArticle(Integer page, Integer pageSize, String userId, String targetId) {
 
 		PageHelper.startPage(page, pageSize);
 		List<ArticleVO> list = articleMapperCustom.queryOthersLegalHisArticle(targetId);

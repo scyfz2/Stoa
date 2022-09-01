@@ -15,8 +15,6 @@ import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.region.Region;
 
-import tk.mybatis.spring.annotation.MapperScan;
-
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class}) //取消加载数据源自动配置
 //@MapperScan(basePackages="com.nuoquan.mapper")
 @ComponentScan(basePackages= {"com.nuoquan", "com.jupiter", "org.n3r.idworker"})

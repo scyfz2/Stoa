@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.nuoquan.enums.StatusEnum;
+import com.nuoquan.mapper.nq1.*;
+import com.nuoquan.pojo.*;
+import com.nuoquan.pojo.vo.ArticleVO;
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
+import com.nuoquan.utils.PageUtils;
+import com.nuoquan.utils.PagedResult;
+import com.nuoquan.utils.SensitiveFilterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
@@ -13,13 +23,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nuoquan.enums.SignFlagEnum;
-import com.nuoquan.mapper.nq1.ChatMsgMapper;
-import com.nuoquan.mapper.nq1.UserFansMapper;
-import com.nuoquan.mapper.nq1.UserFansMapperCustom;
-import com.nuoquan.mapper.nq1.UserMapper;
-import com.nuoquan.pojo.ChatMsg;
-import com.nuoquan.pojo.User;
-import com.nuoquan.pojo.UserFans;
 import com.nuoquan.pojo.netty.ChatMessage;
 import com.nuoquan.pojo.vo.UserVO;
 
@@ -48,7 +51,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ResourceService resourceService;
 	@Autowired
-	private SensitiveFilterServiceImpl sensitiveFilterService;
+	private SensitiveFilterUtil sensitiveFilterUtil;
+	@Autowired
+	private AuthenticatedUserService authenticatedUserService;
 	
 	/**
 	 * 将user转换为UserVO 并为用户添加vo属性
@@ -58,9 +63,7 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(User user) {
 		UserVO userVO = new UserVO();
 		BeanUtils.copyProperties(user, userVO);
-		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
-		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
-		return userVO;
+		return composeUser(userVO);
 	}
 	
 	/**
@@ -71,8 +74,15 @@ public class UserServiceImpl implements UserService {
 	private UserVO composeUser(UserVO userVO) {
 		userVO.setFaceImg(resourceService.composeUrl(userVO.getFaceImg()));
 		userVO.setFaceImgThumb(resourceService.composeUrl(userVO.getFaceImgThumb()));
-		userVO.setNickname(sensitiveFilterService.checkSensitiveWord(userVO.getNickname()));
-		userVO.setSignature(sensitiveFilterService.checkSensitiveWord(userVO.getSignature()));
+		if (authenticatedUserService.checkUserIsAuth(userVO.getId())){
+			AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userVO.getId());
+			userVO.setAuthType(fromAuthenticatedUserVO.getType());
+		} else {
+			userVO.setAuthType(0);
+		}
+		userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
+		userVO.setNickname(sensitiveFilterUtil.filter(userVO.getNickname()));
+		userVO.setSignature(sensitiveFilterUtil.filter(userVO.getSignature()));
 		return userVO;
 	}
 	
@@ -86,13 +96,24 @@ public class UserServiceImpl implements UserService {
 		User result = userMapper.selectOne(user);
 		return result == null ? false : true;
 	}
-	
+
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public boolean checkNicknameIsExist(String nickname) {
 		User user = new User();
 		// 条件
 		user.setNickname(nickname);
+		//判断result是否为空
+		User result = userMapper.selectOne(user);
+		return result == null ? false : true;
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public boolean checkEmailIsExist(String email) {
+		User user = new User();
+		// 条件
+		user.setEmail(email);
 		//判断result是否为空
 		User result = userMapper.selectOne(user);
 		return result == null ? false : true;
@@ -316,6 +337,100 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void reduceReceiveLikeCount(String userId){
 		userMapper.reduceReceiveLikeCount(userId);
+	}
+
+	/**
+	 * 判断用户名是否合法
+	 */
+	@Override
+	public boolean CheckNicknameIsLegal(String nickname){
+		return nickname.equals(sensitiveFilterUtil.filter(nickname));
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public String getUserByEmail(String email) {
+		User user = new User();
+		// 条件
+		user.setEmail(email);
+		//判断result是否为空
+		User result = userMapper.selectOne(user);
+		// 当有多个相同值会报错，需确保email的唯一性
+		return result == null ? null : result.getId();
+
+	}
+
+
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public PagedResult listAllUsers(Integer page, Integer pageSize) {
+
+		// 从controller中获取page和pageSize (经实验，PageHelper 只拦截下一次查询)
+		PageHelper.startPage(page, pageSize);
+
+		Example userExample = new Example(User.class);
+		userExample.setOrderByClause("create_date desc");
+		List<User> list = userMapper.selectByExample(userExample);
+		List<UserVO> newList = new ArrayList<>();
+		for (User a : list) {
+			UserVO userVO = composeUser(a);
+			newList.add(userVO);
+		}
+
+		PageInfo<UserVO> pageList = new PageInfo<>(newList);
+
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(page);
+		pagedResult.setTotal(pageList.getPages());
+		pagedResult.setRows(newList);
+		pagedResult.setRecords(pageList.getTotal());
+
+		return pagedResult;
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS)
+	@Override
+	public PagedResult searchUserYang(Integer page, Integer pageSize,
+										 String searchText, String userId) {
+
+		String[] texts = searchText.split(" ");
+
+		// 开启分页查询并转换为vo对象
+		// 在Example中的每一个Criteria相当于一个括号，把里面的内容当成一个整体
+		Example userExample = new Example(User.class);
+		userExample.setOrderByClause("create_date desc");
+		Criteria criteria = userExample.createCriteria();
+		for(String text : texts) {
+			criteria.orLike("nickname", "%" + text + "%");
+		}
+//
+//		Criteria criteria2 = articleExample.createCriteria();
+//		criteria2.andEqualTo("status", StatusEnum.READABLE.type);
+//		articleExample.and(criteria2);
+
+		PageHelper.startPage(page, pageSize);
+		List<User> list = userMapper.selectByExample(userExample);
+		PageInfo<User> pageInfo = new PageInfo<>(list);
+		PageInfo<UserVO> pageInfoVo = PageUtils.PageInfo2PageInfoVo(pageInfo);
+
+		List<UserVO> listVo = new ArrayList<>();
+		for (User u : list) {
+			UserVO uv = new UserVO();
+			BeanUtils.copyProperties(u, uv); //转换对象
+			uv = composeUser(uv);
+			listVo.add(uv);
+		}
+		pageInfoVo.setList(listVo);
+
+		//为最终返回对象 pagedResult 添加属性
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(pageInfoVo.getPageNum());
+		pagedResult.setTotal(pageInfoVo.getPages());
+		pagedResult.setRows(pageInfoVo.getList());
+		pagedResult.setRecords(pageInfoVo.getTotal());
+
+		return pagedResult;
 	}
 
 }

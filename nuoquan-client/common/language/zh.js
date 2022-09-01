@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'zh-CN',
 	
-	tabbarName : ["轮滑","新生","动态","我的"],
+	tabbarName : ["轮滑","迎新","","动态","我的"],
 	tabList : ["发文章","发投票"],
 	version : "v1.1.1",
 	back : "返回",
@@ -36,7 +36,7 @@ module.exports = {
 	no:"否",
 	
 	// 注册页面
-	welcome1: "亲爱的 UNNCer，",
+	welcome1: "亲爱的 同学，",
 	welcome2:"欢迎回家，",
 	welcome3:"请您先接受《用户协议》。",
 	lastStep:"最后一步，",
@@ -57,6 +57,7 @@ module.exports = {
 	notUNNCEmail: "非 UNNC 邮箱地址！",
 	notEmptyEmail: "邮箱不能为空",
 	certificateFail:"验证失败",
+	repeatEmail:"邮箱已被注册",
 	emptyCaptcha:"验证码为空",
 	//主页
 	viewAllHot: "查看全部 >",
@@ -81,7 +82,7 @@ module.exports = {
 	//详情页&长文章详情
 	sharetoMoments: "保存图片",
 	menu_more:"更多",
-	share:"分享",
+	report:"举报",
 	collect:"收藏",
 	backToTop:"返回顶部",
 	backToLastPage:"回到上页",
@@ -101,7 +102,7 @@ module.exports = {
 	engageComment: "评论点什么吧......",
 	
 	//新建文章&投票
-	addTitle: "添加标题",
+	addTitle: "添加标题（选填）",
 	optionContent: "选项内容",
 	addDescription : "添加描述",
 	postDraftModal:"是否继续上次编辑？",
@@ -124,6 +125,10 @@ module.exports = {
 	
 	//我的消息
 	myMessage : "动态",
+	likedYourArticle: "点赞了你的文章",
+	commentedYourArticle: "评论了你的文章",
+	likedYourComment: "点赞了你的评论",
+	replyYourComment: "回复了你的评论",
 	
 	//我的
 	chinese: "中",
@@ -180,6 +185,7 @@ module.exports = {
 	
 	
 	//他人页
+	personalHome: "个人主页",
 	whosHome : "的主页",
 	lazyNoSignature: "这个人很懒，什么都没写哦~",
 	

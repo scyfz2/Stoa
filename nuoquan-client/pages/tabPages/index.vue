@@ -103,7 +103,25 @@
 				}
 			});
 		},
-
+		
+		onShareAppMessage(res) {
+			if (res.from === 'menu'){
+				return{
+					title: '来轮滑看看吧',
+					path: '/pages/tabPages/index.vue'
+				}
+			}
+		},
+		
+		onShareTimeline(res){
+			if (res.from === 'menu'){
+				return{
+					title: '来轮滑看看吧',
+					path: '/pages/tabPages/index.vue'
+				}
+			}
+		},
+		
 		onUnload() {
 			// 移除监听刷新事件
 			uni.$off('flash');

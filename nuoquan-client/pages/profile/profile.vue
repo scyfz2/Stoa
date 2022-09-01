@@ -23,7 +23,7 @@
 					<!-- <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
 					 name="nickname" maxlength="15" :value="userInfo.nickname" v-if="isEditNickname" /> -->
 					 <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
-					  name="nickname" maxlength="15" :value="userInfo.nickname" v-if="isEditNickname" />
+					  name="nickname" maxlength="12" :value="userInfo.nickname" v-if="isEditNickname" />
 					<view class="line" v-if="isEditNickname"></view>
 				</view>
 				<view class="gender">
@@ -86,19 +86,19 @@
 				</view>
 			</view>
 			<view class="row" v-if="isEditEmail">
-				<input style="color:rgba(53,53,53,1);min-height: unset;width: 80px;height:20px;font-size: 17px;" @blur="confirmCode"
+				<input style="color:rgba(53,53,53,1);min-height: unset;width: 60px;height:20px;font-size: 14px;"
 				 v-if="isEditEmail&& showCaptcha" maxlength="6" :placeholder="lang.captcha" @input="onCaptcha" />
-				<whCaptcha style="display: inline-block;" class="waiting" ref="captcha" :secord="60" :title="lang.getCaptcha"
+				<whCaptcha style="display: block;" class="waiting" ref="captcha" :secord="60" :title="lang.getCaptcha"
 				 :waitTitle="lang.waitCaptcha" normalClass="editEmail" disabledClass="waiting60s" @click="getCaptcha" v-if="isEditEmail"></whCaptcha>
-				
-				 <!-- Author: Yifei
+				 <!-- <whCaptcha style="display: inline-block;" class="waiting" ref="captcha" :secord="60" :title="lang.getCaptcha"
+				  :waitTitle="lang.waitCaptcha" normalClass="editEmail" disabledClass="waiting60s" @click="getCaptcha" v-if="isEditEmail"></whCaptcha> -->
+				  <!-- Author: Yifei
 				 Date: July 6,2022
 				 Description: 个人信息内，关联信息功能，输入验证码后没有“邮箱绑定”按钮，只能通过回车确认
 				 TODO: 加一个按钮，用于邮箱绑定功能，暂时不太会写写不出来 -->
-				<!-- <button class="confirm-button-checked" hover-class="hoverColorYellow" @click="confirmCode">
-					<view style="color: white;font-weight: 100;letter-spacing: 3px;font-family: Microsoft YaHei;">{{lang.emailAuth}}</view>
-				</button> -->
-				
+				<view v-if="isEditEmail&&showCaptcha" class="confirm-button-checked" @click="confirmCode">
+					{{lang.emailAuth}}
+				</view>
 			</view>
 		</view>
 	</view>
@@ -131,8 +131,8 @@
 			}
 
 			// major
-			const majors = ['','AEE', 'ABE', 'CS', 'CEE', 'CIVE', 'EG', 'ECON', 'EEE', 'ENGL', 'GEOG', 'IC', 'IS', 'MATH', 'PDM', 'NUBS'];
-
+			const majors = ['','AE','AEE','Arch','ChE','Chem','CE','CS','CSAI','Eco','EEE','ELAL','ELL','EIB','EE','ES','FAM','IBE','IBM','IBC','IBL','IC','ICL','IET','IS','ISL','MAM','ME','PDM','Sta'];
+			
 			// degree 顺序和数据库保持一致
 			const degrees = ['高中', '本科', '研究生'];
 
@@ -178,10 +178,9 @@
 		computed: {
 			...mapState(['lang'])
 		},
-		onLoad() {
+onLoad() {
 			// 一次性储存 navbar 高度
 			this.navbarHeight = this.getnavbarHeight().bottom + 5;
-
 			this.userInfo = this.getGlobalUserInfo();
 			//按语言切换默认列表
 			this.degrees = this.lang.degreeList;
@@ -193,7 +192,6 @@
 			var major = this.userInfo.major;
 			var degree = this.userInfo.degree;
 			this.signature = this.userInfo.signature;
-
 			if (gender != null ) {
 				// 判空，防止默认值被刷掉
 				this.gender = gender;
@@ -203,16 +201,13 @@
 			if (year != null) {
 				this.year = year;
 			}
-
 			if (major != null) {
 				this.major = major;
 			}
-
 			if (degree != null) {
 				this.degree = this.degrees[degree];
 				this.degreeDB = degree; // 修改对数据库的默认值
 			}
-
 			this.email = this.userInfo.email; // 改绑邮箱默认值
 			
 		},
@@ -220,10 +215,9 @@
 			if (this.needUpdateFlag) {
 				this.formSubmit();
 			}
-
 		},
 		methods: {
-			pickerChange(res) {
+pickerChange(res) {
 				this.needUpdateFlag = true;
 				if (res.mode == 'major') {
 					this.major = res.newPickerValue;
@@ -240,7 +234,6 @@
 				this.gender = gender;
 				this.formSubmit();
 			},
-
 			toggleIsEditNickname() {
 				this.isEditNickname = !this.isEditNickname;
 				this.isEditGender = false;
@@ -286,6 +279,7 @@
 					});
 					this.nickname = this.userInfo.nickname;
 				}
+				
 				if (this.signature == "") {
 					uni.showToast({
 						title: '个性签名不能为空',
@@ -294,6 +288,11 @@
 					});
 					this.signature = this.userInfo.signature;
 				}
+				// Date: Aug 30, 2022
+				// Author: Yifei
+				// Description: 暂存原先的昵称，若新昵称不合规，则还是显示原昵称
+				var pastNickname = this.getGlobalUserInfo().nickname;
+				// console.log(pastNickname)
 
 				var data = {
 					id: this.userInfo.id,
@@ -306,6 +305,7 @@
 					signature: this.signature
 				};
 				console.log(data);
+				// debugger
 				var that = this;
 				uni.request({
 					url: this.$serverUrl + '/user/updateUser',
@@ -323,6 +323,17 @@
 							that.userInfo = finalUser; // 更新页面用户数据
 							console.log(this.userInfo);
 							that.needUpdateFlag = false;
+						}
+						else if (res.data.status == 555) {
+							uni.showToast({
+								title: "昵称不合法",
+								duration: 1000,
+								icon: 'error'
+							});
+							// Date: Aug 30, 2022
+							// Author: Yifei
+							// Description: 若昵称不合规，返回原来的名称
+							data.nickname = pastNickname;
 						}
 					}
 				});
@@ -387,7 +398,13 @@
 									'content-type': 'application/x-www-form-urlencoded'
 								},
 								success: res => {
-									console.log(res);
+									if (res.data.status == 555){
+										uni.showToast({
+											title: '该邮箱已绑定',
+											icon:'error',
+											duration:2000,
+										})
+									}
 								}
 							});
 						}
@@ -660,6 +677,7 @@
 	}
 
 	.row {
+		position: static;
 		display: flex;
 		width: 200px;
 		justify-content: space-between;
@@ -668,11 +686,10 @@
 		vertical-align: middle;
 		padding-bottom: 15px;
 		margin-left: 10%;
-
 	}
 
 	.editEmail {
-		margin-right: 10px;
+		/* margin-right: 10px; */
 		vertical-align: bottom;
 		width: 97px;
 		height: 26px;
@@ -684,12 +701,12 @@
 		font-weight: 400;
 		line-height: 26px;
 		color: rgba(255, 255, 255, 1);
-
 	}
 
 	.waiting60s {
+		/* position: absolute; */
 		text-align: center;
-		width: 120px;
+		width: 100px;
 		height: 26px;
 		border: 1px solid rgba(236, 236, 236, 1);
 		opacity: 1;
@@ -707,8 +724,7 @@
 		height: 0px;
 		border: 1px solid rgba(255, 207, 107, 1);
 	}
-</style>
-<style>
+	
 	.major-pick-style .item,
 	.year-pick-style .item {
 		height: 22.4px;
@@ -724,5 +740,19 @@
 	.year-pick-style .defaultPicker {
 		height: 22.4px;
 		line-height: 30px;
+	}
+	
+	.confirm-button-checked{
+		font-size: 14px;
+		width: 80px;
+		height: 26px;
+		line-height: 26px;
+		color: #FFFFFF;
+		background-color: rgba(255,207,107,1);
+		border-radius: 4px;
+		text-align: center;
+		position: absolute;
+		z-index: 5;
+		right: 8%;
 	}
 </style>

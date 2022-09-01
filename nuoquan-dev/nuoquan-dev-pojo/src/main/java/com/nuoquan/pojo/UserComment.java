@@ -43,6 +43,9 @@ public class UserComment {
     @Column(name = "comment_num")
     private Integer commentNum;
 
+    @Column(name = "reported_num")
+    private Integer reportedNum;
+
     @Column(name = "under_comment_id")
     private String underCommentId;
 
@@ -211,6 +214,14 @@ public class UserComment {
      */
     public String getUnderCommentId() {
         return underCommentId;
+    }
+
+    public Integer getReportedNum() {
+        return reportedNum;
+    }
+
+    public void setReportedNum(Integer reportedNum) {
+        this.reportedNum = reportedNum;
     }
 
     /**

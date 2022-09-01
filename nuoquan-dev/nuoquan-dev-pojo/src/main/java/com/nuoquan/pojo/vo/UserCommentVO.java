@@ -43,6 +43,9 @@ public class UserCommentVO {
     @Column(name = "comment_num")
     private Integer commentNum;
 
+    @Column(name = "reported_num")
+    private Integer reportedNum;
+
     @Column(name = "under_comment_id")
     private String underCommentId;
 
@@ -59,6 +62,26 @@ public class UserCommentVO {
     private String toNickname;
 
     private Boolean isLike; // 该用户是否点赞该评论
+
+    public Integer getFromUserAuthType() {
+        return fromUserAuthType;
+    }
+
+    public void setFromUserAuthType(Integer fromUserAuthType) {
+        this.fromUserAuthType = fromUserAuthType;
+    }
+
+    private Integer fromUserAuthType;
+
+    public Integer getToUserAuthType() {
+        return toUserAuthType;
+    }
+
+    public void setToUserAuthType(Integer toUserAuthType) {
+        this.toUserAuthType = toUserAuthType;
+    }
+
+    private Integer toUserAuthType;
 
     /**
      * @return id
@@ -210,6 +233,14 @@ public class UserCommentVO {
      */
     public void setCommentNum(Integer commentNum) {
         this.commentNum = commentNum;
+    }
+
+    public Integer getReportedNum() {
+        return reportedNum;
+    }
+
+    public void setReportedNum(Integer reportedNum) {
+        this.reportedNum = reportedNum;
     }
 
     /**

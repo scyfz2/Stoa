@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 
+import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.pojo.vo.UserVO;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
