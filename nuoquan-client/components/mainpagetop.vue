@@ -44,13 +44,15 @@
 						<view>
 							<swiper-item @click="goToDetail(item.id)" v-for="(item, index) in topArticles" :key="index">
 								<view class="itemCard" :style="{'height':roleup == false ? '62px;' :'33px' ,}">
-									<view class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{ item.articleTitle }}</view>
+									<view v-if="!isNull(item.articleTitle)" class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{ item.articleTitle }}</view>
+									<view v-else-if="isNull(item.articleTitle)" class="hotTitle" :style="{'margin-top': roleup ? '8px': '12px'}">{{item.articleContent}}</view>
 									<view v-if="roleup == false" class="userInfo">
-										<image :src=pathFilter(item.faceImg) mode="aspectFit"></image>
-										<view class="userid_mainpagetop">
-											{{item.nickname}}
+										<image :src="pathFilter(item.faceImg)" style="width: 17px;height: 17px;border-radius: 50%;"></image>
+										<view class="userid_mainpagetop" style="display: flex;">
+											<text>{{item.nickname}}</text>
+											<image v-if="item.authType == 1 || item.authType == 2" src="../static/icon/auth.png" style="width: 17px; height: 17px;z-index: 1000;margin-left: 3px;"></image>
 										</view>
-									</view>
+										</view>
 								</view>
 							</swiper-item>
 						</view>
@@ -471,18 +473,19 @@
 	}
 
 	.userInfo {
-		position: relative;
+		display: flex;
+		position: absolute;
 		width: 100%;
 		height: 17px;
 		margin-top: 8px;
 	}
 
-	.userInfo image {
+	/* .userInfo image {
 		position: absolute;
 		width: 17px;
 		height: 17px;
 		border-radius: 50%;
-	}
+	} */
 
 	.userid_mainpagetop {
 		position: absolute;

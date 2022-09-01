@@ -33,6 +33,10 @@ public class SocialController extends BasicController {
 	@PostMapping(value = "/userLike")
 	public JSONResult userLike(String userId, PostType targetType, String targetId) throws Exception {
 		String sourceId = socialService.userLike(userId, targetType, targetId);
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		if (StringUtils.isEmpty(sourceId)) { // 判空，防止用户短时间内多次请求
 			return JSONResult.errorMsg("用户已点过赞");
 		}
@@ -79,6 +83,10 @@ public class SocialController extends BasicController {
 		if (targetType.equals(PostType.COMMENT)) {
 			return JSONResult.errorMsg("targetType不能为comment");
 		}
+		if (!userService.checkIdIsExist(fromUserId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		// 内容安全检测（测试时总是出现内容不合法，先暂时注释掉内容安全检测）
 		// if (weChatService.msgSecCheck(comment) ) {
 		// 插入评论
@@ -129,6 +137,9 @@ public class SocialController extends BasicController {
 		if (StringUtils.isBlank(targetId)) {
 			return JSONResult.errorMsg("targetId can't be null");
 		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
 
 		if (page == null) {
 			page = 1;
@@ -171,6 +182,9 @@ public class SocialController extends BasicController {
 		if (StringUtils.isBlank(underCommentId)) {
 			return JSONResult.errorMsg("underCommentId can't be null");
 		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
 
 		if (page == null) {
 			page = 1;
@@ -198,6 +212,13 @@ public class SocialController extends BasicController {
 	// 特别注意：返回值为1时代表执行此操作的人是文章发布者或评论发布者（此时可以删除评论），返回值为0时无法删除评论
 	public JSONResult fDeleteComment(String commentId, String userId, String targetId, PostType targetType)
 			throws Exception {
+		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId) || StringUtils.isBlank(commentId) || StringUtils.isEmpty(commentId)) {
+			return JSONResult.errorMsg("Id can't be null");
+		}
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		if (socialService.fDeleteComment(commentId, userId, targetId, targetType) == 1){
 			return JSONResult.ok();
 		}
@@ -214,6 +235,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "收藏对象Id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping(value = "/userCollect")
 	public JSONResult userCollect(String userId, PostType targetType, String targetId) throws Exception {
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		socialService.userCollect(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
@@ -238,6 +263,10 @@ public class SocialController extends BasicController {
 	})
 	@PostMapping("/queryCollect")
 	public JSONResult queryCollect(Integer page, Integer pageSize, String userId) {
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 
 		if (page == null) {
 			page = 1;
@@ -260,6 +289,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "targetId", value = "文章作者id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/userRead")
 	public JSONResult userRead(String userId, PostType targetType, String targetId) {
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		socialService.userRead(userId, targetType, targetId);
 		return JSONResult.ok();
 	}
@@ -271,6 +304,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "userId", value = "用户Id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/getAllCommentToMe")
 	public JSONResult getAllCommentToMe(Integer page, Integer pageSize, String userId) {
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		if (page == null) {
 			page = 1;
 		}
@@ -292,6 +329,10 @@ public class SocialController extends BasicController {
 			@ApiImplicitParam(name = "userId", value = "用户Id", required = true, dataType = "String", paramType = "form") })
 	@PostMapping("/getAllLikeToMe")
 	public JSONResult getAllLikeToMe(Integer page, Integer pageSize, String userId) {
+		if (!userService.checkIdIsExist(userId)){
+			return JSONResult.errorMsg("userId not exists!");
+		}
+
 		if (page == null) {
 			page = 1;
 		}

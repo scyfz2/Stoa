@@ -156,4 +156,9 @@ public interface UserService {
 	 * 查询所有用户
 	 */
 	public PagedResult listAllUsers(Integer page, Integer pageSize);
+
+	/*
+	 * 搜索用户
+	 */
+	public PagedResult searchUserYang(Integer page, Integer pageSize, String searchText, String userId);
 }

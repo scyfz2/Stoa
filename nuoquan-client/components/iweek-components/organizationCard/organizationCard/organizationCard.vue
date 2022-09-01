@@ -5,7 +5,7 @@
  -->
 <template>
 	<view class="organizationCard" @click="choose(detail)">
-		<image :src="detail.logoPath" mode="aspectFill" class="orgImage"></image>
+		<image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgImage"></image>
 		<view class="organizationCard-text" >
 			<view class="orgTitle">{{detail.name}}</view>
 			<view class="orgContent">{{detail.intro}}</view>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-	// import { mapState, mapMutations } from 'vuex';
+	import { mapState, mapMutations } from 'vuex';
 	export default {
 		props:{
 			detail: '',

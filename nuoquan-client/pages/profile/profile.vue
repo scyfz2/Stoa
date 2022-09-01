@@ -23,7 +23,7 @@
 					<!-- <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
 					 name="nickname" maxlength="15" :value="userInfo.nickname" v-if="isEditNickname" /> -->
 					 <input :focus="true" class="second_line" @input="onNickName" style="font-size:17px;min-height: unset;" @blur="formSubmit"
-					  name="nickname" maxlength="15" :value="userInfo.nickname" v-if="isEditNickname" />
+					  name="nickname" maxlength="12" :value="userInfo.nickname" v-if="isEditNickname" />
 					<view class="line" v-if="isEditNickname"></view>
 				</view>
 				<view class="gender">
@@ -131,8 +131,8 @@
 			}
 
 			// major
-			const majors = ['','AEE', 'ABE', 'CS', 'CEE', 'CIVE', 'EG', 'ECON', 'EEE', 'ENGL', 'GEOG', 'IC', 'IS', 'MATH', 'PDM', 'NUBS'];
-
+			const majors = ['','AE','AEE','Arch','ChE','Chem','CE','CS','CSAI','Eco','EEE','ELAL','ELL','EIB','EE','ES','FAM','IBE','IBM','IBC','IBL','IC','ICL','IET','IS','ISL','MAM','ME','PDM','Sta'];
+			
 			// degree 顺序和数据库保持一致
 			const degrees = ['高中', '本科', '研究生'];
 
@@ -178,10 +178,9 @@
 		computed: {
 			...mapState(['lang'])
 		},
-		onLoad() {
+onLoad() {
 			// 一次性储存 navbar 高度
 			this.navbarHeight = this.getnavbarHeight().bottom + 5;
-
 			this.userInfo = this.getGlobalUserInfo();
 			//按语言切换默认列表
 			this.degrees = this.lang.degreeList;
@@ -193,7 +192,6 @@
 			var major = this.userInfo.major;
 			var degree = this.userInfo.degree;
 			this.signature = this.userInfo.signature;
-
 			if (gender != null ) {
 				// 判空，防止默认值被刷掉
 				this.gender = gender;
@@ -203,16 +201,13 @@
 			if (year != null) {
 				this.year = year;
 			}
-
 			if (major != null) {
 				this.major = major;
 			}
-
 			if (degree != null) {
 				this.degree = this.degrees[degree];
 				this.degreeDB = degree; // 修改对数据库的默认值
 			}
-
 			this.email = this.userInfo.email; // 改绑邮箱默认值
 			
 		},
@@ -220,10 +215,9 @@
 			if (this.needUpdateFlag) {
 				this.formSubmit();
 			}
-
 		},
 		methods: {
-			pickerChange(res) {
+pickerChange(res) {
 				this.needUpdateFlag = true;
 				if (res.mode == 'major') {
 					this.major = res.newPickerValue;
@@ -240,7 +234,6 @@
 				this.gender = gender;
 				this.formSubmit();
 			},
-
 			toggleIsEditNickname() {
 				this.isEditNickname = !this.isEditNickname;
 				this.isEditGender = false;
@@ -286,6 +279,7 @@
 					});
 					this.nickname = this.userInfo.nickname;
 				}
+				
 				if (this.signature == "") {
 					uni.showToast({
 						title: '个性签名不能为空',
@@ -294,6 +288,11 @@
 					});
 					this.signature = this.userInfo.signature;
 				}
+				// Date: Aug 30, 2022
+				// Author: Yifei
+				// Description: 暂存原先的昵称，若新昵称不合规，则还是显示原昵称
+				var pastNickname = this.getGlobalUserInfo().nickname;
+				// console.log(pastNickname)
 
 				var data = {
 					id: this.userInfo.id,
@@ -306,6 +305,7 @@
 					signature: this.signature
 				};
 				console.log(data);
+				// debugger
 				var that = this;
 				uni.request({
 					url: this.$serverUrl + '/user/updateUser',
@@ -323,6 +323,17 @@
 							that.userInfo = finalUser; // 更新页面用户数据
 							console.log(this.userInfo);
 							that.needUpdateFlag = false;
+						}
+						else if (res.data.status == 555) {
+							uni.showToast({
+								title: "昵称不合法",
+								duration: 1000,
+								icon: 'error'
+							});
+							// Date: Aug 30, 2022
+							// Author: Yifei
+							// Description: 若昵称不合规，返回原来的名称
+							data.nickname = pastNickname;
 						}
 					}
 				});
@@ -387,7 +398,13 @@
 									'content-type': 'application/x-www-form-urlencoded'
 								},
 								success: res => {
-									console.log(res);
+									if (res.data.status == 555){
+										uni.showToast({
+											title: '该邮箱已绑定',
+											icon:'error',
+											duration:2000,
+										})
+									}
 								}
 							});
 						}

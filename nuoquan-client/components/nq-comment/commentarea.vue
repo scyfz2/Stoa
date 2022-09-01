@@ -30,7 +30,10 @@
 				<view class="comment">
 					<view class="comment-info">
 						<image :src="pathFilter(comment.mainComment.faceImg)" @tap="goToPersonPublic(comment.mainComment.fromUserId)"></image>
-						<text selectable="true" class="name_text">{{ comment.mainComment.nickname }}</text>
+						<view class="name_text" style="display: flex;">
+							<text selectable="true">{{ comment.mainComment.nickname }}</text>
+							<image v-if="comment.mainComment.fromUserAuthType == 1 || comment.mainComment.fromUserAuthType == 2" src="../../static/icon/auth.png" style="height: 18px;width: 18px;margin-left: 3px;"></image>
+						</view>
 						<view class="time_text">{{ timeDeal(comment.mainComment.createDate) }}</view>
 					</view>
 					<text selectable="true" class="comment-content" @longpress="onLongpress(comment.mainComment.id)" @tap="goToCommentDetail(comment.mainComment)">{{ comment.mainComment.comment }}</text>
@@ -70,10 +73,12 @@ export default {
 		 * 		}
 		 * ]
 		 */
+		articleId:'',
 		commentList: '',
 		commentNum: '',
 		areaWidth: '100%',
-		areaMargin: ''
+		areaMargin: '',
+		userInfo: '',
 	},
 	components: {
 		nqSwitch,
@@ -103,22 +108,36 @@ export default {
 			// commentList: this.commentList,
 			order: 0 ,//评论排序方式 0：按时间查询, 1：按热度查询
 			mainCommentId:'',
-			userInfo:{},
 		};
 	},
 	onLoad(options) {
 		//获取全局用户信息
-		var userInfo = this.getGlobalUserInfo();
-		if (!this.isNull(userInfo)) {
-			this.userInfo = this.getGlobalUserInfo();
-		} else {
-			uni.redirectTo({
-				url: '../signin/signin'
-			});
-			return;
-		}
+		// var userInfo = this.getGlobalUserInfo();
+		// if (!this.isNull(userInfo)) {
+		// 	this.userInfo = this.getGlobalUserInfo();
+		// 	console.log("userinfo++"+this.userInfo.id);
+		// } else {
+		// 	uni.redirectTo({
+		// 		url: '../signin/signin'
+		// 	});
+		// 	return;
+		// }
 	},
 	methods: {
+		// Date: Aug 15, 2022
+		// Author: Yifei
+		// Description: 之前在删除收藏后的刷新会有点问题，就写一个刷新页面的方法吧
+		refresh(){
+			// 页面重载
+		    const pages = getCurrentPages()
+		    // 声明一个pages使用getCurrentPages方法
+			const curPage = pages[pages.length - 1]
+		    // 声明一个当前页面
+		    curPage.onLoad(curPage.options) // 传入参数
+		    curPage.onShow()
+			curPage.onReady()
+		    // 执行刷新
+		},
 		swLikeComment(comment, index) {
 			console.log('click like');
 			this.$emit('like', comment, index);
@@ -127,20 +146,21 @@ export default {
 			console.log('触发长按操作,复制或者是快速回复');
 			console.log(e);
 			var that=this;
-			uni.showModal({
-				title: '提示',
-				content: '是否举报',
+			uni.showActionSheet({
+				itemList: ['举报', '删除'],
 				success: function (res) {
-					if (res.confirm) {
-						console.log('用户点击确定');
-						that.mainCommentId=e;
+					console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+					that.mainCommentId=e;
+					if(res.tapIndex==0){
 						that.reportComment();
-					} else if (res.cancel) {
-						console.log('用户点击取消');
+					}else{
+						that.deleteComment();
 					}
+				},
+				fail: function (res) {
+					console.log(res.errMsg);
 				}
-			})
-
+			});
 		},
 		reportComment(){
 			console.log('举报评论');
@@ -158,13 +178,51 @@ export default {
 				},
 				success: res => {
 					console.log(res);
-					//this.$emit('swLikeArticleSignal', false);
 					uni.showToast({
 						title:'举报成功',
 						icon:'success',
 						duration:1000,
 					});
 				}
+			});
+		},
+		deleteComment(){
+			console.log('删除评论');
+			var that = this;
+			uni.request({
+				method: 'POST',
+				url: that.$serverUrl + '/social/fDeleteComment',
+				data: {
+					commentId:that.mainCommentId,
+					userId: that.userInfo.id,
+					targetId:that.articleId,
+					targetType: "ARTICLE",
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res.data.msg);
+					if(res.data.msg=="OK"){
+						uni.showToast({
+							title:'删除成功',
+							icon:'success',
+							duration:1000,
+						});
+						this.refresh();
+					}else{
+						uni.showModal({
+							title: '提示',
+							showCancel:false,
+							content: '你不是文章发布者或评论发布者，无法删除',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+								}
+							}
+						});
+					}
+				},
 			});
 		},
 		goToCommentDetail(mainComment) {

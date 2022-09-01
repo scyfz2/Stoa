@@ -10,7 +10,10 @@
 		<view class="comment-Box">
 			<view class="comment-info">
 				<image :src="pathFilter(mainComment.faceImg)" @tap="goToPersonPublic(mainComment.fromUserId)"></image>
-				<text selectable="true" class="name_text">{{ mainComment.nickname }}</text>
+				<view style="display: flex;">
+					<text selectable="true" class="name_text">{{ mainComment.nickname }}</text>
+					<image v-if="mainComment.fromUserAuthType == 1 || mainComment.fromUserAuthType == 2" src="../../static/icon/auth.png" style="height: 15px;width: 15px;margin-left: 3px;margin-top: 3px;"></image>
+				</view>
 				<view class="time_text">{{ timeDeal(mainComment.createDate) }}</view>
 			</view>
 			<text selectable="true" class="comment-content" @tap="activeInput(mainComment)">{{ mainComment.comment }}</text>
@@ -95,6 +98,7 @@ export default {
 		return {
 			mainComment: '', //用于接受跳转传过来的underCommentId,然后申请获取sonComment  yaoyao 9.16
 			type: '', //文章 or 投票
+			articleId:'',
 			userInfo: '',
 			commentId:'',
 			commentContent: '', //用户准备提交的评论内容
@@ -134,10 +138,12 @@ export default {
 		var data = JSON.parse(decodeURIComponent(options.data));
 		this.mainComment = data.mainComment;
 		this.type = data.type;
+		this.articleId=data.articleId;
 		// 获取次评论
 		this.getSubComments(1);
 		
 		this.placeholderText = this.lang.engageComment; //设置评论默认值
+		// console.log(this.mainComment);
 	},
 
 	onReachBottom() {
@@ -241,19 +247,21 @@ export default {
 			console.log('触发长按操作,复制或者是快速回复');
 			console.log(e);
 			var that=this;
-			uni.showModal({
-				title: '提示',
-				content: '是否举报',
+			uni.showActionSheet({
+				itemList: ['举报', '删除'],
 				success: function (res) {
-					if (res.confirm) {
-						console.log('用户点击确定');
-						that.commentId=e;
+					console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+					that.commentId=e;
+					if(res.tapIndex==0){
 						that.reportComment();
-					} else if (res.cancel) {
-						console.log('用户点击取消');
+					}else{
+						that.deleteComment();
 					}
+				},
+				fail: function (res) {
+					console.log(res.errMsg);
 				}
-			})
+			});
 		},
 		reportComment(){
 			console.log('举报评论');
@@ -280,7 +288,45 @@ export default {
 				}
 			});
 		},
-		
+		deleteComment(){
+			console.log('删除评论');
+			var that = this;
+			uni.request({
+				method: 'POST',
+				url: that.$serverUrl + '/social/fDeleteComment',
+				data: {
+					commentId:that.commentId,
+					userId: that.userInfo.id,
+					targetId:that.articleId,
+					targetType: "ARTICLE",
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res.data.msg);
+					if(res.data.msg=="OK"){
+						uni.showToast({
+							title:'删除成功',
+							icon:'success',
+							duration:1000,
+						});
+						uni.$emit("refresh");
+					}else{
+						uni.showModal({
+							title: '提示',
+							showCancel:false,
+							content: '你不是文章发布者或评论发布者，无法删除',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+								}
+							}
+						});
+					}
+				},
+			});
+		},
 		
 		/**
 		 * fromUserId 必填

@@ -58,6 +58,7 @@ module.exports = {
 	notUNNCEmail: "It's not an UNNC Email address",
 	notEmptyEmail: "Email cannot be null",
 	certificateFail:"Authentication Failed",
+	repeatEmail:"Email is already bound",
 	emptyCaptcha:"Capcha is null",
 	//主页
 	viewAllHot: "Show All >",
@@ -104,7 +105,7 @@ module.exports = {
 	
 	
 	//新建文章&投票
-	addTitle: "Add title",
+	addTitle: "Add title (Optional)",
 	optionContent: "Option content",
 	addDescription : "Add description",
 	postDraftModal:'Continue with draft of your post ?',
@@ -126,6 +127,10 @@ module.exports = {
 	
 	//我的消息
 	myMessage : "Message",
+	likedYourArticle: "liked your article",
+	commentedYourArticle: "commented your article",
+	likedYourComment: "liked your comment",
+	replyYourComment: "回复了你的评论",
 	
 	//我的
 	chinese: "中",

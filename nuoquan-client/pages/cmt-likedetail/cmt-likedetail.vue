@@ -60,7 +60,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">点赞了你的文章</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.likedYourArticle}}</text>
 											</view>
 											<!-- 获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
@@ -123,7 +124,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">点赞了你的评论</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.likedYourComment}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
@@ -159,7 +161,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">评论了你的文章</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.commentedYourArticle}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
@@ -217,7 +220,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<text class="clID-operation">回复了你的评论</text>
+												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<text class="clID-operation">{{lang.replyYourComment}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
 											<view class="clID-time">{{ timeDeal(item.createDate) }}</view>
@@ -793,12 +797,14 @@ page {
 
 .clID-text {
 	font-size: 13px;
+	line-height:15px;
 	font-weight: 500;
 	color: #3d3d3d;
 }
 
 .clID-operation {
 	font-size: 10px;
+	line-height:12px;
 	color: #919191;
 	margin-left: 8upx;
 }
@@ -847,6 +853,7 @@ page {
 	margin-bottom: 15upx;
 	height: 100%;
 	font-size: 12px;
+	line-height: 14px;
 	color: #3d3d3d;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
