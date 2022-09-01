@@ -214,7 +214,7 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleVO getArticleById(String articleId, String userId) {
 		Article article = articleMapper.selectByPrimaryKey(articleId);
 		ArticleVO articleVO = composeArticleVO(article, userId);
-		if (StringUtils.isNotBlank(userId) || userId != "AdminUser" || userId != article.getUserId()){
+		if (StringUtils.isNotBlank(userId) && !userId.equals("AdminUser") && !userId.equals(article.getUserId())){
 			socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
 		}
 		return articleVO;

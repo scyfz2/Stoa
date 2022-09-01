@@ -1,5 +1,8 @@
 package com.nuoquan.netty;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Component;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -35,8 +38,10 @@ public class WSServer {
 	}
 	
 	public void start() {
-		this.future = server.bind(8088);
-		System.err.println("netty webSocket server 启动完毕，Binding Port：8088");
+//		int inetPort = 8088;
+		int inetPort = 8099;
+		this.future = server.bind(inetPort);
+		System.err.println("netty webSocket server 启动完毕，Binding Port："+ inetPort);
 	}
 	
 	// 其实已经把 netty 依托给了 Springboot，此方法无需使用
