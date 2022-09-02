@@ -32,13 +32,22 @@
 				</view>
 			</view>
 			<!-- 招新推文以及介绍的二维码 -->
-			<view class="orgQRBox" v-if="detail.imgList">
-				<view v-if="detail.imgList[0]">
-					<image :src="pathFilter(detail.imgList[0].imagePath)" mode="aspectFill" class="orgQR"></image>
+			<view  v-if="detail.imgList">
+				<view class="orgQRBox">
+					<view v-if="detail.imgList[0]">
+						<image :src="pathFilter(detail.imgList[0].imagePath)" mode="aspectFit" class="orgQR" @tap="previewImg(0)" @longpress="aboutImg(0)"></image>
+					</view>
+					<view v-if="detail.imgList[1]">
+						<image :src="pathFilter(detail.imgList[1].imagePath)" mode="aspectFit" class="orgQR" @tap="previewImg(1)" @longpress="aboutImg(1)"></image>
+					</view>
 				</view>
-				<view v-if="detail.imgList[1]">
-					<image :src="pathFilter(detail.imgList[1].imagePath)" mode="aspectFill" class="orgQR"></image>
-				</view></view>
+				<view class="orgQRBox">
+					<view v-if="detail.imgList[2]">
+						<image :src="pathFilter(detail.imgList[2].imagePath)" mode="aspectFit" class="orgQR" @tap="previewImg(2)" @longpress="aboutImg(2)"></image>
+					</view>
+				</view>
+			</view>
+
 		</view>
 	</view>
 </template>
@@ -72,7 +81,61 @@
 			this.detail = temp;
 		},
 		methods: {
+			previewImg: function(index) {
+				var imgList = this.detail.imgList;
+				var arr = [];
+				var path;
+				for (var i = 0; i < imgList.length; i++) {
+					// console.log(imgList[i].imagePath);
+					path = this.pathFilter(imgList[i].imagePath);
+					arr = arr.concat(path);
+				}
+				// console.log(arr);
 			
+				uni.previewImage({
+					current: index,
+					urls: arr
+				});
+			},
+			aboutImg: function(index) {
+				var that = this;
+				console.log(this.detail.imgList[index].imagePath);
+				uni.showActionSheet({
+					itemList: ['保存图片到本地'],
+					success: function(res) {
+						console.log(res.tapIndex);
+						// 保存图片至本地
+						if (res.tapIndex == 0) {
+							uni.showLoading({
+								title: '下载中...'
+							});
+							uni.downloadFile({
+								url: that.pathFilter(that.detail.imgList[index].imagePath),
+								success: function(res) {
+									if (res.statusCode == 200) {
+										uni.saveImageToPhotosAlbum({
+											filePath: res.tempFilePath,
+											success: function() {
+												console.log('save success');
+												uni.hideLoading();
+											},
+											fail: function() {
+												console.log('save failed');
+												uni.hideLoading();
+												uni.showToast({
+													title: '保存失败',
+													icon: 'none',
+													duration: 1000
+												});
+											}
+										});
+									}
+								}
+							});
+						}
+					}
+				});
+			},
 		}
 	}
 </script>
@@ -88,9 +151,9 @@
 	.orgTitle{
 		margin-top: 35px;
 		margin-left: 20px;
-		font-size: 24px;
+		font-size: 18px;
 		font-weight:bold;
-		line-height: 25px;
+		line-height: 20px;
 	}
 	
 	.orgContentBox{
@@ -116,8 +179,10 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+	
 	.orgQR{
-		width: 90px;
-		height: 90px;
+		width: 130px;
+		height: 130px;
+		border: 0.5px solid beige ;
 	}
 </style>
