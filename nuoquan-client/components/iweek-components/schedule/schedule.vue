@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class="calendar">
-			<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange">
+			<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange" style="height: 20px;display: table-cell; vertical-align: middle;">
 				<view>{{beforeFaculty?beforeFaculty:'Faculty'}}</view>
 			</picker>
-			<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange">
+			<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange" style="height: 20px;display: table-cell; vertical-align: middle;">
 				<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
 			</picker>
 			<swiper-date @date="getEmitDate"></swiper-date>

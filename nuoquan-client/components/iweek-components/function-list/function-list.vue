@@ -100,7 +100,7 @@
 		display: flex; 
 		flex-direction: row; 
 		flex-wrap: wrap; 
-		margin: 0 5%;
+		/* margin: 0 5%; */
 	}
 	.functions{
 		width: 25%;
