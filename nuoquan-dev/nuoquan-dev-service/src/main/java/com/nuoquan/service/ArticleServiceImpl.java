@@ -265,12 +265,16 @@ public class ArticleServiceImpl implements ArticleService {
 		Criteria criteria = articleExample.createCriteria();
 		for(String text : texts) {
 			criteria.orLike("articleTitle", "%" + text + "%");
+		}
+
+		Criteria criteria2 = articleExample.createCriteria();
+		for(String text : texts) {
 			criteria.orLike("articleContent", "%" + text + "%");
 			criteria.orLike("tags", "%#" + text + "%");
 		}
-		
-		Criteria criteria2 = articleExample.createCriteria();
-		criteria2.andEqualTo("status", StatusEnum.READABLE.type);
+
+		Criteria criteria3 = articleExample.createCriteria();
+		criteria3.andEqualTo("status", StatusEnum.READABLE.type);
 		articleExample.and(criteria2);
 		
 		PageHelper.startPage(page, pageSize);
