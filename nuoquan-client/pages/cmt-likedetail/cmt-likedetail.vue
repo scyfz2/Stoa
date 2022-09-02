@@ -92,7 +92,8 @@
 											</view>
 											<view :class="[item.target.imgList.length > 0 ? 'origin-briefBox-img' : 'origin-briefBox-noimg']">
 												<view class="origin-briefTitlebox">
-													<text class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+													<text v-if="!isNull(item.target.articleTitle)" class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+													<text v-if="isNull(item.target.articleTitle)" style="padding: 10px;"></text>
 												</view>
 												<view class="origin-briefTextbox">
 													<text class="origin-briefText">{{ item.target.articleContent }}</text>
@@ -187,7 +188,8 @@
 												</view>
 												<view :class="[item.target.imgList.length > 0 ? 'origin-briefBox-img' : 'origin-briefBox-noimg']">
 													<view class="origin-briefTitlebox">
-														<text class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+														<text v-if="!isNull(item.target.articleTitle)" class="origin-briefTitle">{{ item.target.articleTitle }}</text>
+														<text v-else style="padding: 10px;"></text>
 													</view>
 													<view class="origin-briefTextbox">
 														<text class="origin-briefText">{{ item.target.articleContent }}</text>

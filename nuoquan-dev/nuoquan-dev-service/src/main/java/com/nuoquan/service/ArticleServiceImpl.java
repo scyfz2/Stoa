@@ -114,8 +114,6 @@ public class ArticleServiceImpl implements ArticleService {
 		articleVO.setArticleContent(sensitiveFilterUtil.filter(articleVO.getArticleContent()));
 		articleVO.setArticleTitle(sensitiveFilterUtil.filter(articleVO.getArticleTitle()));
 
-		if (StringUtils.isNotBlank(userId)){socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
-		}
 
 
 		return articleVO;
@@ -216,6 +214,9 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleVO getArticleById(String articleId, String userId) {
 		Article article = articleMapper.selectByPrimaryKey(articleId);
 		ArticleVO articleVO = composeArticleVO(article, userId);
+		if (StringUtils.isNotBlank(userId) && !userId.equals("AdminUser") && !userId.equals(article.getUserId())){
+			socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
+		}
 		return articleVO;
 	}
 
@@ -264,12 +265,16 @@ public class ArticleServiceImpl implements ArticleService {
 		Criteria criteria = articleExample.createCriteria();
 		for(String text : texts) {
 			criteria.orLike("articleTitle", "%" + text + "%");
+		}
+
+		Criteria criteria2 = articleExample.createCriteria();
+		for(String text : texts) {
 			criteria.orLike("articleContent", "%" + text + "%");
 			criteria.orLike("tags", "%#" + text + "%");
 		}
-		
-		Criteria criteria2 = articleExample.createCriteria();
-		criteria2.andEqualTo("status", StatusEnum.READABLE.type);
+
+		Criteria criteria3 = articleExample.createCriteria();
+		criteria3.andEqualTo("status", StatusEnum.READABLE.type);
 		articleExample.and(criteria2);
 		
 		PageHelper.startPage(page, pageSize);

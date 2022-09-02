@@ -8,8 +8,9 @@
 					<text selectable="true" class="name_text">{{ commentDetail.nickname }}</text>
 					<image v-if="commentDetail.fromUserAuthtype == 1 || commentDetail.fromUserAuthType == 2" src="../../static/icon/auth.png" style="width: 15px; height: 15px;margin-top: 2px;margin-left: 3px;"></image>
 				</view>
-				<view class="replyTo" v-if="commentDetail.toNickname != null && commentDetail.toNickname != undefined">
-					{{commentDetail.toNickname}}
+				<view class="replyTo" style="display: flex;" v-if="commentDetail.toNickname != null && commentDetail.toNickname != undefined">
+					<text>{{commentDetail.toNickname}}</text>
+					<image v-if="commentDetail.toUserAuthType == 1 || commentDetail.toUserAuthType == 2" src="../../static/icon/auth.png" style="width: 15px; height: 15px;margin-left: 3px;margin-top: 2px;"></image>
 				</view>
 				<view class="time_text">{{ timeDeal(commentDetail.createDate) }}</view>
 			</view>

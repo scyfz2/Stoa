@@ -166,7 +166,9 @@ public class SocialServiceImpl implements SocialService {
             addTargetCommentCount(PostType.COMMENT.value, underCommentId);
         }
         // 被评论人影响力++
-        userService.updateReputation(toUserId, ReputeWeight.COMMENT.weight, 1);
+        if (!toUserId.equals(fromUserId)){
+            userService.updateReputation(toUserId, ReputeWeight.COMMENT.weight, 1);
+        }
         return id;
     }
 
@@ -317,9 +319,12 @@ public class SocialServiceImpl implements SocialService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
+        String fromUserId = userCommentMapper.selectByPrimaryKey(commentId).getFromUserId();
+        String toUserId = userCommentMapper.selectByPrimaryKey(commentId).getToUserId();
+
         if (userId.equals(articleMapper.selectByPrimaryKey(userCommentMapper.selectByPrimaryKey(commentId).getTargetId()).getUserId())
-        || userId.equals(userCommentMapper.selectByPrimaryKey(commentId).getFromUserId())
-        || userId == "AdminUser") {
+        || userId.equals(fromUserId)
+        || userId.equals("AdminUser")) {
             Example example = new Example(UserComment.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("id", commentId);
@@ -327,6 +332,10 @@ public class SocialServiceImpl implements SocialService {
             c.setStatus(StatusEnum.DELETED.type);
             userCommentMapper.updateByExampleSelective(c, example);
             reduceTargetCommentCount(targetType.getValue(), targetId, commentId);
+            // 被评论人影响力--
+            if (!fromUserId.equals(toUserId)){
+                userService.updateReputation(toUserId, ReputeWeight.COMMENT.weight, -1);
+            }
             return 1;
         }
         else{
@@ -376,7 +385,9 @@ public class SocialServiceImpl implements SocialService {
             // 作者受喜欢数量的累加
             userService.addReceiveLikeCount(authorId);
             // 作者影响力++
-            userService.updateReputation(authorId, ReputeWeight.LIKE.weight, 1);
+            if (!userId.equals(authorId)){
+                userService.updateReputation(authorId, ReputeWeight.LIKE.weight, 1);
+            }
             return id;
         }
         return "";
@@ -421,7 +432,9 @@ public class SocialServiceImpl implements SocialService {
             // 3.作者受喜欢数量的累减
             userService.reduceReceiveLikeCount(authorId);
             // 作者影响力--
-            userService.updateReputation(authorId, ReputeWeight.LIKE.weight, -1);
+            if (!userId.equals(authorId)){
+                userService.updateReputation(authorId, ReputeWeight.LIKE.weight, -1);
+            }
         }
     }
 

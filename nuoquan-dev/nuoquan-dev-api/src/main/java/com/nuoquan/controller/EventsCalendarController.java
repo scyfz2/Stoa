@@ -132,11 +132,11 @@ public class EventsCalendarController extends BasicController {
         String eventId = "";
 
         // 如果学院选择为全部
-        if (faculty.getContent() == "all"){
+        if (faculty.getContent().equals("all")){
             // 遍历所有学院种类
             for (int f = 1; f < faculty.getType(); f++){
                 // 如果学历选择为全部
-                if (degree.getContent() == "all"){
+                if (degree.getContent().equals("all")){
                     // 遍历所有学历种类
                     for (int d = 1; d < degree.getType(); d++){
                         eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, d, isLegal);
@@ -151,7 +151,7 @@ public class EventsCalendarController extends BasicController {
         } else {
             // 学院选择不为全部
             // 如果学历选择为全部
-            if (degree.getContent() == "all"){
+            if (degree.getContent().equals("all")){
                 // 遍历所有学历种类
                 for (int d = 1; d < degree.getType(); d++){
                     eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), d, isLegal);
