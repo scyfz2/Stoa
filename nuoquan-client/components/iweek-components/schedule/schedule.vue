@@ -8,8 +8,7 @@
 				<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
 			</picker>
 			<swiper-date @date="getEmitDate"></swiper-date>
-			<schedule-card v-for="item in showList" :key = "item.id" v-bind:scheduleCard="item" @event="getEvent"></schedule-card>
-			<schedule-card></schedule-card>
+			<schedule-card @event="showDetail" v-for="item in showList" :key = "item.id" v-bind:scheduleCard="item"></schedule-card>
 			<view class="bottom-placeholder"></view>
 		</view>
 	</view>
@@ -19,6 +18,9 @@
 	import swiperDate from '../swiper-date/swiper-date.vue';
 	import scheduleCard from '../schedule-card/schedule-card.vue';
 	import { mapState, mapMutations } from 'vuex';
+	
+	var loadScheduleFlag = false;	// 为加载日程加锁
+	
 	export default {
 		components:{
 		scheduleCard,
@@ -27,13 +29,14 @@
 		data() {
 			return {
 				userInfo:'',
-				date:'',
+				date:13,
 				event: {},
 				showList: [],
+				page: 1,
 				beforeFaculty:'',
-				facultyId:'',
+				facultyId:10,
 				beforeDegree:'',
-				degreeId:'',
+				degreeId:0,
 				facultyList:[
 					{
 						id: 1,
@@ -55,88 +58,190 @@
 					},
 					{
 						id:2,
-						name:'UG-SPP',
+						name: 'UG-SPP',
 					},
 					{
 						id:3,
-						name:'PGT',
+						name: 'PGT',
 					},
 					{
 						id:4,
-						name:'PGR'
+						name: 'PGR'
 					}
 				]
 			}
 		},
+		created() {
+			this.userInfo = this.getGlobalUserInfo();
+			var that = this;
+			uni.getStorage({
+				key:that.userInfo.id + ':facultyId',
+				success:function(res){
+					// console.log(that.resultFaculty);
+					// debugger
+					that.facultyId = res.data;
+					that.beforeFaculty =that.facultyList[that.facultyId-1].name;
+					console.log(that.facultyId);
+					// that.facultyId = res.data;
+				},
+				fail() {
+					console.log('无记录');
+				}
+			});
+			uni.getStorage({
+				key:that.userInfo.id + ':degreeId',
+				success:function(res){
+					that.degreeId = res.data;
+					that.beforeDegree = that.degreeList[that.degreeId-1].name;
+					console.log(that.degreeId);
+				},
+				fail(){
+					console.log('degree无记录');
+				}
+			})
+		},
 		onLoad() {
 			var userInfo = this.getGlobalUserInfo();
-			this.userInfo = userInfo;
+			if (this.isNull(userInfo)) {
+				uni.redirectTo({
+					url: '../../../pages/signin/signin'
+				});
+				return;
+			} else {
+				this.userInfo = userInfo; // 刷去默认值(若有)
+			}
+			this.checkSchedule(this.page);
 		},
 		methods: {
-			checkSchdule(){
+			showDetail(e){
+				this.$emit("event",e);
+				console.log(e);
+			},
+			
+			checkSchedule: function(page){
+				if (loadScheduleFlag) {
+					return;
+				}
+				loadScheduleFlag = true;
+				
+				uni.showLoading({
+					title: '加载中...'
+				});
+				
+				setTimeout(() => {
+					if (loadScheduleFlag) {
+						loadScheduleFlag = false; // 解锁
+						uni.hideLoading();
+						uni.showToast({
+							title: '网络错误...',
+							icon: 'none',
+							duration: 1000
+						});
+					}
+				}, 5000); // 延时5s timeout
+				
+				var userInfo = this.getGlobalUserInfo();
+				if (this.isNull(userInfo)) {
+					uni.redirectTo({
+						url: '../../../pages/signin/signin'
+					});
+					return;
+				} else {
+					this.userInfo = userInfo; // 刷去默认值(若有)
+				}
+				// console.log(this.userInfo);
 				var that = this;
 				uni.request({
-					url: that.$serverUrl + '/eventsCalendar/queryEventsCalender',
+					url: that.$serverUrl + '/eventsCalendar/queryEventsCalendarByDate',
 					method: 'POST',
 					data: {
 						userId: that.userInfo.id,
 						// page 和 pagesize写成静态的 一次性加载出来
-						page: 1,
+						page: page,
 						pageSize: 20,
 						
-						targetDate:this.date,
-						faculty:this.facultyId,
-						degree:this.degreeId,
+						targetDate:that.date,
+						faculty:that.facultyId,
+						degree:that.degreeId,
 					},
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'
 					},
 					success: res=> {
-						if (page == 1) {
+						if (res.data.status == 200){
+							uni.hideLoading();
+							loadScheduleFlag = false;
+						
+							console.log(res);
+						
+							// 当前必然是第一页，设置showList为空
 							that.showList = [];
+						
+							this.$nextTick(() =>{
+								that.showList = res.data.data.rows;
+							})
 						}
-						this.$nextTick(() =>{
-							showList = res.data.data.rows;
-						})
+						else {
+							console.log(res);
+						}
 					},
 					fail: res => {
+						uni.hideLoading();
+						loadScheduleFlag = false;
+						
+						console.log('index unirequest fail');
 						console.log(res);
 					}
 				});
 			},
 			
 			facultyChange(e){
-				const index = e.target.value
-				this.beforeFaculty = this.facultyList[index].name
-				this.facultyId = this.facultyList[index].id
-				// uni.setStorage({
-				// 	key: 'facultyId',
-				// 	data: this.facultyId,
-				// 	success: (res) => {
-				// 		console.log(res)
-				// 	},
-				// 	fail: (err) => {
-				// 		console.log(err)
-				// 	}
-				// })
-				this.checkSchdule()
+				const index = e.target.value;
+				this.beforeFaculty = this.facultyList[index].name;
+				this.facultyId = this.facultyList[index].id;
+				// console.log(this.userInfo.id);
+				this.updateFaculty(this.userInfo.id,this.facultyId);
+				this.checkSchedule(1);
 			},
 			degreeChange(e){
-				const index2 = e.target.value
-				this.beforeDegree = this.degreeList[index2].name
-				this.degreeId = this.degreeList[index2].id
-				// uid.setStorage('degreeId',this.degreeId)
-				this.checkSchdule()
+				const index2 = e.target.value;
+				this.beforeDegree = this.degreeList[index2].name;
+				this.degreeId = this.degreeList[index2].id;
+				this.updateDegree(this.userInfo.id,this.degreeId)
+				this.checkSchedule(1);
 			},
 			getEmitDate(data){
 				this.date = data
-				console.log(data)
-				this.checkSchdule()
+				this.checkSchedule(1)
 			},
 			getEvent(data){
 				this.event = data
 				console.log(data)
 				this.$emit("event",this.event)
+			},
+			updateFaculty(id,facultyId) {
+				uni.setStorage({
+					key: id + ':facultyId',
+					data: facultyId,
+					success:function(){
+						console.log('更新faculty成功');
+					},
+					fail:function(){
+						console.log('faculty更新失败');
+					}
+				})
+			},
+			updateDegree(id,degreeId) {
+				uni.setStorage({
+					key: id + ':degreeId',
+					data: degreeId,
+					success:function(){
+						console.log('更新degree成功');
+					},
+					fail:function(){
+						console.log('degree更新失败');
+					}
+				})
 			}
 		}
 	}
@@ -147,16 +252,21 @@
 		border-radius: 10rpx;
 		background-color: #f2f2fc;
 		padding: 0 30rpx;
+		/**文字隐藏后添加省略号*/
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+		overflow: hidden;
 	}
 	.faculty-picker {
-		position: fixed;
+		position: absolute;
 		margin-left: 130px;
 		margin-top: -25px;
 		width: 60px;
 		text-align: center;
 	}
 	.degree-picker {
-		position: fixed;
+		position: absolute;
 		margin-left: 240px;
 		margin-top: -25px;
 		width: 80px;

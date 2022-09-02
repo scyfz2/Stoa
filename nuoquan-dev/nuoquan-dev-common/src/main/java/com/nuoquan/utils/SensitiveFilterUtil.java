@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 import static java.lang.Character.toLowerCase;
 import static java.lang.Character.toUpperCase;
 @Service
@@ -44,8 +45,6 @@ public class SensitiveFilterUtil {
             return null;
         }
 
-        // flag为0时表示此text无大写英文，flag为1时表示此text有大写英文
-        int flag = 0;
         // 指针1
         TrieNode tempNode = rootNode;
         // 指针2
@@ -54,23 +53,16 @@ public class SensitiveFilterUtil {
         int position = 0;
         // 结果
         StringBuilder sb = new StringBuilder();
-        // 记录大写英文在text中的位置
-        HashMap<Integer, Character> map = new HashMap<>();
-        // 记录位置
-        List<Integer> list = new ArrayList<>();
 
         while (position < text.length()) {
+            // flag == 0时表示此英文字符为小写，flag == 1时表示此英文字符为大写
+            int flag = 0;
             // 将大写英文字符转换为小写进行比较（以达到检测时大小写不敏感的目的）
             char c = text.charAt(position);
             if (c >= 65 && c <= 90)
             {
                 c = toLowerCase(c);
-                // 有大写时令flag=1
                 flag = 1;
-                // 添加位置
-                list.add(position);
-                // 添加位置与大写英文
-                map.put(position, toUpperCase(c));
             }
 
             // 跳过符号
@@ -89,7 +81,13 @@ public class SensitiveFilterUtil {
             tempNode = tempNode.getSubNode(c);
             if (tempNode == null) {
                 // 以begin开头的字符串不是敏感词
-                sb.append(text.charAt(begin));
+                // 若flag == 1，将其转换为原本的大写
+                if (flag == 1){
+                    sb.append(toUpperCase(text.charAt(begin)));
+                }
+                else {
+                    sb.append(text.charAt(begin));
+                }
                 // 进入下一个位置
                 position = ++begin;
                 // 重新指向根节点
@@ -109,13 +107,6 @@ public class SensitiveFilterUtil {
 
         // 将最后一批字符计入结果
         sb.append(text.substring(begin));
-
-        // 将对应字母改为大写
-        if (flag == 1) {
-            for (int l : list){
-                sb.setCharAt(l, map.get(l));
-            }
-        }
 
         return sb.toString();
     }
@@ -181,8 +172,6 @@ public class SensitiveFilterUtil {
         }
 
     }
-
-
 
 }
 

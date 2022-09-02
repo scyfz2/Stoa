@@ -1,6 +1,8 @@
 <template>
 	<view class="articlecard" id="'+articleCard.id+'" @click="goToDetail()" hover-class="hoverColor">
-		<view class="title" v-html="$markdownParse.parse(articleCard.articleTitle)"></view>
+		<!-- <view class="title" v-html="$markdownParse.parse(articleCard.articleTitle)"></view> -->
+		<view v-if="!isNull(articleCard.articleTitle)" class="title" v-html="articleCard.articleTitle"></view>
+		<view v-else class="title" style="padding: 15px;"></view>
 		
 		<view class="picturearea" v-if="articleCard.imgList.length">
 			<image :src="serverUrl + articleCard.imgList[0].imagePath"></image>

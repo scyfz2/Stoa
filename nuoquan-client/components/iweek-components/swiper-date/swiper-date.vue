@@ -12,10 +12,17 @@
 			return {
 				index: 0,
 				nowIndex: 0,
-				// startDate 控制在0-6区间内
-				startDate: 0,
 				date:'',
+				curDate:'',
 				dateList:[
+					{
+						date: 13,
+						selected: false,
+					},
+					{
+						date: 14,
+						selected: false,
+					},
 					{
 						date: 15,
 						selected: false,
@@ -63,31 +70,36 @@
 					{
 						date: 26,
 						selected: false,
-					},
-					{
-						date: 27,
-						selected: false,
-					},
-					{
-						date: 28,
-						selected: false,
 					}
 				]
 			}
 		},
-		onLoad(){
-			this.dayList = common.weekDate().dayList;
+		mounted() {
+			this.getCurrentDate();
+			if (this.curDate < 13){
+				this.getDate(this.dateList[0]);
+				this.changeIndex(0);
+			}else if(this.curDate<=26){
+					this.getDate(this.dateList[this.curDate-13]);
+					this.changeIndex(this.curDate-13);
+			}else {
+				this.getDate(this.dateList[13]);
+				this.changeIndex(13)
+			}
 		},
 		methods: {
 			getDate(e){
-				// debugger
-				// console.log(e.date)
-				this.date = e.date
-				this.$emit("date",this.date)
+				this.date = e.date;
+				this.$emit("date",this.date);
 			},
 			changeIndex(e){
-				console.log('change index')
 				this.nowIndex = e
+			},
+			getCurrentDate(){
+				var d = new Date();
+				// this.curDate = 27;
+				this.curDate = d.getDate();
+				console.log(this.curDate);
 			}
 		}
 	}

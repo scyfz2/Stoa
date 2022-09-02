@@ -107,7 +107,7 @@ import nqCmt from '../components/nq-button/nq-cmtButton.vue';
 
 
 export default {
-	name: 'aticlebrief',
+	name: 'articlebrief',
 	props: {
 		articleCard: {}
 	},

@@ -114,8 +114,6 @@ public class ArticleServiceImpl implements ArticleService {
 		articleVO.setArticleContent(sensitiveFilterUtil.filter(articleVO.getArticleContent()));
 		articleVO.setArticleTitle(sensitiveFilterUtil.filter(articleVO.getArticleTitle()));
 
-		if (StringUtils.isNotBlank(userId)){socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
-		}
 
 
 		return articleVO;
@@ -216,6 +214,9 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleVO getArticleById(String articleId, String userId) {
 		Article article = articleMapper.selectByPrimaryKey(articleId);
 		ArticleVO articleVO = composeArticleVO(article, userId);
+		if (StringUtils.isNotBlank(userId) || userId != "AdminUser" || userId != article.getUserId()){
+			socialService.addViewCount(userId, PostType.ARTICLE, articleVO.getId());
+		}
 		return articleVO;
 	}
 

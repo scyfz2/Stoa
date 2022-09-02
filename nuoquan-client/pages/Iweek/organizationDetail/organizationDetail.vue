@@ -25,10 +25,10 @@
 		<view class="orgContentBox">
 			<view v-for="(item,index) in showList" class="orgIntro">
 				<view style="font-size: 17px;font-weight: bold;">{{item}}</view>
-				<view class="orgDetail">
-					<view v-if="index==0">{{detail.intro}}</view>
-					<view v-else-if="index==1">{{detail.activityIntro}}</view>
-					<view v-else>{{detail.division}}</view>
+				<view class="orgDetail" style="line-height: 20px;">
+					<view v-if="index==0" v-html="$markdownParse.parse(detail.intro)"></view>
+					<view v-else-if="index==1" v-html="$markdownParse.parse(detail.activityIntro)"></view>
+					<view v-else v-html="$markdownParse.parse(detail.division)"></view>
 				</view>
 			</view>
 			<!-- 招新推文以及介绍的二维码 -->
