@@ -21,7 +21,9 @@
 	export default {
 		data(){
 			return {
-				functionList:''
+				functionList:'',
+				// 小程序跳转锁，跳转完成后解开
+				jumpLock : false,
 			};
 		},
 		computed: {
@@ -59,10 +61,16 @@
 		},
 		methods: {
 			onClick(e){
+				// debugger
 				console.log(e.name)
 				// 若点击社团组织或吃喝玩乐，在小程序内跳转
 				// 若点击map或course，根据appid和path跳转至对应小程序
 				if (e.type == 1) {
+					if (this.jumpLock == true){
+						return;
+					}
+					// 上锁
+					this.jumpLock = true;
 					uni.navigateToMiniProgram({
 						appId: e.appid,
 						path: e.url,
@@ -70,9 +78,11 @@
 						
 						success:res => {
 							console.log("打开成功", res);
+							this.jumpLock = false;
 						},
 						fail: err => {
 							console.log(err);
+							this.jumpLock = false;
 						}
 					})
 				} else {
@@ -90,7 +100,7 @@
 		display: flex; 
 		flex-direction: row; 
 		flex-wrap: wrap; 
-		margin: 0 5%;
+		/* margin: 0 5%; */
 	}
 	.functions{
 		width: 25%;

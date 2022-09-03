@@ -1,6 +1,5 @@
 package com.nuoquan.service;
 
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.PostType;
@@ -39,13 +38,15 @@ public class SocialServiceImpl implements SocialService {
     private UserCommentMapper userCommentMapper;
     @Autowired
     private ArticleMapper articleMapper;
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private ArticleService articleService;
     @Autowired
     private UserLikeMapper userLikeMapper;
     @Autowired
     private LongarticleMapper longarticleMapper;
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private LongarticleService longarticleService;
     @Autowired
     private VoteMapper voteMapper;
@@ -58,11 +59,11 @@ public class SocialServiceImpl implements SocialService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public UserVO getPostAuthor(PostType targetType, String targetId){
+    public UserVO getPostAuthor(PostType targetType, String targetId) {
         String authorId = "";
         switch (targetType) {
             case COMMENT:
-                authorId = getCommentById(targetId,"").getFromUserId();
+                authorId = getCommentById(targetId, "").getFromUserId();
                 break;
             case ARTICLE:
                 authorId = articleMapper.selectByPrimaryKey(targetId).getUserId();
@@ -77,27 +78,29 @@ public class SocialServiceImpl implements SocialService {
         return userService.getUserById(authorId);
     }
 
-    public UserCommentVO composeComment(String userId, UserComment userComment){
+    public UserCommentVO composeComment(String userId, UserComment userComment) {
         UserCommentVO userCommentVO = new UserCommentVO();
-        BeanUtils.copyProperties(userComment,userCommentVO);
+        BeanUtils.copyProperties(userComment, userCommentVO);
         // 查询并设置关于用户的点赞关系
-        userCommentVO.setIsLike(isUserLike(userId, PostType.COMMENT,userCommentVO.getId()));
+        userCommentVO.setIsLike(isUserLike(userId, PostType.COMMENT, userCommentVO.getId()));
         // 查询并设置评论人头像昵称
-        UserVO fromUser= userService.getUserById(userCommentVO.getFromUserId());
+        UserVO fromUser = userService.getUserById(userCommentVO.getFromUserId());
         userCommentVO.setNickname(fromUser.getNickname());
         userCommentVO.setFaceImg(fromUser.getFaceImg());
-        if (authenticatedUserService.checkUserIsAuth(userCommentVO.getFromUserId())){
-            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userCommentVO.getFromUserId());
+        if (authenticatedUserService.checkUserIsAuth(userCommentVO.getFromUserId())) {
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService
+                    .getAuthUserByUserId(userCommentVO.getFromUserId());
             userCommentVO.setFromUserAuthType(fromAuthenticatedUserVO.getType());
         } else {
             userCommentVO.setFromUserAuthType(0);
         }
         // 查询并设置toNickName
-        UserVO toUser= userService.getUserById(userCommentVO.getToUserId());
+        UserVO toUser = userService.getUserById(userCommentVO.getToUserId());
         userCommentVO.setToNickname(toUser.getNickname());
 
-        if (authenticatedUserService.checkUserIsAuth(userCommentVO.getToUserId())){
-            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userCommentVO.getToUserId());
+        if (authenticatedUserService.checkUserIsAuth(userCommentVO.getToUserId())) {
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService
+                    .getAuthUserByUserId(userCommentVO.getToUserId());
             userCommentVO.setToUserAuthType(fromAuthenticatedUserVO.getType());
         } else {
             userCommentVO.setToUserAuthType(0);
@@ -107,16 +110,17 @@ public class SocialServiceImpl implements SocialService {
         return userCommentVO;
     }
 
-    public UserLikeVO composeLike(String userId, UserLike userLike){
+    public UserLikeVO composeLike(String userId, UserLike userLike) {
         UserLikeVO userLikeVO = new UserLikeVO();
-        BeanUtils.copyProperties(userLike,userLikeVO);
+        BeanUtils.copyProperties(userLike, userLikeVO);
         // 查询并设置点赞人头像昵称
-        UserVO fromUser= userService.getUserById(userLikeVO.getUserId());
+        UserVO fromUser = userService.getUserById(userLikeVO.getUserId());
         userLikeVO.setNickname(fromUser.getNickname());
         userLikeVO.setFaceImg(fromUser.getFaceImg());
 
-        if (authenticatedUserService.checkUserIsAuth(userLikeVO.getUserId())){
-            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService.getAuthUserByUserId(userLikeVO.getUserId());
+        if (authenticatedUserService.checkUserIsAuth(userLikeVO.getUserId())) {
+            AuthenticatedUserVO fromAuthenticatedUserVO = authenticatedUserService
+                    .getAuthUserByUserId(userLikeVO.getUserId());
             userLikeVO.setAuthType(fromAuthenticatedUserVO.getType());
         } else {
             userLikeVO.setAuthType(0);
@@ -126,22 +130,23 @@ public class SocialServiceImpl implements SocialService {
 
     /**
      * 上传评论到数据库
-     * @param fromUserId 评论人
-     * @param toUserId   被评论人
-     * @param targetType 评论对象类型 不能是comment, 如果是article的子评论此字段也填article
-     * @param targetId   评论对象Id
-     * @param comment    评论内容
-     * @param underCommentId  归属主评论，无填null
+     * 
+     * @param fromUserId     评论人
+     * @param toUserId       被评论人
+     * @param targetType     评论对象类型 不能是comment, 如果是article的子评论此字段也填article
+     * @param targetId       评论对象Id
+     * @param comment        评论内容
+     * @param underCommentId 归属主评论，无填null
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public String insertComment(String fromUserId,
-                                String toUserId,
-                                PostType targetType,
-                                String targetId,
-                                String comment,
-                                String underCommentId) {
+            String toUserId,
+            PostType targetType,
+            String targetId,
+            String comment,
+            String underCommentId) {
 
         UserComment userComment = new UserComment();
         String id = sid.nextShort();
@@ -166,13 +171,13 @@ public class SocialServiceImpl implements SocialService {
             addTargetCommentCount(PostType.COMMENT.value, underCommentId);
         }
         // 被评论人影响力++
-        if (!toUserId.equals(fromUserId)){
+        if (toUserId != fromUserId) {
             userService.updateReputation(toUserId, ReputeWeight.COMMENT.weight, 1);
         }
         return id;
     }
 
-    private void addTargetCommentCount(String targetType, String targetId){
+    private void addTargetCommentCount(String targetType, String targetId) {
         if (targetType.equals(PostType.COMMENT.value)) {
             userCommentMapper.addCommentCount(targetId);
         } else if (targetType.equals(PostType.ARTICLE.value)) {
@@ -180,7 +185,7 @@ public class SocialServiceImpl implements SocialService {
         } else if (targetType.equals(PostType.LONGARTICLE.value)) {
             longarticleMapper.addCommentCount(targetId);
         } else if (targetType.equals(PostType.VOTE.value)) {
-            //TODO:投票评论数累加
+            // TODO:投票评论数累加
         }
     }
 
@@ -190,7 +195,7 @@ public class SocialServiceImpl implements SocialService {
             articleMapper.reduceCommentCount(userCommentMapper.selectByPrimaryKey(targetId).getTargetId());
         } else if (targetType.equals(PostType.ARTICLE.value)) {
             // 如果此评论有子评论的话，查询所有子评论数之和，所以新评论数=旧评论数-子评论数之和-1
-            if (userCommentMapper.querySubCommentNum(commentId)!=0){
+            if (userCommentMapper.querySubCommentNum(commentId) != 0) {
                 int subCommentNum = userCommentMapper.selectByPrimaryKey(commentId).getCommentNum();
                 int articleCommentNum = articleMapper.selectArticleCommentNum(targetId);
                 int newCommentNum = articleCommentNum - subCommentNum - 1;
@@ -202,15 +207,16 @@ public class SocialServiceImpl implements SocialService {
         } else if (targetType.equals(PostType.LONGARTICLE.value)) {
             longarticleMapper.reduceCommentCount(targetId);
         } else if (targetType.equals(PostType.VOTE.value)) {
-            //TODO:投票评论数累加
+            // TODO:投票评论数累加
         }
     }
 
     /**
      * 分页获取父评论
+     * 
      * @param page
      * @param pageSize
-     * @param type          0 -- 按时间查询, 1 -- 按热度查询
+     * @param type       0 -- 按时间查询, 1 -- 按热度查询
      * @param targetType
      * @param targetId
      * @param userId
@@ -219,17 +225,17 @@ public class SocialServiceImpl implements SocialService {
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public PagedResult getMainComments(Integer page,
-                                       Integer pageSize,
-                                       Integer type,
-                                       PostType targetType,
-                                       String targetId,
-                                       String userId) {
+            Integer pageSize,
+            Integer type,
+            PostType targetType,
+            String targetId,
+            String userId) {
 
         Example example = new Example(UserComment.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("targetType",targetType.getValue());
-        criteria.andEqualTo("targetId",targetId);
-        criteria.andEqualTo("status",StatusEnum.READABLE.getType());
+        criteria.andEqualTo("targetType", targetType.getValue());
+        criteria.andEqualTo("targetId", targetId);
+        criteria.andEqualTo("status", StatusEnum.READABLE.getType());
         criteria.andIsNull("underCommentId");
         if (type == 0) {
             example.setOrderByClause("create_date asc");
@@ -250,7 +256,7 @@ public class SocialServiceImpl implements SocialService {
         }
         pageInfoVO.setList(listVO);
 
-        //为最终返回对象 pagedResult 添加属性
+        // 为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult(pageInfoVO);
 
         return pagedResult;
@@ -258,21 +264,23 @@ public class SocialServiceImpl implements SocialService {
 
     /**
      * 分页获取子评论
+     * 
      * @param page
      * @param pageSize
-     * @param type              0 -- 按时间查询, 1 -- 按热度查询
+     * @param type           0 -- 按时间查询, 1 -- 按热度查询
      * @param underCommentId
      * @param userId
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public PagedResult getSubComments(Integer page, Integer pageSize, Integer type, String underCommentId, String userId) {
+    public PagedResult getSubComments(Integer page, Integer pageSize, Integer type, String underCommentId,
+            String userId) {
 
         Example example = new Example(UserComment.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("status",StatusEnum.READABLE.getType());
-        criteria.andEqualTo("underCommentId",underCommentId);
+        criteria.andEqualTo("status", StatusEnum.READABLE.getType());
+        criteria.andEqualTo("underCommentId", underCommentId);
         if (type == 0) {
             example.setOrderByClause("create_date asc");
         }
@@ -280,7 +288,6 @@ public class SocialServiceImpl implements SocialService {
         if (type == 1) {
             example.setOrderByClause("like_num desc");
         }
-
 
         PageHelper.startPage(page, pageSize);
         List<UserComment> list = userCommentMapper.selectByExample(example);
@@ -292,7 +299,7 @@ public class SocialServiceImpl implements SocialService {
         }
         pageInfoVO.setList(listVO);
 
-        //为最终返回对象 pagedResult 添加属性
+        // 为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult(pageInfoVO);
 
         return pagedResult;
@@ -301,30 +308,29 @@ public class SocialServiceImpl implements SocialService {
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public UserCommentVO getCommentById(String commentId, String userId) {
-//        Example example = new Example(UserComment.class);
-//        example.createCriteria().andEqualTo("id",commentId);
-//        UserComment comment = userCommentMapper.selectOneByExample(example);
-        //会报错，待解决；java.lang.String cannot be cast to java.util.Date 原因是POJO对象未定义@Id主键
+        // Example example = new Example(UserComment.class);
+        // example.createCriteria().andEqualTo("id",commentId);
+        // UserComment comment = userCommentMapper.selectOneByExample(example);
+        // 会报错，待解决；java.lang.String cannot be cast to java.util.Date 原因是POJO对象未定义@Id主键
         UserComment comment = userCommentMapper.selectByPrimaryKey(commentId);
         UserCommentVO commentVO = composeComment(userId, comment);
         return commentVO;
     }
 
-
     /**
      * 删除评论
+     * 
      * @param commentId
      * @return void
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public int fDeleteComment(String commentId, String userId, String targetId, PostType targetType) {
-        String fromUserId = userCommentMapper.selectByPrimaryKey(commentId).getFromUserId();
-        String toUserId = userCommentMapper.selectByPrimaryKey(commentId).getToUserId();
-
-        if (userId.equals(articleMapper.selectByPrimaryKey(userCommentMapper.selectByPrimaryKey(commentId).getTargetId()).getUserId())
-        || userId.equals(fromUserId)
-        || userId.equals("AdminUser")) {
+        if (userId
+                .equals(articleMapper.selectByPrimaryKey(userCommentMapper.selectByPrimaryKey(commentId).getTargetId())
+                        .getUserId())
+                || userId.equals(userCommentMapper.selectByPrimaryKey(commentId).getFromUserId())
+                || userId == "AdminUser") {
             Example example = new Example(UserComment.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("id", commentId);
@@ -332,13 +338,8 @@ public class SocialServiceImpl implements SocialService {
             c.setStatus(StatusEnum.DELETED.type);
             userCommentMapper.updateByExampleSelective(c, example);
             reduceTargetCommentCount(targetType.getValue(), targetId, commentId);
-            // 被评论人影响力--
-            if (!fromUserId.equals(toUserId)){
-                userService.updateReputation(toUserId, ReputeWeight.COMMENT.weight, -1);
-            }
             return 1;
-        }
-        else{
+        } else {
             return 0;
         }
 
@@ -346,7 +347,8 @@ public class SocialServiceImpl implements SocialService {
 
     /**
      * 用户点赞对象
-     *  @param userId
+     * 
+     * @param userId
      * @param targetType
      * @param targetId
      * @return
@@ -381,11 +383,11 @@ public class SocialServiceImpl implements SocialService {
                     break;
             }
 
-            String authorId = getPostAuthor(targetType,targetId).getId();
+            String authorId = getPostAuthor(targetType, targetId).getId();
             // 作者受喜欢数量的累加
             userService.addReceiveLikeCount(authorId);
             // 作者影响力++
-            if (!userId.equals(authorId)){
+            if (!userId.equals(authorId)) {
                 userService.updateReputation(authorId, ReputeWeight.LIKE.weight, 1);
             }
             return id;
@@ -417,7 +419,7 @@ public class SocialServiceImpl implements SocialService {
             userLikeMapper.deleteByExample(example);
 
             // 2.喜欢数量累减
-            switch (targetType){
+            switch (targetType) {
                 case COMMENT:
                     userCommentMapper.reduceLikeCount(targetId);
                     break;
@@ -428,11 +430,11 @@ public class SocialServiceImpl implements SocialService {
                     longarticleMapper.reduceLikeCount(targetId);
                     break;
             }
-            String authorId = getPostAuthor(targetType,targetId).getId();
+            String authorId = getPostAuthor(targetType, targetId).getId();
             // 3.作者受喜欢数量的累减
             userService.reduceReceiveLikeCount(authorId);
             // 作者影响力--
-            if (!userId.equals(authorId)){
+            if (!userId.equals(authorId)) {
                 userService.updateReputation(authorId, ReputeWeight.LIKE.weight, -1);
             }
         }
@@ -452,7 +454,7 @@ public class SocialServiceImpl implements SocialService {
         Example example = new Example(UserLike.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId);
-        criteria.andEqualTo("targetType",targetType.getValue());
+        criteria.andEqualTo("targetType", targetType.getValue());
         criteria.andEqualTo("targetId", targetId);
 
         List<UserLike> list = userLikeMapper.selectByExample(example);
@@ -482,7 +484,7 @@ public class SocialServiceImpl implements SocialService {
 
         userCollectMapper.insertSelective(userCollect);
         // 收藏数量++
-        switch (targetType){
+        switch (targetType) {
             case ARTICLE:
                 articleMapper.addCollectCount(targetId);
                 break;
@@ -494,7 +496,8 @@ public class SocialServiceImpl implements SocialService {
 
     /**
      * 用户取消收藏
-     *  @param userId
+     * 
+     * @param userId
      * @param targetType
      * @param targetId
      * @return
@@ -516,7 +519,7 @@ public class SocialServiceImpl implements SocialService {
             userCollectMapper.deleteByExample(example);
 
             // 2.收藏数量累减--
-            switch (targetType){
+            switch (targetType) {
                 case ARTICLE:
                     articleMapper.reduceCollectCount(targetId);
                     break;
@@ -524,7 +527,7 @@ public class SocialServiceImpl implements SocialService {
                     longarticleMapper.reduceCollectCount(targetId);
                     break;
             } // end switch
-        } //end if(isCollect)
+        } // end if(isCollect)
         return targetId;
     }
 
@@ -541,7 +544,7 @@ public class SocialServiceImpl implements SocialService {
         Example example = new Example(UserCollect.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId);
-        criteria.andEqualTo("targetType",targetType.getValue());
+        criteria.andEqualTo("targetType", targetType.getValue());
         criteria.andEqualTo("targetId", targetId);
 
         List<UserCollect> list = userCollectMapper.selectByExample(example);
@@ -553,7 +556,7 @@ public class SocialServiceImpl implements SocialService {
      *
      * @param page
      * @param pageSize
-     * @param userId //查询者
+     * @param userId   //查询者
      * @return
      */
     @Override
@@ -576,29 +579,29 @@ public class SocialServiceImpl implements SocialService {
         }
         pageInfoVO.setList(listVO);
 
-        //为最终返回对象 pagedResult 添加属性
+        // 为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult(pageInfoVO);
         return pagedResult;
     }
 
-    private UserCollectVO composeCollect(String userId, UserCollect collect){
+    private UserCollectVO composeCollect(String userId, UserCollect collect) {
         UserCollectVO collectVO = new UserCollectVO();
         BeanUtils.copyProperties(collect, collectVO);
         String targetId = collectVO.getTargetId();
         Object target = null;
         if (collectVO.getTargetType().equals(PostType.ARTICLE.value)) {
             ArticleVO article = articleService.getArticleById(targetId, userId);
-            //状态是否可读
-            if (article.getStatus() == StatusEnum.READABLE.type){
+            // 状态是否可读
+            if (article.getStatus() == StatusEnum.READABLE.type) {
                 target = article;
             }
         } else if (collectVO.getTargetType().equals(PostType.LONGARTICLE.value)) {
             LongarticleVO longarticleVO = longarticleService.getArticleById(targetId, userId);
-            if (longarticleVO.getStatus() == StatusEnum.READABLE.type){
+            if (longarticleVO.getStatus() == StatusEnum.READABLE.type) {
                 target = longarticleVO;
             }
         } else if (collectVO.getTargetType().equals(PostType.VOTE.value)) {
-            //Do nothing
+            // Do nothing
         }
         collectVO.setTarget(target);
         return collectVO;
@@ -606,6 +609,7 @@ public class SocialServiceImpl implements SocialService {
 
     /**
      * 用户Fetch对象为之增加浏览量
+     * 
      * @param userId
      * @param targetId
      * @param targetType
@@ -617,9 +621,9 @@ public class SocialServiceImpl implements SocialService {
         key = key.replace("userId", userId).replace("targetType", targetType.value).replace("targetId", targetId);
         String value = redis.get(key);
         if (StringUtils.isBlank(value)) {
-            redis.set(key, "ture", 86400); //两小时内不重复计算浏览量
+            redis.set(key, "ture", 86400); // 两小时内不重复计算浏览量
 
-            switch (targetType){
+            switch (targetType) {
                 case ARTICLE:
                     articleMapper.addViewCount(targetId);
                     break;
@@ -627,16 +631,16 @@ public class SocialServiceImpl implements SocialService {
                     longarticleMapper.addViewCount(targetId);
                     break;
             }
-            //作者影响力++
-            String authorId = getPostAuthor(targetType,targetId).getId();
+            // 作者影响力++
+            String authorId = getPostAuthor(targetType, targetId).getId();
             userService.updateReputation(authorId, ReputeWeight.VIEW.weight, 1);
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void userRead(String userId, PostType targetType, String targetId){
-        //TODO:记录用户阅读行为
+    public void userRead(String userId, PostType targetType, String targetId) {
+        // TODO:记录用户阅读行为
     }
 
     @Override
@@ -653,7 +657,7 @@ public class SocialServiceImpl implements SocialService {
         }
         pageInfoVO.setList(listVO);
 
-        //为最终返回对象 pagedResult 添加属性
+        // 为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult(pageInfoVO);
 
         return pagedResult;
@@ -662,7 +666,7 @@ public class SocialServiceImpl implements SocialService {
 
     // 此查询有问题，因为点赞数据库中没有to_user_id,后续如果需要的话可以更改数据库后使用此方法
     @Override
-    public PagedResult getAllLikeToMe(Integer page, Integer pageSize, String userId){
+    public PagedResult getAllLikeToMe(Integer page, Integer pageSize, String userId) {
         PageHelper.startPage(page, pageSize);
         List<UserLike> list = userLikeMapper.queryLikeToMe(userId);
         PageInfo<UserLike> pageInfo = new PageInfo<>(list);
@@ -675,7 +679,7 @@ public class SocialServiceImpl implements SocialService {
         }
         pageInfoVO.setList(listVO);
 
-        //为最终返回对象 pagedResult 添加属性
+        // 为最终返回对象 pagedResult 添加属性
         PagedResult pagedResult = new PagedResult(pageInfoVO);
 
         return pagedResult;

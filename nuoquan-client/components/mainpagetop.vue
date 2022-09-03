@@ -50,7 +50,8 @@
 										<image :src="pathFilter(item.faceImg)" style="width: 17px;height: 17px;border-radius: 50%;"></image>
 										<view class="userid_mainpagetop" style="display: flex;">
 											<text>{{item.nickname}}</text>
-											<image v-if="item.authType == 1 || item.authType == 2" src="../static/icon/auth.png" style="width: 17px; height: 17px;z-index: 1000;margin-left: 3px;"></image>
+											<image v-if="item.authType == 2" src="../static/icon/auth_red.png" style="width: 17px; height: 17px;z-index: 1000;margin-left: 3px;"></image>
+											<image v-if="item.authType == 1" src="../static/icon/auth_yellow.png" style="width: 17px; height: 17px;z-index: 1000;margin-left: 3px;"></image>
 										</view>
 										</view>
 								</view>
