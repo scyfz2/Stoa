@@ -60,7 +60,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 2" src="../../static/icon/auth_red.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 1" src="../../static/icon/auth_yellow.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
 												<text class="clID-operation">{{lang.likedYourArticle}}</text>
 											</view>
 											<!-- 获取新消息时间戳 -->
@@ -125,7 +126,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 2" src="../../static/icon/auth_red.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 1" src="../../static/icon/auth_yellow.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
 												<text class="clID-operation">{{lang.likedYourComment}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
@@ -162,7 +164,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 2" src="../../static/icon/auth_red.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 1" src="../../static/icon/auth_yellow.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
 												<text class="clID-operation">{{lang.commentedYourArticle}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->
@@ -222,7 +225,8 @@
 											</view>
 											<view class="clID-box">
 												<text class="clID-text">{{ item.nickname }}</text>
-												<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 2" src="../../static/icon/auth_red.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
+												<image v-if="item.authType == 1" src="../../static/icon/auth_yellow.png" style="width: 15px;height: 15px;margin-left: 3px;"></image>
 												<text class="clID-operation">{{lang.replyYourComment}}</text>
 											</view>
 											<!-- 需要获取新消息时间戳 -->

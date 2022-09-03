@@ -12,7 +12,8 @@
 			<image :src="pathFilter(thisArticle.faceImg)" class="touxiang" @tap.stop="goToPersonPublic(thisArticle.userId)"></image>
 			<view class="name">
 				<view @tap.stop="goToPersonPublic(thisArticle.userId)">{{ thisArticle.nickname }}</view>
-				<image v-if="thisArticle.authType == 1 || thisArticle.authType == 2" src="../static/icon/auth.png" class="authLogo" ></image>
+				<image v-if="thisArticle.authType == 2" src="../static/icon/auth_red.png" class="authLogo" ></image>
+				<image v-if="thisArticle.authType == 1" src="../static/icon/auth_yellow.png" class="authLogo" ></image>
 			</view>
 			<view class="time" :style="timeLeft">{{ timeDeal(thisArticle.createDate) }}</view>
 		</view>
