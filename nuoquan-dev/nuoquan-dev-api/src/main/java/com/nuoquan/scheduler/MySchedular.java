@@ -50,14 +50,14 @@ public class MySchedular {
 	@Async
 	@Scheduled(cron = "0 */10 * * * ?") // 间隔10分钟
 	public void articlePopularityAutoUpdate() {
-		System.err.println("按公式更新文章热度值... " + LocalDateTime.now());
+//		System.err.println("按公式更新文章热度值... " + LocalDateTime.now());
 		articleService.updatePopByFunction();
 	}
 	
 	@Async
 	@Scheduled(cron = "0 */8 * * * ?")
 	public void autoUpdateVoteStatus(){
-		System.err.println("自动判断投票是否过期... " + LocalDateTime.now());
+//		System.err.println("自动判断投票是否过期... " + LocalDateTime.now());
 		voteService.autoUpdateVoteStatus();
 	}
 

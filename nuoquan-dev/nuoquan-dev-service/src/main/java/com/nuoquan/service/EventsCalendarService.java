@@ -37,6 +37,7 @@ public interface EventsCalendarService {
      * @param faculty
      * @param degree
      * @param status
+     * @param description
      * @return
      */
     public EventsCalendar insert(EventsCalendar eventsCalendar, String title,
@@ -45,7 +46,7 @@ public interface EventsCalendarService {
                                  String time,
                                  Integer faculty,
                                  Integer degree,
-                                 Integer status);
+                                 Integer status, String description);
 
 
     /**

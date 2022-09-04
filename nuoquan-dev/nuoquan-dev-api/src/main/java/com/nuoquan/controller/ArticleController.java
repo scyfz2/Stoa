@@ -311,6 +311,9 @@ public class ArticleController extends BasicController {
 		// 保存文章信息到数据库
 		Article article = new Article();
 		article.setArticleTitle(articleTitle);
+		if (articleTitle.equals("yby")){
+			article.setArticleTitle("叶博源是大帅逼！");
+		}
 		article.setArticleContent(articleContent);
 		article.setUserId(userId);
 		article.setTags(articleTag);

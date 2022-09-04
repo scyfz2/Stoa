@@ -4,9 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.EventsCalendarMapper;
-import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.EventsCalendar;
-import com.nuoquan.pojo.FeaturedArticle;
 import com.nuoquan.pojo.vo.EventsCalendarVO;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.RedisOperator;
@@ -147,10 +145,11 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
      * @param faculty
      * @param degree
      * @param status
+     * @param description
      * @return
      */
     @Override
-    public EventsCalendar insert(EventsCalendar eventsCalendar, String title, String venue, Integer date, String time, Integer faculty, Integer degree, Integer status) {
+    public EventsCalendar insert(EventsCalendar eventsCalendar, String title, String venue, Integer date, String time, Integer faculty, Integer degree, Integer status, String description) {
         // 保存事件信息到数据库
         eventsCalendar.setEventTitle(title);
         eventsCalendar.setEventVenue(venue);
