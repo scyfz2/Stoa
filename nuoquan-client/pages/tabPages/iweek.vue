@@ -5,7 +5,7 @@
  -->
 <template>
 	<view class="iweek">
-		<schedule-detail @event="getEvent" :event="event"></schedule-detail>
+		<schedule-detail :event="detail" :show = "show" @close = "closeEvent"></schedule-detail>
 		<!-- 导航栏 -->
 		<uni-nav-bar class="navigationBar" :style="{height: this.getnavbarHeight() + 'px'}"
 		:title="lang.iweek" :showLeftIcon="false"
@@ -29,7 +29,7 @@
 			{{lang.dailySchedule}}
 			</view>
 			<!-- <view class="second_line" @click="toggleIsEditFaculty"></view> -->
-			<schedule class="schedule"></schedule>
+			<schedule @event="showDetail" class="schedule"></schedule>
 		</view>
 		
 		<!-- 底部选项卡 -->
@@ -57,6 +57,8 @@
 				event: {},
 				title: 'Hello',
 				swipers:[],
+				detail: '',
+				show: false,
 			}
 		},
 		computed:{
@@ -78,6 +80,14 @@
 			getEvent(data){
 				this.event = data
 				console.log(this.event)
+			},
+			showDetail(e){
+				this.detail = e;
+				this.show = true;
+				// console.log(this.detail);
+			},
+			closeEvent(e){
+				this.show = e;
 			}
 		}
 	}

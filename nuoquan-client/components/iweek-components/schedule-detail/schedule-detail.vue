@@ -2,42 +2,49 @@
 	<view v-if="show" class="scheduleContainer">
 		<view class="scheduleBox">
 			<view class="content">
-				<view class="concrete_topic title">
-					<text>{{event.title}}</text>
+				<view class="concrete_topic title" style="margin-bottom: 20px;font-size: 17px;line-height: 25px;font-weight:500;margin-left: 10px;">
+					<text>{{event.eventTitle}}</text>
 				</view>
-				<view class="date">
-					<view class="concrete_date title">
+				<view class="date" style="margin-bottom: 15px; display: flex;margin-left: 10px;">
+					<view style="font-weight: bold;font-size: 15px;margin-right: 10px;">
 						<text>Date:</text>
 					</view>
-					<view class="concrete_date detail">
-						<text>{{event.date}}</text>
+					<view style="font-size: 13px;">
+						<text>{{event.strEventDate}}</text>
 					</view>
 				</view>
 				
-				<view class="time">
-					<view class="concrete_time title">
+				<view style="margin-bottom: 15px;display: flex;margin-left: 10px;">
+					<view style="font-weight: bold; font-size: 15px;margin-right: 10px;">
 						<text>Time:</text>
 					</view>
-					<view class="concrete_time detail">
-						<text>{{event.time}}</text>
+					<view style="font-size: 13px;">
+						<text>{{event.eventTime}}</text>
 					</view>
 				</view>
 				
-				<view class="venue">
-					<view class="concrete_venue title">
+				<view class="venue" style="margin-bottom: 15px; display: flex;margin-left: 10px;">
+					<view style="font-weight: bold; font-size: 15px;margin-right: 10px;">
 						<text>Venue:</text>
 					</view>
-					<view class="concrete_venue detail">
-						<text>{{event.venue}}</text>
+					<view style="font-size: 13px;">
+						<!-- <text>Grass Pitch close to Sir Colin Campbell Building (Sports Center)</text> -->
+						<text>{{event.eventVenue}}</text>
 					</view>
 				</view>
 				
-				<view class="target">
-					<view class="concrete_target title">
+				<view class="target" style="margin-bottom: 15px; display: flex;margin-left: 10px;">
+					<view style="font-weight: bold; font-size: 15px;margin-right: 10px;">
 						<text>Target Student:</text>
 					</view>
-					<view class="concrete_target detail">
-						<text>{{event.faculty}} {{event.degree}}</text>
+					<view style="font-size: 13px;">
+						<text>{{event.strFaculty}}, {{event.strDegree}}</text>
+					</view>
+				</view>
+				
+				<view class="description" style="margin-bottom: 15px; display: flex;margin-left: 10px;">
+					<view style="font-weight: bold; font-size: 15px;margin-right: 10px;">
+						<text>这是一件很严肃的活动 请不要错过！！！</text>
 					</view>
 				</view>
 			</view>
@@ -53,14 +60,13 @@
 	import { mapState, mapMutations } from 'vuex';
 	export default {
 		props:{
-			event:{
-				required: true,
-				default:{},
-			}
+			event:'',
+			show:'',
 		},
 		data() {
 			return {
-				show: false,
+				// event:''
+				// show: false,
 			}
 		},
 		computed: {
@@ -68,8 +74,9 @@
 		},
 		methods: {
 			killAd(){
-				this.show = !this.show;
-			}	
+				// this.show = !this.show;
+				this.$emit('close',false);
+			}
 		}
 	}
 </script>
@@ -81,6 +88,7 @@
 		position: fixed;
 		/* 第五层 */
 		z-index: 50; 
+		display: flex;
 	}
 	.scheduleBox {
 		height: 700upx;
@@ -90,7 +98,7 @@
 		z-index: 60;
 		background-color: white;
 		opacity: 1;
-		border-radius: 8px;
+		border-radius: 15px;
 		top: 0;
 		bottom: 0;
 		left: 0;
@@ -102,12 +110,12 @@
 	}
 	.killIcon{
 		position: absolute;
-		top: 2px;
-		right: 2px;
-		width: 28px;
-		height: 28px;
-		border-radius: 50%;
-		background-color: #e6e6e6;
+		top: 10px;
+		right: 10px;
+		width: 15px;
+		height: 15px;
+		/* border-radius: 50%; */
+		/* background-color: #e6e6e6; */
 	}
 	
 	.killIcon image{
@@ -122,36 +130,5 @@
 	.detail {
 		margin-top: -18px;
 		margin-left: 40px;
-	}
-	
-	.concrete_topic {
-		margin-bottom: 15px;
-	}
-	
-	.title {
-		font-weight: bold;
-		font-size: 14px;
-	}
-	.time {
-		margin-left: 0;
-		margin-top: 20upx;
-	}
-	.concrete_venue.title {
-		margin-top: 20upx;
-	}
-	.concrete_venue.detail {
-		margin-left: 100upx;
-	}
-	.concrete_target.title {
-		margin-top: 30upx;
-	}
-	.concrete_target.detail {
-		margin-left: 230upx;
-	}
-	.concrete_type.title {
-		margin-top: 30upx;
-	}
-	.concrete_type.detail {
-		margin-left: 180upx;
 	}
 </style>

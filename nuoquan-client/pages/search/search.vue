@@ -268,6 +268,7 @@
 				var keywords = this.searchHisKeyList[index];
 				// console.log(keywords);
 				this.searchKeyWords = keywords;
+				this.search(1);
 			},
 			highLightKeyWord(newArticleList) {
 				// 	console.log("highLighting!!!!!");

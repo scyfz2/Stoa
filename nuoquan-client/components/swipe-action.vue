@@ -38,7 +38,8 @@
 								<view class="item-middle">
 									<view style="display: flex;">
 										<text :class="it.unreadCount > 0 ? 'title' : 'title-read'">{{ it.friendInfo.nickname }}</text>
-										<image src="../static/icon/auth.png" style="width: 15px;height: 15px;margin-top: 3px;margin-left: 3px;"></image>
+										<image v-if="it.friendInfo.authType == 2" src="../static/icon/auth_red.png" style="width: 18px; height: 15px;margin-top: 3px;margin-left: 3px;"></image>
+										<image v-if="it.friendInfo.authType == 1" src="../static/icon/auth_yellow.png" style="width: 18px; height: 15px;margin-top: 3px;margin-left: 3px;"></image>
 									</view>
 									<text :class="it.unreadCount > 0 ? 'message' : 'message-read'">{{ it.msg }}</text>
 								</view>
@@ -53,8 +54,8 @@
 					</view>
 				</view>
 				<view class="delete-button super_center" v-if="showdelete == 1 && messageIndex == i" @tap="tapDelete(it)">
-									<text style="color: white;text-align: center;font-size: small;">{{lang.delete}}</text>
-								</view>
+					<text style="color: white;text-align: center;font-size: small;">{{lang.delete}}</text>
+				</view>
 			</view>
 		</block>
 	</view>

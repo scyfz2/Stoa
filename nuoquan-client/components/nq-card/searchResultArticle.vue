@@ -1,6 +1,8 @@
 <template>
 	<view class="articlecard" id="'+articleCard.id+'" @click="goToDetail()" hover-class="hoverColor">
-		<view class="title" v-html="$markdownParse.parse(articleCard.articleTitle)"></view>
+		<!-- <view class="title" v-html="$markdownParse.parse(articleCard.articleTitle)"></view> -->
+		<view v-if="!isNull(articleCard.articleTitle)" class="title" v-html="articleCard.articleTitle"></view>
+		<view v-else class="title" style="padding: 15px;"></view>
 		
 		<view class="picturearea" v-if="articleCard.imgList.length">
 			<image :src="serverUrl + articleCard.imgList[0].imagePath"></image>
@@ -12,7 +14,8 @@
 			<view class="menubar">
 				<image :src="pathFilter(articleCard.faceImg)" class="touxiang"></image>
 				<view class="name">{{ articleCard.nickname }}</view>
-				<image v-if="articleCard.authType == 1 || articleCard.authType == 2" src="../../static/icon/auth.png" style="width: 18px; height: 18px;z-index: 1000;margin-left: 3px;margin-top: 2px;"></image>
+				<image v-if="articleCard.authType == 2" src="../../static/icon/auth_red.png" style="width: 18px; height: 18px;z-index: 1000;margin-left: 3px;margin-top: 2px;"></image>
+				<image v-else-if="articleCard.authType == 1" src="../../static/icon/auth_yellow.png" style="width: 18px; height: 18px;z-index: 1000;margin-left: 3px;margin-top: 2px;"></image>
 				<view class="time">{{ timeDeal(articleCard.createDate) }}</view>
 			</view>	
 		</view>

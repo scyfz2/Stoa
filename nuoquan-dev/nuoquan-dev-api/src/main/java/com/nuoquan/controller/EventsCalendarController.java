@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author BoyuanYE
  * @Date: 2022.07.05
-**/
+ **/
 
 @RestController
 @Api(value = "迎新周日程相关接口", tags = { "EventsCalendar-Controller" })
@@ -28,12 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventsCalendarController extends BasicController {
     /**
      *
-     * @param page 页面数
-     * @param pageSize 页面大小
-     * @param userId 操作者id
+     * @param page       页面数
+     * @param pageSize   页面大小
+     * @param userId     操作者id
      * @param targetDate 查询目标日期
-     * @param faculty 学院
-     * @param degree 学历
+     * @param faculty    学院
+     * @param degree     学历
      * @return JSONResult
      */
     @ApiOperation(value = "按日期查询日程", notes = "查询全部可读日程的接口")
@@ -48,25 +48,25 @@ public class EventsCalendarController extends BasicController {
     @PostMapping("/queryEventsCalendarByDate")
     public JSONResult queryEventsCalendarByDate(String userId, Integer page, Integer pageSize, Integer targetDate, Integer faculty, Integer degree) {
 
-        if(page == null) {
+        if (page == null) {
             page = 1;
         }
 
-        if(pageSize == null) {
+        if (pageSize == null) {
             pageSize = PAGE_SIZE;
         }
 
-        PagedResult result = eventsCalendarService.queryEventsCalendarByDate(userId, page, pageSize, targetDate, faculty, degree);
+        PagedResult result = eventsCalendarService.queryEventsCalendarByDate(userId, page, pageSize, targetDate,
+                faculty, degree);
 
         return JSONResult.ok(result);
     }
-
 
     /**
      *
      * @param page
      * @param pageSize
-     * @param userId 操作者id
+     * @param userId   操作者id
      * @return JSONResult
      * @throws Exception
      */
@@ -79,11 +79,11 @@ public class EventsCalendarController extends BasicController {
     @PostMapping("/listAllEvents")
     public JSONResult listAllEvents(String userId, Integer page, Integer pageSize) throws Exception {
 
-        if(page == null) {
+        if (page == null) {
             page = 1;
         }
 
-        if(pageSize == null) {
+        if (pageSize == null) {
             pageSize = PAGE_SIZE;
         }
 
@@ -91,8 +91,6 @@ public class EventsCalendarController extends BasicController {
 
         return JSONResult.ok(result);
     }
-
-
 
     @ApiOperation(value = "上传日程", notes = "上传日程的接口")
     @ApiImplicitParams({
@@ -120,9 +118,9 @@ public class EventsCalendarController extends BasicController {
                 && weChatService.msgSecCheck(time)
                 && weChatService.msgSecCheck(description)) {
             // 合法
-            if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
+            if (resourceConfig.getAutoCheckArticle()) { // 查看是否设置自动过审
                 isLegal = StatusEnum.READABLE.type;
-            }else {
+            } else {
                 isLegal = StatusEnum.CHECKING.type;
             }
         } else {
@@ -165,21 +163,18 @@ public class EventsCalendarController extends BasicController {
         }
 
         // TODO: 这里只返回了最后一次的id，可能在未来业务中出bug
-        if (isLegal != 0){
+        if (isLegal != 0) {
             return JSONResult.ok(eventId);
         } else {
             return JSONResult.errorMsg("内容违规");
         }
     }
 
-
-
-
     @ApiOperation(value = "移除日程")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "eventId", value = "事件id", required = true, dataType = "String", paramType = "form")
     })
-    @PostMapping(value="/removeEvent")
+    @PostMapping(value = "/removeEvent")
     public JSONResult removeEvent(String eventId) throws Exception {
         eventsCalendarService.removeEvent(eventId);
         return JSONResult.ok();

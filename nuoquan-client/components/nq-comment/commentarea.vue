@@ -32,7 +32,8 @@
 						<image :src="pathFilter(comment.mainComment.faceImg)" @tap="goToPersonPublic(comment.mainComment.fromUserId)"></image>
 						<view class="name_text" style="display: flex;">
 							<text selectable="true">{{ comment.mainComment.nickname }}</text>
-							<image v-if="comment.mainComment.fromUserAuthType == 1 || comment.mainComment.fromUserAuthType == 2" src="../../static/icon/auth.png" style="height: 18px;width: 18px;margin-left: 3px;"></image>
+							<image v-if="comment.mainComment.fromUserAuthType == 2" src="../../static/icon/auth_red.png" style="height: 18px;width: 18px;margin-left: 3px;"></image>
+							<image v-if="comment.mainComment.fromUserAuthType == 1" src="../../static/icon/auth_yellow.png" style="height: 18px;width: 18px;margin-left: 3px;"></image>
 						</view>
 						<view class="time_text">{{ timeDeal(comment.mainComment.createDate) }}</view>
 					</view>

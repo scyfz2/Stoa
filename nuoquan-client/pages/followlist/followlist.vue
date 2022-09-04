@@ -39,7 +39,8 @@
 									<view>
 										{{item.nickname}}
 									</view>
-									<image v-if="item.authType == 1 || item.authType == 2" src="../../static/icon/auth.png" style="height: 20px;width: 20px;margin-left: 5px;"></image>
+									<image v-if="item.authType == 2" src="../../static/icon/auth_red.png" style="height: 20px;width: 20px;margin-left: 5px;"></image>
+									<image v-if="item.authType == 1" src="../../static/icon/auth_yellow.png" style="height: 20px;width: 20px;margin-left: 5px;"></image>
 								</view>
 								<!-- 暂时先拿掉，TODO: 获取列表同时查询我是否已关注该用户 
 																				by Jerrio-->

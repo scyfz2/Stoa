@@ -1,13 +1,13 @@
 <template>
 	<view class="bottomBar" id="chatarea">
 		<textarea :style="{ width:  textareaWidth + 'px'}" fixed="true" cursor-spacing="20" auto-height="true" v-model="inputMessage"
-		 :show-confirm-bar="false" />
+		 :show-confirm-bar="false" adjust-position="false" auto-focus @focus="getKeyBoardHeight" @blur="recoverTextArea" />
 		<view id="icons" class="icons">
 					<button class="viewPic" @click="showToast()"><image src="../static/icon/viewLocalPic.png"></image></button>
 					<!-- 				<button><image src="../../static/icon/emoji.png"></image></button>
 	-->
 					<button class="viewEmoji" @click="showToast()"><image src="../static/icon/emoji.png"></image></button>
-					<button @click="send(textMsg)" class="sendText">{{lang.send}}</image></button>
+					<button @click="send(textMsg)" class="sendText" @touchend.prevent="onTap" >{{lang.send}}</image></button>
 	
 				</view>
 	</view>
@@ -25,6 +25,7 @@
 			return {
 				inputMessage:this.inputMessageFromPage,
 				textareaWidth:"",
+				height:'',
 			};
 		},
 		mounted() {
@@ -48,6 +49,23 @@
 			send(){
 				this.$emit('send',this.inputMessage);
 				this.inputMessage = '' // 清空输入框
+			},
+			getKeyBoardHeight(e){
+				// debugger
+				var textAreaTop_ = e.detail.height;
+				var phoneHeight;
+				console.log("键盘高度" + e.detail.height);
+				uni.getSystemInfo({
+					success(res) {
+						phoneHeight = res.windowHeight;
+						console.log(phoneHeight);
+					}
+				});
+				this.height= textAreaTop_;
+				this.$emit("change",this.height);
+			},
+			recoverTextArea(){
+				this.$emit("recover",this.height);
 			}
 		}
 	}

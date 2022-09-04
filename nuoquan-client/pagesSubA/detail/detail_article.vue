@@ -6,7 +6,8 @@
 				<image :src="pathFilter(articleCard.faceImg)" class="touxiang" @click="goToPersonPublic()"></image>
 				<view class="name">
 					<text selectable="true" @tap="goToPersonPublic()">{{ articleCard.nickname }}</text>
-					<image v-if="articleCard.authType == 1 || articleCard.authType == 2" src="../../static/icon/auth.png" style="width: 15px;height: 15px;margin-left: 5px;"></image>
+					<image v-if="articleCard.authType == 2" src="../../static/icon/auth_red.png" style="width: 15px;height: 15px;margin-left: 5px;"></image>
+					<image v-if="articleCard.authType == 1" src="../../static/icon/auth_yellow.png" style="width: 15px;height: 15px;margin-left: 5px;"></image>
 				</view>
 				<view class="time">{{ timeDeal(articleCard.createDate) }}</view>
 			</view>
