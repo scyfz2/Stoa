@@ -44,7 +44,7 @@
 				
 				<view class="description" style="margin-bottom: 15px; display: flex;margin-left: 10px;">
 					<view style="font-weight: bold; font-size: 15px;margin-right: 10px;">
-						<text>这是一件很严肃的活动 请不要错过！！！</text>
+						<!-- <text>这是一件很严肃的活动 请不要错过！！！</text> -->
 					</view>
 				</view>
 			</view>
@@ -91,8 +91,8 @@
 		display: flex;
 	}
 	.scheduleBox {
-		height: 700upx;
-		width: 700upx;
+		max-height: 700upx;
+		max-width: 600upx;
 		position: fixed;
 		/* 第六层 */
 		z-index: 60;

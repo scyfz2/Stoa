@@ -11,7 +11,8 @@
 		:title="lang.iweek" :showLeftIcon="false"
 		:height="this.getnavbarHeight().bottom + 5"></uni-nav-bar>
 		<view :style="{ height: this.getnavbarHeight().bottom + 5 + 'px' }" style="width: 100%;"></view>
-		
+		<!-- 占位 -->
+		<view style="height: 8px; background-color: #FFFFFF;"></view>
 		<view class="topHalf">
 		<!-- 轮播图 如果不想让他动的话就只放一张图 -->
 		<swiper class="top-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
@@ -103,7 +104,7 @@
 	
 	.topHalf {
 		background-color: #FFFFFF;
-		margin-top: 8px;
+		/* margin-top: 8px; */
 	}
 	
 	.functionList {

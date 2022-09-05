@@ -60,7 +60,7 @@
 		position: absolute;
 		background-size: 10px;
 		background-color: #f9c466;
-		width: 3%;
+		width: 2.6%;
 		height: 100upx;
 		border-radius:8px 0 0 8px;
 		margin-bottom: 0;
@@ -80,6 +80,7 @@
 		overflow: hidden;
 	}
 	.time {
+		font-size: 11px;
 		width: 200upx;
 		margin-left: 20px;
 		margin-top: 15upx;
@@ -91,6 +92,7 @@
 		overflow: hidden;
 	}
 	.location {
+		font-size: 11px;
 		width: 400upx;
 		margin-left: 130px;
 		margin-top: -35upx;

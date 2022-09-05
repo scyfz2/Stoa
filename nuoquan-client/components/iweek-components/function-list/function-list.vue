@@ -24,6 +24,7 @@
 				functionList:'',
 				// 小程序跳转锁，跳转完成后解开
 				jumpLock : false,
+				encode:'',
 			};
 		},
 		computed: {
@@ -52,10 +53,10 @@
 					url: 'pages/index/index'
 				},
 				{
-					type: 0,
+					type: 2,
 					icon: '/static/icon/iweek/eat.png',
 					name: '吃喝玩乐',
-					url: '/pages/iweek/eat'
+					url: 'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ',
 				}
 			]
 		},
@@ -85,9 +86,18 @@
 							this.jumpLock = false;
 						}
 					})
-				} else {
+				} else if(e.type == 0){
 					uni.navigateTo({
 						url:e.url,
+					});
+				} else if(e.type == 2){
+					// console.log(e.url);
+					var url = 'https://mp.weixin.qq.com/s/3bH_UtBdPVhbF3OViMwEdQ'
+					var encodeData = encodeURIComponent(url);
+					// console.log(encodeData);
+					// debugger
+					uni.navigateTo({
+						url:'../../../pages/adWebPage/adWebPage?url=' + encodeData,
 					});
 				}
 			}
@@ -100,23 +110,26 @@
 		display: flex; 
 		flex-direction: row; 
 		flex-wrap: wrap; 
-		/* margin: 0 5%; */
+		margin: 0 5%;
 	}
 	.functions{
 		width: 25%;
 		margin-top: 16upx;
 	}
 	.function-image{
+		display: bloc;
 		width: 50px; 
 		height: 50px;
-		margin: 10% 25% 20% 25%;
+		margin: 10% 15% 10% 15%;
 		border: 1px solid #b1b1b1;
-		border-radius: 100upx;
+		border-radius: 50%;
 	}
 	.text {
-		/* display: inline-flex; */
+		display: inline-flex;
 		text-align: center;
 		font-size: 14px;
 		margin-bottom: 15%;
+		margin-left: 15%;
+		margin-right: 15%;
 	}
 </style>

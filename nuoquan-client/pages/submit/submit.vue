@@ -140,23 +140,26 @@
 		},
 		onUnload() {
 			var _this = this;
-			if (this.articleTitle != "" || this.articleContent != "" || this.imageList != "" || this.selectedTags != "") {
-				uni.setStorage({
-					key: _this.userInfo.id + ':draftArticle',
-					data: {
-						status: true,
-						articleTitle: _this.articleTitle,
-						articleContent: _this.articleContent,
-						selectedTags: _this.selectedTags,
-						imageList: _this.imageList,
-					},
-					success: function() {
-						console.log('Draft article saving success');
-					}
-				})
-			} else {
-				_this.cleanDraft();
-			}
+			// Date: Sept. 5, 2022
+			// Author: Yifei
+			// Description: 将缓存功能注释掉，现在在重新进入编辑界面时，若不继续上次编辑并重新传入图片会出现奇怪的报错，以后修好了再放回来吧
+			// if (this.articleContent != "" || this.imageList != "" || this.selectedTags != "") {
+			// 	uni.setStorage({
+			// 		key: _this.userInfo.id + ':draftArticle',
+			// 		data: {
+			// 			status: true,
+			// 			articleTitle: _this.articleTitle,
+			// 			articleContent: _this.articleContent,
+			// 			selectedTags: _this.selectedTags,
+			// 			imageList: _this.imageList,
+			// 		},
+			// 		success: function() {
+			// 			console.log('Draft article saving success');
+			// 		}
+			// 	})
+			// } else {
+			// 	_this.cleanDraft();
+			// }
 		},
 		onLoad() {
 			// 一次性储存 navbar 高度
@@ -183,7 +186,6 @@
 				this.tagColorList.push(tagColors[random_1]);
 				this.selectedTagColorList.push(tagColors[random_2]);
 			}
-
 		},
 		methods: {
 			checkDraft() {
@@ -205,11 +207,8 @@
 								fail: function(res) {
 									that.cleanDraft();
 								},
-
 							})
-
 						}
-
 					}
 				})
 			},
@@ -236,7 +235,7 @@
 				uni.setStorage({
 					key: that.userInfo.id + ':draftArticle',
 					data: {
-						statue: false,
+						status: false,
 					},
 					success: function() {
 						console.log('Draft cleaned');
