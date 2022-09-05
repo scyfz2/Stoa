@@ -22,6 +22,6 @@
         select * from nuoquan.organization org natural join nuoquan.organization_image
         where
         org.status = 1
-        order by org.id asc
+        order by org.create_date asc
     </select>
 </mapper>
