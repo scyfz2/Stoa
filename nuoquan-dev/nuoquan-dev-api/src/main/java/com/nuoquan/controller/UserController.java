@@ -5,6 +5,7 @@ import java.util.*;
 import com.nuoquan.mapper.nq1.AuthenticatedUserMapper;
 import com.nuoquan.pojo.*;
 import com.nuoquan.pojo.vo.*;
+import com.nuoquan.service.AuthenticatedUserService;
 import com.nuoquan.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
@@ -42,6 +43,9 @@ public class UserController extends BasicController {
 
 	@Autowired
 	private AuthenticatedUserMapper authenticatedUserMapper;
+
+	@Autowired 
+	private AuthenticatedUserService authenticatedUserService;
 	// @ApiOperation(value = "获取某用户feed流", notes = "")
 	// @ApiImplicitParams({
 	// @ApiImplicitParam(name = "page", value = "页数", required = true, dataType =
@@ -71,7 +75,7 @@ public class UserController extends BasicController {
 	/**
 	 * Description 上传文件到 fastdfs 文件服务器 的实例方法。
 	 * PS: fastdfs 为非结构化储存，暂不使用，本方法仅供参考。
-	 * 
+	 *
 	 * @author jerrio
 	 */
 	@Deprecated
@@ -380,7 +384,7 @@ public class UserController extends BasicController {
 
 	/**
 	 * 微信登陆获取openId
-	 * 
+	 *
 	 * @param code
 	 * @param iv            加密算法的初始向量
 	 * @param encryptedData 加密数据，好像可以根据官方提供的方式自行解密，还没试验
@@ -434,7 +438,7 @@ public class UserController extends BasicController {
 
 	/**
 	 * 把微信 login 业务从 updateUser 里剥离出来
-	 * 
+	 *
 	 * @param userData
 	 * @return
 	 * @throws Exception
@@ -464,6 +468,8 @@ public class UserController extends BasicController {
 			// 3.2 查询信息
 			// userVO = userService.getUserById(userData.getId());
 			userVO = userService.getUserById(userData.getId());
+			//判断该用户是否被禁言，如果被禁言则判断该用户的禁言日期是否到达，如果到达则使该用户状态变为1（正常）
+			userService.judgeUserState(userData.getId());
 		}
 		// 将 user 对象转换为 userVO 输出，userVO 中不返回密码，且可加上其他属性。
 		return userVO;
