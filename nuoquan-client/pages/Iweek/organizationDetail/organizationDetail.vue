@@ -23,24 +23,12 @@
 		</view>
 		
 		<view class="orgContentBox">
-			<!-- <view v-for="(item,index) in showList" class="orgIntro">
+			<view v-for="(item,index) in showList" class="orgIntro">
 				<view style="font-size: 17px;font-weight: bold;">{{item}}</view>
 				<view class="orgDetail" style="line-height: 20px;">
 					<view v-if="index==0" v-html="$markdownParse.parse(detail.intro)"></view>
 					<view v-else-if="index==1" v-html="$markdownParse.parse(detail.activityIntro)"></view>
 					<view v-else v-html="$markdownParse.parse(detail.division)"></view>
-				</view>
-			</view> -->
-			<view  class="orgIntro">
-				<view style="font-size: 17px;font-weight: bold;">{{showList[0]}}</view>
-				<view class="orgDetail">{{detail.intro}}</view>
-				<view v-if="detail.activityIntro" style="margin-top: 5px;">
-					<view style="font-size: 17px;font-weight: bold;">{{showList[1]}}</view>
-					<view class="orgDetail">{{detail.activityIntro}}</view>
-				</view>
-				<view v-if="detail.division" style="margin-top: 5px;">
-					<view style="font-size: 17px;font-weight: bold;">{{showList[2]}}</view>
-					<view class="orgDetail">{{detail.division}}</view>
 				</view>
 			</view>
 			<!-- 招新推文以及介绍的二维码 -->
@@ -83,7 +71,7 @@
 				detail: '',
 				
 
-				showList:['简介','主要活动','部门组成']
+				showList:['组织简介','主要活动','部门组成']
 			}
 		},
 		onLoad:function (option) {
@@ -143,13 +131,13 @@
 										});
 									}
 								}
-							});
-						}
+							});// end uni.downloadFile
+						}// end if (res.tapIndex == 0) 
 					}
 				});
-			},
-		}
-	}
+			},// end of aboutImg
+		}// end of methods
+	}// end of export default
 </script>
 
 <style>
