@@ -50,7 +50,7 @@
 				},
 				{
 					type: 1,
-					icon: '/static/icon/iweek/ucourse.png',
+					icon: '/static/icon/iweek/ucourse.jpeg',
 					name: '我的课程',
 					appid: 'wxf91a3d7a60c2de7e',
 					url: 'pages/index/index'
