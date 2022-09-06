@@ -15,7 +15,7 @@ import static com.nuoquan.enums.PostType.ARTICLE;
 
 /**
  * 社交相关 Controller，如点赞，评论，收藏
- * 
+ *
  * @author jerrio
  * @date 2020.9.1
  */
@@ -108,7 +108,7 @@ public class SocialController extends BasicController {
 			return JSONResult.ok();
 		}
 		else {
-			return JSONResult.errorMsg("您已被封号或禁言");
+			return JSONResult.errorMsg("您已被禁言");
 		}
 
 	}

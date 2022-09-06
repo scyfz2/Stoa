@@ -13,7 +13,7 @@ public class User {
     private String password;
 
     private String nickname;
-    
+
     private String signature;
 
     @Column(name = "create_date")
@@ -62,7 +62,7 @@ public class User {
     private Integer receiveLikeCounts;
 
     /**
-     * 0 = 封号, 1 = 正常, 2 = 禁言
+     * 0 = 封号, 1 = 正常
      */
     @Column(name = "state")
     private Integer state;
@@ -71,16 +71,16 @@ public class User {
      * Client-id 设备id，用于消息推送
      */
     private String cid;
-    
+
     private Integer reputation;
-    
+
     /**
      * 用户最近登录的时间
      */
     @Column(name = "latest_login")
     private Date latestLogin;
-    
-    
+
+
     /**
      * @return id
      */
@@ -343,7 +343,7 @@ public class User {
 	public void setLatestLogin(Date latestLogin) {
 		this.latestLogin = latestLogin;
 	}
-	
+
 	public String getSignature() {
 		return signature;
 	}

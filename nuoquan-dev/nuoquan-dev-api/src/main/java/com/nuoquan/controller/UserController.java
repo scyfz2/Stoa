@@ -35,7 +35,7 @@ public class UserController extends BasicController {
 
 	@Autowired
 	private EmailTool emailTool;
-	
+
 	@Autowired
 	private FastDFSClient fastDFSClient;
 
@@ -154,7 +154,7 @@ public class UserController extends BasicController {
 	@PostMapping("/uploadFace")
 	public JSONResult uploadFace(String userId, @ApiParam(value = "face image", required = true) MultipartFile file)
 			throws Exception {
-				
+
 		if (StringUtils.isNoneBlank(userId) && file != null) {
 			// 判断是否超出大小限制
 			if (file.getSize() > MAX_IMAGE_SIZE) {
@@ -174,7 +174,7 @@ public class UserController extends BasicController {
 			return JSONResult.errorMsg("Upload error");
 		}
 	}
-	
+
 	@ApiOperation(value = "Be the fans")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "fanId", required = true, dataType = "String", paramType = "form"), })
@@ -186,10 +186,10 @@ public class UserController extends BasicController {
 		}
 
 		userService.saveUserFanRelation(userId, fanId);
-		
+
 		//被关注者影响力++
 		userService.updateReputation(userId, ReputeWeight.FOLLOW.weight, 1);
-		
+
 		return JSONResult.ok("Follow success");
 	}
 
@@ -204,26 +204,26 @@ public class UserController extends BasicController {
 		}
 
 		userService.deleteUserFanRelation(userId, fanId);
-		
+
 		//被关注者影响力--
 		userService.updateReputation(userId, ReputeWeight.FOLLOW.weight, -1);
 
 		return JSONResult.ok("Cancel follow success");
 	}
-	
+
 	@ApiOperation(value = "Query a user's fans and follow lists")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),})
 	@PostMapping("/queryFansAndFollow")
 	public JSONResult queryFansAndFollow(String userId, String myId) {
-		
+
 		List<UserVO> fansList = userService.queryUserFans(userId, myId);
 		List<UserVO> followList = userService.queryUserFollow(userId, myId);
 		FansFollow fansAndFollow= new FansFollow(fansList, followList);
-		
+
 		return JSONResult.ok(fansAndFollow);
 	}
-	
+
 	@ApiOperation(value = "Wechat first login or change profile")
 	@PostMapping("/updateUser")
 	public JSONResult updateUser(@RequestBody User userData) throws Exception {
@@ -234,7 +234,7 @@ public class UserController extends BasicController {
 		User user = new User();
 		UserVO userVO; //返回前端对象
 		// 2. 判断用户名是否存在以及昵称是否合法
-		boolean isNicknameValid = userService.JudgeNickNameIsValid(userData.getNickname());
+		boolean isNicknameValid = userService.judgeNickNameIsValid(userData.getNickname());
 		if (isNicknameValid) {
 			return JSONResult.errorMsg("用户名不合法，请换一个试试");
 		}
@@ -286,14 +286,14 @@ public class UserController extends BasicController {
 		UserVO userVO = userService.getUserById(userId);
 		return JSONResult.ok(userVO);
 	}
-	
+
 	@ApiOperation(value = "update the latest login time of user.")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form")
 	})
 	@PostMapping("/updateLatestLoginTime")
 	public JSONResult updateLatestLoginTime(String userId) throws Exception{
-		
+
 		// 1. 判断用户名不为空
 		if (StringUtils.isEmpty(userId)) {
 			return JSONResult.errorMsg("该账号为空");
@@ -306,9 +306,9 @@ public class UserController extends BasicController {
 		} else {
 			return JSONResult.errorMsg("用户不存在");
 		}
-		
+
 	}
-	
+
 	@ApiOperation(value = "query the user's info and whether I followed him")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
@@ -333,7 +333,7 @@ public class UserController extends BasicController {
 		if (StringUtils.isBlank(userId)) {
 			return JSONResult.errorMsg("User id can not be null.");
 		}
-		
+
 		// 查询列表
 		List<ChatMsg> unreadMsgList = userService.getUnsignedChat(userId);
 
@@ -362,7 +362,7 @@ public class UserController extends BasicController {
 		notifyRemindService.batchSign(notifList);
 		return JSONResult.ok();
 	}
-	
+
 	/**
 	 * 微信登陆获取openId
 	 * @param code
@@ -379,7 +379,7 @@ public class UserController extends BasicController {
 	@ApiOperation(value = "get Wechat UserInfo")
 	@PostMapping("/getWxUserInfo")
 	public JSONResult getWxUserInfo(String code,String iv,String encryptedData, String nickname, String faceImg) throws Exception {
-			
+
 			// 获取openid
 			Map<String,String> requestUrlParam = new HashMap<String,String>();
 			requestUrlParam.put("appid", appId);	 //开发者设置中的appId  
@@ -411,7 +411,7 @@ public class UserController extends BasicController {
 			}
 			return JSONResult.ok(userVO);
 	}
-	
+
 	/**
 	 * 把微信 login 业务从 updateUser 里剥离出来
 	 * @param userData
@@ -443,14 +443,16 @@ public class UserController extends BasicController {
 			// 3.2 查询信息
 			// userVO = userService.getUserById(userData.getId());
 			userVO = userService.getUserById(userData.getId());
+			//判断该用户是否被禁言，如果被禁言则判断该用户的禁言日期是否到达，如果到达则使该用户状态变为1（正常）
+			userService.judgeUserState(userData.getId());
 		}
 		// 将 user 对象转换为 userVO 输出，userVO 中不返回密码，且可加上其他属性。
 		return userVO;
 	}
-	
+
 	@ApiOperation(value = "Get the identifying code by email")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"), 
+			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "email", required = true, dataType = "String", paramType = "form")})
 	@PostMapping("/getCode")
 	public JSONResult getCode(String userId, String email) throws Exception {
@@ -461,7 +463,7 @@ public class UserController extends BasicController {
 		// 生成验证码
 		int length = 6; // 位数
 		String code = "";
-		
+
 		Random random = new Random();
 		for (int i = 0 ; i<length; i++) {
 			code+=random.nextInt(10);
@@ -471,13 +473,13 @@ public class UserController extends BasicController {
 		redis.set(USER_EMAIL_CODE + ":" + userId, email + code, 60 * 10); // 过期时间单位为秒 10分钟过期
 		// 发送验证码邮件模板
 		emailTool.sendCodeToMail(email, code);
-		
+
 		return JSONResult.ok();
 	}
-	
+
 	@ApiOperation(value = "Confirm identifying code")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"), 
+			@ApiImplicitParam(name = "userId", required = true, dataType = "String", paramType = "form"),
 			@ApiImplicitParam(name = "code", required = true, dataType = "String", paramType = "form")})
 	@PostMapping("/confirmCode")
 	public JSONResult confirmCode(String userId, String email, String code) throws Exception {
@@ -485,7 +487,7 @@ public class UserController extends BasicController {
 		String rightCode = redis.get(USER_EMAIL_CODE + ":" + userId);
 		if (StringUtils.isBlank(rightCode)) {
 			return JSONResult.errorMsg("The code for this user is blank.");
-		}else {
+		} else {
 			String finalCode = email + code;
 			if (finalCode.equals(rightCode)) {
 				// 认证成功，修改用户邮箱

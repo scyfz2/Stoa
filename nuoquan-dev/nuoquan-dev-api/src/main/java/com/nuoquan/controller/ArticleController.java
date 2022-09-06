@@ -334,7 +334,7 @@ public class ArticleController extends BasicController {
 			}
 		}
 		else{
-			return JSONResult.errorMsg("您已被封号或禁言");
+			return JSONResult.errorMsg("您已被禁言");
 		}
 
 	}
