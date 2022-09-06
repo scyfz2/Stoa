@@ -592,7 +592,7 @@ public class UserController extends BasicController {
 		if (authenticatedUserService.checkUserIsAuth(userId)) {
 			return JSONResult.errorException("User Already be authenticated");
 		}
-		String authId = authenticatedUserService.saveAuth(email, type, );
+		String authId = authenticatedUserService.saveAuth(email, type, userId);
 		return JSONResult.ok(authId);
 	}
 
