@@ -89,9 +89,9 @@ public class OrganizationServiceImpl implements OrganizationService{
         Example organizationExample = new Example(Organization.class);
         // 在这些组织中找到状态为可读的组织
         Example.Criteria statusCriteria = organizationExample.createCriteria();
-        statusCriteria.andEqualTo("status", StatusEnum.READABLE.type);
+        statusCriteria.andNotEqualTo("status", StatusEnum.DELETED.type);
         organizationExample.and(statusCriteria);
-        organizationExample.setOrderByClause("id desc");
+        organizationExample.setOrderByClause("create_date asc");
 
         PageHelper.startPage(page, pageSize);
         List<Organization> list = organizationMapper.selectByExample(organizationExample);
