@@ -107,7 +107,7 @@
 
 <style scoped>
 	.swiper-date {
-		margin: 10upx 0 40upx 0;
+		margin: 0 0 40upx 0;
 	}
 	.unselected {
 		display: inline-block;

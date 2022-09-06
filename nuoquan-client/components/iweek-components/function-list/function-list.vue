@@ -8,9 +8,13 @@
 		<view class="functions" v-for="(item, index) in functionList" :key="index" @tap="onClick(functionList[index])">
 			<view>
 				<image :src="item.icon" class="function-image"></image>
-				<view class="text">
+				<view v-if="lang.functionList[index] == 'Organizations'" style="font-size: 12px;">
 					{{lang.functionList[index]}}
 				</view>
+				<view v-else class="text">
+					{{lang.functionList[index]}}
+				</view>
+				
 			</view>
 		</view>
 	</view>
@@ -35,8 +39,14 @@
 				{
 					type: 0,
 					icon: '/static/icon/iweek/society.png',
-					name: '社团组织',
+					name: '学生社团',
 					url: '/pages/Iweek/organizationList/organizationList'
+				},
+				{
+					type: 0,
+					icon: '/static/icon/iweek/eat.png',
+					name: '学生组织',
+					url: '/pages/Iweek/organizationList/organizationList',
 				},
 				{
 					type: 1,
@@ -51,12 +61,6 @@
 					name: '校园地图',
 					appid: 'wx785bfd9dbf7823ea',
 					url: 'pages/index/index'
-				},
-				{
-					type: 2,
-					icon: '/static/icon/iweek/eat.png',
-					name: '吃喝玩乐',
-					url: 'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ',
 				}
 			]
 		},
@@ -90,12 +94,10 @@
 					uni.navigateTo({
 						url:e.url,
 					});
-				} else if(e.type == 2){
-					this.jumpToWeb();
 				}
 			},
 			jumpToWeb(){
-				var url = 'https://mp.weixin.qq.com/s/3bH_UtBdPVhbF3OViMwEdQ';
+				var url = 'https://mp.weixin.qq.com/s/GZRAB4aCFlKL9Q8yK74B9w';
 				var encodeData = encodeURIComponent(url);
 				uni.navigateTo({
 					url:'../../pages/adWebPage/adWebPage?url=' + encodeData,

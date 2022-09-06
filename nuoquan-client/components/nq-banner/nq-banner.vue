@@ -66,7 +66,7 @@
 			//跳转广告页
 			jumpToWeb(){
 				if(this.fromSrc == "index"){
-					var url = 'https://mp.weixin.qq.com/s/3bH_UtBdPVhbF3OViMwEdQ'
+					var url = 'https://r.xiumi.us/stage/v5/4Law2/393789504#/'
 					var encodeData = encodeURIComponent(url);
 					uni.navigateTo({
 						url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
