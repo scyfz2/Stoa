@@ -1,13 +1,18 @@
 <template>
 	<view>
 		<view class="calendar">
-			<view class="pickerbox" style="display: flex;margin-top: 8px;">
-				<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange" style="height: 20px;display: table-cell; vertical-align: middle;">
-					<view>{{beforeFaculty?beforeFaculty:'Faculty'}}</view>
-				</picker>
-				<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange" style="height: 20px;display: table-cell; vertical-align: middle;">
-					<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
-				</picker>
+			<view class="hint" style="display: flex;margin-bottom: 10upx;">
+				<view class="text_topic">
+					{{lang.dailySchedule}}
+				</view>
+				<view class="pickerbox" style="display: flex;padding-top: 20upx; right: 10px; position: absolute; vertical-align: middle;">
+					<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange" style="height: 20px;display: table-cell;margin-right: 10px;">
+						<view>{{beforeFaculty?beforeFaculty:'Faculty'}}</view>
+					</picker>
+					<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange" style="height: 20px;display: table-cell;">
+						<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
+					</picker>
+				</view>
 			</view>
 			<swiper-date @date="getEmitDate"></swiper-date>
 			<schedule-card @event="showDetail" v-for="item in showList" :key = "item.id" v-bind:scheduleCard="item"></schedule-card>
@@ -80,6 +85,9 @@
 					}
 				]
 			}
+		},
+		computed:{
+			...mapState(['lang'])
 		},
 		created() {
 			this.userInfo = this.getGlobalUserInfo();
@@ -261,21 +269,24 @@
 	.picker{
 		border-radius: 10rpx;
 		background-color: #f2f2fc;
-		height: 30px;
+		/* height: 20px; */
 		padding: 0 30rpx;
+		font-size: 12px;
+		
 		/**文字隐藏后添加省略号*/
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
-		/* margin-bottom: -10px; */
+		
 	}
-	.faculty-picker {
+	/* .faculty-picker {
 		position: absolute;
 		margin-left: 130px;
 		margin-top: -25px;
 		width: 60px;
 		text-align: center;
+		right: 200px;
 	}
 	.degree-picker {
 		position: absolute;
@@ -283,7 +294,8 @@
 		margin-top: -25px;
 		width: 80px;
 		text-align: center;
-	}
+		right: 10px;
+	} */
 	.bottom-placeholder {
 		height: 30px;
 	}

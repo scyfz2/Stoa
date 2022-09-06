@@ -54,6 +54,7 @@
 		opacity: 1;
 		margin-top: 20upx;
 		margin-bottom: 20upx;
+		box-shadow: 1px 2px #CCCCCC;
 	}
 	
 	.placeholder {
