@@ -413,8 +413,7 @@
 	}
 	.swiper-box-list {
 		flex: 1;
-		min-height: 94%;
-		height: 94%;
+		min-height: 82%;
 		width: 100%;
 		background-color: #f3f3f3;
 	}
@@ -497,7 +496,7 @@
 	}
 	
 	.scroll-test {
-		height: 100%
+		height: 100%;
 	}
 	.swiper-box {
 		width: 100%;
