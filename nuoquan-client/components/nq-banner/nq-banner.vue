@@ -69,7 +69,7 @@
 					var url = 'https://mp.weixin.qq.com/s/3bH_UtBdPVhbF3OViMwEdQ'
 					var encodeData = encodeURIComponent(url);
 					uni.navigateTo({
-						url:'../../pages/adWebPage/adWebPage?url=' + encodeData
+						url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
 					})	
 				}
 			},

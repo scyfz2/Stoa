@@ -5,7 +5,7 @@
  -->
 <template>
 	<view class="function-list">
-		<view class="functions" v-for="(item, index) in functionList" :key="index" @click="onClick(functionList[index])">
+		<view class="functions" v-for="(item, index) in functionList" :key="index" @tap="onClick(functionList[index])">
 			<view>
 				<image :src="item.icon" class="function-image"></image>
 				<view class="text">
@@ -91,15 +91,15 @@
 						url:e.url,
 					});
 				} else if(e.type == 2){
-					// console.log(e.url);
-					var url = 'https://mp.weixin.qq.com/s/3bH_UtBdPVhbF3OViMwEdQ'
-					var encodeData = encodeURIComponent(url);
-					// console.log(encodeData);
-					// debugger
-					uni.navigateTo({
-						url:'../../../pages/adWebPage/adWebPage?url=' + encodeData,
-					});
+					this.jumpToWeb();
 				}
+			},
+			jumpToWeb(){
+				var url = 'https://mp.weixin.qq.com/s/3bH_UtBdPVhbF3OViMwEdQ';
+				var encodeData = encodeURIComponent(url);
+				uni.navigateTo({
+					url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
+				})	
 			}
 		}
 	}

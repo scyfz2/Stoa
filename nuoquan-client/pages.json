@@ -100,6 +100,14 @@
             
         }
         ,{
+			"path":"components/iweek-components/function-list/function-list",
+			"style" :
+			{
+				"navigationBarTitleText":"",
+				"enablePullDownRefresh": false
+			}
+		}
+		,{
             "path" : "components/iweek-components/schedule-card/schedule-card",
             "style" :                                                                                    
             {
@@ -237,7 +245,7 @@
 
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "Nottinghome",
+		"navigationBarTitleText": "Stoa",
 		"navigationBarBackgroundColor": "#fdd041",
 		"backgroundColor": "#F8F8F8",
 		"navigationStyle": "custom" // 取消原生导航栏

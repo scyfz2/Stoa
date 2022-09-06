@@ -17,7 +17,7 @@
 		<!-- 轮播图 如果不想让他动的话就只放一张图 -->
 		<swiper class="top-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
 			<swiper-item v-for="(item,index) in swipers" :key="index">
-				<image :src="item"></image>
+				<image :src="item" @tap="jumpToWeb()" ></image>
 			</swiper-item>
 		</swiper>
 		
@@ -89,7 +89,18 @@
 			},
 			closeEvent(e){
 				this.show = e;
-			}
+			},
+			jumpToWeb(){
+				var url = 'https://r.xiumi.us/stage/v5/4Law2/393789504#/';
+				// console.log(url);
+				var encodeData = encodeURIComponent(url);
+				uni.navigateTo({
+					url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
+					fail() {
+						console.log(res);
+					}
+				})	
+			},
 		}
 	}
 </script>
