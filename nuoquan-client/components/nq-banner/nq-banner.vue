@@ -105,7 +105,7 @@
 	}
 	
 	.posterBox{
-		height: 1000upx;
+		height: 800upx;
 		width: 600upx;
 		position: fixed;
 		/* 第六层 */
@@ -136,10 +136,11 @@
 	
 	.killIcon{
 		position: absolute;
-		top: 2px;
-		right: 2px;
-		width: 28px;
-		height: 28px;
+		/* top: 2px; */
+		bottom: -100upx;
+		right: 260upx;
+		width: 80upx;
+		height: 80upx;
 		border-radius: 50%;
 		background-color: #e6e6e6;
 	}

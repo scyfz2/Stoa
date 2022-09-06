@@ -74,7 +74,6 @@
 		},
 		methods: {
 			killAd(){
-				// this.show = !this.show;
 				this.$emit('close',false);
 			}
 		}
@@ -110,12 +109,12 @@
 	}
 	.killIcon{
 		position: absolute;
-		top: 10px;
-		right: 10px;
-		width: 15px;
-		height: 15px;
-		/* border-radius: 50%; */
-		/* background-color: #e6e6e6; */
+		bottom: -70upx;
+		right: 275upx;
+		width: 50upx;
+		height: 50upx;
+		border-radius: 50%;
+		background-color: #e6e6e6;
 	}
 	
 	.killIcon image{
