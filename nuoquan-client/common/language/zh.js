@@ -216,7 +216,7 @@ module.exports = {
 	
 	// iweek相关
 	iweek: "新生",
-	functionList : ["学生社团","学生组织","我的课表","校园地图"],
+	functionList : ["学生组织","学生社团","我的课表","校园地图"],
 	dailySchedule : "每日日程",
 	noMore: "没有更多了",
 	clubList: '学生社团',

@@ -38,15 +38,15 @@
 			this.functionList = [
 				{
 					type: 0,
-					icon: '/static/icon/iweek/society.png',
-					name: '学生社团',
-					url: '/pages/Iweek/organizationList/organizationList?type=2'
-				},
-				{
-					type: 0,
 					icon: '/static/icon/iweek/eat.png',
 					name: '学生组织',
 					url: '/pages/Iweek/organizationList/organizationList?type=1',
+				},
+				{
+					type: 0,
+					icon: '/static/icon/iweek/society.png',
+					name: '学生社团',
+					url: '/pages/Iweek/organizationList/organizationList?type=2'
 				},
 				{
 					type: 1,

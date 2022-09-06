@@ -78,7 +78,6 @@
 				var that = this;
 				uni.request({
 					url:that.$serverUrl +'/organization/queryOrganizations',
-					// url:'http:localhost:8080' +'/organization/queryOrganizations',
 					method: 'POST',
 					data: {
 						page: page,
@@ -107,6 +106,7 @@
 								that.showList = that.orgList;
 							}else if(e.type == 2){
 								that.showList = that.clubList;
+								// console.log(that.showList);
 							}
 							that.currentPage = page;
 						})
@@ -131,6 +131,8 @@
 						this.clubList.push(this.organizationList[item]);
 					}
 				}
+				console.log(this.orgList);
+				console.log(this.clubList);
 			}
 		}
 	}
