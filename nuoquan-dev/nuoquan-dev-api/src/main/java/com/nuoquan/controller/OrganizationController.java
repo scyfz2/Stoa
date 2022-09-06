@@ -65,8 +65,8 @@ public class OrganizationController extends BasicController {
     @ApiImplicitParams({
             @ApiImplicitParam(name="name", value="组织名称", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="intro", value="组织简介", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="division", value="组织部门组成", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="activityIntro", value="组织活动介绍", required=true, dataType="String", paramType="form"),
+            @ApiImplicitParam(name="division", value="组织部门组成", required=false, dataType="String", paramType="form"),
+            @ApiImplicitParam(name="activityIntro", value="组织活动介绍", required=false, dataType="String", paramType="form"),
             @ApiImplicitParam(name="officialAccountLink", value="组织公众号或推文链接", required=false, dataType="String", paramType="form")
     })
     @PostMapping(value="/uploadOrganization")
