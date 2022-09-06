@@ -299,47 +299,47 @@ public class ArticleController extends BasicController {
 	})
 	@PostMapping(value="/uploadArticle")
 	public JSONResult upload(String userId, String articleTag, String articleTitle, String articleContent) throws Exception {
-
-		if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
-			return JSONResult.errorMsg("Id can't be null");
-		}
-		if (!userService.checkIdIsExist(userId)){
-			return JSONResult.errorMsg("userId not exists!");
-		}
-
-		boolean isLegal = false;
-		// 保存文章信息到数据库
-		Article article = new Article();
-		article.setArticleTitle(articleTitle);
-		if (articleTitle.equals("yby")){
-			article.setArticleTitle("叶博源是大帅逼！");
-		}
-		article.setArticleContent(articleContent);
-		article.setUserId(userId);
-		article.setTags(articleTag);
-		article.setCreateDate(new Date());
-		// 检测内容是否非法
-		if (weChatService.msgSecCheck(articleTitle)
-				&& weChatService.msgSecCheck(articleTag)
-				&& weChatService.msgSecCheck(articleContent)) {
-			// 合法
-			isLegal = true;
-			if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
-				article.setStatus(StatusEnum.READABLE.type);
-			}else {
-				article.setStatus(StatusEnum.CHECKING.type);
+		// 当用户状态为1时才能发表文章
+		if (userMapper.selectByPrimaryKey(userId).getState() == 1)
+		{
+			if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
+				return JSONResult.errorMsg("Id can't be null");
 			}
-		} else {
-			// 非法，尽管非法也保存到数据库
-			article.setStatus(StatusEnum.DELETED.type);
-		}
-		String articleId = articleService.saveArticle(article); // 存入数据库
+			boolean isLegal = false;
+			// 保存文章信息到数据库
+			Article article = new Article();
+			article.setArticleTitle(articleTitle);
+			article.setArticleContent(articleContent);
+			article.setUserId(userId);
+			article.setTags(articleTag);
+			article.setCreateDate(new Date());
+			// 检测内容是否非法
+			if (weChatService.msgSecCheck(articleTitle)
+					&& weChatService.msgSecCheck(articleTag)
+					&& weChatService.msgSecCheck(articleContent)) {
+				// 合法
+				isLegal = true;
+				if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
+					article.setStatus(StatusEnum.READABLE.type);
+				}else {
+					article.setStatus(StatusEnum.CHECKING.type);
+				}
+			} else {
+				// 非法，尽管非法也保存到数据库
+				article.setStatus(StatusEnum.DELETED.type);
+			}
+			String articleId = articleService.saveArticle(article); // 存入数据库
 
-		if (isLegal) {
-			return JSONResult.ok(articleId);
-		}else {
-			return JSONResult.errorMsg("内容违规");
+			if (isLegal) {
+				return JSONResult.ok(articleId);
+			}else {
+				return JSONResult.errorMsg("内容违规");
+			}
 		}
+		else{
+			return JSONResult.errorMsg("您已被禁言");
+		}
+
 	}
 
 	/**

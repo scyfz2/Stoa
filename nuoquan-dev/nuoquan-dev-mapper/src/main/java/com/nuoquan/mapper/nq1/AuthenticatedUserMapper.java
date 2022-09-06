@@ -3,9 +3,11 @@ package com.nuoquan.mapper.nq1;
 import com.nuoquan.pojo.AuthenticatedUser;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.utils.MyMapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface AuthenticatedUserMapper extends MyMapper<AuthenticatedUser> {
 
     /**

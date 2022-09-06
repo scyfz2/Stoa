@@ -164,4 +164,21 @@ public class RoleController extends BasicController {
 		return i > 0 ? JSONResult.ok()
 				: JSONResult.errorMsg("修改失败");
 	}
+
+	@RequiresPermissions("system:user:edit")
+	@PostMapping("/editUserState")
+	@ResponseBody
+	public JSONResult editUserState(AdminRole tsysRole, String prem, HttpServletRequest request) {
+		int i = adminRoleService.updateRoleAndPrem(tsysRole, prem);
+		if (i > 0) {
+			// 大于0刷新权限
+			ShiroUtils.clearCachedAuthorizationInfo();
+			// 获取菜单栏
+			BootstrapTree bootstrapTree = adminPermissionService.getbooBootstrapTreePerm(ShiroUtils.getUserId());
+			request.getSession().setAttribute("bootstrapTree", bootstrapTree);
+		}
+
+		return i > 0 ? JSONResult.ok()
+				: JSONResult.errorMsg("修改失败");
+	}
 }

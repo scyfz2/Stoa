@@ -15,7 +15,7 @@ import static com.nuoquan.enums.PostType.ARTICLE;
 
 /**
  * 社交相关 Controller，如点赞，评论，收藏
- * 
+ *
  * @author jerrio
  * @date 2020.9.1
  */
@@ -97,25 +97,25 @@ public class SocialController extends BasicController {
 				comment,
 				underCommentId);
 
-		// 如果不是给自己评论，插入通知发推送
-		if (!fromUserId.equals(toUserId)) {
-			if (!StringUtils.isEmpty(underCommentId)) {
-				// 是子评论
-				targetType = PostType.COMMENT;
-				targetId = underCommentId;
+			// 如果不是给自己评论，插入通知发推送
+			if (!fromUserId.equals(toUserId)) {
+				if (!StringUtils.isEmpty(underCommentId)) {
+					// 是子评论
+					targetType = PostType.COMMENT;
+					targetId = underCommentId;
+				}
+				notifyRemindService.insert(fromUserId,
+						NotifyRemindService.SenderAction.COMMENT,
+						sourceId,
+						targetType,
+						targetId,
+						toUserId);
 			}
-			notifyRemindService.insert(fromUserId,
-					NotifyRemindService.SenderAction.COMMENT,
-					sourceId,
-					targetType,
-					targetId,
-					toUserId);
+			return JSONResult.ok();
 		}
-
-		return JSONResult.ok();
-		// }else {
-		// return JSONResult.errorMsg("内容不合法");
-		// }
+		else {
+			return JSONResult.errorMsg("您已被禁言");
+		}
 
 	}
 
