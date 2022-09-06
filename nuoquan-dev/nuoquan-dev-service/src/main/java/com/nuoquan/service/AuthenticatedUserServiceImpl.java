@@ -3,9 +3,7 @@ package com.nuoquan.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.mapper.nq1.AuthenticatedUserMapper;
-import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.AuthenticatedUser;
-import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.RedisOperator;
@@ -144,12 +142,18 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService{
     /**
      * 使用email对用户进行认证
      *
-     * @param authenticatedUser
+     * @param email
+     * @param type
+     * @param userId
      * @return
      */
     @Override
-    public String saveAuth(AuthenticatedUser authenticatedUser) {
+    public String saveAuth(String email, Integer type, String userId) {
         String id = sid.nextShort();
+        AuthenticatedUser authenticatedUser = new AuthenticatedUser();
+        authenticatedUser.setUserId(userId);
+        authenticatedUser.setType(type);
+        authenticatedUser.setCreateDate(new Date());
         authenticatedUser.setId(id);
         authenticatedUserMapper.insertSelective(authenticatedUser);
         return id;
