@@ -43,7 +43,7 @@ pickerIndex:  选项编号，用于控制显示哪一个选项
 		data() {
 			return {
 				dataList: this.range, // 对象列表
-				pickerIndex: "", //显示第几个选项
+				pickerIndex: '', //显示第几个选项
 			}
 		},
 

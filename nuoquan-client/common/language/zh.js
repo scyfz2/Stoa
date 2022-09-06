@@ -216,10 +216,11 @@ module.exports = {
 	
 	// iweek相关
 	iweek: "新生",
-	functionList : ["社团组织","课程表","校园地图","吃喝玩乐"],
+	functionList : ["学生组织","学生社团","我的课表","校园地图"],
 	dailySchedule : "每日日程",
 	noMore: "没有更多了",
-	organizationList:"校内组织",
+	clubList: '学生社团',
+	organizationList:"学生组织",
 	organizationDetail:"组织详情",
 	date: '日期',
 	time: '时间',

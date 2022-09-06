@@ -217,10 +217,11 @@ module.exports = {
 	
 	// iweek相关
 	iweek: "I-week",
-	functionList : ["Society","U Course","UNNC Map","Foodie"],
+	functionList : ["Organizations","Clubs","UCourse","UNNCMap"],
 	dailySchedule : "Daily Schedule",
 	noMore: "No More",
-	organizationList:"organizationList",
+	clubList: 'Club List',
+	organizationList:"Organization List",
 	organizationDetail:"organizationDetail",
 	date: 'date',
 	time: 'time',

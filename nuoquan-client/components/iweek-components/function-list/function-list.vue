@@ -5,12 +5,16 @@
  -->
 <template>
 	<view class="function-list">
-		<view class="functions" v-for="(item, index) in functionList" :key="index" @click="onClick(functionList[index])">
+		<view class="functions" v-for="(item, index) in functionList" :key="index" @tap="onClick(functionList[index])">
 			<view>
 				<image :src="item.icon" class="function-image"></image>
-				<view class="text">
+				<view v-if="lang.functionList[index] == 'Organizations'" style="font-size: 12px;">
 					{{lang.functionList[index]}}
 				</view>
+				<view v-else class="text">
+					{{lang.functionList[index]}}
+				</view>
+				
 			</view>
 		</view>
 	</view>
@@ -24,6 +28,7 @@
 				functionList:'',
 				// 小程序跳转锁，跳转完成后解开
 				jumpLock : false,
+				encode:'',
 			};
 		},
 		computed: {
@@ -33,13 +38,19 @@
 			this.functionList = [
 				{
 					type: 0,
+					icon: '/static/icon/iweek/eat.png',
+					name: '学生组织',
+					url: '/pages/Iweek/organizationList/organizationList?type=1',
+				},
+				{
+					type: 0,
 					icon: '/static/icon/iweek/society.png',
-					name: '社团组织',
-					url: '/pages/Iweek/organizationList/organizationList'
+					name: '学生社团',
+					url: '/pages/Iweek/organizationList/organizationList?type=2'
 				},
 				{
 					type: 1,
-					icon: '/static/icon/iweek/ucourse.png',
+					icon: '/static/icon/iweek/ucourse.jpeg',
 					name: '我的课程',
 					appid: 'wxf91a3d7a60c2de7e',
 					url: 'pages/index/index'
@@ -50,12 +61,6 @@
 					name: '校园地图',
 					appid: 'wx785bfd9dbf7823ea',
 					url: 'pages/index/index'
-				},
-				{
-					type: 0,
-					icon: '/static/icon/iweek/eat.png',
-					name: '吃喝玩乐',
-					url: '/pages/iweek/eat'
 				}
 			]
 		},
@@ -85,11 +90,18 @@
 							this.jumpLock = false;
 						}
 					})
-				} else {
+				} else if(e.type == 0){
 					uni.navigateTo({
 						url:e.url,
 					});
 				}
+			},
+			jumpToWeb(){
+				var url = 'https://mp.weixin.qq.com/s/GZRAB4aCFlKL9Q8yK74B9w';
+				var encodeData = encodeURIComponent(url);
+				uni.navigateTo({
+					url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
+				})	
 			}
 		}
 	}
@@ -100,23 +112,26 @@
 		display: flex; 
 		flex-direction: row; 
 		flex-wrap: wrap; 
-		/* margin: 0 5%; */
+		margin: 0 5%;
 	}
 	.functions{
 		width: 25%;
 		margin-top: 16upx;
 	}
 	.function-image{
+		display: bloc;
 		width: 50px; 
 		height: 50px;
-		margin: 10% 25% 20% 25%;
+		margin: 10% 15% 10% 15%;
 		border: 1px solid #b1b1b1;
-		border-radius: 100upx;
+		border-radius: 50%;
 	}
 	.text {
-		/* display: inline-flex; */
+		display: inline-flex;
 		text-align: center;
 		font-size: 14px;
 		margin-bottom: 15%;
+		margin-left: 15%;
+		margin-right: 15%;
 	}
 </style>

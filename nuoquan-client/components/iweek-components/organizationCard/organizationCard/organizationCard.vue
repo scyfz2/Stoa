@@ -8,7 +8,7 @@
 		<image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgImage"></image>
 		<view class="organizationCard-text" >
 			<view class="orgTitle">{{detail.name}}</view>
-			<view class="orgContent">{{detail.intro}}</view>
+			<view class="orgContent" v-html="$markdownParse.parse(detail.intro)"></view>
 		</view>
 	</view>
 </template>
@@ -53,7 +53,7 @@
 		display: flex;
 		margin:5px 5% 10px 5%;
 		border-radius: 12px;
-		box-shadow: 0 2px 10px 0 #babacd;
+		box-shadow: 0 2px 5px #babacd;
 	}
 	.orgImage{
 		width: 60px;

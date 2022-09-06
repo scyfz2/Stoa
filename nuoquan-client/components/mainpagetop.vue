@@ -40,7 +40,7 @@
 
 					<!-- 热门标题 -->
 					<swiper :class="[roleup == false ? 'swiperCard' : 'swiperCard_roled']" :indicator-dots="false" :autoplay="true"
-					 :interval="3000" :vertical="true" :duration="1000">
+					 :interval="3000" :vertical="true" :duration="1000" :circular="true">
 						<view>
 							<swiper-item @click="goToDetail(item.id)" v-for="(item, index) in topArticles" :key="index">
 								<view class="itemCard" :style="{'height':roleup == false ? '62px;' :'33px' ,}">

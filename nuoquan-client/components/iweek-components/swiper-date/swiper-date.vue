@@ -1,5 +1,5 @@
 <template>
-	<view class="swiper-date">
+	<view class="swiper-date" style="text-align: center;">
 		<view class="unselected" v-for="(item,index) in dateList" :key = "index" :class="{'selected': nowIndex === index }" @click="getDate(item);changeIndex(index)">
 			<text>{{item.date}}</text>
 		</view>
@@ -42,7 +42,8 @@
 					{
 						date: 19,
 						selected: false,
-					},
+					}
+					,
 					{
 						date: 20,
 						selected: false,
@@ -97,7 +98,6 @@
 			},
 			getCurrentDate(){
 				var d = new Date();
-				// this.curDate = 27;
 				this.curDate = d.getDate();
 				console.log(this.curDate);
 			}
@@ -107,34 +107,37 @@
 
 <style scoped>
 	.swiper-date {
-		margin: 20upx 0 40upx 0;
+		margin: 0 0 40upx 0;
 	}
 	.unselected {
 		display: inline-block;
 		text-align: center;
+		width: 8%;
+		height: auto;
 		border: 1upx solid #ECECEC;
-		border-radius: 50%;
-		margin: 40upx 20upx 0 20upx;
+		border-radius: 100%;
+		margin: 20upx 20upx 0 20upx;
 		font-weight: bold;
 		font-size: 14px;
 		height: 30px;
-		width: 30px;
 		line-height: 30px;
 		color: #000000;
 		background-color: #FFFFFF;
+		aspect-ratio: 1/1;
 	}
 	.selected {
 		display: inline-block;
 		text-align: center;
-		/* border: 1upx #b1b1b1; */
-		border-radius: 50%;
-		margin: 40upx 20upx 0 20upx;
+		border: 1upx solid #ffffff;
+		border-radius: 100%;
+		margin: 20upx 20upx 0 20upx;
 		font-weight: bold;
 		font-size: 14px;
-		height: 30px;
-		width: 30px;
+		width: 8%;
+		height: auto;
 		line-height: 30px;
 		color: #FFFFFF;
 		background-color: #f9c466;
+		aspect-ratio: 1/1;
 	}
 </style>

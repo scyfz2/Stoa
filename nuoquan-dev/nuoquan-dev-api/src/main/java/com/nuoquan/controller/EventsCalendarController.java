@@ -118,11 +118,12 @@ public class EventsCalendarController extends BasicController {
                 && weChatService.msgSecCheck(time)
                 && weChatService.msgSecCheck(description)) {
             // 合法
-            if (resourceConfig.getAutoCheckArticle()) { // 查看是否设置自动过审
-                isLegal = StatusEnum.READABLE.type;
-            } else {
-                isLegal = StatusEnum.CHECKING.type;
-            }
+            isLegal = StatusEnum.READABLE.type;
+//            if (resourceConfig.getAutoCheckArticle()) { // 查看是否设置自动过审
+//                isLegal = StatusEnum.READABLE.type;
+//            } else {
+//                isLegal = StatusEnum.CHECKING.type;
+//            }
         } else {
             // 非法，尽管非法也保存到数据库
             isLegal = StatusEnum.DELETED.type;

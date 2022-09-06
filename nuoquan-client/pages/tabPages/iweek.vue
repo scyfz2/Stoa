@@ -11,12 +11,13 @@
 		:title="lang.iweek" :showLeftIcon="false"
 		:height="this.getnavbarHeight().bottom + 5"></uni-nav-bar>
 		<view :style="{ height: this.getnavbarHeight().bottom + 5 + 'px' }" style="width: 100%;"></view>
-		
+		<!-- 占位 -->
+		<view style="height: 8px; background-color: #FFFFFF;"></view>
 		<view class="topHalf">
 		<!-- 轮播图 如果不想让他动的话就只放一张图 -->
 		<swiper class="top-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
 			<swiper-item v-for="(item,index) in swipers" :key="index">
-				<image :src="item"></image>
+				<image :src="item.url" mode="aspectFit" @tap="jumpToWeb(index)" ></image>
 			</swiper-item>
 		</swiper>
 		
@@ -25,9 +26,6 @@
 		</view>
 		
 		<view class="downHalf">
-			<view class="text_topic">
-			{{lang.dailySchedule}}
-			</view>
 			<!-- <view class="second_line" @click="toggleIsEditFaculty"></view> -->
 			<schedule @event="showDetail" class="schedule"></schedule>
 		</view>
@@ -65,7 +63,14 @@
 			...mapState(['lang'])
 		},
 		onLoad(){
-			this.swipers=['https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpeg'];
+			this.swipers=[{
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg',
+				articleUrl:'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ',
+			},
+			{
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq1.jpeg',
+				articleUrl:'https://r.xiumi.us/stage/v5/4Law2/393789504#/',
+			}];
 			var userInfo = this.getGlobalUserInfo();
 			if (this.isNull(userInfo)) {
 				uni.redirectTo({
@@ -88,22 +93,46 @@
 			},
 			closeEvent(e){
 				this.show = e;
-			}
+			},
+			jumpToWeb(index){
+				// console.log(index);
+				var url = '';
+				// console.log(url);
+				if(index == 0){
+					url = 'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ';
+				}else if (index == 1){
+					url = 'https://r.xiumi.us/stage/v5/4Law2/393789504#/';
+				}
+				console.log(url);
+				var encodeData = encodeURIComponent(url);
+				uni.navigateTo({
+					url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
+					fail() {
+						console.log(res);
+					}
+				})	
+			},
 		}
 	}
 </script>
 
 <style>
 	.top-swiper {
-		/* margin-top: 10%; */
 		margin-left: 5%;
-		margin-right: 5%;
-		height: 400upx;
+		margin-right: 5%; 
+		/* left: 5%; */
+		/* width: 90%; */
+		height: 400rpx;
+		background-color: #F7F7F7;
+	}
+	.top-swiper image{
+		width: 100%;
+		height: 100%;
 	}
 	
 	.topHalf {
 		background-color: #FFFFFF;
-		margin-top: 8px;
+		/* margin-top: 8px; */
 	}
 	
 	.functionList {

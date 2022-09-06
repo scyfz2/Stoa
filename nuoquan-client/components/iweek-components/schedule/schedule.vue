@@ -1,14 +1,29 @@
 <template>
 	<view>
 		<view class="calendar">
-			<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange" style="height: 20px;display: table-cell; vertical-align: middle;">
-				<view>{{beforeFaculty?beforeFaculty:'Faculty'}}</view>
-			</picker>
-			<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange" style="height: 20px;display: table-cell; vertical-align: middle;">
-				<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
-			</picker>
+			<view class="hint" style="display: flex;margin-bottom: 10upx;">
+				<view class="text_topic">
+					{{lang.dailySchedule}}
+				</view>
+				<view class="pickerbox" style="display: flex;padding-top: 20upx; right: 10px; position: absolute; vertical-align: middle;">
+					<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange" style="height: 20px;display: table-cell;margin-right: 10px;">
+						<view>{{beforeFaculty?beforeFaculty:'Faculty'}}</view>
+					</picker>
+					<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange" style="height: 20px;display: table-cell;">
+						<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
+					</picker>
+				</view>
+			</view>
 			<swiper-date @date="getEmitDate"></swiper-date>
 			<schedule-card @event="showDetail" v-for="item in showList" :key = "item.id" v-bind:scheduleCard="item"></schedule-card>
+			<view class="notify" v-if="facultyId == 0 || degreeId == 0">
+				<text>请选择您的学院及学历</text><br>
+				<text>Please choose your Faculty and Degree</text>
+			</view>
+			<view class="notify" v-if="isNull(showList) && facultyId!==0 && degreeId!==0">
+				<text>今天没有日程哦</text><br>
+				<text>快去请前端小哥吃饭</text>
+			</view>
 			<view class="bottom-placeholder"></view>
 		</view>
 	</view>
@@ -34,7 +49,7 @@
 				showList: [],
 				page: 1,
 				beforeFaculty:'',
-				facultyId:10,
+				facultyId:0,
 				beforeDegree:'',
 				degreeId:0,
 				facultyList:[
@@ -70,6 +85,9 @@
 					}
 				]
 			}
+		},
+		computed:{
+			...mapState(['lang'])
 		},
 		created() {
 			this.userInfo = this.getGlobalUserInfo();
@@ -251,19 +269,24 @@
 	.picker{
 		border-radius: 10rpx;
 		background-color: #f2f2fc;
+		/* height: 20px; */
 		padding: 0 30rpx;
+		font-size: 12px;
+		
 		/**文字隐藏后添加省略号*/
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
+		
 	}
-	.faculty-picker {
+	/* .faculty-picker {
 		position: absolute;
 		margin-left: 130px;
 		margin-top: -25px;
 		width: 60px;
 		text-align: center;
+		right: 200px;
 	}
 	.degree-picker {
 		position: absolute;
@@ -271,8 +294,17 @@
 		margin-top: -25px;
 		width: 80px;
 		text-align: center;
-	}
+		right: 10px;
+	} */
 	.bottom-placeholder {
-		height: 50px;
+		height: 30px;
+	}
+	.notify{
+		text-align: center;
+		font-size: 12px;
+		color: rgba(136, 136, 136, 1);
+		letter-spacing: 1.5px;
+		margin-top: 30px;
+		/* bottom: 3px; */
 	}
 </style>

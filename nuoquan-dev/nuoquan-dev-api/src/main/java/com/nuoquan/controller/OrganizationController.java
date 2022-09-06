@@ -65,20 +65,21 @@ public class OrganizationController extends BasicController {
     @ApiImplicitParams({
             @ApiImplicitParam(name="name", value="组织名称", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="intro", value="组织简介", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="division", value="组织部门组成", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="activityIntro", value="组织活动介绍", required=true, dataType="String", paramType="form"),
-            @ApiImplicitParam(name="officialAccountLink", value="组织公众号或推文链接", required=false, dataType="String", paramType="form")
+            @ApiImplicitParam(name="division", value="组织部门组成", required=false, dataType="String", paramType="form"),
+            @ApiImplicitParam(name="activityIntro", value="组织活动介绍", required=false, dataType="String", paramType="form"),
+            @ApiImplicitParam(name="officialAccountLink", value="组织公众号或推文链接", required=false, dataType="String", paramType="form"),
+            @ApiImplicitParam(name="status", value="状态/类别", required=true, dataType="Integer", paramType="form")
     })
     @PostMapping(value="/uploadOrganization")
-    public JSONResult uploadOrganization(@ApiParam(value="file", required=true) MultipartFile logo,
+    public JSONResult uploadOrganization(@ApiParam(value = "file", required = true) MultipartFile logo,
                                          String name, String intro, String division,
                                          String activityIntro,
-                                         String officialAccountLink) throws Exception {
+                                         String officialAccountLink, Integer status) throws Exception {
         boolean isLegal = false;
         Organization organization = new Organization();
 
         // 上传组织logo
-        if (logo != null) {
+        if (logo != null && (status==1 || status == 2)) {
             // 判断是否超出大小限制
             if (logo.getSize() > MAX_IMAGE_SIZE) {
                 return JSONResult.errorException("Uploaded file size exceed server's limit (10MB)");
@@ -110,11 +111,12 @@ public class OrganizationController extends BasicController {
                 && weChatService.msgSecCheck(officialAccountLink)) {
             // 合法
             isLegal = true;
-            if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
-                organization.setStatus(StatusEnum.READABLE.type);
-            }else {
-                organization.setStatus(StatusEnum.CHECKING.type);
-            }
+            organization.setStatus(status);
+//            if (resourceConfig.getAutoCheckArticle()) { //查看是否设置自动过审
+//                organization.setStatus(StatusEnum.READABLE.type);
+//            }else {
+//                organization.setStatus(StatusEnum.CHECKING.type);
+//            }
         } else {
             // 非法，尽管非法也保存到数据库
             organization.setStatus(StatusEnum.DELETED.type);

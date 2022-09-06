@@ -6,8 +6,8 @@
 				<image :src="pathFilter(commentDetail.faceImg)" @tap="goToPersonPublic(commentDetail.fromUserId)"></image>
 				<view style="display: flex;">
 					<text selectable="true" class="name_text">{{ commentDetail.nickname }}</text>
-					<image v-if="commentDetail.fromUserAuthtype == 2" src="../../static/icon/auth_red.png" style="width: 15px; height: 15px;margin-top: 2px;margin-left: 3px;"></image>
-					<image v-if="commentDetail.fromUserAuthtype == 1" src="../../static/icon/auth_yellow.png" style="width: 15px; height: 15px;margin-top: 2px;margin-left: 3px;"></image>
+					<image v-if="commentDetail.fromUserAuthType == 2" src="../../static/icon/auth_red.png" style="width: 15px; height: 15px;margin-top: 2px;margin-left: 3px;"></image>
+					<image v-if="commentDetail.fromUserAuthType == 1" src="../../static/icon/auth_yellow.png" style="width: 15px; height: 15px;margin-top: 2px;margin-left: 3px;"></image>
 				</view>
 				<view class="replyTo" style="display: flex;" v-if="commentDetail.toNickname != null && commentDetail.toNickname != undefined">
 					<text>{{commentDetail.toNickname}}</text>
