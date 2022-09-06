@@ -1,6 +1,11 @@
 package com.nuoquan.service;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,14 +41,14 @@ import tk.mybatis.mapper.entity.Example.Criteria;
 //service注解，不加注解SpringBoot扫描不到
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
 	private UserFansMapper userFansMapper;
 	@Autowired
 	private UserFansMapperCustom userFansMapperCustom;
-	@Autowired 
+	@Autowired
 	private Sid sid;
 	@Autowired
 	private ChatMsgMapper chatMsgMapper;
@@ -52,8 +57,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private SensitiveFilterUtil sensitiveFilterUtil;
 	@Autowired
+	private UserBanDetailMapper userBanDetailMapper;
+	@Autowired
 	private AuthenticatedUserService authenticatedUserService;
-	
+
 	/**
 	 * 将user转换为UserVO 并为用户添加vo属性
 	 * @param user
@@ -64,7 +71,7 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(user, userVO);
 		return composeUser(userVO);
 	}
-	
+
 	/**
 	 * 为用户添加vo属性
 	 * @param userVO
@@ -84,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		userVO.setSignature(sensitiveFilterUtil.filter(userVO.getSignature()));
 		return userVO;
 	}
-	
+
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public boolean checkIdIsExist(String id) {
@@ -121,70 +128,70 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public void saveUser(User user) {
-		
+
 		String userid = sid.nextShort();
 		user.setId(userid);
 		// 保存一个实体，null值不会保存，使用数据库默认值
 		userMapper.insertSelective(user);
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public UserVO saveUserDirectly(User user) {
 		userMapper.insertSelective(user);
 		return getUserById(user.getId());
 	}
-	
+
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public User checkUserForLogin(String nickname, String password) {
-		
+
 		Example userExample = new Example(User.class);
 		Criteria criteria = userExample.createCriteria();
 		criteria.andEqualTo("nickname", nickname);
 		criteria.andEqualTo("password", password);
 		User result = userMapper.selectOneByExample(userExample);
-		
+
 		return result;
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public UserVO updateUserInfo(User user) {
-		
+
 		userMapper.updateByPrimaryKeySelective(user);
 		return getUserById(user.getId());
 	}
-	
-	@Transactional(propagation = Propagation.SUPPORTS)	
+
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public UserVO getUserById(String userId) {
 		User user = userMapper.selectByPrimaryKey(userId);
 		return composeUser(user);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED) 
+	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public void saveUserFanRelation(String userId, String fanId) {
-		
+
 		// 保存到 users_fans关系表
 		String relId = sid.nextShort();
-		
+
 		UserFans userFan = new UserFans();
 		userFan.setId(relId);
 		userFan.setUserId(userId);
 		userFan.setFansId(fanId);
-		
+
 		userFansMapper.insert(userFan);
 		// 更新用户信息
 		userMapper.addFansCount(userId);
 		userMapper.addFollowCount(fanId);
 	}
-	
-	@Transactional(propagation = Propagation.REQUIRED) 
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public void deleteUserFanRelation(String userId, String fanId) {
-		
+
 		Boolean isFollow = queryIfFollow(userId, fanId);
 		if (isFollow) {
 			// 有数据才删除并减少count
@@ -192,18 +199,18 @@ public class UserServiceImpl implements UserService {
 			Criteria criteria = example.createCriteria();
 			criteria.andEqualTo("userId", userId);
 			criteria.andEqualTo("fansId", fanId);
-			
-			userFansMapper.deleteByExample(example); 
-			
+
+			userFansMapper.deleteByExample(example);
+
 			userMapper.reduceFansCount(userId);
 			userMapper.reduceFollowCount(fanId);
 		}
 	}
-	
-	@Transactional(propagation = Propagation.SUPPORTS) 
+
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public List<UserVO> queryUserFans(String userId, String myId) {
-		
+
 		List<UserVO> list = userFansMapperCustom.queryFansInfo(userId);
 		for (UserVO u : list) {
 			if (u != null) {
@@ -216,10 +223,10 @@ public class UserServiceImpl implements UserService {
 		return list;
 	}
 
-	@Transactional(propagation = Propagation.SUPPORTS) 
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public List<UserVO> queryUserFollow(String userId, String myId) {
-		
+
 		List<UserVO> list = userFansMapperCustom.queryFollowInfo(userId);
 		List<UserVO> newList = new ArrayList<UserVO>();
 		for (UserVO u : list) {
@@ -233,19 +240,19 @@ public class UserServiceImpl implements UserService {
 		}
 		return newList;
 	}
-	
-	@Transactional(propagation = Propagation.SUPPORTS) 
+
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public boolean queryIfFollow(String userId, String fanId) {
 		if (StringUtils.isEmpty(userId)||StringUtils.isEmpty(fanId)) {
 			return false;
 		}
-		
+
 		Example example = new Example(UserFans.class);
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("userId", userId);
 		criteria.andEqualTo("fansId", fanId);
-		
+
 		List<UserFans> list = userFansMapper.selectByExample(example);
 		if (list != null && !list.isEmpty()) {
 			return true;
@@ -253,7 +260,7 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED) 
+	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public String saveMsg(ChatMessage chatMessage) {
 		ChatMsg msgDB = new ChatMsg();
@@ -264,27 +271,27 @@ public class UserServiceImpl implements UserService {
 		msgDB.setSignFlag(SignFlagEnum.UNSIGN.type);
 		msgDB.setCreateDate(chatMessage.getCreateDate());
 		msgDB.setMsg(chatMessage.getMsg());
-		
+
 		chatMsgMapper.insert(msgDB);
-		
+
 		return msgId;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED) 
+	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public void updateChatSigned(List<String> msgIdList) {
 		chatMsgMapper.batchUpdateMsgSigned(msgIdList);
 	}
 
-	@Transactional(propagation = Propagation.SUPPORTS) 
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public List<ChatMsg> getUnsignedChat(String acceptUserId) {
-		
+
 		Example chatExample = new Example(ChatMsg.class);
 		Criteria chatCriteria = chatExample.createCriteria();
 		chatCriteria.andEqualTo("signFlag", SignFlagEnum.UNSIGN.type);
 		chatCriteria.andEqualTo("acceptUserId", acceptUserId);
-		
+
 		 List<ChatMsg> result = chatMsgMapper.selectByExample(chatExample);
 		return result;
 	}
@@ -376,16 +383,8 @@ public class UserServiceImpl implements UserService {
 			UserVO userVO = composeUser(a);
 			newList.add(userVO);
 		}
-
-		PageInfo<UserVO> pageList = new PageInfo<>(newList);
-
-		PagedResult pagedResult = new PagedResult();
-		pagedResult.setPage(page);
-		pagedResult.setTotal(pageList.getPages());
-		pagedResult.setRows(newList);
-		pagedResult.setRecords(pageList.getTotal());
-
-		return pagedResult;
+		else
+			return false;
 	}
 
 }

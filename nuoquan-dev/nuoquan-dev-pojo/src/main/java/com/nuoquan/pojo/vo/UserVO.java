@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nuoquan.utils.EncryptUtils;
 
 public class UserVO {
- 
+
     private String id;
     private String email;
     @JsonIgnore //不返回密码
@@ -33,12 +33,13 @@ public class UserVO {
      */
     private Byte degree;
     private Integer receiveLikeCounts;
+    private Integer state;
     /**
      * Client-id 设备id，用于消息推送
      */
     private String cid;
     private Integer reputation;
-    
+
     /**
      * 用户最近登录时间
      */
@@ -270,6 +271,14 @@ public class UserVO {
         this.receiveLikeCounts = receiveLikeCounts;
     }
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     /**
      * 获取Client-id 设备id，用于消息推送
      *
@@ -311,7 +320,7 @@ public class UserVO {
 	public void setLatestLogin(Date latestLogin) {
 		this.latestLogin = latestLogin;
 	}
-	
+
 	public String getSignature() {
 		return signature;
 	}
@@ -319,12 +328,4 @@ public class UserVO {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
-
-    public Integer getAuthType() {
-        return authType;
-    }
-
-    public void setAuthType(Integer authType) {
-        this.authType = authType;
-    }
 }
