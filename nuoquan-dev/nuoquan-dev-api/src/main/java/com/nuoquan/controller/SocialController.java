@@ -75,27 +75,25 @@ public class SocialController extends BasicController {
 	})
 	@PostMapping("/saveComment")
 	public JSONResult saveComment(String fromUserId,
-			String toUserId, // 更方便判断是否为自己点赞，以及查询对方昵称
-			PostType targetType,
-			String targetId,
-			String comment,
-			String underCommentId) throws Exception {
-		if (targetType.equals(PostType.COMMENT)) {
-			return JSONResult.errorMsg("targetType不能为comment");
-		}
-		if (!userService.checkIdIsExist(fromUserId)){
-			return JSONResult.errorMsg("userId not exists!");
-		}
-
-		// 内容安全检测（测试时总是出现内容不合法，先暂时注释掉内容安全检测）
-		// if (weChatService.msgSecCheck(comment) ) {
-		// 插入评论
-		String sourceId = socialService.insertComment(fromUserId,
-				toUserId,
-				targetType,
-				targetId,
-				comment,
-				underCommentId);
+								  String toUserId, // 更方便判断是否为自己点赞，以及查询对方昵称
+								  PostType targetType,
+								  String targetId,
+								  String comment,
+								  String underCommentId) throws Exception {
+		// 当用户状态为1时才能发表文章
+		if (userMapper.selectByPrimaryKey(fromUserId).getState() == 1){
+			if (targetType.equals(PostType.COMMENT)) {
+				return JSONResult.errorMsg("targetType不能为comment");
+			}
+			// 内容安全检测（测试时总是出现内容不合法，先暂时注释掉内容安全检测）
+			// if (weChatService.msgSecCheck(comment) ) {
+			// 插入评论
+			String sourceId = socialService.insertComment(fromUserId,
+					toUserId,
+					targetType,
+					targetId,
+					comment,
+					underCommentId);
 
 			// 如果不是给自己评论，插入通知发推送
 			if (!fromUserId.equals(toUserId)) {
