@@ -134,7 +134,7 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					console.log(res);
-					that.scrollHeight = res.windowHeight - that.getnavbarHeight().bottom - 5 + 'px';
+					this.scrollHeight = res.windowHeight - this.getnavbarHeight().bottom - 5 + 'px';
 					console.log(that.scrollHeight);
 				}
 			});
