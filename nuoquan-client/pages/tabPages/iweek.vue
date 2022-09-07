@@ -17,7 +17,7 @@
 		<!-- 轮播图 如果不想让他动的话就只放一张图 -->
 		<swiper class="top-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
 			<swiper-item v-for="(item,index) in swipers" :key="index">
-				<image :src="item.url" mode="aspectFit" @tap="jumpToWeb(index)" ></image>
+				<image :src="item" mode="aspectFit"></image>
 			</swiper-item>
 		</swiper>
 		
@@ -63,14 +63,15 @@
 			...mapState(['lang'])
 		},
 		onLoad(){
-			this.swipers=[{
-				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg',
-				articleUrl:'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ',
-			},
-			{
-				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq1.jpeg',
-				articleUrl:'https://r.xiumi.us/stage/v5/4Law2/393789504#/',
-			}];
+			// this.swipers=[{
+			// 	url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg',
+			// 	articleUrl:'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ',
+			// },
+			// {
+			// 	url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq1.jpeg',
+			// 	articleUrl:'https://r.xiumi.us/stage/v5/4Law2/393789504#/',
+			// }];
+			this.swipers= ['https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg','https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq2.png']
 			var userInfo = this.getGlobalUserInfo();
 			if (this.isNull(userInfo)) {
 				uni.redirectTo({

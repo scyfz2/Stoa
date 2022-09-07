@@ -22,7 +22,7 @@
 			</view>
 			<view class="notify" v-if="isNull(showList) && facultyId!==0 && degreeId!==0">
 				<text>今天没有日程哦</text><br>
-				<text>快去请前端小哥吃饭</text>
+				<text>There's no schedule today</text>
 			</view>
 			<view class="bottom-placeholder"></view>
 		</view>

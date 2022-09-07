@@ -19,8 +19,8 @@
 		data() {
 			return {	
 				showAd: false,
-				bannerInterval: 10,		// 测试数据，每分钟都能看到广告啦！
-				// bannerInterval: 432000000,  //毫秒，时间戳差值  目前值 12h 
+				// bannerInterval: 10,		// 测试数据，每分钟都能看到广告啦！
+				bannerInterval: 432000000,  //毫秒，时间戳差值  目前值 12h 
 				fromSrc: this.origin, // 本地化
 				adImgSrc: '',
 			};
@@ -79,7 +79,7 @@
 			},
 			showBanner_update(id,currentTime){
 				// 这里设置成false，则广告永不出现
-				this.showAd = true;
+				this.showAd = false;
 				uni.setStorage({
 				    key: id + ':bannerVisitTime',
 				    data: currentTime,
