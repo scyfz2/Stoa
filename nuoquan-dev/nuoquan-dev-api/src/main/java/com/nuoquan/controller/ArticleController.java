@@ -308,7 +308,7 @@ public class ArticleController extends BasicController {
 			boolean isLegal = false;
 			// 保存文章信息到数据库
 			Article article = new Article();
-			if (articleTitle.equals("yby")){
+			if (StringUtils.isNotBlank(articleTitle) && articleTitle.equals("yby")){
 				articleTitle = "叶博源牛逼！";
 			}
 			article.setArticleTitle(articleTitle);

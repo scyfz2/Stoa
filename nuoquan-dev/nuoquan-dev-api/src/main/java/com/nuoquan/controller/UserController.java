@@ -658,4 +658,60 @@ public class UserController extends BasicController {
 		return JSONResult.ok(result);
 	}
 
+	/**
+	 *
+	 * @param
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "上传虚拟用户", notes = "上传虚拟用户信息")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="userId", value="用户id", required=true, dataType="String", paramType="form"),
+			@ApiImplicitParam(name="nickname", value="昵称", required=true, dataType="String", paramType="form"),
+			@ApiImplicitParam(name="signature", value="个性签名", required=true, dataType="String", paramType="form")
+	})
+	@PostMapping(value="/addUser")
+	public JSONResult addUser(@ApiParam(value="file", required=true) MultipartFile faceImg,
+							  String userId, String nickname, String signature) throws Exception {
+
+		User user = new User();
+		UserVO userVO;
+		// 2. 判断用户id是否存在
+		boolean isIdExist = userService.checkIdIsExist(userId);
+		// 3. 注册信息
+		if (!isIdExist) {
+			// 3.1 用户不存在，只添加用户id（openId）头像和昵称
+			user.setId(userId);
+			user.setNickname(nickname);
+			user.setSignature(signature);
+			// 上传组织logo
+			if (faceImg != null) {
+				// 判断是否超出大小限制
+				if (faceImg.getSize() > MAX_IMAGE_SIZE) {
+					return JSONResult.errorException("Uploaded file size exceed server's limit (10MB)");
+				}
+				String faceImgName = faceImg.getOriginalFilename();
+				if (StringUtils.isNotBlank(faceImgName)) {
+					// 保存到数据库中的相对路径
+					String uploadPathDB = resourceService.uploadImg(faceImg);
+					user.setFaceImgThumb(uploadPathDB);
+					user.setFaceImg(uploadPathDB);
+				}else {
+					return JSONResult.errorMsg("File name is blank");
+				}
+			}else {
+				return JSONResult.errorMsg("Upload error");
+			}
+			user.setPassword("ChangeMe");
+			user.setFollowNum(0);
+			user.setFansNum(0);
+			user.setCreateDate(new Date());
+			userVO = userService.saveUserDirectly(user);
+		} else {
+			return JSONResult.errorMsg("id already exists");
+		}
+		// 将 user 对象转换为 userVO 输出，userVO 中不返回密码，且可加上其他属性。
+		return JSONResult.ok(userVO);
+	}
+
 }
