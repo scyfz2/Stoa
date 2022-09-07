@@ -99,7 +99,7 @@
 					// debugger
 					that.facultyId = res.data;
 					that.beforeFaculty =that.facultyList[that.facultyId-1].name;
-					console.log(that.facultyId);
+					// console.log(that.facultyId);
 					// that.facultyId = res.data;
 				},
 				fail() {
@@ -111,7 +111,7 @@
 				success:function(res){
 					that.degreeId = res.data;
 					that.beforeDegree = that.degreeList[that.degreeId-1].name;
-					console.log(that.degreeId);
+					// console.log(that.degreeId);
 				},
 				fail(){
 					console.log('degree无记录');
