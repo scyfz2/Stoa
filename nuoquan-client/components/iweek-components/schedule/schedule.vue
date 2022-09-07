@@ -22,7 +22,7 @@
 			</view>
 			<view class="notify" v-if="isNull(showList) && facultyId!==0 && degreeId!==0">
 				<text>今天没有日程哦</text><br>
-				<text>快去请前端小哥吃饭</text>
+				<text>There's no schedule today</text>
 			</view>
 			<view class="bottom-placeholder"></view>
 		</view>
@@ -99,7 +99,7 @@
 					// debugger
 					that.facultyId = res.data;
 					that.beforeFaculty =that.facultyList[that.facultyId-1].name;
-					console.log(that.facultyId);
+					// console.log(that.facultyId);
 					// that.facultyId = res.data;
 				},
 				fail() {
@@ -111,7 +111,7 @@
 				success:function(res){
 					that.degreeId = res.data;
 					that.beforeDegree = that.degreeList[that.degreeId-1].name;
-					console.log(that.degreeId);
+					// console.log(that.degreeId);
 				},
 				fail(){
 					console.log('degree无记录');

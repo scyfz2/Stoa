@@ -131,8 +131,8 @@
 						this.clubList.push(this.organizationList[item]);
 					}
 				}
-				console.log(this.orgList);
-				console.log(this.clubList);
+				// console.log(this.orgList);
+				// console.log(this.clubList);
 			}
 		}
 	}
