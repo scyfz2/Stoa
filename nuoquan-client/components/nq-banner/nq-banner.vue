@@ -36,10 +36,7 @@
 				// 	this.showAd = true
 				// 	this.adImgSrc = "https://nqbucket-1308006370.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/redWallPoster-min.png"
 				// }
-				this.adImgSrc = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad000001.jpeg"
-			}else if(this.fromSrc == "redWallEvent"){
-				console.log("红墙活动页banner");
-				this.adImgSrc = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/%E6%B5%B7%E6%8A%A5.jpg";
+				this.adImgSrc = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad_haochi.jpg"
 			}
 			
 			var userInfo = this.getGlobalUserInfo();
@@ -66,7 +63,7 @@
 			//跳转广告页
 			jumpToWeb(){
 				if(this.fromSrc == "index"){
-					var url = 'https://r.xiumi.us/stage/v5/4Law2/393789504#/'
+					var url = 'https://mp.weixin.qq.com/s/6xnMR_qFJyeEtrVSMnTccg'
 					var encodeData = encodeURIComponent(url);
 					uni.navigateTo({
 						url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
@@ -79,7 +76,7 @@
 			},
 			showBanner_update(id,currentTime){
 				// 这里设置成false，则广告永不出现
-				this.showAd = false;
+				this.showAd = true;
 				uni.setStorage({
 				    key: id + ':bannerVisitTime',
 				    data: currentTime,

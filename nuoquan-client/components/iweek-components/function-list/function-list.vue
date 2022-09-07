@@ -7,7 +7,7 @@
 	<view class="function-list">
 		<view class="functions" v-for="(item, index) in functionList" :key="index" @tap="onClick(functionList[index])">
 			<view>
-				<image :src="item.icon" class="function-image"></image>
+				<image :src="item.icon" class="function-image" style="background-position: center;"></image>
 				<view v-if="lang.functionList[index] == 'Organizations'" style="font-size: 12px;">
 					{{lang.functionList[index]}}
 				</view>
