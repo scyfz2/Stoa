@@ -1,5 +1,7 @@
 package com.nuoquan.admin.controller;
 
+import com.nuoquan.enums.PostType;
+import com.nuoquan.pojo.vo.UserCommentVO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,11 @@ import com.nuoquan.utils.PagedResult;
 
 import io.swagger.annotations.Api;
 
+import java.util.List;
+
 /**
  * 文章人工审核
- * 
+ *
  * @ClassName: UserController
  * @author fuce
  * @date 2019-11-20 22:35
@@ -33,13 +37,13 @@ import io.swagger.annotations.Api;
 public class CheckArticleController extends BasicController {
 
 	private String prefix = "admin/article";
-	
+
 	@Autowired
 	private ArticleService articleService;
 
 	/**
 	 * 展示跳转页面
-	 * 
+	 *
 	 * @param model
 	 * @return
 	 */
@@ -53,7 +57,7 @@ public class CheckArticleController extends BasicController {
 
 	/**
 	 * list集合
-	 * 
+	 *
 	 * @param tablepar
 	 * @param searchText
 	 * @return
@@ -67,18 +71,18 @@ public class CheckArticleController extends BasicController {
 		PagedResult result = articleService.list(tablepar.getPageNum(), tablepar.getPageSize());
 		return result;
 	}
-	
+
 	@PostMapping("/listCheckOnly")
 	@RequiresPermissions("system:article:list")
 	@ResponseBody
-	public Object listCheckOnly(Tablepar tablepar, String searchText) {	
+	public Object listCheckOnly(Tablepar tablepar, String searchText) {
 		PagedResult result = articleService.listCheckOnly(tablepar.getPageNum(), tablepar.getPageSize());
 		return result;
 	}
 
 	/**
 	 * 修改文章状态
-	 * 
+	 *
 	 * @param id 文章id
 	 * @param mmap
 	 * @return
@@ -89,11 +93,51 @@ public class CheckArticleController extends BasicController {
 		mmap.put("Article", article);
 		return prefix + "/edit";
 	}
-	
+
 	/**
 	 * 修改文章状态
-	 * 
+	 *
 	 * @param id 文章id
+	 * @param mmap
+	 * @return
+	 */
+
+	@GetMapping("/check/{id}")
+	public String check(@PathVariable("id") String id, ModelMap mmap) {
+		ArticleVO article = articleService.getArticleById(id, null);
+		mmap.put("Article", article);
+		return prefix + "/check";
+	}
+	/**
+	 * 修改文章状态
+	 *
+	 * @param id 文章id
+	 * @param mmap
+	 * @return
+	 */
+
+	@GetMapping("/comment/{id}")
+	public Object comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
+		Integer page = tablepar.getPageNum();
+		Integer pageSize = tablepar.getPageSize();
+		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
+		mmap.put("Comment", commentResult);
+		return prefix + "/comment";
+	}
+
+	/**
+	 * 删除评论
+	 */
+	@PostMapping("/delete")
+	@ResponseBody
+	public JSONResult deleteComment(String id, String targetId) {
+		return socialService.fDeleteComment(id, "AdminUser", targetId, PostType.ARTICLE) > 0 ? JSONResult.ok() : JSONResult.errorMsg("删除失败");
+	}
+
+	/**
+	 * 修改文章状态
+	 *
+	 * @param ids 文章id
 	 * @param mmap
 	 * @return
 	 */
@@ -101,7 +145,7 @@ public class CheckArticleController extends BasicController {
 	public String batchEdit(@PathVariable("ids") String ids, ModelMap mmap) {
 		return prefix + "/batchEdit";
 	}
-	
+
 	/**
 	 * 修改保存文章状态
 	 */
@@ -111,7 +155,7 @@ public class CheckArticleController extends BasicController {
 	public JSONResult editSave(String id, Integer status) {
 		return articleService.updateArticleStatus(id, status) > 0 ? JSONResult.ok() : JSONResult.errorMsg("保存失败");
 	}
-	
+
 	/**
 	 * 查询自动审核
 	 */
@@ -121,7 +165,7 @@ public class CheckArticleController extends BasicController {
 	public Boolean getAutoCheck() {
 		return resourceConfig.getAutoCheckArticle();
 	}
-	
+
 	/**
 	 * 开启/关闭自动审核
 	 */
