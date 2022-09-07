@@ -279,6 +279,7 @@ public class ArticleServiceImpl implements ArticleService {
 		Criteria criteria3 = articleExample.createCriteria();
 		criteria3.andEqualTo("status", StatusEnum.READABLE.type);
 		articleExample.and(criteria2);
+		articleExample.and(criteria3);
 
 		PageHelper.startPage(page, pageSize);
 		List<Article> list = articleMapper.selectByExample(articleExample);
