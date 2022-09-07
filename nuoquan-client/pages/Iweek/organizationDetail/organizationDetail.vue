@@ -54,6 +54,11 @@
  					<image :src="pathFilter(detail.imgList[1].imagePath)" mode="aspectFill" class="orgQR"></image>
  				</view>
  			</view>
+ 			<view class="orgQRBox" v-if="detail.imgList">
+ 				<view v-if="detail.imgList[2]">
+ 					<image :src="pathFilter(detail.imgList[2].imagePath)" mode="aspectFill" class="orgQR"></image>
+ 				</view>
+ 			</view>
  		</view>
  	</view>
  </template>
