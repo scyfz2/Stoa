@@ -489,7 +489,7 @@ page {
 	margin-top: 15px;
 }
 .son-comment-num {
-	background: linear-gradient(313deg, rgba(255, 184, 32, 0.84) 0%, rgba(240, 240, 122, 1) 100%);
+	background: linear-gradient(313deg, rgba(25,25,112, 0.6) 0%, rgba(240, 240, 122, 1) 100%);
 }
 /* 滑到底了等提示
  */

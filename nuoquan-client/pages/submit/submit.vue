@@ -481,7 +481,7 @@
 	.title {
 		width: calc(698upx - 36px);
 		height: 38px;
-		border: 2px solid #fcc041;
+		border: 2px solid #6495ed;
 		border-radius: 8px;
 		padding-left: 12px;
 		padding-right: 24px;
@@ -519,7 +519,7 @@
 		margin-top: 8px;
 		width: 68px;
 		height: 26px;
-		background: linear-gradient(318deg, rgba(251, 118, 118, 1) 0%, rgba(254, 192, 77, 1) 100%);
+		background: linear-gradient(318deg, rgba(220,220,220, 1) 0%, #6495ed 100%);
 		box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
 		border-radius: 8px;
 		font-size: 14px;
@@ -533,7 +533,7 @@
 		margin-top: 8px;
 		width: 99px;
 		height: 26px;
-		background: linear-gradient(318deg, rgba(251, 118, 118, 1) 0%, rgba(254, 192, 77, 1) 100%);
+		background: linear-gradient(318deg, rgba(220,220,220, 1) 0%, #6495ed 100%);
 		box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
 		border-radius: 8px;
 		text-align: center;
@@ -613,7 +613,7 @@
 		width: calc(100% - 12px);
 		overflow: scroll;
 		padding: 16px 4px 24px;
-		border: 2px solid rgba(252, 192, 65, 1);
+		border: 2px solid #6495ed;
 		border-radius: 8px;
 		font-size: 14px;
 	}
@@ -649,7 +649,7 @@
 		margin-top: 100px;
 		width: 558upx;
 		height: 42px;
-		background: rgba(252, 192, 65, 1);
+		background: #6495ed;
 		box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
 		border-radius: 8px;
 

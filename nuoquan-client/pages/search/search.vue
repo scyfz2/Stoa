@@ -303,7 +303,7 @@
 	.input-bar {
 		width: 100%;
 		position: relative;
-		background: #FFC85A;
+		background: #507BA1;
 	}
 
 	.back {
@@ -401,7 +401,7 @@
 	.item {
 		display: inline-block;
 		padding: 6px 10px;
-		background: #FFDD98;
+		background: rgba(0,139,139,0.3);
 		border-radius: 20px;
 		height: 11px;
 		line-height: 11px;

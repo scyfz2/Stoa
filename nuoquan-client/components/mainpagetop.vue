@@ -244,19 +244,6 @@
 		border-bottom: 4px solid rgba(236, 236, 236, 1);
 	}
 
-	/* .mainPageTop_roled{
-	padding-top: 4px;
-	height: 110px;
-	position: fixed;
-	left: 0;
-	top: 0;
-	overflow: hidden;
-	width: 100%;
-	background-size: 100% 100%;
-	box-shadow: 0px 0px 10px 1px #c0c0c0;
-	background-image: linear-gradient(#ffc95a, #f89d4d);
-}
- */
 	.topBar {
 		width: 100%;
 		background-color: rgb(255,255,255,1);
@@ -419,7 +406,7 @@
 		left: 4.5%;
 		width: 140px;
 		height: 30px;
-		background: rgba(255, 238, 201, 1);
+		background: rgba(124,145,164, 0.4);
 		opacity: 1;
 		border-radius: 54px;
 	}
@@ -432,14 +419,14 @@
 		font-weight: 400;
 		line-height: 30px;
 		text-align: center;
-		color: rgba(252, 192, 65, 1);
+		color: #507BA1;
 		opacity: 1;
 	}
 
 	.tagsButton .icon {
 		width: 30px;
 		height: 30px;
-		background: rgba(252, 192, 65, 1);
+		background: #507BA1;
 		border-radius: 50%;
 		opacity: 1;
 	}

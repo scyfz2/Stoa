@@ -104,7 +104,7 @@
 			</view> -->
 		</view>
 
-		<image src="../../static/BG/signin_bottom.png" mode="scaleToFill" class="bottom-picBox"></image>
+		<image src="../../static/BG/signin_bottom.png" mode="aspectFill" class="bottom-picBox"></image>
 
 		<!-- example 步骤条 -->
 		<!-- <view class="example-body">

@@ -433,7 +433,7 @@
 		font-size: 11px;
 		font-weight: 500;
 		color: #ffffff;
-		background: #ffc95a;
+		background: #507ba1;
 		padding: 5px 12px;
 		margin: 0 4px;
 		border-radius: 25px;

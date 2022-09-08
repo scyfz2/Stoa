@@ -10,7 +10,7 @@
 						<image v-if="index==2" :src="item.icon" mode="aspectFit" style="width: 35px;height: 35px;margin-top: 15px;"></image>
 						<view 
 							class="img super_center"
-							:style="{ height: current == index ? '44px' : '25px', width: current == index ? '44px' : '25px', background: current == index ? 'rgba(253,169,86,1)' : ''}"
+							:style="{ height: current == index ? '44px' : '25px', width: current == index ? '44px' : '25px', background: current == index ? '#507BA1' : ''}"
 							v-if="item.type == 0 && index!=2"
 						>
 							<image style="width: 20px;height: 20px;" :style="{ margin: current == index ? '' : '0 0 0 2.5px'}" :src="current == index ? item.selectIcon : item.icon" mode="aspectFit"></image>
@@ -94,7 +94,7 @@ export default {
 					type: 0,
 					icon: '/static/icon/chartbar_d4d4d4.png',
 					selectIcon: '/static/icon/chartbar_ffffff.png',
-					name: '新生',
+					name: '探索',
 					url: '/pages/tabPages/iweek'
 				},
 				{
@@ -135,13 +135,13 @@ export default {
 					url:e.url
 				})
 			}
-			// else if (e.name == "新生"){
-			// 	uni.showToast({
-			// 		icon:'loading',
-			// 		duration: 2000,
-			// 		title:'该功能开发中'
-			// 	})
-			// }
+			else if (e.name == "探索"){
+				uni.showToast({
+					icon:'loading',
+					duration: 2000,
+					title:'该功能开发中'
+				})
+			}
 			else{
 				console.log(e.name)
 				console.log(this.current)

@@ -237,7 +237,7 @@
 		min-width: 82px;
 		height: 26px;
 		line-height: 20px;
-		background-color: #FFCF3C;
+		background-color: #507BA1;
 		border-width: 1upx;
 		border-radius: 4px;
 		display: flex;
