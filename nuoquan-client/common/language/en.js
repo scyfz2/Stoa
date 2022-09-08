@@ -223,6 +223,7 @@ module.exports = {
 	clubList: 'Club List',
 	organizationList:"Organization List",
 	organizationDetail:"organizationDetail",
+	clubDetail:"Club Deatil",
 	date: 'date',
 	time: 'time',
 	venue: 'venue',

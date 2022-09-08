@@ -222,6 +222,7 @@ module.exports = {
 	clubList: '学生社团',
 	organizationList:"学生组织",
 	organizationDetail:"组织详情",
+	clubDetail:"社团详情",
 	date: '日期',
 	time: '时间',
 	venue: '地点',

@@ -6,7 +6,7 @@
  -->
  <template>
  	<view id="organizationDetail-container">
- 		<uni-nav-bar class="navigationBar" 
+ 		<uni-nav-bar v-if="detail.status == 1" class="navigationBar" 
  		:style="{ height: this.getnavbarHeight() + 'px'}"  
  		backgroundColor="#f9c406"
  		color="#fcfcfc"
@@ -15,6 +15,17 @@
  		:left-text="lang.back" 
  		:title="lang.organizationDetail" 
  		:height="navbarHeight"></uni-nav-bar>
+		
+		<uni-nav-bar v-if="detail.status == 2" class="navigationBar"
+		:style="{ height: this.getnavbarHeight() + 'px'}"  
+		backgroundColor="#f9c406"
+		color="#fcfcfc"
+		:showLeftIcon="true" 
+		:isNavHome="isNavHome"
+		:left-text="lang.back" 
+		:title="lang.clubDetail" 
+		:height="navbarHeight"></uni-nav-bar>
+		
  		<view :style="{ height: navbarHeight + 'px' }"></view>
  		<!-- safearea -->
  		<view style="height: 20px;"></view>
