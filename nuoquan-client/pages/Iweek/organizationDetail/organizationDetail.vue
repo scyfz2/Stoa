@@ -19,7 +19,7 @@
  		<!-- safearea -->
  		<view style="height: 20px;"></view>
  		<view style="display: flex;">
- 			<image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgImage"></image>
+ 			<image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgLogo"></image>
  			<view class="orgTitle">{{detail.name}}</view>
  		</view>
  		
@@ -35,19 +35,35 @@
  			<view  class="orgIntro">
  				<view style="font-size: 17px;font-weight: bold;">{{showList[0]}}</view>
  				<!-- <view class="orgDetail">{{detail.intro}}</view> -->
+				
+				<!-- 介绍 -->
  				<view class="orgDetail" v-html="$markdownParse.parse(detail.intro)"></view>
- 				<view v-if="detail.activityIntro" style="margin-top: 5px;">
+				<view v-if="detail.imgList[3]" class="orgImgBox">
+					<image :src="pathFilter(detail.imgList[3].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(3)" @longpress="aboutImg(3)"></image>
+				</view>
+				
+				<!-- 主要活动 -->
+ 				<view v-if="detail.activityIntro" style="margin-top: 20px;">
  					<view style="font-size: 17px;font-weight: bold;">{{showList[1]}}</view>
  					<view class="orgDetail" v-html="$markdownParse.parse(detail.activityIntro)"></view>
  				</view>
- 				<view v-if="detail.division" style="margin-top: 5px;">
+				<view v-if="detail.imgList[4]" class="orgImgBox">
+					<image :src="pathFilter(detail.imgList[4].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(4)" @longpress="aboutImg(4)"></image>
+				</view>
+				<view v-if="detail.imgList[5]" class="orgImgBox">
+					<image :src="pathFilter(detail.imgList[5].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(5)" @longpress="aboutImg(5)"></image>
+				</view>
+				
+				<!-- 部门组成 -->
+ 				<view v-if="detail.division" style="margin-top: 20px;">
  					<view style="font-size: 17px;font-weight: bold;">{{showList[2]}}</view>
  					<view class="orgDetail" v-html="$markdownParse.parse(detail.division)"></view>
  				</view>
+				
  			</view>
  			<!-- 招新推文以及介绍的二维码 -->
 			<view  v-if="detail.imgList">
-				<view class="orgQRBox">
+				<view class="orgImgBox">
 					<view v-if="detail.imgList[0]">
 						<image :src="pathFilter(detail.imgList[0].imagePath)" mode="aspectFit" class="orgQR" @tap="previewImg(0)" @longpress="aboutImg(0)"></image>
 					</view>
@@ -55,7 +71,7 @@
 						<image :src="pathFilter(detail.imgList[1].imagePath)" mode="aspectFit" class="orgQR" @tap="previewImg(1)" @longpress="aboutImg(1)"></image>
 					</view>
 				</view>
-				<view class="orgQRBox">
+				<view class="orgImgBox">
 					<view v-if="detail.imgList[2]">
 						<image :src="pathFilter(detail.imgList[2].imagePath)" mode="aspectFit" class="orgQR" @tap="previewImg(2)" @longpress="aboutImg(2)"></image>
 					</view>
@@ -154,7 +170,7 @@
  </script>
  
  <style>
- 	.orgImage{
+ 	.orgLogo{
  		width: 80px;
  		height: 80px;
  		border: 0.5px solid gray;
@@ -185,7 +201,7 @@
  		word-wrap: break-word;
  	}
  	
- 	.orgQRBox{
+ 	.orgImgBox{
  		display:flex;
  		align-items:center;
  		justify-content: space-evenly;
@@ -196,7 +212,12 @@
  	.orgQR{
  		width: 130px;
  		height: 130px;
- 		border: 0.5px solid beige ;
+ 		border: 1px solid beige ;
+ 	}
+ 	
+ 	.orgImg{
+		height: 170px;
+ 		border: 1px solid beige ;
  	}
  </style> 
  

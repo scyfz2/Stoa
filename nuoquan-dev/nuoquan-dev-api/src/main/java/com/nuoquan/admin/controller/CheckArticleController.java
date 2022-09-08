@@ -116,14 +116,14 @@ public class CheckArticleController extends BasicController {
 	 * @return
 	 */
 
-	@GetMapping("/comment/{id}")
-	public Object comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
-		Integer page = tablepar.getPageNum();
-		Integer pageSize = tablepar.getPageSize();
-		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
-		mmap.put("Comment", commentResult);
-		return prefix + "/comment";
-	}
+//	@GetMapping("/comment/{id}")
+//	public Object comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
+//		Integer page = tablepar.getPageNum();
+//		Integer pageSize = tablepar.getPageSize();
+//		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
+//		mmap.put("Comment", commentResult);
+//		return prefix + "/comment";
+//	}
 
 	/**
 	 * 删除评论

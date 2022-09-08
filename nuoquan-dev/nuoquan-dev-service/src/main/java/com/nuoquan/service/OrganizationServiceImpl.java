@@ -7,6 +7,7 @@ import com.nuoquan.mapper.nq1.OrganizationImageMapper;
 import com.nuoquan.mapper.nq1.OrganizationMapper;
 import com.nuoquan.pojo.Organization;
 import com.nuoquan.pojo.OrganizationImage;
+import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.OrganizationVO;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
@@ -69,8 +70,26 @@ public class OrganizationServiceImpl implements OrganizationService{
     public OrganizationVO addOrganizationImage(OrganizationVO organizationVO) {
         List<OrganizationImage> images = organizationImageMapper.getOrganizationImage(organizationVO.getId());
         //为图片url添加前缀
+        int flag = 1;   // 图片order序号flag
+        int noImgIndex[] = new int[6-images.size()];    // 空缺图片order list
+        int i = 0;
         for (OrganizationImage image : images) {
+            while (image.getImageOrder() != flag){
+                noImgIndex[i]=flag-1;
+                flag++;
+                i++;
+            }
             image.setImagePath(resourceService.composeUrl(image.getImagePath()));
+            flag++;
+        }
+        while (flag <= 6){
+            noImgIndex[i]=flag-1;
+            flag++;
+            i++;
+        }
+
+        for (int j = 0; j < noImgIndex.length; j++) {
+            images.add(noImgIndex[j], null);
         }
         // 添加图片列表
         organizationVO.setImgList(images);
