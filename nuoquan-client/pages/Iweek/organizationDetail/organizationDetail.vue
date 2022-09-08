@@ -216,7 +216,7 @@
  		display:flex;
  		align-items:center;
  		justify-content: space-evenly;
-		margin: 10px 1% 10px 1%;
+		margin: 10px 5% 10px 5%;
  	}
  	
  	.orgQR{
