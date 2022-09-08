@@ -129,23 +129,39 @@
  		},
  		methods: {
  			previewImg: function(index) {
+				console.log(index);
 				var imgList = this.detail.imgList;
 				var arr = [];
 				var path;
+				var minus=0; //用来计算与实际长度差
+				var key=[];	//与minus一起记录哪个位置缺损
+				var k=0;	//index与实际位置之差
 				for (var i = 0; i < imgList.length; i++) {
-					// console.log(imgList[i].imagePath);
-					path = this.pathFilter(imgList[i].imagePath);
-					arr = arr.concat(path);
+					if(imgList[i]){
+						path = this.pathFilter(imgList[i].imagePath);
+						arr = arr.concat(path);
+					}else{
+						minus=minus+1;
+						key[minus]=i;
+					}
 				}
-				// console.log(arr);
+				//当index的值大于空的位置则k要加1，用来最后剪掉
+				for(var j=0;j<imgList.length;j++){
+					if(index>key[j]){
+						k=k+1;
+					}
+				}
+				// path = this.pathFilter(imgList[index].imagePath);
+				// arr = arr.concat(path);
+				console.log(arr);
 				uni.previewImage({
-					current: index,
+					current:index-k,
 					urls: arr
 				});
 		},
 		aboutImg: function(index) {
 			var that = this;
-			console.log(this.detail.imgList[index].imagePath);
+			// console.log(this.detail.imgList[index].imagePath);
 			uni.showActionSheet({
 				itemList: ['保存图片到本地'],
 				success: function(res) {
