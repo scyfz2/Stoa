@@ -66,7 +66,7 @@
 	
 	.organizationCard-text{
 		width:70%;
-		margin-top: 10px;
+		margin-top: 30px;
 		margin-left: 15px;
 	}
 	.orgTitle{
