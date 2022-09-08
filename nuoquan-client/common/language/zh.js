@@ -124,7 +124,7 @@ module.exports = {
 	nextRefresh : "下次更新",
 	
 	//我的消息
-	myMessage : "动态",
+	myMessage : " ",
 	likedYourArticle: "点赞了你的文章",
 	commentedYourArticle: "评论了你的文章",
 	likedYourComment: "点赞了你的评论",
@@ -215,7 +215,7 @@ module.exports = {
 	developing: "开发小哥正在玩命实现中...",
 	
 	// iweek相关
-	iweek: "新生",
+	iweek: " ",
 	functionList : ["学生组织","学生社团","我的课表","校园地图"],
 	dailySchedule : "每日日程",
 	noMore: "没有更多了",

@@ -135,13 +135,6 @@ export default {
 					url:e.url
 				})
 			}
-			// else if (e.name == "新生"){
-			// 	uni.showToast({
-			// 		icon:'loading',
-			// 		duration: 2000,
-			// 		title:'该功能开发中'
-			// 	})
-			// }
 			else{
 				console.log(e.name)
 				console.log(this.current)
