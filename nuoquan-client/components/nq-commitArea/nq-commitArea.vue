@@ -137,7 +137,7 @@ export default {
 		width:calc(100% - 48px);
 		height:86px;
 		padding: 12px 12px;
-		border:2px solid rgba(252,192,65,1);
+		border:2px solid #6495ed;
 		opacity:1;
 		border-radius:8px;
 	}
@@ -168,7 +168,7 @@ export default {
 	
 	.replyText{
 		margin-left: 10px;
-		color:rgba(252,192,65,1);
+		color:#6495ed;
 	}
 	
 	.cancelText{

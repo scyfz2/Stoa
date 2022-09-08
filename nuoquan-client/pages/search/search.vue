@@ -262,6 +262,7 @@
 				var keywords = this.hotList[index];
 				// console.log(keywords);
 				this.searchKeyWords = keywords;
+				this.search(1);
 			},
 			putHisIntoInput: function(index) {
 				// console.log(index);
@@ -401,7 +402,7 @@
 	.item {
 		display: inline-block;
 		padding: 6px 10px;
-		background: rgba(0,139,139,0.3);
+		background: rgba(100,149,237,0.5);
 		border-radius: 20px;
 		height: 11px;
 		line-height: 11px;

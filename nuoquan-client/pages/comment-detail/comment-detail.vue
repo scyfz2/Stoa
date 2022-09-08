@@ -534,7 +534,7 @@ page {
 	left: 12px;
 	width: 2px;
 	height: 16px;
-	background: #fcc041;
+	background: #6495ed;
 	border-radius: 2px;
 }
 .active-input-button {
@@ -549,7 +549,7 @@ page {
 	padding: 10px 22px;
 	border-radius: 10px;
 	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
-	background: #fcc041;
+	background: #6495ed;
 	letter-spacing: 2px;
 }
 /* 滑到底了等提示
@@ -611,11 +611,11 @@ page {
 	background-position: center;
 	float: right;
 	font-size: 14px;
-	color: #fcc041;
+	color: #6495ed;
 	z-index: 999;
 }
 .commentSth {
-	border: solid 2px #fcc041;
+	border: solid 2px #6495ed;
 	border-radius: 8px;
 	line-height: 20px;
 	padding: 12px 12px 0px;
@@ -673,7 +673,7 @@ page {
 	padding: 3px 12px 4px;
 	margin: 12px auto 24px;
 	border-radius: 8px;
-	border: 2px solid rgba(252, 192, 65, 1);
+	border: 2px solid #6495ed;
 	font-size: 12px;
 	line-height: 30px;
 }

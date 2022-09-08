@@ -693,7 +693,7 @@ pickerChange(res) {
 		vertical-align: bottom;
 		width: 97px;
 		height: 26px;
-		background: rgba(255, 201, 90, 1);
+		background: #6495ed;
 		line-height: 26px;
 		border-radius: 4px;
 		text-align: center;
@@ -722,7 +722,7 @@ pickerChange(res) {
 	.line {
 		width: 90px;
 		height: 0px;
-		border: 1px solid rgba(255, 207, 107, 1);
+		border: 1px solid #6495ed;
 	}
 	
 	.major-pick-style .item,
@@ -748,7 +748,7 @@ pickerChange(res) {
 		height: 26px;
 		line-height: 26px;
 		color: #FFFFFF;
-		background-color: rgba(255,207,107,1);
+		background-color: #6495ed;
 		border-radius: 4px;
 		text-align: center;
 		position: absolute;

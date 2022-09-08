@@ -685,7 +685,7 @@ button::after {
 	width: 40%;
 	height: 40px;
 	border-radius: 10upx;
-	background-color: #ffcd2e;
+	background-color: #6495ed;
 	z-index: 20;
 }
 
@@ -695,7 +695,7 @@ button::after {
 	left: 26%;
 	width: 48%;
 	height: 42px;
-	background-color: #ffcd2e;
+	background-color: #6495ed;
 	border-radius: 10upx;
 	z-index: 10;
 }
@@ -714,17 +714,17 @@ button::after {
 	width: 40px;
 	height: 40px;
 	border-radius: 10upx;
-	background-color: #ffcd2e;
+	background-color: #6495ed;
 	z-index: 20;
-	background: #fdd041;
+	background: #6495ed;
 }
 
 .back {
 	width: 40px;
 	height: 40px;
-	background-color: #ffcd2e;
+	background-color: #6495ed;
 	z-index: 20;
-	background: #fdd041;
+	background: #6495ed;
 	position: relative;
 }
 
@@ -737,6 +737,6 @@ button::after {
 	border-radius: 10upx;
 	width: 130px;
 	color:#FFFFFF;
-	background-color:#FFCD2E;
+	background-color:#6495ed;
 }
 </style>

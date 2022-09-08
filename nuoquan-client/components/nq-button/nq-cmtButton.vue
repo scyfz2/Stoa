@@ -68,7 +68,7 @@ export default {
 	height:22px;
 	opacity:1;
 	border-radius:50px;
-	background: linear-gradient(313deg,rgba(255,184,32,0.84) 0%,rgba(240,240,122,1) 100%);
+	background: linear-gradient(318deg, rgba(220,220,220, 1) 0%, #6495ed 100%);
 }
 
 .commentedBar image{
