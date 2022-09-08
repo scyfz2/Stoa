@@ -49,8 +49,10 @@
 				
 				<!-- 介绍 -->
  				<view class="orgDetail" v-html="$markdownParse.parse(detail.intro)"></view>
-				<view v-if="detail.imgList[3]" class="orgImgBox">
-					<image :src="pathFilter(detail.imgList[3].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(3)" @longpress="aboutImg(3)"></image>
+				<view v-if="detail.imgList">
+					<view v-if="detail.imgList[3]" class="orgImgBox">
+						<image :src="pathFilter(detail.imgList[3].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(3)" @longpress="aboutImg(3)"></image>
+					</view>
 				</view>
 				
 				<!-- 主要活动 -->
@@ -58,11 +60,15 @@
  					<view style="font-size: 17px;font-weight: bold;">{{showList[1]}}</view>
  					<view class="orgDetail" v-html="$markdownParse.parse(detail.activityIntro)"></view>
  				</view>
-				<view v-if="detail.imgList[4]" class="orgImgBox">
-					<image :src="pathFilter(detail.imgList[4].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(4)" @longpress="aboutImg(4)"></image>
+				<view v-if="detail.imgList">
+					<view v-if="detail.imgList[4]" class="orgImgBox">
+						<image :src="pathFilter(detail.imgList[4].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(4)" @longpress="aboutImg(4)"></image>
+					</view>
 				</view>
-				<view v-if="detail.imgList[5]" class="orgImgBox">
-					<image :src="pathFilter(detail.imgList[5].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(5)" @longpress="aboutImg(5)"></image>
+				<view v-if="detail.imgList">
+					<view v-if="detail.imgList[5]" class="orgImgBox">
+						<image :src="pathFilter(detail.imgList[5].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(5)" @longpress="aboutImg(5)"></image>
+					</view>
 				</view>
 				
 				<!-- 部门组成 -->
@@ -119,6 +125,7 @@
  			
  			const temp = JSON.parse(decodeURIComponent(option.detail));
  			this.detail = temp;
+			console.log(this.detail);
  		},
  		methods: {
  			previewImg: function(index) {
@@ -131,7 +138,6 @@
 					arr = arr.concat(path);
 				}
 				// console.log(arr);
-			
 				uni.previewImage({
 					current: index,
 					urls: arr
