@@ -12,7 +12,7 @@
 		<!--顶部名称部分-->
 		<view class="top-picture">
 			<!--logo-->
-			<view><image class="logo-app" src="../../static/icon/logo_app.jpeg" ></image></view>
+			<view><image class="logo-app" src="../../static/icon/logo_app.png" ></image></view>
 			<!--Nottinghome-->
 			<view class="company-name">STOA</view>
 			<!--版本-->
