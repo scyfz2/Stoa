@@ -132,7 +132,7 @@
 			if (res.from === 'menu'){
 				return{
 					title: '来看看社团组织吧！',
-					path: '/pages/iweek/irganizationDetail.vue'
+					path: '/pages/iweek/organizationDetail?data='+encodeURIComponent(JSON.stringify(this.detail))
 				}
 			}
 		},
@@ -141,7 +141,7 @@
 			if (res.from === 'menu'){
 				return{
 					title: '来看看社团组织吧！',
-					path: '/pages/iweek/irganizationDetail.vue'
+					path: '/pages/iweek/organizationDetail?data='+encodeURIComponent(JSON.stringify(this.detail))
 				}
 			}
 		},
