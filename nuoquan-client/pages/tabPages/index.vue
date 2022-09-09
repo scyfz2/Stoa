@@ -24,7 +24,7 @@
 </template>
 
 <script>
-	import articlebrief from '../../components/articlebrief';
+	import articlebrief from '../../components/articlebrief.vue';
 	import mainpagetop from '../../components/mainpagetop.vue';
 	import mainpageleft from '@/components/mainpageleft.vue';
 	import {

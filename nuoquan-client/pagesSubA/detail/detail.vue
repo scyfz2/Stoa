@@ -250,17 +250,25 @@
 			},
 			
 			toggleMenu(mode) {
-				if (mode == 'input') {
-					this.showInput = !this.showInput;
-					this.writingComment = this.showInput;
-					this.menu_status.more = false;
-				} else if (mode == 'more') {
-					this.menu_status.more = !this.menu_status.more;
-					this.showInput = false;
-				} else if (mode == 'reset') {
-					this.showInput = false;
-					this.writingComment = false;
-					this.menu_status.more = false;
+				var userInfo = this.getGlobalUserInfo();
+				if(this.isNull(userInfo.email)){
+					uni.showToast({
+						icon:'error',
+						title:'未绑定邮箱'
+					})
+				}else{
+					if (mode == 'input') {
+						this.showInput = !this.showInput;
+						this.writingComment = this.showInput;
+						this.menu_status.more = false;
+					} else if (mode == 'more') {
+						this.menu_status.more = !this.menu_status.more;
+						this.showInput = false;
+					} else if (mode == 'reset') {
+						this.showInput = false;
+						this.writingComment = false;
+						this.menu_status.more = false;
+					}
 				}
 			},
 			toggleCollect() {
@@ -665,10 +673,18 @@
 			}, //获取评论数据后，生成卡片后，判断总页面高度，控制是否显示回到顶部按钮
 
 			swLikeArticle() { //点赞主文章功能三个函数
-				if (this.articleCard.isLike) {
-					this.unLikeArticle();
-				} else {
-					this.likeArticle();
+				var userInfo = this.getGlobalUserInfo();
+				if(this.isNull(userInfo.email)){
+					uni.showToast({
+						icon:'error',
+						title:'未绑定邮箱'
+					})
+				}else{
+					if (this.articleCard.isLike) {
+						this.unLikeArticle();
+					} else {
+						this.likeArticle();
+					}
 				}
 				// 	this.thisArticle.isLike = !this.thisArticle.isLike;
 				//
