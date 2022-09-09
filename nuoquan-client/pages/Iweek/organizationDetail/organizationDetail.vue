@@ -120,6 +120,24 @@
  			const temp = JSON.parse(decodeURIComponent(option.detail));
  			this.detail = temp;
  		},
+		
+		onShareAppMessage(res) {
+			if (res.from === 'menu'){
+				return{
+					title: '来看看社团组织吧！',
+					path: '/pages/iweek/irganizationDetail.vue'
+				}
+			}
+		},
+		
+		onShareTimeline(res){
+			if (res.from === 'menu'){
+				return{
+					title: '来看看社团组织吧！',
+					path: '/pages/iweek/irganizationDetail.vue'
+				}
+			}
+		},
  		methods: {
  			previewImg: function(index) {
 				var imgList = this.detail.imgList;

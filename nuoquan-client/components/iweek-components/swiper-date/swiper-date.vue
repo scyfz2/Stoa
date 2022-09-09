@@ -16,6 +16,10 @@
 				curDate:'',
 				dateList:[
 					{
+						date: 12,
+						selected: false,
+					},
+					{
 						date: 13,
 						selected: false,
 					},
@@ -38,54 +42,21 @@
 					{
 						date: 18,
 						selected: false,
-					},
-					{
-						date: 19,
-						selected: false,
-					}
-					,
-					{
-						date: 20,
-						selected: false,
-					},
-					{
-						date: 21,
-						selected: false,
-					},
-					{
-						date: 22,
-						selected: false,
-					},
-					{
-						date: 23,
-						selected: false,
-					},
-					{
-						date: 24,
-						selected: false,
-					},
-					{
-						date: 25,
-						selected: false,
-					},
-					{
-						date: 26,
-						selected: false,
 					}
 				]
 			}
 		},
 		mounted() {
 			this.getCurrentDate();
-			if (this.curDate < 13){
+			if (this.curDate < 12){
 				this.getDate(this.dateList[0]);
 				this.changeIndex(0);
-			}else if(this.curDate<=26){
-					this.getDate(this.dateList[this.curDate-13]);
-					this.changeIndex(this.curDate-13);
+			}else if(this.curDate<=18){
+				this.getDate(this.dateList[this.curDate-12]);
+				this.changeIndex(this.curDate-12);
 			}else {
-				this.getDate(this.dateList[13]);
-				this.changeIndex(13)
+				this.getDate(this.dateList[12]);
+				this.changeIndex(12)
 			}
 		},
 		methods: {
@@ -99,6 +70,8 @@
 			getCurrentDate(){
 				var d = new Date();
 				this.curDate = d.getDate();
+				// 测试用，修改日期返回
+				// this.curDate = 20;
 				console.log(this.curDate);
 			}
 		}

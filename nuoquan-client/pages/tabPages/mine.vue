@@ -49,14 +49,15 @@
 		<view class="shadow2"></view>
 
 		<!-- 02 号内嵌广告位 -->
-		<swiper class="guanggao" v-if="!isNull(adverts)" circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+		<image class="guanggao" :src="adverts[0].url" mode="aspectFill"></image>
+		<!-- <swiper class="guanggao" v-if="!isNull(adverts)" circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"> -->
 			<!-- 图片比例1:3 -->
-			<swiper-item v-for="(item, index) in adverts" :key="item.id">
+			<!-- <swiper-item v-for="(item, index) in adverts" :key="index"> -->
 				<!-- 广告位背景，之后的广告图需与此保持同样尺寸 -->
 				<!-- <view class="swiper-item swiperBg"></view> -->
-				<image class="swiperBg" :src=item.resourceUrl mode="aspectFill" @click="jumpToWeb()"></image>
-			</swiper-item>
-		</swiper>
+				<!-- <image class="swiperBg" :src="item.url" mode="aspectFill" style="z-index: 1000;margin-left: 5%;margin-right: 5%;"></image> -->
+			<!-- </swiper-item> -->
+		<!-- </swiper> -->
 
 		<view class="navigator_box">
 			<mynavigator :objList="dataList" @trigger="navigatorEvent()"></mynavigator>
@@ -86,7 +87,7 @@ export default {
 			windowWidth: 0,
 			cardWidth: '',
 			dataList: '',
-			adverts: {}, // 广告列表
+			adverts:[],
 			userInfo:{},
 		};
 	},
@@ -104,6 +105,13 @@ export default {
 		}
 	},
 	onLoad() {
+		this.adverts = [
+			{
+				id: 1,
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad_wenmo.jpeg',
+			}
+		]
+		
 		this.thisUserInfo = this.getGlobalUserInfo();
 		var screenWidth = uni.getSystemInfoSync().screenWidth;
 		this.screenWidth = screenWidth;
@@ -137,7 +145,10 @@ export default {
 		this.updateDataList();
 		
 		// 加载广告
-		this.getAdByPosition("MINE",5,this.thisUserInfo.id);
+		// Editor: Yifei
+		// Date: Sept 9, 2022
+		// TODO: 原本的广告接口可以研究一下打开，现在写成静态的了
+		// this.getAdByPosition("MINE",5,this.thisUserInfo.id);
 	},
 
 	onShareAppMessage(res){
