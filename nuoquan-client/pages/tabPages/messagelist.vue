@@ -185,19 +185,27 @@ export default {
 
 		goToChatpage(e) {
 			// console.log(e)
-			var myId = e.myId;
-			var friendId = e.friendId;
-			var msg = e.msg;
-			var friendInfo = e.friendInfo;
-			// 覆盖快照，设为已读 (myId, friendId, msg, isRead)
-			this.chat.readUserChatSnapShot(myId, friendId);
-			// this.chat.saveUserChatSnapshot(e.myId, e.friendId, e.msg, this.chat.READ);
+			var userInfo = this.getGlobalUserInfo();
+			if(this.isNull(userInfo.email)){
+				uni.showToast({
+					icon:'error',
+					title:'未绑定邮箱'
+				})
+			}else{
+				var myId = e.myId;
+				var friendId = e.friendId;
+				var msg = e.msg;
+				var friendInfo = e.friendInfo;
+				// 覆盖快照，设为已读 (myId, friendId, msg, isRead)
+				this.chat.readUserChatSnapShot(myId, friendId);
+				// this.chat.saveUserChatSnapshot(e.myId, e.friendId, e.msg, this.chat.READ);
 
-			var encodeData = encodeURIComponent(JSON.stringify(friendInfo)); // 对数据字符串化并转码，防止特殊字符影响传参
-			// console.log(decodeURIComponent(encodeData));
-			uni.navigateTo({
-				url: '../chatpage/chatpage?friendInfo=' + encodeData
-			});
+				var encodeData = encodeURIComponent(JSON.stringify(friendInfo)); // 对数据字符串化并转码，防止特殊字符影响传参
+				// console.log(decodeURIComponent(encodeData));
+				uni.navigateTo({
+					url: '../chatpage/chatpage?friendInfo=' + encodeData
+				});
+			}
 		},
 
 		/**

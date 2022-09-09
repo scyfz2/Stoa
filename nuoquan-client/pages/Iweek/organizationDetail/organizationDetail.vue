@@ -49,8 +49,10 @@
 				
 				<!-- 介绍 -->
  				<view class="orgDetail" v-html="$markdownParse.parse(detail.intro)"></view>
-				<view v-if="detail.imgList[3]" class="orgImgBox">
-					<image :src="pathFilter(detail.imgList[3].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(3)" @longpress="aboutImg(3)"></image>
+				<view v-if="detail.imgList">
+					<view v-if="detail.imgList[3]" class="orgImgBox">
+						<image :src="pathFilter(detail.imgList[3].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(3)" @longpress="aboutImg(3)"></image>
+					</view>
 				</view>
 				
 				<!-- 主要活动 -->
@@ -58,11 +60,15 @@
  					<view style="font-size: 17px;font-weight: bold;">{{showList[1]}}</view>
  					<view class="orgDetail" v-html="$markdownParse.parse(detail.activityIntro)"></view>
  				</view>
-				<view v-if="detail.imgList[4]" class="orgImgBox">
-					<image :src="pathFilter(detail.imgList[4].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(4)" @longpress="aboutImg(4)"></image>
+				<view v-if="detail.imgList">
+					<view v-if="detail.imgList[4]" class="orgImgBox">
+						<image :src="pathFilter(detail.imgList[4].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(4)" @longpress="aboutImg(4)"></image>
+					</view>
 				</view>
-				<view v-if="detail.imgList[5]" class="orgImgBox">
-					<image :src="pathFilter(detail.imgList[5].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(5)" @longpress="aboutImg(5)"></image>
+				<view v-if="detail.imgList">
+					<view v-if="detail.imgList[5]" class="orgImgBox">
+						<image :src="pathFilter(detail.imgList[5].imagePath)" mode="heightFix" class="orgImg" @tap="previewImg(5)" @longpress="aboutImg(5)"></image>
+					</view>
 				</view>
 				
 				<!-- 部门组成 -->
@@ -119,6 +125,7 @@
  			
  			const temp = JSON.parse(decodeURIComponent(option.detail));
  			this.detail = temp;
+			console.log(this.detail);
  		},
 		
 		onShareAppMessage(res) {
@@ -140,24 +147,39 @@
 		},
  		methods: {
  			previewImg: function(index) {
+				console.log(index);
 				var imgList = this.detail.imgList;
 				var arr = [];
 				var path;
+				var minus=0; //用来计算与实际长度差
+				var key=[];	//与minus一起记录哪个位置缺损
+				var k=0;	//index与实际位置之差
 				for (var i = 0; i < imgList.length; i++) {
-					// console.log(imgList[i].imagePath);
-					path = this.pathFilter(imgList[i].imagePath);
-					arr = arr.concat(path);
+					if(imgList[i]){
+						path = this.pathFilter(imgList[i].imagePath);
+						arr = arr.concat(path);
+					}else{
+						minus=minus+1;
+						key[minus]=i;
+					}
 				}
-				// console.log(arr);
-			
+				//当index的值大于空的位置则k要加1，用来最后剪掉
+				for(var j=0;j<imgList.length;j++){
+					if(index>key[j]){
+						k=k+1;
+					}
+				}
+				// path = this.pathFilter(imgList[index].imagePath);
+				// arr = arr.concat(path);
+				console.log(arr);
 				uni.previewImage({
-					current: index,
+					current:index-k,
 					urls: arr
 				});
 		},
 		aboutImg: function(index) {
 			var that = this;
-			console.log(this.detail.imgList[index].imagePath);
+			// console.log(this.detail.imgList[index].imagePath);
 			uni.showActionSheet({
 				itemList: ['保存图片到本地'],
 				success: function(res) {
@@ -234,7 +256,7 @@
  		display:flex;
  		align-items:center;
  		justify-content: space-evenly;
-		margin: 10px 1% 10px 1%;
+		margin: 10px 5% 10px 5%;
  	}
  	
  	.orgQR{

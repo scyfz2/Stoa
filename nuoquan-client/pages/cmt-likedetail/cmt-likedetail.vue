@@ -499,16 +499,24 @@ export default {
 		},
 		
 		showCommitArea(index2,data){
-			this.isReplying = !this.isReplying;
-			this.toUserId=this.commentList[index2].senderId;
-			if(data==0){
-				this.targetId=this.commentList[index2].targetId;
-				this.underCommentId=this.commentList[index2].sourceId;
-			}else if(data==1){
-				this.targetId=this.commentList[index2].source.targetId;
-				this.underCommentId=this.commentList[index2].source.underCommentId;
+			var userInfo = this.getGlobalUserInfo();
+			if(this.isNull(userInfo.email)){
+				uni.showToast({
+					icon:'error',
+					title:'未绑定邮箱'
+				})
+			}else{
+				this.isReplying = !this.isReplying;
+				this.toUserId=this.commentList[index2].senderId;
+				if(data==0){
+					this.targetId=this.commentList[index2].targetId;
+					this.underCommentId=this.commentList[index2].sourceId;
+				}else if(data==1){
+					this.targetId=this.commentList[index2].source.targetId;
+					this.underCommentId=this.commentList[index2].source.underCommentId;
+				}
+				this.commentIndex=index2;
 			}
-			this.commentIndex=index2;
 		},
 		
 		killCommitArea(e){

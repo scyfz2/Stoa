@@ -140,8 +140,16 @@ export default {
 		    // 执行刷新
 		},
 		swLikeComment(comment, index) {
-			console.log('click like');
-			this.$emit('like', comment, index);
+			var userInfo = this.getGlobalUserInfo();
+			if(this.isNull(userInfo.email)){
+				uni.showToast({
+					icon:'error',
+					title:'未绑定邮箱'
+				})
+			}else{
+				console.log('click like');
+				this.$emit('like', comment, index);
+			}
 		},
 		onLongpress(e) {
 			console.log('触发长按操作,复制或者是快速回复');
@@ -227,7 +235,15 @@ export default {
 			});
 		},
 		goToCommentDetail(mainComment) {
-			this.$emit('goToCommentDetail', mainComment);
+			var userInfo = this.getGlobalUserInfo();
+			if(this.isNull(userInfo.email)){
+				uni.showToast({
+					icon:'error',
+					title:'未绑定邮箱'
+				})
+			}else{
+				this.$emit('goToCommentDetail', mainComment);
+			}
 			// uni.navigateTo({
 			// 	url: '/pages/comment-detail/comment-detail?data=' + JSON.stringify(mainComment)
 			// });

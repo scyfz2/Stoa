@@ -8,7 +8,7 @@
 		<image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgImage"></image>
 		<view class="organizationCard-text" >
 			<view class="orgTitle">{{detail.name}}</view>
-			<view class="orgContent" v-html="$markdownParse.parse(detail.intro)"></view>
+<!-- 			<view class="orgContent" v-html="$markdownParse.parse(detail.intro)"></view> -->
 		</view>
 	</view>
 </template>
@@ -66,7 +66,7 @@
 	
 	.organizationCard-text{
 		width:70%;
-		margin-top: 10px;
+		margin-top: 30px;
 		margin-left: 15px;
 	}
 	.orgTitle{

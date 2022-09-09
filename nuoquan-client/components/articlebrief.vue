@@ -224,10 +224,18 @@ export default {
 		},
 		
 		swLikeArticle() {
-			if (this.thisArticle.isLike) {
-				this.unLikeArticle();
-			} else {
-				this.likeArticle();
+			var userInfo = this.getGlobalUserInfo();
+			if(this.isNull(userInfo.email)){
+				uni.showToast({
+					icon:'error',
+					title:'未绑定邮箱'
+				})
+			}else{
+				if (this.thisArticle.isLike) {
+					this.unLikeArticle();
+				} else {
+					this.likeArticle();
+				}
 			}
 		},
 
