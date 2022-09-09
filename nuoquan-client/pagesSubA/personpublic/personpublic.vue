@@ -283,10 +283,18 @@ export default {
 		},
 
 		goToChatPage: function() {
-			var encodeData = encodeURIComponent(JSON.stringify(this.thisUserInfo)); // 对数据字符串化并转码，防止特殊字符影响传参
-			uni.navigateTo({
-				url: '/pages/chatpage/chatpage?friendInfo=' + encodeData,
-			});
+			var userInfo = this.getGlobalUserInfo();
+			if(this.isNull(userInfo.email)){
+				uni.showToast({
+					icon:'error',
+					title:'未绑定邮箱'
+				})
+			}else{
+				var encodeData = encodeURIComponent(JSON.stringify(this.thisUserInfo)); // 对数据字符串化并转码，防止特殊字符影响传参
+				uni.navigateTo({
+					url: '/pages/chatpage/chatpage?friendInfo=' + encodeData,
+				});
+			}
 		},
 
 		/**
