@@ -158,6 +158,7 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
         eventsCalendar.setFaculty(faculty);
         eventsCalendar.setDegree(degree);
         eventsCalendar.setStatus(status);
+        eventsCalendar.setDescription(description);
         eventsCalendar.setCreateDate(new Date());
 
         return eventsCalendar;
