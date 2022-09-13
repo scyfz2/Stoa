@@ -15,9 +15,9 @@
 		<view style="height: 8px; background-color: #FFFFFF;"></view>
 		<view class="topHalf">
 		<!-- 轮播图 如果不想让他动的话就只放一张图 -->
-		<swiper class="top-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
+		<swiper class="top-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" circular="true">
 			<swiper-item v-for="(item,index) in swipers" :key="index">
-				<image :src="item" mode="aspectFit"></image>
+				<image :src="item.url" mode="aspectFit" @click="jumpToWeb(item.articleUrl)"></image>
 			</swiper-item>
 		</swiper>
 		
@@ -63,15 +63,21 @@
 			...mapState(['lang'])
 		},
 		onLoad(){
-			// this.swipers=[{
-			// 	url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg',
-			// 	articleUrl:'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ',
-			// },
-			// {
-			// 	url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq1.jpeg',
-			// 	articleUrl:'https://r.xiumi.us/stage/v5/4Law2/393789504#/',
-			// }];
-			this.swipers= ['https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg','https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq2.png']
+			this.swipers = [
+			{
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq3.jpeg',
+				articleUrl:'https://mp.weixin.qq.com/s/98yl6ahLE5Z-GmxWe_LTzw',
+			},
+			{
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg',
+				articleUrl:'no',
+			},
+			{
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq2.png',
+				articleUrl:'https://mp.weixin.qq.com/s/XPt4FWfevGnx6E6FQ51OQA',
+			}
+			]
+			
 			var userInfo = this.getGlobalUserInfo();
 			if (this.isNull(userInfo)) {
 				uni.redirectTo({
@@ -96,22 +102,18 @@
 				this.show = e;
 			},
 			jumpToWeb(index){
-				// console.log(index);
-				var url = '';
-				// console.log(url);
-				if(index == 0){
-					url = 'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ';
-				}else if (index == 1){
-					url = 'https://r.xiumi.us/stage/v5/4Law2/393789504#/';
+				if (index == 'no'){
+					console.log('no jump link');
+					return;
+				}else{
+					var encodeData = encodeURIComponent(index);
+					uni.navigateTo({
+						url:'../adWebPage/adWebPage?url=' + encodeData,
+						fail() {
+							console.log(res);
+						}
+					})
 				}
-				console.log(url);
-				var encodeData = encodeURIComponent(url);
-				uni.navigateTo({
-					url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
-					fail() {
-						console.log(res);
-					}
-				})	
 			},
 		}
 	}

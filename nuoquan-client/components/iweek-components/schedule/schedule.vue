@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="calendar">
-			<view class="hint" style="display: flex;margin-bottom: 10upx;">
+			<view class="hint" style="display: flex;margin-bottom: 15upx;padding-top: 5px;">
 				<view class="text_topic">
 					{{lang.dailySchedule}}
 				</view>
@@ -59,7 +59,7 @@
 					},
 					{
 						id: 2,
-						name: 'FoB',
+						name: 'NUBS',
 					},
 					{
 						id: 3,
@@ -69,11 +69,7 @@
 				degreeList:[
 					{
 						id: 1,
-						name: 'UG-Domestic',
-					},
-					{
-						id:2,
-						name: 'UG-SPP',
+						name: 'Undergraduate',
 					},
 					{
 						id:3,

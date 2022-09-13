@@ -42,9 +42,12 @@
 					</view>
 				</view>
 				
-				<view class="description" style="margin-bottom: 15px; display: flex;margin-left: 10px;">
+				<view v-if="event.description" class="description" style="margin-bottom: 15px; display: flex;margin-left: 10px;">
 					<view style="font-weight: bold; font-size: 15px;margin-right: 10px;">
-						<!-- <text>这是一件很严肃的活动 请不要错过！！！</text> -->
+						<text>Description:</text>
+					</view>
+					<view style="font-size: 13px;">
+						<text>{{event.description}}</text>
 					</view>
 				</view>
 			</view>

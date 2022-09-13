@@ -127,6 +127,24 @@
  			this.detail = temp;
 			console.log(this.detail);
  		},
+		
+		onShareAppMessage(res) {
+			if (res.from === 'menu'){
+				return{
+					title: '来看看社团组织吧！',
+					path: '/pages/iweek/organizationDetail?data='+encodeURIComponent(JSON.stringify(this.detail))
+				}
+			}
+		},
+		
+		onShareTimeline(res){
+			if (res.from === 'menu'){
+				return{
+					title: '来看看社团组织吧！',
+					path: '/pages/iweek/organizationDetail?data='+encodeURIComponent(JSON.stringify(this.detail))
+				}
+			}
+		},
  		methods: {
  			previewImg: function(index) {
 				console.log(index);
