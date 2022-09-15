@@ -227,11 +227,13 @@ Vue.prototype.myUser = function(user) {
 	var email = user.email;
 	if (this.isNull(email)) {
 		email = "[Email]@nottingham.edu.cn";
+		console.log('email is null');
 	}
 	var list = email.split('@');
 	user.emailPrefix = list[0];
 	user.emailSuffix = "@" + list[1];
 
+	console.log(list[0],list[1]);
 	return user
 }
 

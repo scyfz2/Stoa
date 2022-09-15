@@ -49,7 +49,12 @@
 		<view class="shadow2"></view>
 
 		<!-- 02 号内嵌广告位 -->
-		<image class="guanggao" :src="adverts[0].url" mode="aspectFill"></image>
+		<swiper class="top-swiper" :indicator-dots="false" :autoplay="true" :interval="4000" :duration="1000" circular="true">
+			<swiper-item v-for="(item,index) in adverts" :key="index">
+				<image class="guanggao" :src="item.url" mode="aspectFit" @click="jumpToWeb(item.jumpUrl)"></image>
+			</swiper-item>
+		</swiper>
+		<!-- <image class="guanggao" :src="adverts[0].url" mode="aspectFill"></image> -->
 		<!-- <swiper class="guanggao" v-if="!isNull(adverts)" circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"> -->
 			<!-- 图片比例1:3 -->
 			<!-- <swiper-item v-for="(item, index) in adverts" :key="index"> -->
@@ -108,7 +113,13 @@ export default {
 		this.adverts = [
 			{
 				id: 1,
-				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad_wenmo.jpeg',
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad_wenmo.png',
+				jumpUrl: 'https://mp.weixin.qq.com/s/lFf-jjg04ajYyoV3Ea5Ipg',
+			},
+			{
+				id:2,
+				url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad_haochi.png',
+				jumpUrl: 'https://mp.weixin.qq.com/s/6xnMR_qFJyeEtrVSMnTccg',
 			}
 		]
 		
@@ -315,10 +326,12 @@ export default {
 			});
 		},
 		
-		jumpToWeb() {
+		jumpToWeb(jumpUrl) {
 			// TODO: 兼容网页跳转和小程序内跳转
+			console.log(jumpUrl);
+			var encodeData = encodeURIComponent(jumpUrl);
 			uni.navigateTo({
-				url: '../../pagesSubEvent/eventVote/eventVote'
+				url: '../adWebPage/adWebPage?url=' + encodeData
 			});
 		},
 		

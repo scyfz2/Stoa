@@ -26,7 +26,7 @@
 			<view class="tag" v-if="articleCard.tagList.length != 0 && articleCard.tagList != null" :style="{ background: tagColorList[index] }" v-for="(i, index) in articleCard.tagList" v-bind:key="index">{{ i }}</view>
 		</view>
 		<!--内容-->
-		<text selectable="true" class="detailcontent">{{ articleCard.articleContent }}</text>
+		<text selectable="true" class="detailcontent" style="user-select: text;">{{ articleCard.articleContent }}</text>
 		<!--图片区域-->
 		<view>
 			<!-- 单图显示 -->

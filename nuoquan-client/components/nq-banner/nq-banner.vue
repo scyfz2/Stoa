@@ -30,12 +30,6 @@
 			console.log("this.fromSrc " + this.fromSrc);
 			if(this.fromSrc == "index"){
 				console.log("首页banner");
-				// var currentTime = new Date().getTime();
-				// if(1600419600000 < currentTime && currentTime < 1600703940000 ){
-				// 	console.log('currentTime' + currentTime);
-				// 	this.showAd = true
-				// 	this.adImgSrc = "https://nqbucket-1308006370.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/redWallPoster-min.png"
-				// }
 				this.adImgSrc = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad_haochi.jpg"
 			}
 			

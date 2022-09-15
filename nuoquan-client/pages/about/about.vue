@@ -43,7 +43,7 @@ export default {
 	},
 	data() {
 		return {
-			versionNum: "3.1.0",
+			versionNum: "3.1.3",
 			isNavHome: getApp().globalData.isNavHome,//判断导航栏左侧是否显示home按钮
 			dataList:[
 				{
@@ -86,10 +86,10 @@ export default {
 				{
 					name:'更新公告	Update Announcement',
 					subtitle:this.versionNum,
-					body:'\ STOA v3.1.0 版本更新！\n \
-						1. 修复原版本关于加v的bug\n \
-						2. 优化部分使用体验\n \
-						3. 推出迎新板块，欢迎大家了解日程及校内社团组织\n \
+					body:'\ STOA v3.1.3 版本更新！\n \
+						1. 优化了迎新板块的日程展示页面\n \
+						2. 修复了转发社团组织后无法查看的bug\n \
+						3. 优化了部分用户体验\n \
 						\n \
 						'
 				}
