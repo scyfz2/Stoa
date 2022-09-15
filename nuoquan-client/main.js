@@ -31,8 +31,8 @@ Vue.prototype.$util = util
 // Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
  
 // 安全服务器地址
-Vue.prototype.$serverUrl = "https://www.jumboxtech.com:8091"
-Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8088/ws"
+Vue.prototype.$serverUrl = "https://www.jumboxtech.com:8022"
+Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8014/ws"
 Vue.prototype.$resServerUrl = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com"
 
 /**
