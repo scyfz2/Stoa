@@ -29,6 +29,17 @@ public class EventsCalendar {
     @Column(name = "status")
     private Integer status;
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "create_date")
     private Date createDate;
 

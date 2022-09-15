@@ -17,6 +17,7 @@ public class EventsCalendarVO {
     private String eventTime;
     private Integer status;
     private Date createDate;
+    private String description;
 
     private String strEventDate;
     private String strFaculty;
@@ -28,6 +29,14 @@ public class EventsCalendarVO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getEventTitle() {
