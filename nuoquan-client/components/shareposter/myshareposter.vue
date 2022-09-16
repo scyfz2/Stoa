@@ -262,7 +262,7 @@ export default {
 						},
 						{
 							type: 'text',
-							content: '我在Stoa的分享扫码查看完整内容',
+							content: '我在DX ROAD的分享扫码查看完整内容',
 							fontSize: 15,
 							lineHeight: 25,
 							color: '#888888',
@@ -398,7 +398,7 @@ export default {
 					},
 					{
 						type: 'text',
-						content: '扫码前往Stoa参与讨论',
+						content: '扫码前往DX ROAD参与讨论',
 						fontSize: 15,
 						lineHeight: 25,
 						color: '#888888',

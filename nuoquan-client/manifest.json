@@ -86,7 +86,7 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
-        "appid" : "wxebb29e9646be657f",
+        "appid" : "wxf7f31446cd68367a",
         "setting" : {
             "urlCheck" : true,
             "postcss" : true,
@@ -95,9 +95,9 @@
         },
         "usingComponents" : true,
         "permission" : {},
-		// 小程序配置开启优化分包
-		"optimization" : {
-			"subPackages" : true
-		}
+        // 小程序配置开启优化分包
+        "optimization" : {
+            "subPackages" : true
+        }
     }
 }

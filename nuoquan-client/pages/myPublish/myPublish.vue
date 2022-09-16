@@ -105,7 +105,7 @@
 		},
 
 		onLoad() {
-			// var that = this;
+			var that = this;
 			var userInfo = this.getGlobalUserInfo();
 			// console.log(userInfo);
 			if (this.isNull(userInfo)) {
@@ -134,7 +134,7 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					console.log(res);
-					this.scrollHeight = res.windowHeight - this.getnavbarHeight().bottom - 5 + 'px';
+					that.scrollHeight = res.windowHeight - that.getnavbarHeight().bottom - 5 + 'px';
 					console.log(that.scrollHeight);
 				}
 			});
