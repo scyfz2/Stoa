@@ -16,19 +16,19 @@
   </resultMap>
   
   <select id="getOptions" resultMap="BaseResultMap" parameterType="String">
-  	select * from nuoquan.vote_option
+  	select * from dxroad.vote_option
   	where
   		1 = 1
   		and vote_id = #{voteId}
-    order by nuoquan.vote_option.index
+    order by dxroad.vote_option.index
   </select>
   
   <update id="addCorrespondingOptionCount" parameterType="String">
-  	update nuoquan.vote_option set count=count+1 where id=#{optionId}
+  	update dxroad.vote_option set count=count+1 where id=#{optionId}
   </update>
   
   <update id="updatePercent">
-  	update nuoquan.vote_option set percent=#{percent} where id=#{id}
+  	update dxroad.vote_option set percent=#{percent} where id=#{id}
   </update>
   
 </mapper>

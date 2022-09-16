@@ -12,10 +12,10 @@
   </resultMap>
   
   <select id="getArticleImgs" resultMap="BaseResultMap">
-  	select * from nuoquan.article_image
+  	select * from dxroad.article_image
   	where
   		1 = 1
   		and article_id = #{articleId}
-  	order by nuoquan.article_image.image_order asc
+  	order by dxroad.article_image.image_order asc
   </select>
 </mapper>

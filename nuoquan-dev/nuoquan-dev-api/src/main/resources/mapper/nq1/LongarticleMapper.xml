@@ -30,42 +30,42 @@
   </resultMap>
 
   <update id="addLikeCount" parameterType="String">
-    update nuoquan.longarticle set like_num=like_num+1 where id=#{articleId}
+    update dxroad.longarticle set like_num=like_num+1 where id=#{articleId}
   </update>
 
   <update id="reduceLikeCount" parameterType="String">
-    update nuoquan.longarticle set like_num=like_num-1 where id=#{articleId}
+    update dxroad.longarticle set like_num=like_num-1 where id=#{articleId}
   </update>
 
   <update id="addCollectCount" parameterType="String">
-    update nuoquan.longarticle set collect_num=collect_num+1 where id=#{articleId}
+    update dxroad.longarticle set collect_num=collect_num+1 where id=#{articleId}
   </update>
 
   <update id="reduceCollectCount" parameterType="String">
-    update nuoquan.longarticle set collect_num=collect_num-1 where id=#{articleId}
+    update dxroad.longarticle set collect_num=collect_num-1 where id=#{articleId}
   </update>
 
   <update id="addCommentCount" parameterType="String">
-    update nuoquan.longarticle set comment_num=comment_num+1 where id=#{articleId}
+    update dxroad.longarticle set comment_num=comment_num+1 where id=#{articleId}
   </update>
 
   <update id="reduceCommentCount" parameterType="String">
-    update nuoquan.longarticle set comment_num=comment_num-1 where id=#{articleId}
+    update dxroad.longarticle set comment_num=comment_num-1 where id=#{articleId}
   </update>
 
   <update id="addViewCount" parameterType="String">
-    update nuoquan.longarticle set view_num=view_num+1 where id=#{articleId}
+    update dxroad.longarticle set view_num=view_num+1 where id=#{articleId}
   </update>
 
   <update id="addReportedCount" parameterType="String">
-    update nuoquan.longarticle set reported_num=reported_num+1 where id=#{articleId}
+    update dxroad.longarticle set reported_num=reported_num+1 where id=#{articleId}
   </update>
 
   <select id="queryReportedLongArticleByCreatTime" resultMap="BaseResultMap">
-    select * from nuoquan.longarticle la where reported_num!=0 order by la.create_date desc
+    select * from dxroad.longarticle la where reported_num!=0 order by la.create_date desc
   </select>
 
   <select id="queryReportedLongArticleByReportedNum" resultMap="BaseResultMap">
-    select * from nuoquan.longarticle la where reported_num!=0 order by la.reported_num desc
+    select * from dxroad.longarticle la where reported_num!=0 order by la.reported_num desc
   </select>
 </mapper>

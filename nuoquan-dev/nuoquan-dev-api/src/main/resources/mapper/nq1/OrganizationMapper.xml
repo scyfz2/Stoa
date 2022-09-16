@@ -19,7 +19,7 @@
     <!-- 返回全部status != 0(readable)的结果 -->
     <!-- 查询全部组织时用了EXAMPLE，此处没有用上，后续可看情况删除 -->
     <select id="queryOrganization" resultMap="BaseResultMap">
-        select * from nuoquan.organization org natural join nuoquan.organization_image
+        select * from dxroad.organization org natural join dxroad.organization_image
         where
         org.status != 0
         order by org.create_date asc

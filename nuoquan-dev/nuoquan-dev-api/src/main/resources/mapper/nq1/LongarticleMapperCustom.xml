@@ -30,8 +30,8 @@
   </resultMap>
   
   <select id="getArticleById" resultMap="BaseResultMap">
-  	select a.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.longarticle a
-   	left join nuoquan.user u on u.id = a.user_id
+  	select a.*, u.nickname as nickname, u.face_img, u.face_img_thumb from dxroad.longarticle a
+   	left join dxroad.user u on u.id = a.user_id
   	where
   		1 = 1
   		and a.id = #{articleId}

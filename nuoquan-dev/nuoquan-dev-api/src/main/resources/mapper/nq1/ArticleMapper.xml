@@ -23,55 +23,55 @@
   </resultMap>
 
   <update id="addLikeCount" parameterType="String">
-  	update nuoquan.article set like_num=like_num+1 where id=#{articleId}
+  	update dxroad.article set like_num=like_num+1 where id=#{articleId}
   </update>
 
   <update id="reduceLikeCount" parameterType="String">
-  	update nuoquan.article set like_num=like_num-1 where id=#{articleId}
+  	update dxroad.article set like_num=like_num-1 where id=#{articleId}
   </update>
 
   <update id="addCollectCount" parameterType="String">
-  	update nuoquan.article set collect_num=collect_num+1 where id=#{articleId}
+  	update dxroad.article set collect_num=collect_num+1 where id=#{articleId}
   </update>
 
   <update id="reduceCollectCount" parameterType="String">
-  	update nuoquan.article set collect_num=collect_num-1 where id=#{articleId}
+  	update dxroad.article set collect_num=collect_num-1 where id=#{articleId}
   </update>
 
   <update id="addCommentCount" parameterType="String">
-  	update nuoquan.article set comment_num=comment_num+1 where id=#{articleId}
+  	update dxroad.article set comment_num=comment_num+1 where id=#{articleId}
   </update>
 
   <update id="reduceCommentCount" parameterType="String">
-    update nuoquan.article set comment_num=comment_num-1 where id=#{articleId}
+    update dxroad.article set comment_num=comment_num-1 where id=#{articleId}
   </update>
 
   <update id="reduceCommentCountSpecific">
-    update nuoquan.article set comment_num=#{newCommentNum} where id=#{articleId}
+    update dxroad.article set comment_num=#{newCommentNum} where id=#{articleId}
   </update>
 
   <update id="addReportedCount" parameterType="String">
-    update nuoquan.article set reported_num=reported_num+1 where id=#{articleId}
+    update dxroad.article set reported_num=reported_num+1 where id=#{articleId}
   </update>
 
   <update id="addViewCount" parameterType="String">
-  	update nuoquan.article set view_num=view_num+1 where id=#{articleId}
+  	update dxroad.article set view_num=view_num+1 where id=#{articleId}
   </update>
 
   <select id="selectArticleStatus" parameterType="String" resultType="Integer">
-    select status from nuoquan.article a where a.id = #{articleId}
+    select status from dxroad.article a where a.id = #{articleId}
   </select>
 
   <select id="queryReportedArticleByCreateTime" resultMap="BaseResultMap">
-    select * from nuoquan.article a where reported_num!=0 order by a.create_date desc
+    select * from dxroad.article a where reported_num!=0 order by a.create_date desc
   </select>
 
   <select id="queryReportedArticleByReportedNum" resultMap="BaseResultMap">
-    select * from nuoquan.article a where reported_num!=0 order by a.reported_num desc
+    select * from dxroad.article a where reported_num!=0 order by a.reported_num desc
   </select>
 
   <select id="selectArticleCommentNum" parameterType="String" resultType="Integer">
-    select comment_num from nuoquan.article a where a.id=#{articleId}
+    select comment_num from dxroad.article a where a.id=#{articleId}
   </select>
 </mapper>
 

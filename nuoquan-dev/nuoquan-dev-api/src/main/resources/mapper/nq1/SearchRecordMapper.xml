@@ -10,7 +10,7 @@
   </resultMap>
   
   <select id="getHotWords" resultType="String">
-  	SELECT content FROM nuoquan.search_record group by content order by count(content) desc limit 5
+  	SELECT content FROM dxroad.search_record group by content order by count(content) desc limit 5
   	 
   </select>
   

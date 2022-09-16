@@ -13,7 +13,7 @@
   </resultMap>
   
   <select id="getSelectedOptionId" resultMap="BaseResultMap" parameterType="String">
-  	select vu.option_id from nuoquan.vote_user vu
+  	select vu.option_id from dxroad.vote_user vu
   	where
   		1 = 1
   		and vote_id = #{id}

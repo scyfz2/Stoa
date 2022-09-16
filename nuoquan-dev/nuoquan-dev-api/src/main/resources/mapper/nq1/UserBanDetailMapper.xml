@@ -12,7 +12,7 @@
     </resultMap>
 
     <select id="selectEndDate" parameterType="String" resultType="String">
-        select max(end_date) from nuoquan.user_ban_detail ubd where ubd.user_id=#{userId}
+        select max(end_date) from dxroad.user_ban_detail ubd where ubd.user_id=#{userId}
     </select>
 
 </mapper>
