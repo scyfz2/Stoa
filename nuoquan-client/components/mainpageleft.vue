@@ -69,7 +69,7 @@
 			userInfo: {
 				faceImg: '../static/touxiang.jpg',
 				emailPrefix: 'test123',
-				emailSuffix: '@nottingham.edu.cn'
+				emailSuffix: '@wku.edu.cn'
 			},
 		},
 		data() {

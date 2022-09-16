@@ -100,7 +100,8 @@ const regEmail = function regEmail(str){
  * true: 不匹配, false: 匹配
  */
 const regUNNCEmail = function regUNNCEmail(str){
-	return !RegExp(/^\w+([-+.]\w+)*@(\w+\.)*nottingham\.[edu\.cn,ac\.uk]+$/).test(str);
+	// return !RegExp(/^\w+([-+.]\w+)*@(\w+\.)*nottingham\.[edu\.cn,ac\.uk]+$/).test(str);
+	return !RegExp(/^\w+([-+.]\w+)*@(\w+\.)*wku\.edu\.cn+$/).test(str);
 }
 
 module.exports = {
