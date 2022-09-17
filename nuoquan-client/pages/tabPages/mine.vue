@@ -175,7 +175,7 @@ export default {
 		if (res.from === 'menu'){
 			return {
 			title: '速来围观' + this.userInfo.nickname + '的分享',
-			path: '/pagesSubA/personpublic/personpublic?data=' + this.userInfo.id,	
+			path: '/pagesSubA/personpublic/personpublic?data=' + this.userInfo.id,
 			};
 		}
 	},

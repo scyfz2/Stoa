@@ -188,8 +188,7 @@ export default {
 	},
 
 	onLoad(opt) {
-		userId = opt.userId;
-
+		userId = opt.data;
 		me = this.getGlobalUserInfo();
 		if (this.isNull(me)) {
 			uni.redirectTo({
