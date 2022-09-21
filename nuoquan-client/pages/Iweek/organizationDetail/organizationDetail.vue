@@ -8,7 +8,7 @@
  	<view id="organizationDetail-container">
  		<uni-nav-bar class="navigationBar" 
  		:style="{ height: this.getnavbarHeight() + 'px'}"  
- 		backgroundColor="#f9c406"
+ 		backgroundColor="#507ba1"
  		color="#fcfcfc"
  		:showLeftIcon="true" 
  		:isNavHome="isNavHome"
@@ -19,22 +19,14 @@
  		<!-- safearea -->
  		<view style="height: 20px;"></view>
  		<view style="display: flex;">
- 			<image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgLogo"></image>
+ 			<!-- <image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgLogo"></image> -->
+			<image :src="pathFilter(detail.logoPath)" mode="aspectFit" class="orgLogo"></image>
  			<view class="orgTitle">{{detail.name}}</view>
  		</view>
  		
  		<view class="orgContentBox">
- 			<!-- <view v-for="(item,index) in showList" class="orgIntro">
- 				<view style="font-size: 17px;font-weight: bold;">{{item}}</view>
- 				<view class="orgDetail">
- 					<view v-if="index==0">{{detail.intro}}</view>
- 					<view v-else-if="index==1">{{detail.activityIntro}}</view>
- 					<view v-else>{{detail.division}}</view>
- 				</view>
- 			</view> -->
  			<view  class="orgIntro">
  				<view style="font-size: 17px;font-weight: bold;">{{showList[0]}}</view>
- 				<!-- <view class="orgDetail">{{detail.intro}}</view> -->
 				
 				<!-- 介绍 -->
  				<view class="orgDetail" v-html="$markdownParse.parse(detail.intro)"></view>

@@ -94,7 +94,7 @@ export default {
 					type: 0,
 					icon: '/static/icon/chartbar_d4d4d4.png',
 					selectIcon: '/static/icon/chartbar_ffffff.png',
-					name: '探索',
+					name: '新生',
 					url: '/pages/tabPages/iweek'
 				},
 				{
@@ -135,13 +135,13 @@ export default {
 					url:e.url
 				})
 			}
-			else if (e.name == "探索"){
-				uni.showToast({
-					icon:'loading',
-					duration: 2000,
-					title:'该功能开发中'
-				})
-			}
+			// else if (e.name == "新生"){
+			// 	uni.showToast({
+			// 		icon:'loading',
+			// 		duration: 2000,
+			// 		title:'该功能开发中'
+			// 	})
+			// }
 			else{
 				console.log(e.name)
 				console.log(this.current)

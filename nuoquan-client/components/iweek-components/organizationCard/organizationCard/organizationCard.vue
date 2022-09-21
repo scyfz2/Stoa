@@ -5,7 +5,7 @@
  -->
 <template>
 	<view class="organizationCard" @click="choose(detail)">
-		<image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgImage"></image>
+		<image :src="pathFilter(detail.logoPath)" mode="aspectFit" class="orgImage"></image>
 		<view class="organizationCard-text" >
 			<view class="orgTitle">{{detail.name}}</view>
 			<view class="orgContent" v-html="$markdownParse.parse(detail.intro)"></view>
@@ -39,7 +39,7 @@
 		methods: {
 			choose(detail){
 				uni.navigateTo({
-					url: '../organizationDetail/organizationDetail?detail=' + encodeURIComponent(JSON.stringify(detail))
+					url:'../Iweek/organizationDetail/organizationDetail?detail=' + encodeURIComponent(JSON.stringify(detail))
 				})
 			},
 		}

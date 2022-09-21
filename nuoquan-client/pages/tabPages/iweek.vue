@@ -1,156 +1,126 @@
 <!-- 
 	Author: Yifei
-	Date: July 21, 2022
-	Description: 新生I-week页面
+	Date: Sept 21, 2022
+	Description: 温肯页面，直接把社团组织的页面放进来
  -->
+
 <template>
-	<view class="iweek">
-		<schedule-detail :event="detail" :show = "show" @close = "closeEvent"></schedule-detail>
-		<!-- 导航栏 -->
-		<uni-nav-bar class="navigationBar" :style="{height: this.getnavbarHeight() + 'px'}"
-		:title="lang.iweek" :showLeftIcon="false"
+	<view id="organizationList-container">
+		<uni-nav-bar class="navigationBar" 
+		:style="{ height: this.getnavbarHeight() + 'px'}"  
+		:showLeftIcon="false" 
+		:title="lang.clubList" 
 		:height="this.getnavbarHeight().bottom + 5"></uni-nav-bar>
+		
 		<view :style="{ height: this.getnavbarHeight().bottom + 5 + 'px' }" style="width: 100%;"></view>
-		<!-- 占位 -->
-		<view style="height: 8px; background-color: #FFFFFF;"></view>
-		<view class="topHalf">
-		<!-- 轮播图 如果不想让他动的话就只放一张图 -->
-		<swiper class="top-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
-			<swiper-item v-for="(item,index) in swipers" :key="index">
-				<image :src="item" mode="aspectFit"></image>
-			</swiper-item>
-		</swiper>
+		<!-- safearea -->
+		<organization-card v-for="(item,index) in showList" :detail="showList[index]"></organization-card>
 		
-		<!-- 四项功能的图标及文字 -->
-		<functionList class="functionList"></functionList>
-		</view>
-		
-		<view class="downHalf">
-			<!-- <view class="second_line" @click="toggleIsEditFaculty"></view> -->
-			<schedule @event="showDetail" class="schedule"></schedule>
-		</view>
-		
-		<!-- 底部选项卡 -->
 		<tab-bar :current="1"></tab-bar>
 	</view>
 </template>
 
 <script>
-	import scheduleDetail from '@/components/iweek-components/schedule-detail/schedule-detail.vue';
-	import schedule from '@/components/iweek-components/schedule/schedule.vue';
-	import functionList from '@/components/iweek-components/function-list/function-list.vue';
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
+	import organizationCard from '../../components/iweek-components/organizationCard/organizationCard/organizationCard.vue'
 	import tabBar from '@/components/nq-tabbar/nq-tabbar.vue';
-	import { mapState, mapMutations } from 'vuex';
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex';
+	
 	export default {
-		components:{
+		components: {
 			uniNavBar,
-			tabBar,
-			functionList,
-			schedule,
-			scheduleDetail
+			organizationCard,
+			tabBar
 		},
-		data(){
-			return{
-				event: {},
-				title: 'Hello',
-				swipers:[],
-				detail: '',
-				show: false,
-			}
-		},
-		computed:{
+		computed: {
 			...mapState(['lang'])
 		},
-		onLoad(){
-			// this.swipers=[{
-			// 	url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg',
-			// 	articleUrl:'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ',
-			// },
-			// {
-			// 	url:'https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq1.jpeg',
-			// 	articleUrl:'https://r.xiumi.us/stage/v5/4Law2/393789504#/',
-			// }];
-			this.swipers= ['https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq.jpg','https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/hq2.png']
-			var userInfo = this.getGlobalUserInfo();
-			if (this.isNull(userInfo)) {
-				uni.redirectTo({
-					url: '../signin/signin'
-				});
-				return;
-			} else {
-				this.userInfo = userInfo; // 刷去默认值(若有)
+		data() {
+			return {
+				navbarHeight: 0 ,//一次性储存 navbarheight
+				
+				page:1,
+				pagesize:0,
+				currentPage: 1,
+				thisUserInfo: '',
+				organizationList:[],
+				showList: [],
 			}
 		},
-		methods:{
-			getEvent(data){
-				this.event = data
-				console.log(this.event)
-			},
-			showDetail(e){
-				this.detail = e;
-				this.show = true;
-				// console.log(this.detail);
-			},
-			closeEvent(e){
-				this.show = e;
-			},
-			jumpToWeb(index){
-				// console.log(index);
-				var url = '';
-				// console.log(url);
-				if(index == 0){
-					url = 'https://mp.weixin.qq.com/s/MqGyPONi0fMVzv4qKu5vRQ';
-				}else if (index == 1){
-					url = 'https://r.xiumi.us/stage/v5/4Law2/393789504#/';
-				}
-				console.log(url);
-				var encodeData = encodeURIComponent(url);
-				uni.navigateTo({
-					url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
-					fail() {
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title:'社团组织'
+			});
+			
+			this.navbarHeight = this.getnavbarHeight().bottom + 5;
+			this.thisUserInfo = this.getGlobalUserInfo();
+			this.getOrg(1);
+		},
+		methods: {
+			getOrg: function(page){
+				uni.showLoading({
+					title: '加载中...'
+				});
+				var that = this;
+				uni.request({
+					url:that.$serverUrl +'/organization/queryOrganizations',
+					method: 'POST',
+					data: {
+						page: page,
+						userId:that.thisUserInfo.id,
+						userId:that.userId,
+						pageSize:that.pagesize,
+					},
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: res => {
+						uni.hideLoading();
+						console.log(res);
+						// 判断当前页是不是第一页，如果是第一页，那么设置showList为空
+						if (page == 1) {
+							that.organizationList=[];
+						}
+						this.$nextTick(() => {
+							var newOrgList = res.data.data.rows;
+							var oldOrgList = that.organizationList;
+							that.organizationList = oldOrgList.concat(newOrgList);
+							
+							console.log(that.organizationList);
+							// that.sortList(that.organizationList);
+							that.currentPage = page;
+							that.showList = that.organizationList;
+							
+						})
+					},
+					fail: res => {
+						uni.hideLoading();
+							
+						console.log('index unirequest fail');
 						console.log(res);
 					}
-				})	
+				});
 			},
+			sortList:function(organizationList){
+				var item;
+				for(item in this.organizationList){
+					// this.organizationList[item]
+					// 1是组织，2是社团
+					if (this.organizationList[item].status == 1){
+						this.orgList.push(this.organizationList[item]);
+					}
+					else if(this.organizationList[item].status == 2){
+						this.clubList.push(this.organizationList[item]);
+					}
+				}
+			}
 		}
 	}
 </script>
 
 <style>
-	.top-swiper {
-		margin-left: 5%;
-		margin-right: 5%; 
-		/* left: 5%; */
-		/* width: 90%; */
-		height: 400rpx;
-		background-color: #F7F7F7;
-	}
-	.top-swiper image{
-		width: 100%;
-		height: 100%;
-	}
-	
-	.topHalf {
-		background-color: #FFFFFF;
-		/* margin-top: 8px; */
-	}
-	
-	.functionList {
-		margin-top: 500upx;
-		width: 100%;
-		height: auto;
-	}
-	
-	.downHalf {
-		margin-top: 2%;
-		background-color: #FFFFFF;
-	}
-	
-	.text_topic {
-		padding-top: 20upx;
-		padding-left: 4%;
-		font-size: 16px;
-		font-weight: bold;
-	}
+
 </style>
