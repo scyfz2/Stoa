@@ -188,7 +188,8 @@ export default {
 	},
 
 	onLoad(opt) {
-		userId = opt.data;
+		// console.log(opt);
+		userId = opt.userId;
 		me = this.getGlobalUserInfo();
 		if (this.isNull(me)) {
 			uni.redirectTo({
@@ -317,6 +318,7 @@ export default {
 		 */
 		queryUserWithFollow: function(userId) {
 			var that = this;
+			// console.log(userId);
 			uni.request({
 				url: that.$serverUrl + '/user/queryUserWithFollow',
 				method: 'POST',

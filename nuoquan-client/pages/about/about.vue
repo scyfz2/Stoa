@@ -43,7 +43,7 @@ export default {
 	},
 	data() {
 		return {
-			versionNum: "3.1.4",
+			versionNum: "3.1.5",
 			isNavHome: getApp().globalData.isNavHome,//判断导航栏左侧是否显示home按钮
 			dataList:[
 				{
@@ -86,10 +86,9 @@ export default {
 				{
 					name:'更新公告	Update Announcement',
 					subtitle:this.versionNum,
-					body:'\ STOA v3.1.4 版本更新！\n \
+					body:'\ STOA v3.1.5 版本更新！\n \
 						1. 改变了发帖要求，现在不绑定邮箱也能发帖啦！\n \
-						2. 修复了转发后查看的bug\n \
-						3. 优化了部分用户体验\n \
+						2. 修复了查看个人信息的bug\n \
 						\n \
 						'
 				}
