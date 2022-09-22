@@ -9,7 +9,7 @@
 		<uni-nav-bar class="navigationBar" 
 		:style="{ height: this.getnavbarHeight() + 'px'}"  
 		:showLeftIcon="false" 
-		:title="lang.clubList" 
+		:title="lang.stuGroups" 
 		:height="this.getnavbarHeight().bottom + 5"></uni-nav-bar>
 		
 		<view :style="{ height: this.getnavbarHeight().bottom + 5 + 'px' }" style="width: 100%;"></view>

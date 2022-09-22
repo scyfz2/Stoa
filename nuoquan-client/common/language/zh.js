@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'zh-CN',
 	
-	tabbarName : ["轮滑","社团","","动态","我的"],
+	tabbarName : ["轮滑","探索","","动态","我的"],
 	tabList : ["发文章","发投票"],
 	version : "v1.1.1",
 	back : "返回",
@@ -227,4 +227,5 @@ module.exports = {
 	venue: '地点',
 	targetStudent: '面向学生',
 	eventsType: '活动类型',
+	stuGroups: '学生团体',
 }

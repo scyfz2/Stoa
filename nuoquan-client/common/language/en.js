@@ -228,4 +228,5 @@ module.exports = {
 	venue: 'venue',
 	targetStudent: 'Target Student',
 	eventsType: 'eventsType',
+	stuGroups: 'Group list',
 }

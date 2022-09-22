@@ -13,7 +13,7 @@
  		:showLeftIcon="true" 
  		:isNavHome="isNavHome"
  		:left-text="lang.back" 
- 		:title="lang.organizationDetail" 
+ 		:title="lang.detail" 
  		:height="navbarHeight"></uni-nav-bar>
  		<view :style="{ height: navbarHeight + 'px' }"></view>
  		<!-- safearea -->
