@@ -337,7 +337,7 @@ export default {
 				// 检测邮箱
 				if (this.$util.regEmail(email) || this.$util.regUNNCEmail(email)) {
 					uni.showToast({
-						title: this.lang.notUNNCEmail,
+						title: this.lang.notWKEmail,
 						icon: 'none',
 						duration: 2000,
 					});

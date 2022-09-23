@@ -37,11 +37,11 @@ module.exports = {
 	
 	
 	// 注册页面
-	welcome1: "Dear Student,",
+	welcome1: "Dear WKUers,",
 	welcome2:"Welcome Home,",
 	welcome3:"Please Accept The User Protocol.",
 	lastStep:"Last step,",
-	certificateEmail:"Please certificate your UNNC Email.",
+	certificateEmail:"Please certificate your Wenken Email.",
 	
 	//登陆
 	isReadProtocol : "I have read and agree :",
@@ -50,12 +50,12 @@ module.exports = {
 	emailAuth : "EmailAuth",
 	logining: "Logging in",
 	finishLogin : "Finish",
-	emailPrompt : "UNNC email address",
+	emailPrompt : "Wenken email address",
 	captcha : " Captcha",
 	getCaptcha : "Get captcha",
 	waitCaptcha : "Please wait (SECORD)s",
 	guestLogin: "GuestLogin",
-	notUNNCEmail: "It's not an UNNC Email address",
+	notWKEmail: "It's not an Wenken Email address",
 	notEmptyEmail: "Email cannot be null",
 	certificateFail:"Authentication Failed",
 	repeatEmail:"Email is already bound",

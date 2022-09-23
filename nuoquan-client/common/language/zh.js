@@ -36,11 +36,11 @@ module.exports = {
 	no:"否",
 	
 	// 注册页面
-	welcome1: "亲爱的 同学，",
+	welcome1: "亲爱的 WKUers，",
 	welcome2:"欢迎回家，",
 	welcome3:"请您先接受《用户协议》。",
 	lastStep:"最后一步，",
-	certificateEmail:"请认证您的UNNC邮箱。",
+	certificateEmail:"请认证您的温肯邮箱。",
 	
 	//登陆
 	isReadProtocol : "我已阅读并同意遵守",
@@ -49,12 +49,12 @@ module.exports = {
 	emailAuth : "邮箱认证",
 	logining: "正在登陆",
 	finishLogin : "登陆完成",
-	emailPrompt : " 请输入 UNNC 邮箱",
+	emailPrompt : " 请输入邮箱",
 	captcha : " 验证码",
 	getCaptcha : "获取验证码",
 	waitCaptcha : "重新发送 (SECORD)",
 	guestLogin: "游客登录",
-	notUNNCEmail: "非 UNNC 邮箱地址！",
+	notWKEmail: "非温肯邮箱地址！",
 	notEmptyEmail: "邮箱不能为空",
 	certificateFail:"验证失败",
 	repeatEmail:"邮箱已被注册",

@@ -378,7 +378,7 @@ pickerChange(res) {
 					// 检测邮箱
 					if (this.$util.regEmail(email) || this.$util.regUNNCEmail(email)) {
 						uni.showToast({
-							title: '非 UNNC 邮箱地址！',
+							title: '非温肯邮箱地址！',
 							icon: 'none'
 						});
 					} else {
