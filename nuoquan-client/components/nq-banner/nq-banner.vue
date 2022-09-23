@@ -76,7 +76,7 @@
 			},
 			showBanner_update(id,currentTime){
 				// 这里设置成false，则广告永不出现
-				this.showAd = true;
+				this.showAd = false;
 				uni.setStorage({
 				    key: id + ':bannerVisitTime',
 				    data: currentTime,

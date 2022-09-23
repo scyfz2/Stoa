@@ -49,14 +49,13 @@
 		<view class="shadow2"></view>
 
 		<!-- 02 号内嵌广告位 -->
-		<swiper class="guanggao" v-if="!isNull(adverts)" circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+		<!-- <swiper class="guanggao" v-if="!isNull(adverts)" circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"> -->
 			<!-- 图片比例1:3 -->
-			<swiper-item v-for="(item, index) in adverts" :key="item.id">
+			<!-- <swiper-item v-for="(item, index) in adverts" :key="item.id"> -->
 				<!-- 广告位背景，之后的广告图需与此保持同样尺寸 -->
-				<!-- <view class="swiper-item swiperBg"></view> -->
-				<image class="swiperBg" :src=item.resourceUrl mode="aspectFill" @click="jumpToWeb()"></image>
-			</swiper-item>
-		</swiper>
+				<!-- <image class="swiperBg" :src=item.resourceUrl mode="aspectFill" @click="jumpToWeb()"></image> -->
+			<!-- </swiper-item> -->
+		<!-- </swiper> -->
 
 		<view class="navigator_box">
 			<mynavigator :objList="dataList" @trigger="navigatorEvent()"></mynavigator>
