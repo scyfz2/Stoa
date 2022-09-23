@@ -41,7 +41,7 @@ module.exports = {
 	welcome2:"Welcome Home,",
 	welcome3:"Please Accept The User Protocol.",
 	lastStep:"Last step,",
-	certificateEmail:"Please certificate your Wenken Email.",
+	certificateEmail:"Please certificate your WKU Email.",
 	
 	//登陆
 	isReadProtocol : "I have read and agree :",
@@ -50,12 +50,12 @@ module.exports = {
 	emailAuth : "EmailAuth",
 	logining: "Logging in",
 	finishLogin : "Finish",
-	emailPrompt : "Wenken email address",
+	emailPrompt : "WKU email address",
 	captcha : " Captcha",
 	getCaptcha : "Get captcha",
 	waitCaptcha : "Please wait (SECORD)s",
 	guestLogin: "GuestLogin",
-	notWKEmail: "It's not an Wenken Email address",
+	notWKEmail: "It's not an WKU Email address",
 	notEmptyEmail: "Email cannot be null",
 	certificateFail:"Authentication Failed",
 	repeatEmail:"Email is already bound",
