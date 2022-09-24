@@ -44,7 +44,7 @@
 							</view>
 							<view
 								class="guanzhuButton-after super_center"
-								style="border:1px solid rgba(255,201,90,1);"
+								style="border:1px solid rgba(63, 102, 143, 1.0);"
 								@tap="cancelFollow(thisUserInfo.id)"
 								v-if="thisUserInfo.follow == true"
 							>
@@ -503,7 +503,7 @@ page {
 	margin-right: 0px;
 	width: 68px;
 	height: 26px;
-	background-color: rgba(255, 201, 90, 1);
+	background-color: rgba(63, 102, 143, 1.0);
 	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
 	opacity: 1;
 	border-radius: 4px;
@@ -531,7 +531,7 @@ page {
 	font-family: Source Han Sans CN;
 	font-weight: 400;
 	line-height: 13px;
-	color: rgba(255, 201, 90, 1);
+	color: rgba(63, 102, 143, 1.0);
 	opacity: 1;
 }
 
@@ -540,7 +540,7 @@ page {
 	margin-top: -1px;
 	width: 28px;
 	height: 28px;
-	background: rgba(255, 241, 213, 1);
+	background: rgba(222, 232, 242, 1.0);
 	border-radius: 14px;
 	opacity: 1;
 }

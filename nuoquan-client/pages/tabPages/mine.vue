@@ -19,7 +19,7 @@
 				<!-- 右侧信息快 -->
 				<view class="person_info">
 					<!-- 名字 -->
-					<view class="nameBox">
+					<view class="nameBox"">
 						<text class="name-text">{{ thisUserInfo.nickname }}</text>
 						<image v-if="thisUserInfo.authType == 2" style="width: 17px;height: 17px;margin-left: 5px;" src="../../static/icon/auth_red.png"></image>
 						<image v-if="thisUserInfo.authType == 1" style="width: 17px;height: 17px;margin-left: 5px;" src="../../static/icon/auth_yellow.png"></image>

@@ -940,13 +940,13 @@
 		background-position: center;
 		float: right;
 		font-size: 14px;
-		color: #fcc041;
+		color: #c1c9d3;
 		z-index: 50;
 	}
 
 	.commentSth {
 		height: 110px;
-		border: solid 2px #fcc041;
+		border: solid 2px #c1c9d3;
 		border-radius: 8px;
 		line-height: 20px;
 		padding: 12px 12px 0px;
@@ -1064,7 +1064,7 @@
 	}
 
 	.commented {
-		background: #FCC041;
+		background: #c1c9d3;
 		color: #FFFFFF;
 	}
 

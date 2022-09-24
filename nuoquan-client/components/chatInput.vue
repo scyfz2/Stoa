@@ -94,7 +94,7 @@
 		margin: 11px 0 11px 14px;
 		font-size: 13px;
 		height:34px;
-		border:1px solid rgba(252,192,65,1);
+		border:1px solid rgba(63, 102, 143, 1.0);
 		opacity:1;
 		border-radius:8px;
 	}
@@ -142,7 +142,7 @@
 		height:23px;
 		font-size:17px;
 		font-weight:500;
-		color:rgba(252,192,65,1);
+		color:rgba(62, 101, 141, 1.0);
 		margin: 0 0 0 6px;
 	}
 </style>

@@ -27,7 +27,7 @@ public class RandomInitFaceImg {
         // 逐个添加图片路径
         ArrayList<String> arr = new ArrayList<>();
         for (int i = 1;i <= max; i++){
-            arr.add("nqprod/avatar/" + theme + i + imgFormat);
+            arr.add("wkprod/avatar/" + theme + i + imgFormat);
         }
 
         /**

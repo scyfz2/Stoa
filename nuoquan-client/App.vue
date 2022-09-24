@@ -86,6 +86,6 @@ export default {
 }
 
 .hoverColorYellow {
-	background-color: rgba(226,177,72,1);
+	background-color: rgba(63, 102, 143, 1.0);
 }
 </style>

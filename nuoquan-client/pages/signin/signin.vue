@@ -113,7 +113,7 @@
 		<!-- 进度条 fixed -->
 		<view style="position: fixed; width: 48%;left: 26%;top: 64%;height: 5px;background-color: #C0C0C0;z-index: 30;">
 			<view style="position: relative;width: 100%;height: 100%;">
-				<view style="position: absolute;left: 0;height: 5px;background-color: #FFCD2E;z-index: 40;" :style="{ width: swiperLineWidth + '%;' }"></view>
+				<view style="position: absolute;left: 0;height: 5px;background-color: #236ce3;z-index: 40;" :style="{ width: swiperLineWidth + '%;' }"></view>
 			</view>
 		</view>
 
