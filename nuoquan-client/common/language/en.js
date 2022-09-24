@@ -189,6 +189,7 @@ module.exports = {
 	personalHome: "Personal Home",
 	whosHome : "'s Home",
 	lazyNoSignature: "This signature has losed...",
+	publishedArticles: "Published Articles",
 	
 	//关于
 	contact : "Contact Us",

@@ -188,6 +188,7 @@ module.exports = {
 	personalHome: "个人主页",
 	whosHome : "的主页",
 	lazyNoSignature: "这个人很懒，什么都没写哦~",
+	publishedArticles: "发布文章",
 	
 	//关于
 	contact : "联系我们",

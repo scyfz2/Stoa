@@ -90,7 +90,7 @@
 			</view>
 		</view>
 		<!-- 信息块标题 -->
-		<view id="public-titleBox"><text class="public-title-text">个人信息</text></view>
+		<view id="public-titleBox"><text class="public-title-text">{{lang.profile}}</text></view>
 		<!-- 信息块 -->
 		<view id="publix-profileLine" :style="{ width: windowWidth - 26  + 'px'}">
 			<view class="profileCard">
@@ -107,7 +107,7 @@
 			</view>
 		</view>
 		<!-- 发布块标题 -->
-		<view id="public-titleBox"><text class="public-title-text">发布文章</text></view>	
+		<view id="public-titleBox"><text class="public-title-text">{{lang.publishedArticles}}</text></view>	
 		<!-- 发布内容块 -->
 		<view :style="{ width: windowWidth - 26  + 'px'}" v-bind:myArticleList="myArticleList">
 			<view id="public-articleCard" :style="{ width: windowWidth - 26  + 'px'}" v-for="thisArticle in myArticleList" :key="thisArticle.id" @click="jumpToDetail(thisArticle)">
