@@ -345,7 +345,7 @@
 		display: flex;
 		justify-content: space-around;
 		width: 100%;
-		background-color: rgba(255,201,90,1);
+		background-color: #ced2dd;
 		height: 47px;
 		/* 在这里设置导航条高度 */
 	}
@@ -412,7 +412,7 @@
 		/* 在这里设置底部横条高度和颜色 */
 		width: 108px;
 		height: 4px;
-		background-color: rgba(246,168,6,1);
+		background-color: #507ba1;
 		margin-bottom: 8px;
 	}
 	.swiper-box-list {
@@ -468,7 +468,7 @@
 		z-index: 10;
 		right: 16px;
 		height:30px;
-		background:rgba(252,192,65,1);
+		background:#507ba1;
 		opacity:1;
 		border-radius:4px;
 	}
@@ -487,7 +487,7 @@
 		padding: 0px 18px;
 		height:30px;
 		opacity:1;
-		border:1px solid rgba(252,192,65,1);
+		border:1px solid #507ba1;
 		border-radius:4px;
 	}
 	
@@ -496,7 +496,7 @@
 		font-size:14px;
 		font-weight:500;
 		line-height:23px;
-		color:rgba(252,192,65,1);
+		color:#507ba1;
 	}
 	
 	.scroll-test {

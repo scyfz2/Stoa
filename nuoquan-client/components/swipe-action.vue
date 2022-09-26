@@ -187,7 +187,7 @@ export default {
 	height: 26px;
 	margin-top: 26px;
 	margin-right: 26px;
-	background-color: #fccf41;
+	background-color: #507ba1;
 	border-radius: 4px;
 }
 

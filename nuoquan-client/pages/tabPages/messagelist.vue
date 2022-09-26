@@ -330,6 +330,7 @@ export default {
 		/* position: fixed; */
 		left: 0;
 		width: 100%;
+		
 	}
 	
 	.msglist-card {
