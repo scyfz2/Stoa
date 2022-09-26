@@ -25,10 +25,10 @@
 								<image v-if="thisArticle.isLike" src="../../static/icon/liked-red.png"></image>
 								<view>{{ thisArticle.likeNum }}</view>
 							</view>
-							<view class="view">
+							<!-- <view class="view">
 								<image src="../../static/icon/eye-888888.png"></image>
 								<view>{{ thisArticle.viewNum }}</view>
-							</view>
+							</view> -->
 						</view>
 					</view>
 				</view>

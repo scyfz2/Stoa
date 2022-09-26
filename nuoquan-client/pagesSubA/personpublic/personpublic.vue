@@ -125,10 +125,10 @@
 							<view class="bottomBar">
 								<view style="position: relative;width: 100%;height: 100%;">
 									<view class="bottom-time column_center"><text>{{timeDeal(thisArticle.createDate)}}</text></view>
-									<view class="view column_center">
+									<!-- <view class="view column_center">
 										<image src="../../static/icon/eye-888888.png" mode="aspectFill"></image>
 										<text>{{thisArticle.viewNum}}</text>
-									</view>
+									</view> -->
 									<view class="comment column_center">
 										<image src="../../static/icon/comment-alt.png" mode="aspectFill"></image>
 										<text>{{thisArticle.commentNum}}</text>
