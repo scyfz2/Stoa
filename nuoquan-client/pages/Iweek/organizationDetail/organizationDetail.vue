@@ -20,7 +20,7 @@
  		<view style="height: 20px;"></view>
  		<view style="display: flex;">
  			<!-- <image :src="pathFilter(detail.logoPath)" mode="aspectFill" class="orgLogo"></image> -->
-			<image :src="pathFilter(detail.logoPath)" mode="aspectFit" class="orgLogo"></image>
+			<image :src="pathFilter(detail.logoPath)" mode="aspectFit" class="orgLogo" @click="previewImage(photoimg)"></image>
  			<view class="orgTitle">{{detail.name}}</view>
  		</view>
  		
@@ -102,22 +102,39 @@
  			this.detail = temp;
  		},
  		methods: {
+			
+			previewImage(photoimg){
+				//console.log('userId', userId)
+			    var imgsArray = [];
+				var path;
+				path = this.pathFilter(this.detail.logoPath);
+			    imgsArray[0] = path;
+			    //console.log('imgsArray[0]', imgsArray[0])
+			    uni.previewImage({
+					current: 0,
+			        urls: imgsArray,
+			    });
+			},
+			
  			previewImg: function(index) {
 				var imgList = this.detail.imgList;
 				var arr = [];
 				var path;
 				for (var i = 0; i < imgList.length; i++) {
 					// console.log(imgList[i].imagePath);
-					path = this.pathFilter(imgList[i].imagePath);
+					path = this.pathFilter(this.imgList[i].imagePath);
 					arr = arr.concat(path);
 				}
 				// console.log(arr);
 			
 				uni.previewImage({
 					current: index,
-					urls: arr
+					urls: arr,
+					loop:true
 				});
 		},
+		
+		
 		aboutImg: function(index) {
 			var that = this;
 			console.log(this.detail.imgList[index].imagePath);

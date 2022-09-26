@@ -20,7 +20,7 @@
 				<view class="person_info">
 					<!-- 名字 -->
 					<view class="nameBox">
-						<text class="name-text">{{ thisUserInfo.nickname }}</text>
+						<text class="name-text" @tap="goToProfile">{{ thisUserInfo.nickname }}</text>
 						<image v-if="thisUserInfo.authType == 2" style="width: 17px;height: 17px;margin-left: 5px;" src="../../static/icon/auth_red.png"></image>
 						<image v-if="thisUserInfo.authType == 1" style="width: 17px;height: 17px;margin-left: 5px;" src="../../static/icon/auth_yellow.png"></image>
 					</view>
@@ -332,6 +332,15 @@ export default {
 						this.adverts = res.data.data;
 					}
 				}
+			});
+		},
+		
+		goToProfile(){
+			console.log('1111111');
+			console.log(this.UserInfo);
+			uni.navigateTo({
+				url: '../../pagesSubA/personpublic/personpublic?userId=' + this.thisUserInfo.id
+				
 			});
 		},
 	}

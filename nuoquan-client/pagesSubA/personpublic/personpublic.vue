@@ -17,8 +17,10 @@
 			<!-- 基本信息内容 -->
 			<view id="idCard" class="idCard" :style="{ width: windowWidth - 26  + 'px'}">
 				<!-- 头像 -->
-				<view style="width: 100%;height: 74px;margin-top: -46px;" class="super_center">
-					<image class="publicTouxiang" mode="aspectFill" :src="pathFilter(thisUserInfo.faceImg)"></image>
+				<view style="width: 100%;height: 74px;margin-top: -46px;" class="super_center"  >
+				
+					<image class="publicTouxiang" mode="aspectFill" :src="pathFilter(thisUserInfo.faceImg)" @click="previewImage(userId)"></image>  <!--@tap="previewImage()"-->
+					
 				</view>
 				<!-- ID -->
 				<view class="nameBox super_center">
@@ -101,7 +103,7 @@
 			</view>
 			<view class="profileCard">
 				<!-- 检测是否设置 -->
-				<text v-if="thisUserInfo.major != null" class="profile-content-text">{{ thisUserInfo.major }}</text>
+				<text v-if="thisUserInfo.major != ''" class="profile-content-text">{{ thisUserInfo.major }}</text>
 				<text v-else class="profile-content-text">未知</text>
 				<text class="profile-title-text">专业</text>
 			</view>
@@ -188,6 +190,7 @@ export default {
 	},
 
 	onLoad(opt) {
+		console.log(opt);
 		userId = opt.userId;
 
 		me = this.getGlobalUserInfo();
@@ -428,6 +431,37 @@ export default {
 				url: '/pagesSubA/detail/detail?data=' + thisArticle.id
 			});
 		},
+		
+	/*	previewImage: function() {
+			var data = {
+				thisUserInfo: this.thisUserInfo
+			};
+			// console.log(arr);
+			uni.previewImage({
+				current: this.pathFilter(thisUserInfo.faceImg),
+				urls: this.pathFilter(thisUserInfo.faceImg)
+			});
+		},*/
+		
+		
+
+		    // 预览图片
+		previewImage(userId){
+			//console.log('userId', userId)
+		    var imgsArray = [];
+			var path;
+			path = this.pathFilter(this.thisUserInfo.faceImg);
+		    imgsArray[0] = path;
+		    //console.log('imgsArray[0]', imgsArray[0])
+		    uni.previewImage({
+				current: 0,
+		        urls: imgsArray,
+		    });
+		},
+	
+
+		
+		
 	}
 };
 </script>
