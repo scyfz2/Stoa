@@ -3,10 +3,9 @@
 		<textarea :style="{ width:  textareaWidth + 'px'}" fixed="true" cursor-spacing="20" auto-height="true" v-model="inputMessage"
 		 :show-confirm-bar="false" adjust-position="false" auto-focus @focus="getKeyBoardHeight" @blur="recoverTextArea" />
 		<view id="icons" class="icons">
-					<button class="viewPic" @click="showToast()"><image src="../static/icon/viewLocalPic.png"></image></button>
-					<!-- 				<button><image src="../../static/icon/emoji.png"></image></button>
-	-->
-					<button class="viewEmoji" @click="showToast()"><image src="../static/icon/emoji.png"></image></button>
+					<!-- <button class="viewPic" @click="showToast()"><image src="../static/icon/viewLocalPic.png"></image></button> -->
+					<!-- <button><image src="../../static/icon/emoji.png"></image></button> -->
+					<!-- <button class="viewEmoji" @click="showToast()"><image src="../static/icon/emoji.png"></image></button> -->
 					<button @click="send(textMsg)" class="sendText" @touchend.prevent="onTap" >{{lang.send}}</image></button>
 	
 				</view>
