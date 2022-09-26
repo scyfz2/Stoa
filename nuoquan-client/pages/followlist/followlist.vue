@@ -345,7 +345,7 @@
 		display: flex;
 		justify-content: space-around;
 		width: 100%;
-		background-color: rgba(255,201,90,1);
+		background-color: #ced2dd;
 		height: 47px;
 		/* 在这里设置导航条高度 */
 	}
@@ -412,7 +412,7 @@
 		/* 在这里设置底部横条高度和颜色 */
 		width: 108px;
 		height: 4px;
-		background-color: rgba(246,168,6,1);
+		background-color: #507ba1;
 		margin-bottom: 8px;
 	}
 	.swiper-box-list {

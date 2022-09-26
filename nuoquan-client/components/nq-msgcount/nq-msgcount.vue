@@ -1,5 +1,5 @@
 <template>
-	<view class="msgcount super_center" v-if="count>0">{{count}}</view>
+	<view class="msgcount super_center" v-if="count">{{count}}</view>
 </template>
 
 <script>

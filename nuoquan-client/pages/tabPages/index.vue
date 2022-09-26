@@ -107,7 +107,7 @@
 		onShareAppMessage(res) {
 			if (res.from === 'menu'){
 				return{
-					title: '来轮滑看看吧',
+					title: '来论坛看看吧',
 					path: '/pages/tabPages/index.vue'
 				}
 			}
@@ -116,7 +116,7 @@
 		onShareTimeline(res){
 			if (res.from === 'menu'){
 				return{
-					title: '来轮滑看看吧',
+					title: '来论坛看看吧',
 					path: '/pages/tabPages/index.vue'
 				}
 			}
