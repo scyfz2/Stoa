@@ -69,7 +69,7 @@ public class UserVO {
      */
     public String getEmail() {
 //        return email;
-        if (email!=null && !email.endsWith("@nottingham.edu.cn")){
+        if (email!=null && !email.endsWith("@@wku.edu.cn")){
             email = EncryptUtils.base64Decode(email);
         }
         return email;

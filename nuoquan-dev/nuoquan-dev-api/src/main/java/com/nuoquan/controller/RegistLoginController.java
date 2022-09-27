@@ -38,7 +38,7 @@ public class RegistLoginController extends BasicController{
 		// 会提示 unhandled exception type Exception， 在regist处throw
 		user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
 		user.setFollowNum(0);
-		user.setEmail("x.nottingham.edu.cn");
+		user.setEmail("x.@wku.edu.cn");
 		user.setFaceImg(null);
 		user.setCreateDate(new Date());
 		userService.saveUser(user);
@@ -50,7 +50,7 @@ public class RegistLoginController extends BasicController{
 //			// 会提示 unhandled exception type Exception， 在regist处throw
 //			user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
 //			user.setFollowNum(0);
-//			user.setEmail("x.nottingham.edu.cn");
+//			user.setEmail("x.@wku.edu.cn");
 //			user.setFaceImg(null);
 //			user.setCreateDate(new Date());
 //			userService.saveUser(user);
