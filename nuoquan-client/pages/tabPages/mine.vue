@@ -339,7 +339,7 @@ export default {
 			console.log('1111111');
 			console.log(this.UserInfo);
 			uni.navigateTo({
-				url: '../../pagesSubA/personpublic/personpublic?userId=' + this.thisUserInfo.id
+				url: '../profile/profile?userId=' + this.thisUserInfo.id
 						
 			});
 		},
