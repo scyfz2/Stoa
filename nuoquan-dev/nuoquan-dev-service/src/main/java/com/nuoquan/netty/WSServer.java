@@ -38,9 +38,9 @@ public class WSServer {
 	}
 	
 	public void start() {
-		int inetPort = 8088; //正式版端口
+//		int inetPort = 8088; //正式版端口
 //		int inetPort = 8014; //温肯版端口
-//		int inetPort = 8099; //测试服端口
+		int inetPort = 8099; //测试服端口
 		this.future = server.bind(inetPort);
 		System.err.println("netty webSocket server 启动完毕，Binding Port："+ inetPort);
 	}
