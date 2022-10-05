@@ -106,7 +106,7 @@ public class User {
      * @param email
      */
     public void setEmail(String email) {
-        if (email!=null && email.endsWith("@@wku.edu.cn")){
+        if (email!=null && email.endsWith("@wku.edu.cn")){
             email = EncryptUtils.base64Encode(email);
         }
         this.email = email;
