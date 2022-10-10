@@ -251,9 +251,19 @@
 			
 			toggleMenu(mode) {
 				if (mode == 'input') {
+					
+				var userInfo = this.getGlobalUserInfo();
+				if(this.isNull(userInfo.email)){
+				 	uni.showToast({
+				 		icon:'error',
+				 		title:'未绑定邮箱'
+				 	})
+				 }else{
 					this.showInput = !this.showInput;
 					this.writingComment = this.showInput;
 					this.menu_status.more = false;
+				 }
+					
 				} else if (mode == 'more') {
 					this.menu_status.more = !this.menu_status.more;
 					this.showInput = false;

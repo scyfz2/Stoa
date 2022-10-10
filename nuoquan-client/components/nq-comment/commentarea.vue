@@ -227,7 +227,15 @@ export default {
 			});
 		},
 		goToCommentDetail(mainComment) {
+			var userInfo = this.getGlobalUserInfo();
+			if(this.isNull(userInfo.email)){
+			 	uni.showToast({
+			 		icon:'error',
+			 		title:'未绑定邮箱'
+			 	})
+			 }else{
 			this.$emit('goToCommentDetail', mainComment);
+			}
 			// uni.navigateTo({
 			// 	url: '/pages/comment-detail/comment-detail?data=' + JSON.stringify(mainComment)
 			// });

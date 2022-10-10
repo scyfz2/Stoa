@@ -131,9 +131,18 @@ export default {
 			// debugger;
 			if(e.name=="发布"){
 				console.log(this.current)
-				uni.navigateTo({
-					url:e.url
-				})
+				var userInfo = this.getGlobalUserInfo();
+				if(this.isNull(userInfo.email)){
+				 	uni.showToast({
+				 		icon:'error',
+				 		title:'未绑定邮箱'
+				 	})
+				 }else{
+					uni.navigateTo({
+				 		url:e.url
+				 	})
+				 }
+
 			}
 			// else if (e.name == "新生"){
 			// 	uni.showToast({
