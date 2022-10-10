@@ -108,7 +108,7 @@
 			if (res.from === 'menu'){
 				return{
 					title: '来轮滑看看吧',
-					path: '/pages/tabPages/index.vue'
+					path: '/pages/tabPages/index'
 				}
 			}
 		},
@@ -117,7 +117,7 @@
 			if (res.from === 'menu'){
 				return{
 					title: '来轮滑看看吧',
-					path: '/pages/tabPages/index.vue'
+					path: '/pages/tabPages/index'
 				}
 			}
 		},
