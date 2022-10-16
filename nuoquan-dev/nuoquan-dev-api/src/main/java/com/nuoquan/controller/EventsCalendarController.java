@@ -3,6 +3,7 @@ package com.nuoquan.controller;
 import com.nuoquan.enums.DegreeType;
 import com.nuoquan.enums.FacultyType;
 import com.nuoquan.enums.StatusEnum;
+import com.nuoquan.enums.TagType;
 import com.nuoquan.pojo.EventsCalendar;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
@@ -102,32 +103,33 @@ public class EventsCalendarController extends BasicController {
             @ApiImplicitParam(name="time", value="事件时间", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="faculty", value="学院", required=true, dataType="Integer", paramType="form"),
             @ApiImplicitParam(name="degree", value="学历", required=true, dataType="Integer", paramType="form"),
+            @ApiImplicitParam(name="tag", value="标签", required=true, dataType="Integer", paramType="form"),
             @ApiImplicitParam(name="description", value="描述", required=false, dataType="Integer", paramType="form")
     })
     @PostMapping(value="/uploadEvent")
-    public JSONResult uploadEvent(String userId, String title, String venue, Integer date, String time, FacultyType faculty, DegreeType degree, String description) throws Exception {
+    public JSONResult uploadEvent(String userId, String title, String venue, Integer date, String time, FacultyType faculty, DegreeType degree, String description, TagType tag) throws Exception {
 
         //TODO: 是否增加ALL选项，简化录入
         if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
             return JSONResult.errorMsg("Id can't be null");
         }
-        int isLegal;
+        int isLegal = StatusEnum.READABLE.type;
         // 检测内容是否非法
-        if (weChatService.msgSecCheck(title)
-                && weChatService.msgSecCheck(venue)
-                && weChatService.msgSecCheck(time)
-                && weChatService.msgSecCheck(description)) {
-            // 合法
-            isLegal = StatusEnum.READABLE.type;
-//            if (resourceConfig.getAutoCheckArticle()) { // 查看是否设置自动过审
-//                isLegal = StatusEnum.READABLE.type;
-//            } else {
-//                isLegal = StatusEnum.CHECKING.type;
-//            }
-        } else {
-            // 非法，尽管非法也保存到数据库
-            isLegal = StatusEnum.DELETED.type;
-        }
+//        if (weChatService.msgSecCheck(title)
+//                && weChatService.msgSecCheck(venue)
+//                && weChatService.msgSecCheck(time)
+//                && weChatService.msgSecCheck(description)) {
+//            // 合法
+//            isLegal = StatusEnum.READABLE.type;
+////            if (resourceConfig.getAutoCheckArticle()) { // 查看是否设置自动过审
+////                isLegal = StatusEnum.READABLE.type;
+////            } else {
+////                isLegal = StatusEnum.CHECKING.type;
+////            }
+//        } else {
+//            // 非法，尽管非法也保存到数据库
+//            isLegal = StatusEnum.DELETED.type;
+//        }
 
         EventsCalendar eventsCalendar = new EventsCalendar();
         String eventId = "";
@@ -140,12 +142,12 @@ public class EventsCalendarController extends BasicController {
                 if (degree.getContent().equals("all")){
                     // 遍历所有学历种类
                     for (int d = 1; d < degree.getType(); d++){
-                        eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, d, isLegal, description);
+                        eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, d, isLegal, tag.getType(), description);
                         eventId = eventsCalendarService.saveEvent(eventsCalendar);
                     }
                 } else {
                     // 如果学历选择不为全部
-                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, degree.getType(), isLegal, description);
+                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, degree.getType(), isLegal, tag.getType(), description);
                     eventId = eventsCalendarService.saveEvent(eventsCalendar);
                 }
             }
@@ -155,11 +157,11 @@ public class EventsCalendarController extends BasicController {
             if (degree.getContent().equals("all")){
                 // 遍历所有学历种类
                 for (int d = 1; d < degree.getType(); d++){
-                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), d, isLegal, description);
+                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), d, isLegal, tag.getType(), description);
                     eventId = eventsCalendarService.saveEvent(eventsCalendar);                }
             } else {
                 // 学历选择不为全部
-                eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), degree.getType(), isLegal, description);
+                eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), degree.getType(), isLegal, tag.getType(), description);
                 eventId = eventsCalendarService.saveEvent(eventsCalendar);                }
         }
 

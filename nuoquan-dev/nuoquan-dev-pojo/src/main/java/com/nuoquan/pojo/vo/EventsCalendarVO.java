@@ -16,12 +16,19 @@ public class EventsCalendarVO {
     private Integer eventDate;
     private String eventTime;
     private Integer status;
+    private Integer tags;
     private Date createDate;
     private String description;
 
     private String strEventDate;
     private String strFaculty;
     private String strDegree;
+
+    public String getStrTag() { return strTag;}
+
+    public void setStrTag(String strTag) { this.strTag = strTag;}
+
+    private String strTag;
 
     public String getId() {
         return id;
@@ -95,6 +102,10 @@ public class EventsCalendarVO {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public Integer getTags() { return tags; }
+
+    public void setTags(Integer tags) { this.tags = tags; }
 
     public Date getCreateDate() {
         return createDate;
