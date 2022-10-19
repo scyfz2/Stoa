@@ -57,6 +57,10 @@ public class SocialServiceImpl implements SocialService {
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
+    // public SocialServiceImpl(LongarticleService longarticleService) {
+    //     this.longarticleService = longarticleService;
+    // }
+
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public UserVO getPostAuthor(PostType targetType, String targetId) {
@@ -316,6 +320,45 @@ public class SocialServiceImpl implements SocialService {
         UserCommentVO commentVO = composeComment(userId, comment);
         return commentVO;
     }
+
+     /**
+      * 分页获取文章所有评论
+      *
+      * @param page       页数
+      * @param pageSize   页面大小
+      * @param targetType 目标类型
+      * @param targetId   目标id
+      * @return
+      */
+     @Override
+     public PagedResult getCommentsByTargetId(Integer page, Integer pageSize, PostType targetType, String targetId) {
+         PageHelper.startPage(page, pageSize);
+         PagedResult mainCommentResult = getMainComments(page, pageSize, 0, targetType, targetId, null);
+         List<UserCommentVO> mainCommentListVO = (List<UserCommentVO>) mainCommentResult.getRows();
+         List<UserCommentVO> allCommentListVO  = new ArrayList<>();
+         for (int i = 0; i < mainCommentListVO.size(); i++){
+             // 先添加主评论
+             allCommentListVO.add(mainCommentListVO.get(i));
+             // 获取主评论下的次级评论
+             PagedResult subCommentResult = getSubComments(page, pageSize, 0, mainCommentListVO.get(i).getId(), null);
+             List<UserCommentVO> subCommentListVO = (List<UserCommentVO>) subCommentResult.getRows();
+             for (int j = 0; j < subCommentListVO.size(); j++){
+                 //添加该主评论下的次级评论
+                 allCommentListVO.add(subCommentListVO.get(j));
+             }
+
+         }
+         PageInfo<UserCommentVO> pageList = new PageInfo<>(allCommentListVO);
+
+         PagedResult pagedResult = new PagedResult();
+         pagedResult.setPage(page);
+         pagedResult.setTotal(pageList.getPages());
+         pagedResult.setRows(allCommentListVO);
+         pagedResult.setRecords(pageList.getTotal());
+
+         return pagedResult;
+     }
+
 
     /**
      * 删除评论

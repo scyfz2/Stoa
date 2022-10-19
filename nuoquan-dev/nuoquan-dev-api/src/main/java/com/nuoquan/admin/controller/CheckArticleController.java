@@ -1,7 +1,6 @@
 package com.nuoquan.admin.controller;
 
 import com.nuoquan.enums.PostType;
-import com.nuoquan.pojo.vo.UserCommentVO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +20,6 @@ import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
 
 import io.swagger.annotations.Api;
-
-import java.util.List;
 
 /**
  * 文章人工审核
@@ -116,14 +113,14 @@ public class CheckArticleController extends BasicController {
 	 * @return
 	 */
 
-//	@GetMapping("/comment/{id}")
-//	public Object comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
-//		Integer page = tablepar.getPageNum();
-//		Integer pageSize = tablepar.getPageSize();
-//		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
-//		mmap.put("Comment", commentResult);
-//		return prefix + "/comment";
-//	}
+	@GetMapping("/comment/{id}")
+	public Object comment(Tablepar tablepar, @PathVariable("id") String id, ModelMap mmap) {
+		Integer page = tablepar.getPageNum();
+		Integer pageSize = tablepar.getPageSize();
+		PagedResult commentResult = socialService.getCommentsByTargetId(page, pageSize, PostType.ARTICLE, id);
+		mmap.put("Comment", commentResult);
+		return prefix + "/comment";
+	}
 
 	/**
 	 * 删除评论

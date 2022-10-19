@@ -72,6 +72,17 @@ public interface SocialService {
      */
     public UserCommentVO getCommentById(String commentId, String userId);
 
+     /**
+      * 分页获取文章所有评论
+      *
+      * @param page       页数
+      * @param pageSize   页面大小
+      * @param targetType 目标类型
+      * @param targetId   目标id
+      * @return
+      */
+     public PagedResult getCommentsByTargetId(Integer page, Integer pageSize, PostType targetType, String targetId);
+
     /**
      * Set the status to unreadable
      * @param commentId
