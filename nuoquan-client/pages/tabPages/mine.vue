@@ -64,6 +64,24 @@
 		<view class="navigator_box">
 			<mynavigator :objList="dataList" @trigger="navigatorEvent()"></mynavigator>
 		</view>
+		
+		<view class="hint"  v-if="thisUserInfo.email == null"  style="background-color:#E1FFFF;">
+			<view class="hintTitle" style="display: flex;margin-top: 5px;margin-bottom: 5px;">
+				<image src="../../static/icon/exclamation-circle-888888.png" style="height: 18px;width: 18px;margin-left: 1%;"></image>
+				<text style="font-weight: bold;font-size: 15px; height: 18px; line-height: 20px;margin-right: 75%;">绑定</text>
+				<image class="killIcon" @click="killAd" src="../../static/icon/delete.png" style="height: 15px;width: 15px;text-align: right;"></image>
+				
+				</view>
+			<view class="hintContent"style="font-size: 13px; margin-left:10px;margin-bottom: 10px;">
+				<text>我的-个人信息-关联信息-学校邮箱-验证码-绑定成功</text>
+			</view>
+			<!--<view class="hintTitle" style="margin-bottom: 20px;font-size: 17px;line-height: 25px;font-weight:500;margin-left: 10px;">-->
+				
+			
+			<!--</view>-->
+			
+		</view>
+		
 
 		<tab-bar :current="4"></tab-bar>
 	</view>
@@ -348,6 +366,10 @@ export default {
 			});
 		},
 		
+		killAd(){
+			this.thisUserInfo.email=!null;
+		}
+		
 	}
 };
 </script>
@@ -488,5 +510,12 @@ page {
 	border-radius: 4px;
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+
+.hint{
+
+	border-width:3px;
+	border-style:solid;
+	border-color: #87CEFA;
 }
 </style>
