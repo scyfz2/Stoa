@@ -41,7 +41,9 @@
 				</view>
 			</scroll-view> -->
 		</view>
-		
+		<view class="adContainer">
+			<ad unit-id="adunit-ac08b7c3849b0f08"></ad>
+		</view>
 		<view class="message-list messagesBox" :style="{ top: this.getnavbarHeight().bottom + 143 + 'px'}">
 			<swipe-action :lang="lang" :options="options" :messagesList="chatSnapShotList" @tapCard="goToChatpage()" @tapDelete="deleteChat()"></swipe-action>
 			<view style="width: 100%;height: 100px;"></view>

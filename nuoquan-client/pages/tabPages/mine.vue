@@ -44,10 +44,14 @@
 				<text v-else class="introBox-text">{{ thisUserInfo.signature }}</text>
 			</view>
 		</view>
+
 		
 		<view class="shadow1"></view>
 		<view class="shadow2"></view>
 
+		<view class="adContainer">
+			<ad unit-id="adunit-ac08b7c3849b0f08"></ad>
+		</view>
 		<!-- 02 号内嵌广告位 -->
 		<!-- <swiper class="guanggao" v-if="!isNull(adverts)" circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"> -->
 			<!-- 图片比例1:3 -->
@@ -352,6 +356,10 @@ export default {
 page {
 	width: 100%;
 	height: 100%;
+}
+
+.adContainer {
+  width: 100%;
 }
 
 #public-container {
