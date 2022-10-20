@@ -104,7 +104,7 @@ public class EventsCalendarController extends BasicController {
             @ApiImplicitParam(name="faculty", value="学院", required=true, dataType="Integer", paramType="form"),
             @ApiImplicitParam(name="degree", value="学历", required=true, dataType="Integer", paramType="form"),
             @ApiImplicitParam(name="tag", value="标签", required=true, dataType="Integer", paramType="form"),
-            @ApiImplicitParam(name="description", value="描述", required=false, dataType="Integer", paramType="form")
+            @ApiImplicitParam(name="description", value="描述", required=false, dataType="String", paramType="form")
     })
     @PostMapping(value="/uploadEvent")
     public JSONResult uploadEvent(String userId, String title, String venue, Integer date, String time, FacultyType faculty, DegreeType degree, String description, TagType tag) throws Exception {
@@ -113,23 +113,23 @@ public class EventsCalendarController extends BasicController {
         if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
             return JSONResult.errorMsg("Id can't be null");
         }
-        int isLegal = StatusEnum.READABLE.type;
+        int isLegal;
         // 检测内容是否非法
-//        if (weChatService.msgSecCheck(title)
-//                && weChatService.msgSecCheck(venue)
-//                && weChatService.msgSecCheck(time)
-//                && weChatService.msgSecCheck(description)) {
-//            // 合法
-//            isLegal = StatusEnum.READABLE.type;
-////            if (resourceConfig.getAutoCheckArticle()) { // 查看是否设置自动过审
-////                isLegal = StatusEnum.READABLE.type;
-////            } else {
-////                isLegal = StatusEnum.CHECKING.type;
-////            }
-//        } else {
-//            // 非法，尽管非法也保存到数据库
-//            isLegal = StatusEnum.DELETED.type;
-//        }
+        if (weChatService.msgSecCheck(title)
+                && weChatService.msgSecCheck(venue)
+                && weChatService.msgSecCheck(time)
+                && weChatService.msgSecCheck(description)) {
+            // 合法
+            isLegal = StatusEnum.READABLE.type;
+//            if (resourceConfig.getAutoCheckArticle()) { // 查看是否设置自动过审
+//                isLegal = StatusEnum.READABLE.type;
+//            } else {
+//                isLegal = StatusEnum.CHECKING.type;
+//            }
+        } else {
+            // 非法，尽管非法也保存到数据库
+            isLegal = StatusEnum.DELETED.type;
+        }
 
         EventsCalendar eventsCalendar = new EventsCalendar();
         String eventId = "";
