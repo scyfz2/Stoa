@@ -135,7 +135,7 @@ export default {
 				if(this.isNull(userInfo.email)){
 				 	uni.showToast({
 				 		icon:'error',
-				 		title:'未绑定邮箱'
+				 		title:'绑定邮箱-我的'
 				 	})
 				 }else{
 					uni.navigateTo({
