@@ -171,12 +171,12 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
      */
     @Override
     public Boolean isArticleFeatured(String articleId) {
-        Example example = new Example(FeaturedArticle.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("articleId", articleId);
-
-        List<FeaturedArticle> list = featuredArticleMapper.selectByExample(example);
-        return list != null && !list.isEmpty();
+        FeaturedArticle featuredArticle = new FeaturedArticle();
+        // 条件
+        featuredArticle.setArticleId(articleId);
+        //判断result是否为空
+        FeaturedArticle result = featuredArticleMapper.selectOne(featuredArticle);
+        return result == null ? false : true;
     }
     /**
      * 文章加精
