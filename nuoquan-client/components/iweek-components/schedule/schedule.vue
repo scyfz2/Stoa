@@ -15,7 +15,7 @@
 				</view>
 			</view>
 			<swiper-date @date="getEmitDate"></swiper-date>
-			<schedule-card @event="showDetail" v-for="item in showList" :key = "item.id" v-bind:scheduleCard="item"></schedule-card>
+			<schedule-card @event="showDetail" v-for="item in showList" :tag="item.tags" :key = "item.id" v-bind:scheduleCard="item"></schedule-card>
 			<view class="notify" v-if="facultyId == 0 || degreeId == 0">
 				<text>请选择您的学院及学历</text><br>
 				<text>Please choose your Faculty and Degree</text>
@@ -43,6 +43,7 @@
 		},
 		data() {
 			return {
+				//Tag:2,
 				userInfo:'',
 				date:13,
 				event: {},
