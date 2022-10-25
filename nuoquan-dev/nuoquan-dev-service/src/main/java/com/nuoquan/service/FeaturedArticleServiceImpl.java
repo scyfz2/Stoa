@@ -55,11 +55,12 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         // 添加文章标题
         featuredArticleVO.setArticleTitle(articleVO.getArticleTitle());
         featuredArticleVO.setArticleContent(articleVO.getArticleContent());
-        // 添加文章点赞评论查看数量
+        // 添加文章详情
         featuredArticleVO.setLikeNum(articleVO.getLikeNum());
         featuredArticleVO.setViewNum(articleVO.getViewNum());
         featuredArticleVO.setCommentNum(articleVO.getCommentNum());
         featuredArticleVO.setIsLike(articleVO.getIsLike());
+        featuredArticleVO.setCreateDate(articleVO.getCreateDate());
         // 添加用户头像
         featuredArticleVO.setFaceImg(userVO.getFaceImg());
         featuredArticleVO.setFaceImgThumb(userVO.getFaceImgThumb());

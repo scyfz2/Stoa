@@ -1,5 +1,7 @@
 package com.nuoquan.pojo.vo;
 
+import java.util.Date;
+
 public class FeaturedArticleVO {
     private String id;
 
@@ -24,12 +26,22 @@ public class FeaturedArticleVO {
     // 加精文章点赞数量
     private Integer likeNum;
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    private Date createDate;
+
     public Boolean getIsLike() {
         return isLike;
     }
 
-    public void setIsLike(Boolean like) {
-        isLike = like;
+    public void setIsLike(Boolean isLike) {
+        this.isLike = isLike;
     }
 
     private Boolean isLike; // 用户是否喜欢该文章
