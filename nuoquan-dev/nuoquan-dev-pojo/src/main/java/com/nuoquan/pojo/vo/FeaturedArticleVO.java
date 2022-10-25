@@ -24,6 +24,44 @@ public class FeaturedArticleVO {
     // 加精文章点赞数量
     private Integer likeNum;
 
+    public Boolean getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(Boolean like) {
+        isLike = like;
+    }
+
+    private Boolean isLike; // 用户是否喜欢该文章
+
+    public Integer getViewNum() {
+        return viewNum;
+    }
+
+    public void setViewNum(Integer viewNum) {
+        this.viewNum = viewNum;
+    }
+
+    public String getArticleContent() {
+        return articleContent;
+    }
+
+    public void setArticleContent(String articleContent) {
+        this.articleContent = articleContent;
+    }
+
+    public Integer getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    private Integer viewNum;
+    private String articleContent;
+    private Integer commentNum;
+
     public Integer getAuthType() {
         return authType;
     }

@@ -2,8 +2,10 @@ package com.nuoquan.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.nuoquan.enums.PostType;
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.FeaturedArticleMapper;
+import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.FeaturedArticle;
 import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
@@ -12,6 +14,7 @@ import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,8 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
     @Autowired
     private SensitiveFilterUtil sensitiveFilterUtil;
     @Autowired
+    private SocialService socialService;
+    @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
     public FeaturedArticleVO composeFeaturedArticleVO(FeaturedArticleVO featuredArticleVO, String userId) {
@@ -49,8 +54,12 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         UserVO userVO = userService.getUserById(articleVO.getUserId());
         // 添加文章标题
         featuredArticleVO.setArticleTitle(articleVO.getArticleTitle());
-        // 添加文章点赞数量
+        featuredArticleVO.setArticleContent(articleVO.getArticleContent());
+        // 添加文章点赞评论查看数量
         featuredArticleVO.setLikeNum(articleVO.getLikeNum());
+        featuredArticleVO.setViewNum(articleVO.getViewNum());
+        featuredArticleVO.setCommentNum(articleVO.getCommentNum());
+        featuredArticleVO.setIsLike(articleVO.getIsLike());
         // 添加用户头像
         featuredArticleVO.setFaceImg(userVO.getFaceImg());
         featuredArticleVO.setFaceImgThumb(userVO.getFaceImgThumb());
@@ -70,6 +79,13 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
             else {
                 featuredArticleVO.setCoverPath("");
             }
+        }
+        // 组合作者头像url
+        if (StringUtils.isNotBlank(userId)) {
+            // 添加和关于用户的点赞关系
+            articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
+            // 添加和关于用户的收藏关系
+            articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
         }
 
         // 检查是否有屏蔽词并替换
