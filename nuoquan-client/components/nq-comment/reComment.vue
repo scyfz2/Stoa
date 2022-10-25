@@ -78,6 +78,7 @@ export default {
 <style>
 .contentarea {
 	display: inline-block;
+	max-width: 150px;
 	font-size: 12px;
 	line-height: 17px;
 	margin-right: 5px;
