@@ -60,6 +60,7 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         featuredArticleVO.setViewNum(articleVO.getViewNum());
         featuredArticleVO.setCommentNum(articleVO.getCommentNum());
         featuredArticleVO.setIsLike(articleVO.getIsLike());
+        featuredArticleVO.setImgList(articleVO.getImgList());
         featuredArticleVO.setCreateDate(articleVO.getCreateDate());
         // 添加用户头像
         featuredArticleVO.setFaceImg(userVO.getFaceImg());
@@ -72,15 +73,16 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         } else {
             featuredArticleVO.setAuthType(0);
         }
-        // 如果此加精文章没有被设置封面图，则默认使用第一张文章图片作为封面图，若文章没有图片，默认设置为一张特殊图片
-        if (featuredArticleVO.getCoverPath() == null) {
-            if(articleVO.getImgList() != null) {
-                featuredArticleVO.setCoverPath(articleVO.getImgList().get(0).getImagePath());
-            }
-            else {
-                featuredArticleVO.setCoverPath("");
-            }
-        }
+        // 此方法目前用作置顶
+//        // 如果此加精文章没有被设置封面图，则默认使用第一张文章图片作为封面图，若文章没有图片，默认设置为一张特殊图片
+//        if (featuredArticleVO.getCoverPath() == null) {
+//            if(articleVO.getImgList() != null) {
+//                featuredArticleVO.setCoverPath(articleVO.getImgList().get(0).getImagePath());
+//            }
+//            else {
+//                featuredArticleVO.setCoverPath("");
+//            }
+//        }
         // 组合作者头像url
         if (StringUtils.isNotBlank(userId)) {
             // 添加和关于用户的点赞关系
@@ -222,9 +224,10 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         Example example = new Example(FeaturedArticle.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", featuredArticleId);
-        FeaturedArticle fa = new FeaturedArticle();
-        fa.setStatus(StatusEnum.DELETED.type);
-        featuredArticleMapper.updateByExampleSelective(fa, example);
+//        FeaturedArticle fa = new FeaturedArticle();
+//        fa.setStatus(StatusEnum.DELETED.type);
+//        featuredArticleMapper.updateByExampleSelective(fa, example);
+        featuredArticleMapper.deleteByExample(example);
     }
 
 }
