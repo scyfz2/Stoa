@@ -16,18 +16,23 @@
 				<image class="icon" src="../../static/icon/refresh-ffffff.png"></image>
 			</button>
 		</view>
-		<view class="mainbody"><articleInfo :myArticleList="myArticleList"></articleInfo></view>
+		<!-- 引用featuredInfo上传置顶文章 -->
+		<view class="mainbody"><featuredInfo :myArticleList="myArticleList"></featuredInfo></view>
+		<!-- 引用artiIndo上传热门文章 -->
+		<view class="mainbody"><articleInfo :myArticleList="myArticleList1"></articleInfo></view>
 	</view>
 </template>
 
 <script>
 import articleInfo from './articleInfo.vue';
+import featuredInfo from './featuredInfo.vue';
 import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
 	components: {
 		articleInfo,
+		featuredInfo,
 		uniNavBar
 	},
 	computed: {
@@ -42,6 +47,7 @@ export default {
 			loadArticleFlag: false,
 			userInfo: '',
 			myArticleList: '',
+			myArticleList1: '',
 			isNavHome: getApp().globalData.isNavHome,//判断导航栏左侧是否显示home按钮
 		};
 	},
@@ -103,9 +109,49 @@ export default {
 				}
 			}, 5000); //延时五秒timeout
 
+			var that1 = this;
+			uni.request({
+				url: that1.$serverUrl + '/article/getHotTop10',
+				method: 'POST',
+				data: {
+					page: 1,
+					pageSize: 10,
+					userId: that1.userInfo.id,
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					console.log(res);
+					setTimeout(() => {
+						//延时加载
+						uni.hideLoading();
+						this.loadArticleFlag = false;
+						console.log(res);
+						if (page == 1) {
+							that1.myArticleList1 = [];
+						}
+						var newArticleList = res.data.data.rows;
+						var oldArticleList = that1.myArticleList1;
+						that1.myArticleList1 = oldArticleList.concat(newArticleList);
+						that1.currentPage = page;
+						that1.totalPage = res.data.data.total;
+						that1.totalNum = res.data.data.records;
+						console.log(that1.totalNum);
+					}, 300);
+				},
+				fail: res => {
+					uni.hideLoading();
+					this.loadArticleFlag = false;
+
+					console.log('index unirequest fail');
+					console.log(res);
+				}
+			});
+			
 			var that = this;
 			uni.request({
-				url: that.$serverUrl + '/article/getHotTop10',
+				url: that.$serverUrl + '/featuredArticle/queryFeaturedArticles',
 				method: 'POST',
 				data: {
 					page: 1,
@@ -121,7 +167,6 @@ export default {
 						//延时加载
 						uni.hideLoading();
 						this.loadArticleFlag = false;
-
 						console.log(res);
 						if (page == 1) {
 							that.myArticleList = [];
@@ -138,12 +183,13 @@ export default {
 				fail: res => {
 					uni.hideLoading();
 					this.loadArticleFlag = false;
-
+			
 					console.log('index unirequest fail');
 					console.log(res);
 				}
 			});
 		},
+		
 		loadMore: function() {
 			var that = this;
 			var currentPage = that.currentPage;

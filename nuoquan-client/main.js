@@ -26,14 +26,14 @@ Vue.prototype.tagColors = ['#FE5F55', '#40A792', '#FDD041', '#5CA0D3', '#621E81'
 Vue.prototype.$store = store // 挂载 vueX
 Vue.prototype.$util = util
 
-// Vue.prototype.$serverUrl = "https://127.0.0.1:8080"
-// Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8088/ws"
-// Vue.prototype.$resServerUrl = "https://wenken-1308006370.cos.ap-shanghai.myqcloud.com"
+Vue.prototype.$serverUrl = "https://127.0.0.1:8080"
+Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8088/ws"
+Vue.prototype.$resServerUrl = "https://wenken-1308006370.cos.ap-shanghai.myqcloud.com"
  
 // 安全服务器地址
-Vue.prototype.$serverUrl = "https://www.jumboxtech.com:8022"
-Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8014/ws"
-Vue.prototype.$resServerUrl = "https://wenken-1308006370.cos.ap-shanghai.myqcloud.com"
+// Vue.prototype.$serverUrl = "https://www.jumboxtech.com:8022"
+// Vue.prototype.$wsServerUrl = "wss://www.jumboxtech.com:8014/ws"
+// Vue.prototype.$resServerUrl = "https://wenken-1308006370.cos.ap-shanghai.myqcloud.com"
 
 /**
  * 获取当前用户信息（我）
