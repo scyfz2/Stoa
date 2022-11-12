@@ -88,6 +88,7 @@ module.exports = {
 	collect:"Collect",
 	backToTop:"Top",
 	backToLastPage:"Back",
+	poster:"Poster",
 	
 	//投票
 	vote : "Vote",

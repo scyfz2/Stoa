@@ -91,6 +91,10 @@
 					<image src="../../static/icon/angle-left-888888.png"></image>
 					{{lang.backToLastPage}}
 				</view>
+				<view class="menu_more_item" @tap="toggleShare(),toggleMenu('reset')">
+					<image src="../../static/icon/shareposter.png"></image>
+					{{lang.poster}}
+				</view>
 			</view>
 		</view>
 
@@ -238,9 +242,9 @@
 		},
 
 		methods: {
-			// toggleShare() { //控制是否显示分享海报
-			// 	this.share = !this.share;
-			// },
+			toggleShare() { //控制是否显示分享海报
+			this.share = !this.share;
+			},
 			resetInput(e) { //传入组件内的 "isShow"
 				console.log('resetInput' + e);
 				this.commentContent = "";

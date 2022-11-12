@@ -86,6 +86,7 @@ module.exports = {
 	collect:"收藏",
 	backToTop:"返回顶部",
 	backToLastPage:"回到上页",
+	poster:"生成海报",
 	
 	//投票
 	vote : "投票",
