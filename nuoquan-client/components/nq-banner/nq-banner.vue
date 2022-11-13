@@ -1,7 +1,7 @@
 <template>
 	<view v-if="showAd" class="banner-container">
 		<view class="posterBox">
-			<image class="adPoster" :src="adImgSrc" mode="aspectFit" @click="jumpToWeb"></image>
+			<image class="adPoster" :src="adImgSrc" mode="aspectFit" ></image><!--@click="jumpToWeb"-->
 			<view class="killIcon super_center" @click="killAd">
 				<image src="../../static/icon/delete.png" mode="aspectFit"></image>
 			</view>
@@ -20,7 +20,7 @@
 			return {	
 				showAd: false,
 				// bannerInterval: 10,		// 测试数据，每分钟都能看到广告啦！
-				bannerInterval: 432000000,  //毫秒，时间戳差值  目前值 12h 
+				bannerInterval: 72000000,  //毫秒，时间戳差值  目前值 12h 
 				fromSrc: this.origin, // 本地化
 				adImgSrc: '',
 			};
@@ -36,7 +36,8 @@
 				// 	this.showAd = true
 				// 	this.adImgSrc = "https://nqbucket-1308006370.cos.ap-shanghai.myqcloud.com/nqstatic/redWallEvent/redWallPoster-min.png"
 				// }
-				this.adImgSrc = "https://nuoquan-1308006370.cos.ap-shanghai.myqcloud.com/nqprod/ad/ad_haochi.jpg"
+				this.adImgSrc = "https://wenken-1308006370.cos.ap-shanghai.myqcloud.com/wkprod/advertize/ad_open"
+				//this.adImgSrc = "../static/wenken_ad.jpg"
 			}
 			
 			var userInfo = this.getGlobalUserInfo();
@@ -61,7 +62,7 @@
 		},
 		methods: {
 			//跳转广告页
-			jumpToWeb(){
+			/*jumpToWeb(){
 				if(this.fromSrc == "index"){
 					var url = 'https://mp.weixin.qq.com/s/6xnMR_qFJyeEtrVSMnTccg'
 					var encodeData = encodeURIComponent(url);
@@ -69,14 +70,14 @@
 						url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
 					})	
 				}
-			},
+			},*/
 			//组件内伪关闭广告
 			killAd() {
 				this.showAd = !this.showAd;
 			},
 			showBanner_update(id,currentTime){
 				// 这里设置成false，则广告永不出现
-				this.showAd = false;
+				this.showAd = true;
 				uni.setStorage({
 				    key: id + ':bannerVisitTime',
 				    data: currentTime,
