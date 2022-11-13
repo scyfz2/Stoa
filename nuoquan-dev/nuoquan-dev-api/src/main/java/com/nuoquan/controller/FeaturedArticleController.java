@@ -69,9 +69,9 @@ public class FeaturedArticleController extends BasicController {
             @ApiImplicitParam(name = "articleId", value = "原始文章id", required = true, dataType = "String", paramType = "form"),
     })
     @PostMapping("/setToFeaturedArticle")
-    public JSONResult setToFeaturedArticle(@ApiParam(value="file", required=true) MultipartFile coverFile,
+    public JSONResult setToFeaturedArticle(@ApiParam(value="file", required=false) MultipartFile coverFile,
                                            String articleId) throws Exception{
-        if (!featuredArticleService.isArticleFeatured(articleId)){
+        if (featuredArticleService.isArticleFeatured(articleId)){
             return JSONResult.errorException("Already Featured");
         }
         FeaturedArticle featuredArticle = new FeaturedArticle();
@@ -96,8 +96,6 @@ public class FeaturedArticleController extends BasicController {
             }else {
                 return JSONResult.errorMsg("File name is blank");
             }
-        }else {
-            return JSONResult.errorMsg("Cover upload error");
         }
 
         String featuredArticleId = featuredArticleService.setToFeaturedArticle(featuredArticle); // 存入数据库

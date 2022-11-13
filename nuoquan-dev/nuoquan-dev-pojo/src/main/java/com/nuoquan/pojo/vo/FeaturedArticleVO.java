@@ -1,5 +1,10 @@
 package com.nuoquan.pojo.vo;
 
+import com.nuoquan.pojo.ArticleImage;
+
+import java.util.Date;
+import java.util.List;
+
 public class FeaturedArticleVO {
     private String id;
 
@@ -24,6 +29,66 @@ public class FeaturedArticleVO {
     // 加精文章点赞数量
     private Integer likeNum;
 
+    // 用户是否喜欢该文章
+    private Boolean isLike;
+
+    // 文章图片列表
+    private List<ArticleImage> imgList;
+
+    private Integer viewNum;
+    private String articleContent;
+    private Integer commentNum;
+    private Integer authType;
+    private Date createDate;
+
+    public List<ArticleImage> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(List<ArticleImage> imgList) {
+        this.imgList = imgList;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Boolean getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(Boolean isLike) {
+        this.isLike = isLike;
+    }
+
+    public Integer getViewNum() {
+        return viewNum;
+    }
+
+    public void setViewNum(Integer viewNum) {
+        this.viewNum = viewNum;
+    }
+
+    public String getArticleContent() {
+        return articleContent;
+    }
+
+    public void setArticleContent(String articleContent) {
+        this.articleContent = articleContent;
+    }
+
+    public Integer getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
+    }
+
     public Integer getAuthType() {
         return authType;
     }
@@ -31,8 +96,6 @@ public class FeaturedArticleVO {
     public void setAuthType(Integer authType) {
         this.authType = authType;
     }
-
-    private Integer authType;
 
     public String getId() {
         return id;

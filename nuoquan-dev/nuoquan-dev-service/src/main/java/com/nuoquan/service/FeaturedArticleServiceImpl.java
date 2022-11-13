@@ -2,8 +2,10 @@ package com.nuoquan.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.nuoquan.enums.PostType;
 import com.nuoquan.enums.StatusEnum;
 import com.nuoquan.mapper.nq1.FeaturedArticleMapper;
+import com.nuoquan.pojo.Article;
 import com.nuoquan.pojo.FeaturedArticle;
 import com.nuoquan.pojo.vo.ArticleVO;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
@@ -12,6 +14,7 @@ import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,8 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
     @Autowired
     private SensitiveFilterUtil sensitiveFilterUtil;
     @Autowired
+    private SocialService socialService;
+    @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
     public FeaturedArticleVO composeFeaturedArticleVO(FeaturedArticleVO featuredArticleVO, String userId) {
@@ -49,8 +54,14 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         UserVO userVO = userService.getUserById(articleVO.getUserId());
         // 添加文章标题
         featuredArticleVO.setArticleTitle(articleVO.getArticleTitle());
-        // 添加文章点赞数量
+        featuredArticleVO.setArticleContent(articleVO.getArticleContent());
+        // 添加文章详情
         featuredArticleVO.setLikeNum(articleVO.getLikeNum());
+        featuredArticleVO.setViewNum(articleVO.getViewNum());
+        featuredArticleVO.setCommentNum(articleVO.getCommentNum());
+        featuredArticleVO.setIsLike(articleVO.getIsLike());
+        featuredArticleVO.setImgList(articleVO.getImgList());
+        featuredArticleVO.setCreateDate(articleVO.getCreateDate());
         // 添加用户头像
         featuredArticleVO.setFaceImg(userVO.getFaceImg());
         featuredArticleVO.setFaceImgThumb(userVO.getFaceImgThumb());
@@ -62,14 +73,22 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         } else {
             featuredArticleVO.setAuthType(0);
         }
-        // 如果此加精文章没有被设置封面图，则默认使用第一张文章图片作为封面图，若文章没有图片，默认设置为一张特殊图片
-        if (featuredArticleVO.getCoverPath() == null) {
-            if(articleVO.getImgList() != null) {
-                featuredArticleVO.setCoverPath(articleVO.getImgList().get(0).getImagePath());
-            }
-            else {
-                featuredArticleVO.setCoverPath("");
-            }
+        // 此方法目前用作置顶
+//        // 如果此加精文章没有被设置封面图，则默认使用第一张文章图片作为封面图，若文章没有图片，默认设置为一张特殊图片
+//        if (featuredArticleVO.getCoverPath() == null) {
+//            if(articleVO.getImgList() != null) {
+//                featuredArticleVO.setCoverPath(articleVO.getImgList().get(0).getImagePath());
+//            }
+//            else {
+//                featuredArticleVO.setCoverPath("");
+//            }
+//        }
+        // 组合作者头像url
+        if (StringUtils.isNotBlank(userId)) {
+            // 添加和关于用户的点赞关系
+            articleVO.setIsLike(socialService.isUserLike(userId, PostType.ARTICLE, articleVO.getId()));
+            // 添加和关于用户的收藏关系
+            articleVO.setIsCollect(socialService.isUserCollect(userId, PostType.ARTICLE, articleVO.getId()));
         }
 
         // 检查是否有屏蔽词并替换
@@ -171,12 +190,12 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
      */
     @Override
     public Boolean isArticleFeatured(String articleId) {
-        Example example = new Example(FeaturedArticle.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("articleId", articleId);
-
-        List<FeaturedArticle> list = featuredArticleMapper.selectByExample(example);
-        return list != null && !list.isEmpty();
+        FeaturedArticle featuredArticle = new FeaturedArticle();
+        // 条件
+        featuredArticle.setArticleId(articleId);
+        //判断result是否为空
+        FeaturedArticle result = featuredArticleMapper.selectOne(featuredArticle);
+        return result == null ? false : true;
     }
     /**
      * 文章加精
@@ -205,9 +224,10 @@ public class FeaturedArticleServiceImpl implements FeaturedArticleService {
         Example example = new Example(FeaturedArticle.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", featuredArticleId);
-        FeaturedArticle fa = new FeaturedArticle();
-        fa.setStatus(StatusEnum.DELETED.type);
-        featuredArticleMapper.updateByExampleSelective(fa, example);
+//        FeaturedArticle fa = new FeaturedArticle();
+//        fa.setStatus(StatusEnum.DELETED.type);
+//        featuredArticleMapper.updateByExampleSelective(fa, example);
+        featuredArticleMapper.deleteByExample(example);
     }
 
 }
