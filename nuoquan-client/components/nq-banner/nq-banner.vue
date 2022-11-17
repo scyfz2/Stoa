@@ -1,7 +1,7 @@
 <template>
 	<view v-if="showAd" class="banner-container">
 		<view class="posterBox">
-			<image class="adPoster" :src="adImgSrc" mode="aspectFit" ></image><!--@click="jumpToWeb"-->
+			<image class="adPoster" :src="adImgSrc" mode="aspectFit" @click="jumpToWeb" ></image>
 			<view class="killIcon super_center" @click="killAd">
 				<image src="../../static/icon/delete.png" mode="aspectFit"></image>
 			</view>
@@ -62,15 +62,15 @@
 		},
 		methods: {
 			//跳转广告页
-			/*jumpToWeb(){
+			jumpToWeb(){
 				if(this.fromSrc == "index"){
-					var url = 'https://mp.weixin.qq.com/s/6xnMR_qFJyeEtrVSMnTccg'
+					var url = 'https://mp.weixin.qq.com/s/bI-J0rhUyUjNIejlvyu19Q'
 					var encodeData = encodeURIComponent(url);
 					uni.navigateTo({
 						url:'../../pages/adWebPage/adWebPage?url=' + encodeData,
 					})	
 				}
-			},*/
+			},
 			//组件内伪关闭广告
 			killAd() {
 				this.showAd = !this.showAd;
