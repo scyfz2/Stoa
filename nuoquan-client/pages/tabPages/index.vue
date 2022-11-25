@@ -1,7 +1,7 @@
 <template>
 	<view class="index">
-		<nqBanner :origin="'index'"></nqBanner>
-
+		<!-- <nqBanner :origin="'index'"></nqBanner>
+ -->
 		<!-- Main page top bar -->
 		<mainpagetop @transQueryType="changeQueryType" @transOrderType="changeOrderType" @selectedTag="getSelectedTag"
 		 @deleteTag="deleteTag" :userInfo="userInfo" :topArticles="topArticles" :tagList="tagList" :roleup="roleup" :height="capsuleButton.bottom + 176"

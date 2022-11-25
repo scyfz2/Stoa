@@ -49,11 +49,11 @@
 		<view class="shadow2"></view>
 
 		<!-- 02 号内嵌广告位 -->
-		<swiper class="top-swiper" :indicator-dots="false" :autoplay="true" :interval="4000" :duration="1000" circular="true">
+		<!-- <swiper class="top-swiper" :indicator-dots="false" :autoplay="true" :interval="4000" :duration="1000" circular="true">
 			<swiper-item v-for="(item,index) in adverts" :key="index">
 				<image class="guanggao" :src="item.url" mode="aspectFit" @click="jumpToWeb(item.jumpUrl)"></image>
 			</swiper-item>
-		</swiper>
+		</swiper> -->
 		<!-- <image class="guanggao" :src="adverts[0].url" mode="aspectFill"></image> -->
 		<!-- <swiper class="guanggao" v-if="!isNull(adverts)" circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"> -->
 			<!-- 图片比例1:3 -->
