@@ -79,6 +79,17 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
                 eventsCalendarVO.setStrDegree("PGR");
                 break;
         }
+        switch (eventsCalendarVO.getTags()){
+            case 1:
+                eventsCalendarVO.setStrTag("ACADEMIC");
+                break;
+            case 2:
+                eventsCalendarVO.setStrTag("ACTIVITY");
+                break;
+            case 3:
+                eventsCalendarVO.setStrTag("RECREATION");
+                break;
+        }
         return eventsCalendarVO;
     }
 
@@ -149,7 +160,7 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
      * @return
      */
     @Override
-    public EventsCalendar insert(EventsCalendar eventsCalendar, String title, String venue, Integer date, String time, Integer faculty, Integer degree, Integer status, String description) {
+    public EventsCalendar insert(EventsCalendar eventsCalendar, String title, String venue, Integer date, String time, Integer faculty, Integer degree, Integer status, Integer tags, String description) {
         // 保存事件信息到数据库
         eventsCalendar.setEventTitle(title);
         eventsCalendar.setEventVenue(venue);
@@ -158,6 +169,7 @@ public class EventsCalendarServiceImpl implements EventsCalendarService{
         eventsCalendar.setFaculty(faculty);
         eventsCalendar.setDegree(degree);
         eventsCalendar.setStatus(status);
+        eventsCalendar.setTags(tags);
         eventsCalendar.setDescription(description);
         eventsCalendar.setCreateDate(new Date());
 

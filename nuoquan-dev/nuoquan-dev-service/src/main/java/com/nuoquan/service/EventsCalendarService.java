@@ -46,7 +46,8 @@ public interface EventsCalendarService {
                                  String time,
                                  Integer faculty,
                                  Integer degree,
-                                 Integer status, String description);
+                                 Integer status,
+                                 Integer tags, String description);
 
 
     /**

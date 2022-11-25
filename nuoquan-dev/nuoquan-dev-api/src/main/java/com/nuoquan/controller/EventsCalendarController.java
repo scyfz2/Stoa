@@ -3,6 +3,7 @@ package com.nuoquan.controller;
 import com.nuoquan.enums.DegreeType;
 import com.nuoquan.enums.FacultyType;
 import com.nuoquan.enums.StatusEnum;
+import com.nuoquan.enums.TagType;
 import com.nuoquan.pojo.EventsCalendar;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
@@ -102,10 +103,11 @@ public class EventsCalendarController extends BasicController {
             @ApiImplicitParam(name="time", value="事件时间", required=true, dataType="String", paramType="form"),
             @ApiImplicitParam(name="faculty", value="学院", required=true, dataType="Integer", paramType="form"),
             @ApiImplicitParam(name="degree", value="学历", required=true, dataType="Integer", paramType="form"),
-            @ApiImplicitParam(name="description", value="描述", required=false, dataType="Integer", paramType="form")
+            @ApiImplicitParam(name="tag", value="标签", required=true, dataType="Integer", paramType="form"),
+            @ApiImplicitParam(name="description", value="描述", required=false, dataType="String", paramType="form")
     })
     @PostMapping(value="/uploadEvent")
-    public JSONResult uploadEvent(String userId, String title, String venue, Integer date, String time, FacultyType faculty, DegreeType degree, String description) throws Exception {
+    public JSONResult uploadEvent(String userId, String title, String venue, Integer date, String time, FacultyType faculty, DegreeType degree, String description, TagType tag) throws Exception {
 
         //TODO: 是否增加ALL选项，简化录入
         if (StringUtils.isBlank(userId) || StringUtils.isEmpty(userId)) {
@@ -140,12 +142,12 @@ public class EventsCalendarController extends BasicController {
                 if (degree.getContent().equals("all")){
                     // 遍历所有学历种类
                     for (int d = 1; d < degree.getType(); d++){
-                        eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, d, isLegal, description);
+                        eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, d, isLegal, tag.getType(), description);
                         eventId = eventsCalendarService.saveEvent(eventsCalendar);
                     }
                 } else {
                     // 如果学历选择不为全部
-                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, degree.getType(), isLegal, description);
+                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, f, degree.getType(), isLegal, tag.getType(), description);
                     eventId = eventsCalendarService.saveEvent(eventsCalendar);
                 }
             }
@@ -155,11 +157,11 @@ public class EventsCalendarController extends BasicController {
             if (degree.getContent().equals("all")){
                 // 遍历所有学历种类
                 for (int d = 1; d < degree.getType(); d++){
-                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), d, isLegal, description);
+                    eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), d, isLegal, tag.getType(), description);
                     eventId = eventsCalendarService.saveEvent(eventsCalendar);                }
             } else {
                 // 学历选择不为全部
-                eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), degree.getType(), isLegal, description);
+                eventsCalendar = eventsCalendarService.insert(eventsCalendar, title, venue, date, time, faculty.getType(), degree.getType(), isLegal, tag.getType(), description);
                 eventId = eventsCalendarService.saveEvent(eventsCalendar);                }
         }
 

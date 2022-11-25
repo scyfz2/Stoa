@@ -12,11 +12,20 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="original" jdbcType="INTEGER" property="original" />
     <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="like_num" jdbcType="INTEGER" property="likeNum" />
+    <result column="dislike_num" jdbcType="INTEGER" property="dislikeNum" />
+    <result column="comment_num" jdbcType="INTEGER" property="commentNum" />
+    <result column="collect_num" jdbcType="INTEGER" property="collectNum" />
+    <result column="reported_num" jdbcType="INTEGER" property="reportedNum" />
+    <result column="popularity" jdbcType="INTEGER" property="popularity" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="is_anonymous" jdbcType="TINYINT" property="isAnonymous" />
+    <result column="view_num" property="viewNum" jdbcType="INTEGER" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="link" jdbcType="VARCHAR" property="link" />
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_jump" jdbcType="INTEGER" property="isJump" />
   </resultMap>
 </mapper>

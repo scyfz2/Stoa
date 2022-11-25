@@ -29,6 +29,13 @@ public class EventsCalendar {
     @Column(name = "status")
     private Integer status;
 
+    public Integer getTags() { return tags; }
+
+    public void setTags(Integer tags) { this.tags = tags; }
+
+    @Column(name = "tags")
+    private Integer tags;
+
     public String getDescription() {
         return description;
     }

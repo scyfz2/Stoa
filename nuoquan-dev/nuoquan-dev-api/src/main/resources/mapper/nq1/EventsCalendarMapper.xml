@@ -13,6 +13,8 @@
         <result column="date" jdbcType="INTEGER" property="eventDate" />
         <result column="time" jdbcType="VARCHAR" property="eventTime" />
         <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="tags" jdbcType="INTEGER" property="tags" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     </resultMap>
 

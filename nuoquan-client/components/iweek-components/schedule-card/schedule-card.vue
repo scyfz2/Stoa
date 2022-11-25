@@ -4,8 +4,20 @@
 	Date: July 25, 2022
  -->
 <template>
-	<view class="scheduleCard" ref="scheduleCard" @click="showDetail(scheduleCard)">
-		<view class="placeholder">
+	<view class="scheduleCard"ref="scheduleCard" @click="showDetail(scheduleCard)">
+		<!--<view class="placeholder">
+			<view class="topic">
+				<text>{{thisSchedule.eventTitle}}</text>
+			</view>
+			<view class="time">
+				<text>{{thisSchedule.eventTime}}</text>
+			</view>
+			<view class="location">
+				<text>{{thisSchedule.eventVenue}}</text>
+			</view>
+		</view>-->
+		
+		<view v-if="tag == 1" class="placeholder1">
 			<view class="topic">
 				<text>{{thisSchedule.eventTitle}}</text>
 			</view>
@@ -16,6 +28,31 @@
 				<text>{{thisSchedule.eventVenue}}</text>
 			</view>
 		</view>
+				
+		<view v-else-if="tag == 2" class="placeholder2">
+			<view class="topic">
+				<text>{{thisSchedule.eventTitle}}</text>
+			</view>
+			<view class="time">
+				<text>{{thisSchedule.eventTime}}</text>
+			</view>
+			<view class="location">
+				<text>{{thisSchedule.eventVenue}}</text>
+			</view>
+		</view>
+				
+		<view v-else-if="tag == 3" class="placeholder3">
+			<view class="topic">
+				<text>{{thisSchedule.eventTitle}}</text>
+			</view>
+			<view class="time">
+				<text>{{thisSchedule.eventTime}}</text>
+			</view>
+			<view class="location">
+				<text>{{thisSchedule.eventVenue}}</text>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
@@ -23,7 +60,8 @@
 	export default {
 		name: 'scheduleCard',
 		props: {
-			scheduleCard: {}	
+			scheduleCard: {},
+			tag:'',
 		},
 		data() {
 			return {
@@ -57,7 +95,7 @@
 		box-shadow: 1px 2px #CCCCCC;
 	}
 	
-	.placeholder {
+	/*.placeholder {
 		position: absolute;
 		background-size: 10px;
 		background-color: #f9c466;
@@ -65,6 +103,36 @@
 		height: 100upx;
 		border-radius:8px 0 0 8px;
 		margin-bottom: 0;
+	}*/
+	
+	.placeholder1 {
+		position: absolute;
+		background-size: 10px;
+		background-color: #f9c466;
+		width: 2.6%;
+		height: 100upx;
+		border-radius:8px 0 0 8px;
+		margin-bottom: 0;
+	}
+		
+	.placeholder2 {
+		position: absolute;
+		background-size: 10px;
+		background-color: #ff9257;
+		width: 2.6%;
+		height: 100upx;
+		border-radius:8px 0 0 8px;
+		margin-bottom: 0;	
+	}
+		
+	.placeholder3 {
+		position: absolute;
+		background-size: 10px;
+		background-color: #fb7676;
+		width: 2.6%;
+		height: 100upx;
+		border-radius:8px 0 0 8px;
+		margin-bottom: 0;	
 	}
 	
 	.topic {

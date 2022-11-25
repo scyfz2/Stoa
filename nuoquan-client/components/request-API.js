@@ -56,6 +56,8 @@
 			updateLatestLoginTime:		'/user/updateLatestLoginTime',
 			getTagsList:				'/article/getTagsList',
 			 // votePage 相关没有加入
+			 
+			queryEventsCalendar:		'/eventsCalendar/queryEventsCalendarByDate',
 			
 			},
 	},

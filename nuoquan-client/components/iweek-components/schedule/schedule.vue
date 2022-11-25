@@ -6,24 +6,24 @@
 					{{lang.dailySchedule}}
 				</view>
 				<view class="pickerbox" style="display: flex;padding-top: 20upx; right: 10px; position: absolute; vertical-align: middle;">
-					<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange" style="height: 20px;display: table-cell;margin-right: 10px;">
+					<!--<picker class="picker faculty-picker" mode="selector" :range="facultyList" range-key="name" @change="facultyChange" style="height: 20px;display: table-cell;margin-right: 10px;">
 						<view>{{beforeFaculty?beforeFaculty:'Faculty'}}</view>
 					</picker>
 					<picker class="picker degree-picker" mode="selector" :range="degreeList" range-key="name" @change="degreeChange" style="height: 20px;display: table-cell;">
 						<view>{{beforeDegree?beforeDegree:'Degree'}}</view>
-					</picker>
+					</picker>-->
 				</view>
 			</view>
 			<swiper-date @date="getEmitDate"></swiper-date>
-			<schedule-card @event="showDetail" v-for="item in showList" :key = "item.id" v-bind:scheduleCard="item"></schedule-card>
-			<view class="notify" v-if="facultyId == 0 || degreeId == 0">
+			<schedule-card @event="showDetail" v-for="item in showList" :tag="item.tags" :key = "item.id" v-bind:scheduleCard="item"></schedule-card>
+			<!--<view class="notify" v-if="facultyId == 0 || degreeId == 0">
 				<text>请选择您的学院及学历</text><br>
 				<text>Please choose your Faculty and Degree</text>
 			</view>
 			<view class="notify" v-if="isNull(showList) && facultyId!==0 && degreeId!==0">
 				<text>今天没有日程哦</text><br>
 				<text>There's no schedule today</text>
-			</view>
+			</view>-->
 			<view class="bottom-placeholder"></view>
 		</view>
 	</view>
@@ -43,6 +43,7 @@
 		},
 		data() {
 			return {
+				//Tag:2,
 				userInfo:'',
 				date:13,
 				event: {},
@@ -175,8 +176,8 @@
 						pageSize: 20,
 						
 						targetDate:that.date,
-						faculty:that.facultyId,
-						degree:that.degreeId,
+						faculty:2,
+						degree:1,
 					},
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'
