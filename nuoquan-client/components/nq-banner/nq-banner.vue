@@ -1,7 +1,7 @@
 <template>
 	<view v-if="showAd" class="banner-container">
 		<view class="posterBox">
-			<image class="adPoster" :src="adImgSrc" mode="aspectFit" @click="jumpToWeb" ></image>
+			<image class="adPoster" :src="adImgSrc" mode="aspectFit" ></image>//删除了“@click="jumpToWeb"”，跳转链接删除，等待推文做出来再加跳转
 			<view class="killIcon super_center" @click="killAd">
 				<image src="../../static/icon/delete.png" mode="aspectFit"></image>
 			</view>
@@ -19,7 +19,7 @@
 		data() {
 			return {	
 				showAd: false,
-				// bannerInterval: 10,		// 测试数据，每分钟都能看到广告啦！
+				//bannerInterval: 10,		// 测试数据，每分钟都能看到广告啦！
 				bannerInterval: 72000000,  //毫秒，时间戳差值  目前值 12h 
 				fromSrc: this.origin, // 本地化
 				adImgSrc: '',
