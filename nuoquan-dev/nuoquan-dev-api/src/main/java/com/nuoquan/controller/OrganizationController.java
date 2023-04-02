@@ -5,6 +5,7 @@ import com.nuoquan.mapper.nq1.OrganizationMapper;
 import com.nuoquan.pojo.Organization;
 import com.nuoquan.pojo.OrganizationImage;
 import com.nuoquan.utils.JSONResult;
+import com.nuoquan.utils.JsonUtils;
 import com.nuoquan.utils.PagedResult;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
