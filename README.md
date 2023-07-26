@@ -83,7 +83,7 @@ MySQL Workbench用于数据库操作
 
 配置：
 
-将下载后的文件夹（若用homebrew下载则不管）放入/usr/local/路径
+将下载后的文件夹（若用homebrew下载则不管）放入/usr/local/bin/路径
 
 打开命令行，输入
 
