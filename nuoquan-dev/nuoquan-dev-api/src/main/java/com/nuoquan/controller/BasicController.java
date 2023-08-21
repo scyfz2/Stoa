@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import com.nuoquan.mapper.nq1.UserMapper;
-import com.nuoquan.service.*;
+import com.nuoquan.domain.ResultTable;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nuoquan.config.COSProperties;
 import com.nuoquan.config.ResourceConfig;
+import com.nuoquan.domain.AjaxResult;
+import com.nuoquan.mapper.nq1.UserMapper;
 import com.nuoquan.pojo.User;
 import com.nuoquan.pojo.vo.TitleVO;
 import com.nuoquan.pojo.vo.UserLikeVO;
 import com.nuoquan.pojo.vo.UserVO;
+import com.nuoquan.service.*;
 import com.nuoquan.utils.RedisOperator;
 
 public class BasicController {
@@ -143,5 +145,42 @@ public class BasicController {
     	map.put("isControl",titleVo.isControl());
 		map.put("isribbon", titleVo.isIsribbon());
     }
-	
+
+
+	/**
+	 * 响应返回结果
+	 *
+	 * @param rows 影响行数
+	 * @return 操作结果
+	 */
+	protected AjaxResult toAjax(int rows)
+	{
+		return rows > 0 ? success() : error();
+	}
+
+	/**
+	 * 返回成功
+	 */
+	public AjaxResult success()
+	{
+		return AjaxResult.success();
+	}
+
+	/**
+	 * 返回失败消息
+	 */
+	public AjaxResult error()
+	{
+		return AjaxResult.error();
+	}
+
+
+	/**
+	 * Describe: 返回数据表格数据 分页
+	 * Param data
+	 * Return 表格分页数据
+	 * */
+	protected  static ResultTable pageTable(Object data, long count){
+		return ResultTable.pageTable(count,data);
+	}
 }

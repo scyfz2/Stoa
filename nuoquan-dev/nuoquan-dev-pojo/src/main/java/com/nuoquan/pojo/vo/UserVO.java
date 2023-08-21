@@ -40,6 +40,13 @@ public class UserVO {
     private String cid;
     private Integer reputation;
 
+    // 功德值
+    private Integer merit;
+
+    // 排序
+    private Integer sort;
+
+
     /**
      * 用户最近登录时间
      */

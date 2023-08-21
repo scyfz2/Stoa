@@ -22,6 +22,8 @@
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="cid" property="cid" jdbcType="VARCHAR" />
     <result column="reputation" property="reputation" jdbcType="INTEGER" />
+    <result column="merit" property="merit" jdbcType="INTEGER" />
+    <result column="abandon_date" property="abandonDate" jdbcType="TIMESTAMP" />
     <result column="latest_login" property="latestLogin" jdbcType="TIMESTAMP" />
   </resultMap>
 

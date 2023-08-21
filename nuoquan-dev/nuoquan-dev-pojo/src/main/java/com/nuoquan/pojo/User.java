@@ -75,6 +75,15 @@ public class User {
     private Integer reputation;
 
     /**
+     * 功德值
+     */
+    private Integer merit;
+    /**
+     * 禁言截止时间
+     */
+    private Date    abandonDate;
+
+    /**
      * 用户最近登录的时间
      */
     @Column(name = "latest_login")
@@ -353,4 +362,20 @@ public class User {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+
+    public Integer getMerit() {
+        return merit;
+    }
+
+    public void setMerit(Integer merit) {
+        this.merit = merit;
+    }
+
+    public Date getAbandonDate() {
+        return abandonDate;
+    }
+
+    public void setAbandonDate(Date abandonDate) {
+        this.abandonDate = abandonDate;
+    }
 }

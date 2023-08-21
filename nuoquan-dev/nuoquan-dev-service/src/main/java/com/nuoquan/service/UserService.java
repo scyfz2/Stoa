@@ -170,4 +170,13 @@ public interface UserService {
 	 * @throws ParseException
 	 */
 	public void judgeUserState(String userId) throws ParseException;
+
+
+	/**
+	 * 获取用户排行榜
+	 * @param orderByFields
+	 * @return
+	 */
+	List<User> getUserRankingList(String orderByFields);
+
 }

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuoquan.mapper.nq1.LotteryConfigMapper">
+  <resultMap id="BaseResultMap" type="com.nuoquan.pojo.LotteryConfig">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="lottery_name" jdbcType="VARCHAR" property="lotteryName" />
+    <result column="lottery_content" jdbcType="VARCHAR" property="lotteryContent" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="threshold" jdbcType="INTEGER" property="threshold" />
+    <result column="merit_start" jdbcType="INTEGER" property="meritStart" />
+    <result column="merit_end" jdbcType="INTEGER" property="meritEnd" />
+    <result column="is_deleted" jdbcType="CHAR" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	lottery_name,
+     	lottery_content,
+     	image_url,
+     	threshold,
+     	merit_start,
+     	merit_end,
+   	  	is_deleted
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.nuoquan.pojo.LotteryConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lottery_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lottery_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lottery_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nuoquan.pojo.LotteryConfigExample">
+    delete from lottery_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.nuoquan.pojo.LotteryConfig">
+    insert into lottery_config (
+      id,
+      lottery_name,
+      lottery_content,
+      image_url,
+      threshold,
+      merit_start,
+      merit_end,
+   	  is_deleted
+    )
+    values (
+     	#{id,jdbcType=INTEGER},
+     	#{lotteryName,jdbcType=VARCHAR},
+     	#{lotteryContent,jdbcType=VARCHAR},
+     	#{imageUrl,jdbcType=VARCHAR},
+     	#{threshold,jdbcType=INTEGER},
+     	#{meritStart,jdbcType=INTEGER},
+     	#{meritEnd,jdbcType=INTEGER},
+   	  #{isDeleted,jdbcType=CHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.nuoquan.pojo.LotteryConfig">
+    insert into lottery_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="lotteryName != null">
+        lottery_name,
+      </if>
+    
+      <if test="lotteryContent != null">
+        lottery_content,
+      </if>
+    
+      <if test="imageUrl != null">
+        image_url,
+      </if>
+    
+      <if test="threshold != null">
+        threshold,
+      </if>
+    
+      <if test="meritStart != null">
+        merit_start,
+      </if>
+    
+      <if test="meritEnd != null">
+        merit_end,
+      </if>
+    
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lotteryName != null">
+        #{lotteryName,jdbcType=VARCHAR},
+      </if>
+      <if test="lotteryContent != null">
+        #{lotteryContent,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="threshold != null">
+        #{threshold,jdbcType=INTEGER},
+      </if>
+      <if test="meritStart != null">
+        #{meritStart,jdbcType=INTEGER},
+      </if>
+      <if test="meritEnd != null">
+        #{meritEnd,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.nuoquan.pojo.LotteryConfigExample" resultType="java.lang.Long">
+    select count(*) from lottery_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update lottery_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.lotteryName != null">
+        lottery_name = #{record.lotteryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lotteryContent != null">
+        lottery_content = #{record.lotteryContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageUrl != null">
+        image_url = #{record.imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.threshold != null">
+        threshold = #{record.threshold,jdbcType=INTEGER},
+      </if>
+      <if test="record.meritStart != null">
+        merit_start = #{record.meritStart,jdbcType=INTEGER},
+      </if>
+      <if test="record.meritEnd != null">
+        merit_end = #{record.meritEnd,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=CHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update lottery_config
+    set
+    	 
+    	 id = #{record.id,jdbcType=INTEGER},
+    	 
+    	 lottery_name = #{record.lotteryName,jdbcType=VARCHAR},
+    	 
+    	 lottery_content = #{record.lotteryContent,jdbcType=VARCHAR},
+    	 
+    	 image_url = #{record.imageUrl,jdbcType=VARCHAR},
+    	 
+    	 threshold = #{record.threshold,jdbcType=INTEGER},
+    	 
+    	 merit_start = #{record.meritStart,jdbcType=INTEGER},
+    	 
+    	 merit_end = #{record.meritEnd,jdbcType=INTEGER},
+    	 
+    	 is_deleted = #{record.isDeleted,jdbcType=CHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.nuoquan.pojo.LotteryConfig">
+    update lottery_config
+    <set>
+      
+      <if test="lotteryName != null and lotteryName != ''">
+        lottery_name = #{lotteryName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="lotteryContent != null and lotteryContent != ''">
+        lottery_content = #{lotteryContent,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="imageUrl != null and imageUrl != ''">
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="threshold != null and threshold != ''">
+        threshold = #{threshold,jdbcType=INTEGER},
+      </if>
+      
+      <if test="meritStart != null and meritStart != ''">
+        merit_start = #{meritStart,jdbcType=INTEGER},
+      </if>
+      
+      <if test="meritEnd != null and meritEnd != ''">
+        merit_end = #{meritEnd,jdbcType=INTEGER},
+      </if>
+      
+      <if test="isDeleted != null and isDeleted != ''">
+        is_deleted = #{isDeleted,jdbcType=CHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=INTEGER}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.nuoquan.pojo.LotteryConfig">
+    update lottery_config
+    set 
+	  
+		lottery_name = #{lotteryName,jdbcType=VARCHAR},
+	  
+		lottery_content = #{lotteryContent,jdbcType=VARCHAR},
+	  
+		image_url = #{imageUrl,jdbcType=VARCHAR},
+	  
+		threshold = #{threshold,jdbcType=INTEGER},
+	  
+		merit_start = #{meritStart,jdbcType=INTEGER},
+	  
+		merit_end = #{meritEnd,jdbcType=INTEGER},
+		
+		is_deleted = #{isDeleted,jdbcType=CHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=INTEGER}
+    
+  </update>
+  
+   
+</mapper>

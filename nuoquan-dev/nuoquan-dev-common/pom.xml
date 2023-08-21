@@ -202,13 +202,13 @@
 			<artifactId>json</artifactId>
 			<version>20180813</version>
 		</dependency> -->
-		<dependency>
-			<groupId>ueditor</groupId>
-			<artifactId>1.4.3</artifactId>
-			<version>1.8</version>
-			<scope>system</scope>
-			<systemPath>${pom.basedir}/lib/ueditor-1.1.2.jar</systemPath>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>ueditor</groupId>-->
+<!--			<artifactId>1.4.3</artifactId>-->
+<!--			<version>1.8</version>-->
+<!--			<scope>system</scope>-->
+<!--			<systemPath>${pom.basedir}/lib/ueditor-1.1.2.jar</systemPath>-->
+<!--		</dependency>-->
 
 		<!-- shiro权限 -->
 		<dependency>
