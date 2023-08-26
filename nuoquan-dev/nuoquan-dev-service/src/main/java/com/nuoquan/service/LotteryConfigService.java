@@ -1,6 +1,7 @@
 package com.nuoquan.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,10 @@ import com.nuoquan.mapper.nq1.LotteryConfigMapper;
 import com.nuoquan.pojo.LotteryConfig;
 import com.nuoquan.pojo.LotteryConfigExample;
 import com.nuoquan.pojo.admin.TableparV2;
+import com.nuoquan.support.Convert;
+import com.nuoquan.utils.StringUtils;
+
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 奖品配置表 LotteryConfigService
@@ -36,17 +41,16 @@ public class LotteryConfigService implements BaseService<LotteryConfig, LotteryC
     public PageInfo<LotteryConfig> list(TableparV2 tablepar, LotteryConfig lotteryConfig) {
         LotteryConfigExample testExample = new LotteryConfigExample();
         //搜索
-        //			if(StrUtil.isNotEmpty(tablepar.getSearchText())) {//小窗体
-        //	        	testExample.createCriteria().andLikeQuery2(tablepar.getSearchText());
-        //	        }else {//大搜索
-        //	        	testExample.createCriteria().andLikeQuery(lotteryConfig);
-        //	        }
-        //			//表格排序
-        //if(StrUtil.isNotEmpty(tablepar.getOrderByColumn())) {
-        //	testExample.setOrderByClause(StringUtils.toUnderScoreCase(tablepar.getOrderByColumn()) +" "+tablepar.getIsAsc());
-        //}else{
-        //	testExample.setOrderByClause("id ASC");
-        //}
+        if (StrUtil.isNotEmpty(tablepar.getSearchText())) {
+            testExample.createCriteria().andLotteryNameLike("%" + tablepar.getSearchText() + "%");
+        }
+        //表格排序
+        if (StrUtil.isNotEmpty(tablepar.getOrderByColumn())) {
+            testExample.setOrderByClause(
+                    StringUtils.toUnderScoreCase(tablepar.getOrderByColumn()) + " " + tablepar.getIsAsc());
+        } else {
+            testExample.setOrderByClause("id ASC");
+        }
         // todo
         PageHelper.startPage(tablepar.getPage(), tablepar.getLimit());
         List<LotteryConfig> list = lotteryConfigMapper.selectByExample(testExample);
@@ -62,29 +66,22 @@ public class LotteryConfigService implements BaseService<LotteryConfig, LotteryC
      * @param weightEnd
      * @return
      */
-    public PageInfo<LotteryConfig> getLotteryByMerit(TableparV2 tablepar, int weightStart, int weightEnd) {
+    public PageInfo<LotteryConfig> getLotteryByMerit(TableparV2 tablepar, Integer weightStart, Integer weightEnd) {
         LotteryConfigExample testExample = new LotteryConfigExample();
         PageHelper.startPage(tablepar.getPage(), tablepar.getLimit());
-        testExample.createCriteria().andMeritStartGreaterThanOrEqualTo(weightStart).andMeritEndLessThan(weightEnd);
+        testExample.createCriteria().andMeritStartEqualTo(weightStart).andMeritEndEqualTo(weightEnd);
         List<LotteryConfig> list = lotteryConfigMapper.selectByExample(testExample);
         PageInfo<LotteryConfig> pageInfo = new PageInfo<LotteryConfig>(list);
         return pageInfo;
     }
 
-    //    @Override
-    //    public int deleteByPrimaryKey(String ids) {
-    //
-    //        Integer[] integers = ConvertUtil.toIntArray(",", ids);
-    //        List<Integer> stringB = Arrays.asList(integers);
-    //        LotteryConfigExample example = new LotteryConfigExample();
-    //        example.createCriteria().andIdIn(stringB);
-    //        return lotteryConfigMapper.deleteByExample(example);
-    //
-    //    }
-
     @Override
-    public int deleteByPrimaryKey(String id) {
-        return 0;
+    public int deleteByPrimaryKey(String ids) {
+        List<String> strings = Convert.toListStrArray(ids);
+        List<Integer> idList = strings.stream().map(Integer::parseInt).collect(Collectors.toList());
+        LotteryConfigExample example = new LotteryConfigExample();
+        example.createCriteria().andIdIn(idList);
+        return lotteryConfigMapper.deleteByExample(example);
     }
 
     @Override

@@ -8,9 +8,13 @@
     <div class="layui-card-body">
         <form class="layui-form" action="">
             <div class="layui-form-item">
-                <label class="layui-form-label">名称</label>
+                <label class="layui-form-label">用户 Id</label>
                 <div class="layui-input-inline">
                     <input type="text" name="searchText" placeholder="" class="layui-input">
+                </div>
+                <label class="layui-form-label">排行日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="date" placeholder="" class="layui-input">
                 </div>
                 <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="rankingList-query">
                     <i class="layui-icon layui-icon-search"></i>
@@ -94,7 +98,7 @@
             [
                {type: 'checkbox'},
                 	
-               {title: '', field: 'id', align: 'center'},
+               // {title: '', field: 'id', align: 'center'},
                 	
                {title: '排行日期', field: 'date', align: 'center'},
                 	
@@ -102,11 +106,11 @@
                 	
                {title: '排行', field: 'sort', align: 'center'},
                 	
-               {title: '类型 1 影响力 2 功德', field: 'type', align: 'center'},
+               {title: '类型', field: 'typeDesc', align: 'center'},
                 	
-               {title: '值', field: 'value', align: 'center'},
+               {title: '影响力&功德值', field: 'value', align: 'center'},
                 	
-               {title: '', field: 'isDeleted', align: 'center'},
+               // {title: '', field: 'isDeleted', align: 'center'},
                 
                {title: '操作', toolbar: '#rankingList-bar', align: 'center'}
             ]

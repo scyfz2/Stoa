@@ -19,9 +19,13 @@ public class LotteryHistory implements Serializable {
 	
 	@ApiModelProperty(value = "奖品编号")
 	private Integer lotteryNo;
+
+	@ApiModelProperty(value = "奖品名称")
+	private String lotteryName;
 	
 	@ApiModelProperty(value = "奖品内容")
 	private String lotteryContent;
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	@ApiModelProperty(value = "抽奖日期")
 	private Date lotteryDate;
@@ -59,6 +63,16 @@ public class LotteryHistory implements Serializable {
 	@JsonProperty("lotteryContent")
 	public String getLotteryContent() {
 		return lotteryContent;
+	}
+
+
+	@JsonProperty("lotteryName")
+	public String getLotteryName() {
+		return lotteryName;
+	}
+
+	public void setLotteryName(String lotteryName) {
+		this.lotteryName = lotteryName;
 	}
 
 	public void setLotteryContent(String lotteryContent) {

@@ -12,6 +12,7 @@ import com.nuoquan.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -26,7 +27,7 @@ import com.nuoquan.service.UserService;
 import cn.hutool.core.date.DateUtil;
 
 @Component
-//@ConditionalOnProperty(name = "nuoquan.job.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "nuoquan.job.enabled", havingValue = "true")
 public class RankJob {
 
     @Autowired
@@ -36,7 +37,7 @@ public class RankJob {
     private RankingListService rankingListService;
     Logger                     log = LoggerFactory.getLogger(RankJob.class);
 
-    @Scheduled(cron = "0/5 * * * * ? ")
+    @Scheduled(cron = "0 50 23 * * ? ")
     public void test() {
         log.info("=====RankJob start=====");
         // 每天23:50 统计当日排行榜

@@ -31,15 +31,15 @@ public class LotteryHistoryService implements BaseService<LotteryHistory, Lotter
     /**
      * 分页查询
      * 
-     * @param pageNum
-     * @param pageSize
+     * @param tablepar
+     * @param lotteryHistory
      * @return
      */
     public PageInfo<LotteryHistory> list(TableparV2 tablepar, LotteryHistory lotteryHistory) {
         LotteryHistoryExample testExample = new LotteryHistoryExample();
         //搜索
         if (StrUtil.isNotEmpty(tablepar.getSearchText())) {//小窗体
-            testExample.createCriteria().andLikeQuery2(tablepar.getSearchText());
+            testExample.createCriteria().andUserIdLike("%" + tablepar.getSearchText() + "%");
         } else {//大搜索
             testExample.createCriteria().andLikeQuery(lotteryHistory);
         }
@@ -49,6 +49,7 @@ public class LotteryHistoryService implements BaseService<LotteryHistory, Lotter
         //}else{
         //	testExample.setOrderByClause("id ASC");
         //}
+        testExample.setOrderByClause("lottery_date desc");
         PageHelper.startPage(tablepar.getPage(), tablepar.getLimit());
         List<LotteryHistory> list = lotteryHistoryMapper.selectByExample(testExample);
         PageInfo<LotteryHistory> pageInfo = new PageInfo<LotteryHistory>(list);

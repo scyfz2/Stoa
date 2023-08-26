@@ -1,7 +1,12 @@
 package com.nuoquan.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+import com.nuoquan.pojo.vo.RankListVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,27 +36,28 @@ public class RankingListService implements BaseService<RankingList, RankingListE
     /**
      * 分页查询
      * 
-     * @param pageNum
-     * @param pageSize
+     * @param tablepar
+     * @param rankingList
      * @return
      */
-    public PageInfo<RankingList> list(TableparV2 tablepar, RankingList rankingList) {
+    public PageInfo<RankListVO> list(TableparV2 tablepar, RankingList rankingList) {
         RankingListExample testExample = new RankingListExample();
         //搜索
         if (StrUtil.isNotEmpty(tablepar.getSearchText())) {//小窗体
-            testExample.createCriteria().andLikeQuery2(tablepar.getSearchText());
+            testExample.createCriteria().andUserIdLike("%" + tablepar.getSearchText() + "%");
         } else {//大搜索
             testExample.createCriteria().andLikeQuery(rankingList);
         }
-        //表格排序
-        //if(StrUtil.isNotEmpty(tablepar.getOrderByColumn())) {
-        //	testExample.setOrderByClause(StringUtils.toUnderScoreCase(tablepar.getOrderByColumn()) +" "+tablepar.getIsAsc());
-        //}else{
-        //	testExample.setOrderByClause("id ASC");
-        //}
+        testExample.setOrderByClause("date DESC, type asc,sort asc");
         PageHelper.startPage(tablepar.getPage(), tablepar.getLimit());
         List<RankingList> list = rankingListMapper.selectByExample(testExample);
-        PageInfo<RankingList> pageInfo = new PageInfo<RankingList>(list);
+        List<RankListVO> collect = Optional.ofNullable(list).orElse(Lists.newArrayList()).stream().map(x -> {
+            RankListVO vo = new RankListVO();
+            BeanUtils.copyProperties(x, vo);
+            vo.setTypeDesc("1".equals(x.getType()) ? "影响力" : "功德");
+            return vo;
+        }).collect(Collectors.toList());
+        PageInfo<RankListVO> pageInfo = new PageInfo<RankListVO>(collect);
         return pageInfo;
     }
 

@@ -15,14 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nuoquan.enums.SignFlagEnum;
 import com.nuoquan.mapper.nq1.*;
-import com.nuoquan.pojo.ChatMsg;
-import com.nuoquan.pojo.User;
-import com.nuoquan.pojo.UserFans;
+import com.nuoquan.pojo.*;
 import com.nuoquan.pojo.netty.ChatMessage;
 import com.nuoquan.pojo.vo.AuthenticatedUserVO;
 import com.nuoquan.pojo.vo.UserVO;
@@ -30,6 +29,7 @@ import com.nuoquan.utils.PageUtils;
 import com.nuoquan.utils.PagedResult;
 import com.nuoquan.utils.SensitiveFilterUtil;
 
+import cn.hutool.core.date.DateUtil;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
@@ -60,6 +60,8 @@ public class UserServiceImpl implements UserService {
     private AuthenticatedUserService authenticatedUserService;
     @Autowired
     private UserBanDetailMapper      userBanDetailMapper;
+    @Autowired
+    private MeriHistoryMapper        meriHistoryMapper;
 
     /**
      * 将user转换为UserVO 并为用户添加vo属性
@@ -319,6 +321,23 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public boolean updateMerit(String userId, Integer value, int op) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        Integer merit = user.getMerit();
+        //仅更新reputation
+        User userNew = new User();
+        if (op > 0) {
+            merit += value;
+        } else {
+            merit -= value;
+        }
+        userNew.setId(userId);
+        userNew.setMerit(merit);
+        userMapper.updateByPrimaryKeySelective(userNew);
+        return true;
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void updateLatestLoginTime(String userId) {
@@ -472,7 +491,22 @@ public class UserServiceImpl implements UserService {
     public List<User> getUserRankingList(String orderByFields) {
         Example userExample = new Example(User.class);
         userExample.setOrderByClause(orderByFields + " desc");
-        PageHelper.startPage(1, 30);
+        PageHelper.startPage(1, 10);
         return userMapper.selectByExample(userExample);
+    }
+
+    /**
+     * 用户今天是否登录领取过功德
+     * 
+     * @param userId
+     * @return
+     */
+    @Override
+    public boolean isSignIn(String userId) {
+        MeriHistoryExample example = new MeriHistoryExample();
+        String date = DateUtil.format(new Date(), "yyyyMMdd");
+        example.createCriteria().andUserIdEqualTo(userId).andDateEqualTo(date);
+        List<MeriHistory> meriHistories = meriHistoryMapper.selectByExample(example);
+        return CollectionUtils.isEmpty(meriHistories);
     }
 }

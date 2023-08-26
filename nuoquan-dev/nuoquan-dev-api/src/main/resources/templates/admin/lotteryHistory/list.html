@@ -8,7 +8,7 @@
     <div class="layui-card-body">
         <form class="layui-form" action="">
             <div class="layui-form-item">
-                <label class="layui-form-label">名称</label>
+                <label class="layui-form-label">用户 Id</label>
                 <div class="layui-input-inline">
                     <input type="text" name="searchText" placeholder="" class="layui-input">
                 </div>
@@ -94,19 +94,21 @@
             [
                {type: 'checkbox'},
                 	
-               {title: '', field: 'id', align: 'center'},
+               // {title: '', field: 'id', align: 'center'},
                 	
-               {title: '奖品Id', field: 'lotteryId', align: 'center'},
+               // {title: '奖品Id', field: 'lotteryId', align: 'center'},
                 	
                {title: '奖品编号', field: 'lotteryNo', align: 'center'},
                 	
+               {title: '奖品名称', field: 'lotteryName', align: 'center'},
+
                {title: '奖品内容', field: 'lotteryContent', align: 'center'},
-                	
+
                {title: '抽奖日期', field: 'lotteryDate', align: 'center'},
                 	
                {title: '用户Id', field: 'userId', align: 'center'},
                 	
-               {title: '', field: 'isDeleted', align: 'center'},
+               // {title: '', field: 'isDeleted', align: 'center'},
                 
                {title: '操作', toolbar: '#lotteryHistory-bar', align: 'center'}
             ]

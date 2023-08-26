@@ -7,6 +7,7 @@ import com.nuoquan.domain.AjaxResult;
 import com.nuoquan.domain.ResultTable;
 import com.nuoquan.pojo.RankingList;
 import com.nuoquan.pojo.admin.TableparV2;
+import com.nuoquan.pojo.vo.RankListVO;
 import com.nuoquan.service.RankingListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,7 +51,7 @@ public class RankingListController extends BasicController {
 	/**
 	 * list集合
 	 * @param tablepar
-	 * @param searchText
+	 * @param rankingList
 	 * @return
 	 */
 	//@Log(title = "排行榜", action = "111")
@@ -59,7 +60,7 @@ public class RankingListController extends BasicController {
 	@RequiresPermissions("gen:rankingList:list")
 	@ResponseBody
 	public ResultTable list(TableparV2 tablepar, RankingList rankingList){
-		PageInfo<RankingList> page=rankingListService.list(tablepar,rankingList) ;
+		PageInfo<RankListVO> page=rankingListService.list(tablepar,rankingList) ;
 		return pageTable(page.getList(),page.getTotal());
 	}
 	

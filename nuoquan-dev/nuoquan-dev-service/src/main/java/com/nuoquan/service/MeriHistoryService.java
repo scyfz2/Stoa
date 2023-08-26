@@ -31,18 +31,19 @@ public class MeriHistoryService implements BaseService<MeriHistory, MeriHistoryE
     /**
      * 分页查询
      * 
-     * @param pageNum
-     * @param pageSize
+     * @param tablepar
+     * @param meriHistory
      * @return
      */
     public PageInfo<MeriHistory> list(TableparV2 tablepar, MeriHistory meriHistory) {
         MeriHistoryExample testExample = new MeriHistoryExample();
         //搜索
         if (StrUtil.isNotEmpty(tablepar.getSearchText())) {//小窗体
-            testExample.createCriteria().andLikeQuery2(tablepar.getSearchText());
+            testExample.createCriteria().andUserIdLike("%" + tablepar.getSearchText() + "%");
         } else {//大搜索
             testExample.createCriteria().andLikeQuery(meriHistory);
         }
+        testExample.setOrderByClause("date DESC");
         //表格排序
         //if(StrUtil.isNotEmpty(tablepar.getOrderByColumn())) {
         //	testExample.setOrderByClause(StringUtils.toUnderScoreCase(tablepar.getOrderByColumn()) +" "+tablepar.getIsAsc());

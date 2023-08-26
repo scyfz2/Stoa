@@ -346,4 +346,20 @@ public class UserVO {
     public void setAuthType(Integer authType) {
         this.authType = authType;
     }
+
+    public Integer getMerit() {
+        return merit;
+    }
+
+    public void setMerit(Integer merit) {
+        this.merit = merit;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 }

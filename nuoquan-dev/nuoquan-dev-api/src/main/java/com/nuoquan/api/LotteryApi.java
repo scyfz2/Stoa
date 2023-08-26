@@ -2,6 +2,7 @@ package com.nuoquan.api;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.service.LotteryConfigService;
 import com.nuoquan.service.LotteryHistoryService;
 import com.nuoquan.service.UserService;
+import com.nuoquan.util.CommonUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -60,29 +62,41 @@ public class LotteryApi extends BasicController {
             return AjaxResult.error(500, "用户不存在！");
         }
 
-        // 2. 查询奖品
+        // 2. 查询奖品 level
+        Triple<Integer, Integer, Integer> prizeLevel = CommonUtil.getPrizeLevel(user.getMerit());
+        if (prizeLevel == null) {
+            return AjaxResult.error(500, "功德值过低，无法抽奖！");
+        }
+
+        // 3. 查询奖品
         TableparV2 tableparV2 = new TableparV2();
         tableparV2.setPage(1);
         tableparV2.setLimit(1000);
-        PageInfo<LotteryConfig> page = lotteryConfigService.getLotteryByMerit(tableparV2, 99, 199);
+        PageInfo<LotteryConfig> page = lotteryConfigService.getLotteryByMerit(tableparV2, prizeLevel.getMiddle(),
+                prizeLevel.getRight());
 
         if (page == null || CollectionUtils.isEmpty(page.getList())) {
             return AjaxResult.error(500, "奖品未配置！");
         }
 
-        // 3. 抽奖
+        // 4. 抽奖
         LotteryConfig lotteryConfig = null;
         try {
             lotteryConfig = PrizeHelper.prize(page.getList());
-
+            // 保存影响力或者功德值
+            if (lotteryConfig.getLotteryName().contains("点影响力")) {
+                userService.updateReputation(userId, CommonUtil.getValue(lotteryConfig.getLotteryName()), 1);
+            }
+            if (lotteryConfig.getLotteryName().contains("点功德")) {
+                userService.updateMerit(userId, CommonUtil.getValue(lotteryConfig.getLotteryName()), 1);
+            }
             LotteryHistory lotteryHistory = new LotteryHistory();
             lotteryHistory.setUserId(userId);
             lotteryHistory.setLotteryId(lotteryConfig.getId());
-            lotteryHistory.setLotteryContent(lotteryHistory.getLotteryContent());
+            lotteryHistory.setLotteryName(lotteryConfig.getLotteryName());
+            lotteryHistory.setLotteryContent(lotteryConfig.getLotteryContent());
             lotteryHistory.setLotteryDate(new Date());
             lotteryHistoryService.insertSelective(lotteryHistory);
-
-            // todo 保存抽奖记录表
         } catch (Exception e) {
             return AjaxResult.error(500, "系统异常！");
         }
@@ -95,15 +109,24 @@ public class LotteryApi extends BasicController {
             @ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form") })
     public AjaxResult getPrizeList(String userId) {
 
-        // 1. 查询奖品
+        // 1. 查询功德值
+        UserVO user = userService.getUserById(userId);
+        if (user == null) {
+            return AjaxResult.error(500, "用户不存在！");
+        }
+
+        // 2. 查询奖品 level
+        Triple<Integer, Integer, Integer> prizeLevel = CommonUtil.getPrizeLevel(user.getMerit());
+        if (prizeLevel == null) {
+            return AjaxResult.error(500, "功德值过低，无法抽奖！");
+        }
+
+        // 3. 查询奖品
         TableparV2 tableparV2 = new TableparV2();
         tableparV2.setPage(1);
-        tableparV2.setLimit(1000);
-        PageInfo<LotteryConfig> page = lotteryConfigService.list(tableparV2, null);
-
-        if (page == null || CollectionUtils.isEmpty(page.getList())) {
-            return AjaxResult.error(500, "奖品未配置！");
-        }
+        tableparV2.setLimit(30);
+        PageInfo<LotteryConfig> page = lotteryConfigService.getLotteryByMerit(tableparV2, prizeLevel.getMiddle(),
+                prizeLevel.getRight());
 
         return AjaxResult.successData(200, page.getList());
     }
