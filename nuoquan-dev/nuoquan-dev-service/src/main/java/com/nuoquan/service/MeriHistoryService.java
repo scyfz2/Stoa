@@ -1,6 +1,7 @@
 package com.nuoquan.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.nuoquan.mapper.nq1.MeriHistoryMapper;
 import com.nuoquan.pojo.MeriHistory;
 import com.nuoquan.pojo.MeriHistoryExample;
 import com.nuoquan.pojo.admin.TableparV2;
+import com.nuoquan.support.Convert;
 
 import cn.hutool.core.util.StrUtil;
 
@@ -58,7 +60,11 @@ public class MeriHistoryService implements BaseService<MeriHistory, MeriHistoryE
 
     @Override
     public int deleteByPrimaryKey(String ids) {
-        return 0;
+        List<String> strings = Convert.toListStrArray(ids);
+        List<Integer> idList = strings.stream().map(Integer::parseInt).collect(Collectors.toList());
+        MeriHistoryExample example = new MeriHistoryExample();
+        example.createCriteria().andIdIn(idList);
+        return meriHistoryMapper.deleteByExample(example);
 
     }
 

@@ -41,7 +41,7 @@ public class UserApi {
 
         // 1. 领取功德
         MeriHistoryExample historyExample = new MeriHistoryExample();
-        String date = DateUtil.format(new Date(), "yyyyMMdd");
+        String date = DateUtil.format(new Date(), "yyyy-MM-dd");
         historyExample.createCriteria().andUserIdEqualTo(userId).andDateEqualTo(date);
         List<MeriHistory> meriHistories = meriHistoryService.selectByExample(historyExample);
         if(CollectionUtil.isNotEmpty(meriHistories)){

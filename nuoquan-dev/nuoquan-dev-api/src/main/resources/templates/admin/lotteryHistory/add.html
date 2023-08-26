@@ -9,60 +9,70 @@
         <div class="main-container">
             <div class="main-container">
 
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">奖品Id</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="lotteryId" autocomplete="off" placeholder="奖品Id" class="layui-input">
-			                    </div>
-			                </div>
-		
+                <div class="layui-form-item">
+                    <label class="layui-form-label">奖品Id</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="lotteryId" autocomplete="off" placeholder="奖品Id" class="layui-input">
+                    </div>
+                </div>
 
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">奖品编号</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="lotteryNo" autocomplete="off" placeholder="奖品编号" class="layui-input">
-			                    </div>
-			                </div>
-		
 
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">奖品内容</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="lotteryContent" autocomplete="off" placeholder="奖品内容" class="layui-input">
-			                    </div>
-			                </div>
-		
+                <div class="layui-form-item">
+                    <label class="layui-form-label">奖品编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="lotteryNo" autocomplete="off" placeholder="奖品编号"
+                               class="layui-input">
+                    </div>
+                </div>
 
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">抽奖日期</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="lotteryDate" autocomplete="off" placeholder="抽奖日期" class="layui-input">
-			                    </div>
-			                </div>
-		
+                <div class="layui-form-item">
+                    <label class="layui-form-label">奖品名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="lotteryName" autocomplete="off" placeholder="奖品名称" class="layui-input">
+                    </div>
+                </div>
 
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">用户Id</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="userId" autocomplete="off" placeholder="用户Id" class="layui-input">
-			                    </div>
-			                </div>
-		
+                <div class="layui-form-item">
+                    <label class="layui-form-label">奖品内容</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="lotteryContent" autocomplete="off" placeholder="奖品内容"
+                               class="layui-input">
+                    </div>
+                </div>
 
-							<div class="layui-form-item">
-			                    <label class="layui-form-label"></label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="isDeleted" autocomplete="off" placeholder="" class="layui-input">
-			                    </div>
-			                </div>
-		
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">抽奖日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="lotteryDate" name="lotteryDate"
+                               placeholder="yyyy-MM-dd HH:mm:ss">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户Id</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="userId" autocomplete="off" placeholder="用户Id" class="layui-input">
+                    </div>
+                </div>
+
+
+                <!--							<div class="layui-form-item">-->
+                <!--			                    <label class="layui-form-label"></label>-->
+                <!--			                    <div class="layui-input-block">-->
+                <!--			                        <input type="text" name="isDeleted" autocomplete="off" placeholder="" class="layui-input">-->
+                <!--			                    </div>-->
+                <!--			                </div>-->
+
 
             </div>
         </div>
     </div>
     <div class="bottom">
         <div class="button-container">
-            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="lotteryHistory-save">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit=""
+                    lay-filter="lotteryHistory-save">
                 <i class="layui-icon layui-icon-ok"></i>
                 提交
             </button>
@@ -75,23 +85,31 @@
 </form>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['form','laydate','jquery'], function () {
+
+    layui.use(['form', 'laydate', 'jquery'], function () {
         let form = layui.form;
         let $ = layui.jquery;
-        let MODULE_PATH = rootPath+"/LotteryHistoryController";
+        let MODULE_PATH = rootPath + "/LotteryHistoryController";
 
+        let laydate = layui.laydate;
+        laydate.render({
+            type: 'datetime',
+            elem: '#lotteryDate',//指定元素
+            trigger: 'click',
+            format: 'yyyy-MM-dd HH:mm:ss'
+        });
 
         //保存
         form.on('submit(lotteryHistory-save)', function (data) {
-        	let loader = layer.load();
+            let loader = layer.load();
             $.ajax({
-                url: MODULE_PATH+'/add',
+                url: MODULE_PATH + '/add',
                 data: data.field,
                 dataType: 'json',
                 contentType: 'application/x-www-form-urlencoded',
                 type: 'post',
                 success: function (result) {
-                    if (result.code==200) {
+                    if (result.code == 200) {
                         layer.msg(result.msg, {icon: 1, time: 1000}, function () {
                             parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
                             parent.layui.table.reload("lotteryHistory-table");

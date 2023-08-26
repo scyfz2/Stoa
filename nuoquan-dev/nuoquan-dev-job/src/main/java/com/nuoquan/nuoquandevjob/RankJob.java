@@ -41,7 +41,7 @@ public class RankJob {
     public void test() {
         log.info("=====RankJob start=====");
         // 每天23:50 统计当日排行榜
-        String date = DateUtil.format(new Date(), "yyyyMMdd");
+        String date = DateUtil.format(new Date(), "yyyy-MM-dd");
 
         RankingListExample example = new RankingListExample();
         example.createCriteria().andDateEqualTo(date).andTypeEqualTo("1");

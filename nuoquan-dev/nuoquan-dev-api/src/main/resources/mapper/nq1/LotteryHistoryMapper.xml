@@ -288,7 +288,7 @@
         lottery_content = #{lotteryContent,jdbcType=VARCHAR},
       </if>
       
-      <if test="lotteryDate != null and lotteryDate != ''">
+      <if test="lotteryDate != null">
         lottery_date = #{lotteryDate,jdbcType=TIMESTAMP},
       </if>
       

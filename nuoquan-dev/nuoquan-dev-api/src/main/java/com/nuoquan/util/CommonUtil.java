@@ -44,7 +44,7 @@ public class CommonUtil {
     }
 
     public static Triple<Integer, Integer, Integer> getPrizeLevel(Integer merit) {
-        return prizeList.stream().filter(x -> merit > x.getMiddle() && merit <= x.getRight()).findFirst().orElse(null);
+        return prizeList.stream().filter(x -> merit >= x.getMiddle() && merit <= x.getRight()).findFirst().orElse(null);
     }
 
     public static int getValue(String key) {

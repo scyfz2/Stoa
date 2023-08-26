@@ -4,18 +4,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Lists;
-import com.nuoquan.pojo.vo.RankListVO;
+import com.nuoquan.pojo.User;
+import com.nuoquan.pojo.vo.UserVO;
+import com.nuoquan.utils.PageUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.nuoquan.mapper.nq1.RankingListMapper;
 import com.nuoquan.pojo.RankingList;
 import com.nuoquan.pojo.RankingListExample;
 import com.nuoquan.pojo.admin.TableparV2;
+import com.nuoquan.pojo.vo.RankListVO;
+import com.nuoquan.support.Convert;
 
 import cn.hutool.core.util.StrUtil;
 
@@ -51,21 +55,26 @@ public class RankingListService implements BaseService<RankingList, RankingListE
         testExample.setOrderByClause("date DESC, type asc,sort asc");
         PageHelper.startPage(tablepar.getPage(), tablepar.getLimit());
         List<RankingList> list = rankingListMapper.selectByExample(testExample);
+
+        PageInfo<RankingList> pageInfo = new PageInfo<>(list);
+        PageInfo<RankListVO> pageInfoVo = PageUtils.PageInfo2PageInfoVo(pageInfo);
         List<RankListVO> collect = Optional.ofNullable(list).orElse(Lists.newArrayList()).stream().map(x -> {
             RankListVO vo = new RankListVO();
             BeanUtils.copyProperties(x, vo);
             vo.setTypeDesc("1".equals(x.getType()) ? "影响力" : "功德");
             return vo;
         }).collect(Collectors.toList());
-        PageInfo<RankListVO> pageInfo = new PageInfo<RankListVO>(collect);
-        return pageInfo;
+        pageInfoVo.setList(collect);
+        return pageInfoVo;
     }
 
     @Override
     public int deleteByPrimaryKey(String ids) {
-
-        return 0;
-
+        List<String> strings = Convert.toListStrArray(ids);
+        List<Long> idList = strings.stream().map(Long::parseLong).collect(Collectors.toList());
+        RankingListExample example = new RankingListExample();
+        example.createCriteria().andIdIn(idList);
+        return rankingListMapper.deleteByExample(example);
     }
 
     @Override
