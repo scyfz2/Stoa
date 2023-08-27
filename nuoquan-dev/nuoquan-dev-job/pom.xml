@@ -4,10 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.nuoquan</groupId>
-        <artifactId>nuoquan-dev-api</artifactId>
+        <artifactId>nuoquan-dev</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
+
+    <packaging>jar</packaging>
+
     <groupId>com.nuoquan</groupId>
     <artifactId>nuoquan-dev-job</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -16,9 +18,8 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
     <dependencies>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
@@ -29,6 +30,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.nuoquan</groupId>
+            <artifactId>nuoquan-dev-pojo</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.nuoquan</groupId>
+            <artifactId>nuoquan-dev-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -36,6 +48,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>none</mainClass>     <!-- 取消查找本项目下的Main方法：为了解决Unable to find main class的问题 -->
+                    <classifier>execute</classifier>    <!-- 为了解决依赖模块找不到此模块中的类或属性 -->
+                </configuration>
             </plugin>
         </plugins>
     </build>
