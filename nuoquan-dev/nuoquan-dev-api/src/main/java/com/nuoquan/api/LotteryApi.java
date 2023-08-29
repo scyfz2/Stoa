@@ -2,8 +2,10 @@ package com.nuoquan.api;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Triple;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import com.nuoquan.domain.AjaxResult;
 import com.nuoquan.pojo.LotteryConfig;
 import com.nuoquan.pojo.LotteryHistory;
 import com.nuoquan.pojo.admin.TableparV2;
+import com.nuoquan.pojo.vo.LotteryHistoryVO;
 import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.service.LotteryConfigService;
 import com.nuoquan.service.LotteryHistoryService;
@@ -156,7 +159,13 @@ public class LotteryApi extends BasicController {
             @ApiImplicitParam(name = "userId", value = "操作者id", required = true, dataType = "String", paramType = "form") })
     public AjaxResult getPrizeListByUserId(String userId) {
 
-        // 1. 查询奖品
+        // 1. 查询用户是否存在
+        UserVO user = userService.getUserById(userId);
+        if (user == null) {
+            return AjaxResult.error(500, "用户不存在！");
+        }
+
+        // 2. 查询奖品记录
         TableparV2 tableparV2 = new TableparV2();
         tableparV2.setPage(1);
         tableparV2.setLimit(30);
@@ -164,11 +173,16 @@ public class LotteryApi extends BasicController {
         lotteryHistory.setUserId(userId);
         PageInfo<LotteryHistory> page = lotteryHistoryService.list(tableparV2, lotteryHistory);
 
-        if (page == null) {
-            return AjaxResult.error(500, "奖品未配置！");
-        }
+        PageInfo<LotteryHistoryVO> res = new PageInfo<>();
+        res.setList(page.getList().stream().map(x -> {
+            LotteryHistoryVO temp = new LotteryHistoryVO();
+            BeanUtils.copyProperties(x, temp);
+            temp.setNickname(user.getNickname());
+            return temp;
+        }).collect(Collectors.toList()));
 
-        return AjaxResult.successData(200, page.getList());
+
+        return AjaxResult.successData(200, res.getList());
     }
 
 }
