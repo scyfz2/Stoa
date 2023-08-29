@@ -36,7 +36,7 @@ public class CommonUtil {
         position.put('千', 3);
 
         /* 奖品初始化 **/
-        prizeList.add(Triple.of(1, 10, 99));
+        prizeList.add(Triple.of(1, 0, 99));
         prizeList.add(Triple.of(2, 100, 299));
         prizeList.add(Triple.of(3, 300, 899));
         prizeList.add(Triple.of(4, 900, Integer.MAX_VALUE));

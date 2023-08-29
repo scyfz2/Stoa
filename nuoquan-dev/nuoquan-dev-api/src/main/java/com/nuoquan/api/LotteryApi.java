@@ -1,6 +1,7 @@
 package com.nuoquan.api;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,9 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 抽奖 C 端接口
- * 
- * @ClassName: LotteryConfigController
+ *
  * @author fuce
+ * @ClassName: LotteryConfigController
  * @date 2023-08-19 22:47:40
  */
 @Api(value = "奖品配置表")
@@ -62,10 +63,13 @@ public class LotteryApi extends BasicController {
             return AjaxResult.error(500, "用户不存在！");
         }
 
+        if (user.getMerit() < 10) {
+            return AjaxResult.error(500, "功德值过低，无法抽奖！");
+        }
         // 2. 查询奖品 level
         Triple<Integer, Integer, Integer> prizeLevel = CommonUtil.getPrizeLevel(user.getMerit());
         if (prizeLevel == null) {
-            return AjaxResult.error(500, "功德值过低，无法抽奖！");
+            return AjaxResult.error(500, "无功德值匹配的奖品列表！");
         }
 
         // 3. 查询奖品
@@ -90,13 +94,28 @@ public class LotteryApi extends BasicController {
             if (lotteryConfig.getLotteryName().contains("点功德")) {
                 userService.updateMerit(userId, CommonUtil.getValue(lotteryConfig.getLotteryName()), 1);
             }
+            // 抽奖扣除 10 点功德
+            userService.updateMerit(userId, 10, -1);
+
+            // 需要兑换码
+            if (lotteryConfig.getLotteryName().startsWith("STOA纪念")) {
+                String exchangeCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 16).toUpperCase();
+            }
+
             LotteryHistory lotteryHistory = new LotteryHistory();
             lotteryHistory.setUserId(userId);
             lotteryHistory.setLotteryId(lotteryConfig.getId());
             lotteryHistory.setLotteryName(lotteryConfig.getLotteryName());
-            lotteryHistory.setLotteryContent(lotteryConfig.getLotteryContent());
+            // 需要兑换码
+            if (lotteryConfig.getLotteryName().startsWith("STOA纪念")) {
+                String exchangeCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 16).toUpperCase();
+                lotteryHistory.setLotteryContent("兑换码为：" + exchangeCode);
+            } else {
+                lotteryHistory.setLotteryContent(lotteryConfig.getLotteryContent());
+            }
             lotteryHistory.setLotteryDate(new Date());
             lotteryHistoryService.insertSelective(lotteryHistory);
+
         } catch (Exception e) {
             return AjaxResult.error(500, "系统异常！");
         }

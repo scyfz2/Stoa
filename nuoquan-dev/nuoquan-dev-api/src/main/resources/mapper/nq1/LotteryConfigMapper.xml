@@ -285,15 +285,15 @@
         image_url = #{imageUrl,jdbcType=VARCHAR},
       </if>
       
-      <if test="threshold != null and threshold != ''">
+      <if test="threshold != null and threshold != '' or threshold == 0">
         threshold = #{threshold,jdbcType=INTEGER},
       </if>
       
-      <if test="meritStart != null and meritStart != ''">
+      <if test="meritStart != null and meritStart != '' or meritStart == 0">
         merit_start = #{meritStart,jdbcType=INTEGER},
       </if>
       
-      <if test="meritEnd != null and meritEnd != ''">
+      <if test="meritEnd != null and meritEnd != '' or meritEnd == 0">
         merit_end = #{meritEnd,jdbcType=INTEGER},
       </if>
       
