@@ -56,23 +56,45 @@ public class RankApi extends BasicController {
             @ApiImplicitParam(name = "type", value = "类型1 影响力 2 功德 ", required = true, dataType = "String") })
     public AjaxResult view(String date, String type) {
 
-        // 功德 + 不传日期 = 总榜
-        if ("2".equals(type) && StringUtils.isEmpty(date)) {
-            List<User> merit = userService.getUserRankingList("merit");
-            AtomicInteger atomicInteger = new AtomicInteger(1);
-            List<RankingListVO> meritList = Optional.ofNullable(merit).orElse(Lists.newArrayList()).stream().map(x -> {
-                RankingListVO rank = new RankingListVO();
-                rank.setDate(date);
-                rank.setUserId(x.getId());
-                //(value = "类型 1 影响力 2 功德")
-                rank.setType("2");
-                rank.setSort(atomicInteger.getAndIncrement());
-                rank.setValue(x.getMerit());
-                rank.setNickname(x.getNickname());
-                rank.setFaceImg(x.getFaceImg());
-                return rank;
-            }).collect(Collectors.toList());
-            return AjaxResult.successData(200, meritList);
+        if (StringUtils.isEmpty(date)) {
+            // 功德 + 不传日期 = 总榜
+            if ("2".equals(type)) {
+                List<User> merit = userService.getUserRankingList("merit");
+                AtomicInteger atomicInteger = new AtomicInteger(1);
+                List<RankingListVO> meritList = Optional.ofNullable(merit).orElse(Lists.newArrayList()).stream()
+                        .map(x -> {
+                            RankingListVO rank = new RankingListVO();
+                            rank.setDate(date);
+                            rank.setUserId(x.getId());
+                            //(value = "类型 1 影响力 2 功德")
+                            rank.setType("2");
+                            rank.setSort(atomicInteger.getAndIncrement());
+                            rank.setValue(x.getMerit());
+                            rank.setNickname(x.getNickname());
+                            rank.setFaceImg(x.getFaceImg());
+                            return rank;
+                        }).collect(Collectors.toList());
+                return AjaxResult.successData(200, meritList);
+            }
+            // 影响力 + 不传日期 = 总榜
+            if ("1".equals(type)) {
+                List<User> merit = userService.getUserRankingList("reputation");
+                AtomicInteger atomicInteger = new AtomicInteger(1);
+                List<RankingListVO> meritList = Optional.ofNullable(merit).orElse(Lists.newArrayList()).stream()
+                        .map(x -> {
+                            RankingListVO rank = new RankingListVO();
+                            rank.setDate(date);
+                            rank.setUserId(x.getId());
+                            //(value = "类型 1 影响力 2 功德")
+                            rank.setType("1");
+                            rank.setSort(atomicInteger.getAndIncrement());
+                            rank.setValue(x.getReputation());
+                            rank.setNickname(x.getNickname());
+                            rank.setFaceImg(x.getFaceImg());
+                            return rank;
+                        }).collect(Collectors.toList());
+                return AjaxResult.successData(200, meritList);
+            }
         }
 
         RankingListExample example = new RankingListExample();

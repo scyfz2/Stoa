@@ -18,6 +18,7 @@ import com.nuoquan.domain.AjaxResult;
 import com.nuoquan.pojo.LotteryConfig;
 import com.nuoquan.pojo.LotteryHistory;
 import com.nuoquan.pojo.admin.TableparV2;
+import com.nuoquan.pojo.vo.LotteryConfigVO;
 import com.nuoquan.pojo.vo.LotteryHistoryVO;
 import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.service.LotteryConfigService;
@@ -74,7 +75,6 @@ public class LotteryApi extends BasicController {
             return AjaxResult.error(500, "无功德值匹配的奖品列表！");
         }
 
-
         // 3. 查询奖品
         TableparV2 tableparV2 = new TableparV2();
         tableparV2.setPage(1);
@@ -87,8 +87,11 @@ public class LotteryApi extends BasicController {
 
         // 4. 抽奖
         LotteryConfig lotteryConfig = null;
+        LotteryConfigVO res = new LotteryConfigVO();
+
         try {
             lotteryConfig = PrizeHelper.prize(page.getList());
+            BeanUtils.copyProperties(lotteryConfig, res);
             // 保存影响力或者功德值
             if (lotteryConfig.getLotteryName().contains("点影响力")) {
                 userService.updateReputation(userId, CommonUtil.getValue(lotteryConfig.getLotteryName()), 1);
@@ -99,16 +102,19 @@ public class LotteryApi extends BasicController {
             // 抽奖扣除 10 点功德
             userService.updateMerit(userId, 10, -1);
 
-
             LotteryHistory lotteryHistory = new LotteryHistory();
             lotteryHistory.setUserId(userId);
             lotteryHistory.setLotteryId(lotteryConfig.getId());
             lotteryHistory.setLotteryName(lotteryConfig.getLotteryName());
             // 需要兑换码
-            if (lotteryConfig.getLotteryName().startsWith("STOA纪念")) {
+            if (lotteryConfig.getLotteryName().contains("纪念")) {
+                res.setPrizeStatus("0");
                 String exchangeCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8).toUpperCase();
-                lotteryHistory.setLotteryContent("兑换码为：" + exchangeCode);
+                String content = "兑换码为：" + exchangeCode;
+                lotteryHistory.setLotteryContent(content);
+                res.setLotteryContent(content);
             } else {
+                res.setPrizeStatus("1");
                 lotteryHistory.setLotteryContent(lotteryConfig.getLotteryContent());
             }
             lotteryHistory.setLotteryDate(new Date());
@@ -118,7 +124,7 @@ public class LotteryApi extends BasicController {
             e.printStackTrace();
             return AjaxResult.error(500, "系统异常！");
         }
-        return AjaxResult.successData(200, lotteryConfig);
+        return AjaxResult.successData(200, res);
     }
 
     @ApiOperation(value = "获取奖品列表", notes = "获取奖品列表")
@@ -176,7 +182,6 @@ public class LotteryApi extends BasicController {
             temp.setNickname(user.getNickname());
             return temp;
         }).collect(Collectors.toList()));
-
 
         return AjaxResult.successData(200, res.getList());
     }

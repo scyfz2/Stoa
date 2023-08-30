@@ -10,7 +10,7 @@ import org.apache.commons.lang3.tuple.Triple;
 /**
  * CommonUtil
  *
- * @author xuxiaoding
+ * @author xxdd
  * @date 2023-08-24 20:45
  */
 public class CommonUtil {

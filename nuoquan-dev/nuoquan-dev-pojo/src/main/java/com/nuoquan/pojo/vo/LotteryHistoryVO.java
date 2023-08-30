@@ -5,7 +5,7 @@ import com.nuoquan.pojo.LotteryHistory;
 /**
  * LotteryHistoryVO
  *
- * @author xuxiaoding
+ * @author xxdd
  * @date 2023-08-29 21:48
  */
 public class LotteryHistoryVO extends LotteryHistory {
