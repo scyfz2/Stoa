@@ -56,7 +56,7 @@ public class CommonUtil {
             key = key.substring(0, key.indexOf("点功德"));
         }
 
-        return convertChineseToNumber(key);
+        return Integer.parseInt(key);
     }
 
     /**

@@ -69,7 +69,7 @@ public class RankJob {
                 }).collect(Collectors.toList());
         reputationList.forEach(rankingListService::insertSelective);
 
-        // 道德值排行榜
+        // 功德值排行榜
         List<User> merit = userService.getUserRankingList("merit");
         AtomicInteger atomicInteger = new AtomicInteger(1);
         List<RankingList> meritList = Optional.ofNullable(merit).orElse(Lists.newArrayList()).stream().map(x -> {

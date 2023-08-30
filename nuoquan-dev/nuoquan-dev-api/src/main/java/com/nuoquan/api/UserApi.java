@@ -3,6 +3,7 @@ package com.nuoquan.api;
 import java.util.Date;
 import java.util.List;
 
+import io.netty.buffer.ByteBufUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,8 +62,8 @@ public class UserApi {
         return AjaxResult.successData(200, "领取成功");
     }
 
-    public static void main(String[] args) {
-        System.out.println((DateUtil.beginOfDay(new Date())));
-    }
+
+
+
 
 }

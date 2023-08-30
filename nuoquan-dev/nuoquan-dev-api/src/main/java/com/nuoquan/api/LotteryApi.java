@@ -65,7 +65,6 @@ public class LotteryApi extends BasicController {
         if (user == null) {
             return AjaxResult.error(500, "用户不存在！");
         }
-
         if (user.getMerit() < 10) {
             return AjaxResult.error(500, "功德值过低，无法抽奖！");
         }
@@ -75,13 +74,13 @@ public class LotteryApi extends BasicController {
             return AjaxResult.error(500, "无功德值匹配的奖品列表！");
         }
 
+
         // 3. 查询奖品
         TableparV2 tableparV2 = new TableparV2();
         tableparV2.setPage(1);
         tableparV2.setLimit(1000);
         PageInfo<LotteryConfig> page = lotteryConfigService.getLotteryByMerit(tableparV2, prizeLevel.getMiddle(),
                 prizeLevel.getRight());
-
         if (page == null || CollectionUtils.isEmpty(page.getList())) {
             return AjaxResult.error(500, "奖品未配置！");
         }
@@ -100,10 +99,6 @@ public class LotteryApi extends BasicController {
             // 抽奖扣除 10 点功德
             userService.updateMerit(userId, 10, -1);
 
-            // 需要兑换码
-            if (lotteryConfig.getLotteryName().startsWith("STOA纪念")) {
-                String exchangeCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 16).toUpperCase();
-            }
 
             LotteryHistory lotteryHistory = new LotteryHistory();
             lotteryHistory.setUserId(userId);
@@ -111,7 +106,7 @@ public class LotteryApi extends BasicController {
             lotteryHistory.setLotteryName(lotteryConfig.getLotteryName());
             // 需要兑换码
             if (lotteryConfig.getLotteryName().startsWith("STOA纪念")) {
-                String exchangeCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 16).toUpperCase();
+                String exchangeCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8).toUpperCase();
                 lotteryHistory.setLotteryContent("兑换码为：" + exchangeCode);
             } else {
                 lotteryHistory.setLotteryContent(lotteryConfig.getLotteryContent());
@@ -120,6 +115,7 @@ public class LotteryApi extends BasicController {
             lotteryHistoryService.insertSelective(lotteryHistory);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return AjaxResult.error(500, "系统异常！");
         }
         return AjaxResult.successData(200, lotteryConfig);
