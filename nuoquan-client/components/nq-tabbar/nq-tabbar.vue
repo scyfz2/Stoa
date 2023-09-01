@@ -7,7 +7,7 @@
 				<view :class="['super_center', 'li', current == index ? 'cur' : '']" v-for="(item, index) in tabBarList" style="text-align: center;" :key="index" @tap="onClick(item)">
 					<view >
 						<msgcount style="position: absolute;z-index: 40;right: 10%;top: 9px;" :count="item.count"></msgcount>
-						<image v-if="index==2" :src="item.icon" mode="aspectFit" style="width: 35px;height: 35px;margin-top: 15px;"></image>
+						<image v-if="index==2" :src="item.icon" mode="aspectFit" style="width: 25px;height: 25px;margin-top: 5px;"></image>
 						<view 
 							class="img super_center"
 							:style="{ height: current == index ? '44px' : '25px', width: current == index ? '44px' : '25px', background: current == index ? 'rgba(253,169,86,1)' : ''}"
@@ -133,10 +133,21 @@ export default {
 				console.log(this.current);
 				var userInfo = this.getGlobalUserInfo();
 				if(this.isNull(userInfo.email)){
-					uni.showToast({
-						icon:'error',
-						title:'未绑定邮箱'
-					})
+					uni.showModal({
+											title: '请绑定邮箱后再发帖',
+											content: '点击确定前往绑定邮箱',
+											success: function (res) {
+												if (res.confirm) {
+													console.log('用户点击确定');
+													uni.navigateTo({
+													                            url:'/pages/profile/profile'
+													                        });
+					
+												} else if (res.cancel) {
+													console.log('用户点击取消');
+												}
+											}
+										});
 				}else{
 					uni.navigateTo({
 						url:e.url

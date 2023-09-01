@@ -86,7 +86,7 @@ export default {
 	position: absolute;
 	left: 15%;
 	display: inline-block;
-	font-size: 14px;
+	font-size: 18px;
 }
 .right_icon0 {
 	position: absolute;

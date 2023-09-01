@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'zh-CN',
 	
-	tabbarName : ["轮滑","迎新","","动态","我的"],
+	tabbarName : ["轮滑","迎新","内容","消息","我的"],
 	tabList : ["发文章","发投票"],
 	version : "v1.1.1",
 	back : "返回",
@@ -174,7 +174,7 @@ module.exports = {
 	signature: "个性签名",
 	noSignature: "点击编辑个性签名",
 	schoolEmail : "学校邮箱",
-	noEmail: "未绑定邮箱",
+	noEmail: "",
 	changeEmail : "更改邮箱",
 	genderList : ["女", "男", "其他", "未知"], //顺序请和数据库保持一致
 	degreeList : ["高中", "本科", "研究生"], //顺序请和数据库保持一致

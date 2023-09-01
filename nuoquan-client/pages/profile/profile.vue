@@ -621,7 +621,7 @@ pickerChange(res) {
 	.major .second_line,
 	.signature .second_line{
 		height: 22.4px;
-		font-size: 17px;
+		font-size: 15px;
 		font-family: Source Han Sans CN;
 		font-weight: 400;
 		padding-top: 12px;

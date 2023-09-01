@@ -581,8 +581,8 @@ image {
 	z-index: 10;
 }
 .authLogo {
-	width: 15px;
-	height: 15px;
+	width: 17px;
+	height: 17px;
 	margin-left: 5px;
 }
 

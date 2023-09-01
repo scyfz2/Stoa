@@ -452,6 +452,7 @@ page {
 	font-family: Source Han Sans CN;
 	font-weight: 800;
 	opacity: 1;
+	margin-left: 3px;
 }
 
 .shadow1 {

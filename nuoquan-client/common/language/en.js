@@ -2,7 +2,7 @@ module.exports = {
 	// langType 属性为语言包标识，请勿删除
 	langType : 'en',
 	
-	tabbarName : ["Home","Zone","","Msg","Me"],
+	tabbarName : ["Home","Zone","Content","Msg","Me"],
 	tabList : ["Post Article","Create Vote"],
 	version : "v1.1.1",
 	back : "Back",
@@ -177,7 +177,7 @@ module.exports = {
 	major : "Major",
 	degree : "Degree",
 	schoolEmail : "School Email",
-	noEmail: "No email, please bind your email!",
+	noEmail: "",
 	changeEmail : "Change Email",
 	genderList : ["Ms", "Mr", "Other","Unknown"], //顺序请和数据库保持一致
 	degreeList : ["High school", "Undergraduate", "Graduate"], //顺序请和数据库保持一致

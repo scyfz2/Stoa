@@ -202,7 +202,8 @@ page {
 
 .mainbody {
 	width: calc(100% - 26px);
-	margin-top: 16px;
+	margin-top: 8px;
+	margin-bottom: 8px;
 	margin-left: auto;
 	margin-right: auto;
 }
