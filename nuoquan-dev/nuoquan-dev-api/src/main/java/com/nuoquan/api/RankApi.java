@@ -98,7 +98,9 @@ public class RankApi extends BasicController {
         }
 
         RankingListExample example = new RankingListExample();
-        example.createCriteria().andDateEqualTo(date).andTypeEqualTo(type);
+        //2023-08-31
+        example.createCriteria().andDateLike(date + "%").andTypeEqualTo(type);
+        example.setOrderByClause("date DESC,sort asc limit 10");
         List<RankingList> rankingLists = rankingListService.selectByExample(example);
         // 获取排行榜
         List<RankingListVO> collect = Optional.ofNullable(rankingLists).orElse(Lists.newArrayList()).stream().map(x -> {

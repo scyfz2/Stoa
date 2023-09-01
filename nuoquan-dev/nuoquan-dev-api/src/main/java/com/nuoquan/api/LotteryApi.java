@@ -113,6 +113,10 @@ public class LotteryApi extends BasicController {
                 String content = "兑换码为：" + exchangeCode;
                 lotteryHistory.setLotteryContent(content);
                 res.setLotteryContent(content);
+            } else if ("电子功德".equals(lotteryConfig.getLotteryName())) {
+                res.setPrizeStatus("0");
+                lotteryHistory.setLotteryContent(lotteryConfig.getLotteryContent());
+                res.setLotteryContent(lotteryConfig.getLotteryContent());
             } else {
                 res.setPrizeStatus("1");
                 lotteryHistory.setLotteryContent(lotteryConfig.getLotteryContent());

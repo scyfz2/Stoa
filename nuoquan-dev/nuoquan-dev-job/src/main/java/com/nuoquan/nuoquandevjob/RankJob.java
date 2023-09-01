@@ -37,11 +37,12 @@ public class RankJob {
     private RankingListService rankingListService;
     Logger                     log = LoggerFactory.getLogger(RankJob.class);
 
-    @Scheduled(cron = "0 50 23 * * ? ")
+//    @Scheduled(cron = "0 0/10 * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ?")
     public void test() {
         log.info("=====RankJob start=====");
         // 每天23:50 统计当日排行榜
-        String date = DateUtil.format(new Date(), "yyyy-MM-dd");
+        String date = DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
         RankingListExample example = new RankingListExample();
         example.createCriteria().andDateEqualTo(date).andTypeEqualTo("1");
