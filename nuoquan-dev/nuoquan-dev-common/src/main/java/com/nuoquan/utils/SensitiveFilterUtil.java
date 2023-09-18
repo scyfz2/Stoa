@@ -1,16 +1,16 @@
 package com.nuoquan.utils;
 
-import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import static java.lang.Character.toLowerCase;
-import static java.lang.Character.toUpperCase;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 @Service
 public class SensitiveFilterUtil {
@@ -18,13 +18,12 @@ public class SensitiveFilterUtil {
     private static final String REPLACEMENT = "***";
 
     // 根节点
-    private TrieNode rootNode = new TrieNode();
+    private TrieNode            rootNode    = new TrieNode();
 
     // 初始化：读取敏感词文件
     @PostConstruct // 此注解的作用为在@Autowired注入SensitiveFilterUtil后自动执行此方法
     public void init() {
-        try (
-                Scanner sr = new Scanner(new FileReader("./SensitiveWord.txt"))) {
+        try (Scanner sr = new Scanner(new FileReader("./SensitiveWord.txt"))) {
             String keyword;
             while (sr.hasNextLine()) {
                 keyword = sr.nextLine();
@@ -34,6 +33,34 @@ public class SensitiveFilterUtil {
             System.out.println("加载敏感词文件失败: " + e.getMessage());
         }
     }
+
+    //    public static void main(String[] args) throws FileNotFoundException {
+    //        //        ======filter before: It aint gonna stop you running,
+    //        //        it aint gonna take you home,
+    //        //        It aint gonna cost you nothing to the reaching for.
+    //        //                ======filter params: I ===== 0 ==== 73
+    //        //                ======filter params: I ===== 63 ==== 73
+    //        //                ======filter params: I ===== 63 ==== 73
+    //        //                ======filter before: It aint gonna stop you running,
+    //        //        it aint gonna take you homE,
+    //        //        It aint gonna cost you nothing to the reaching for.
+    //
+    //        String ss = "It aint gonna stop you中 running,\n" + "it aint gonna take you homezgcd,\n"
+    //                + "It aint gonna cost you nothing to the reaching for.";
+    //
+    //        SensitiveFilterUtil sensitiveFilterUtil = new SensitiveFilterUtil();
+    //        try (Scanner sr = new Scanner(new FileReader("D:\\workspace\\Stoa\\nuoquan-dev\\SensitiveWord.txt"))) {
+    //            String keyword;
+    //            while (sr.hasNextLine()) {
+    //                keyword = sr.nextLine();
+    //                sensitiveFilterUtil.addKeyword(keyword);
+    //            }
+    //            sensitiveFilterUtil.filter(ss);
+    //        } catch (IOException e) {
+    //            System.out.println("加载敏感词文件失败: " + e.getMessage());
+    //        }
+    //
+    //    }
 
     /**
      * 过滤敏感词
@@ -57,14 +84,7 @@ public class SensitiveFilterUtil {
 
         while (position < text.length()) {
             // flag == 0时表示此英文字符为小写，flag == 1时表示此英文字符为大写
-            int flag = 0;
-            // 将大写英文字符转换为小写进行比较（以达到检测时大小写不敏感的目的）
             char c = text.charAt(position);
-            if (c >= 65 && c <= 90) {
-                c = toLowerCase(c);
-                flag = 1;
-            }
-
             // 跳过符号
             if (isSymbol(c)) {
                 // 若指针1处于根节点,将此符号计入结果,让指针2向下走一步
@@ -81,17 +101,12 @@ public class SensitiveFilterUtil {
             tempNode = tempNode.getSubNode(c);
             if (tempNode == null) {
                 // 以begin开头的字符串不是敏感词
-                // 若flag == 1，将其转换为原本的大写
-                if (flag == 1) {
-                    sb.append(toUpperCase(text.charAt(begin)));
-                } else {
-                    sb.append(text.charAt(begin));
-                }
+                sb.append(text.charAt(begin));
                 // 进入下一个位置
                 position = ++begin;
                 // 重新指向根节点
                 tempNode = rootNode;
-            } else if (tempNode.isKeywordEnd()) {
+            } else if (tempNode.isKeywordEnd) {
                 // 发现敏感词,将begin~position字符串替换掉
                 sb.append(REPLACEMENT);
                 // 进入下一个位置
@@ -106,7 +121,6 @@ public class SensitiveFilterUtil {
 
         // 将最后一批字符计入结果
         sb.append(text.substring(begin));
-
         return sb.toString();
     }
 
@@ -148,10 +162,10 @@ public class SensitiveFilterUtil {
     private class TrieNode {
 
         // 关键词结束标识
-        private boolean isKeywordEnd = false;
+        private boolean                  isKeywordEnd = false;
 
         // 子节点(key是下级字符,value是下级节点)
-        private Map<Character, TrieNode> subNodes = new HashMap<>();
+        private Map<Character, TrieNode> subNodes     = new HashMap<>();
 
         public boolean isKeywordEnd() {
             return isKeywordEnd;

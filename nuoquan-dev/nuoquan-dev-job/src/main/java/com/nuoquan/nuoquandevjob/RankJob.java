@@ -54,8 +54,6 @@ public class RankJob {
 
         // 影响力排行榜
         List<User> reputation = userService.getUserRankingList("reputation");
-        System.out.println(JSONUtil.toJsonStr(reputation));
-
         AtomicInteger i = new AtomicInteger(1);
         List<RankingList> reputationList = Optional.ofNullable(reputation).orElse(Lists.newArrayList()).stream()
                 .map(x -> {
