@@ -177,6 +177,30 @@ public class UserServiceImpl implements UserService {
         return composeUser(user);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public UserVO getUserVOByUniAppOpenId(String openId) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("uniAppOpenId", openId);
+        User user = userMapper.selectOneByExample(example);
+        if (user == null) {
+            return null;
+        }
+        return composeUser(user);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public User getUserByUniAppOpenId(String openId) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("uniAppOpenId", openId);
+        User user = userMapper.selectOneByExample(example);
+        if (user == null) {
+            return null;
+        }
+        return user;
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void saveUserFanRelation(String userId, String fanId) {
@@ -336,6 +360,14 @@ public class UserServiceImpl implements UserService {
         userNew.setMerit(merit);
         userMapper.updateByPrimaryKeySelective(userNew);
         return true;
+    }
+
+    @Override
+    public boolean updateUniAppOpenId(String userId, String openId) {
+        User userNew = new User();
+        userNew.setId(userId);
+        userNew.setUniAppOpenId(openId);
+        return userMapper.updateByPrimaryKeySelective(userNew) == 1;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

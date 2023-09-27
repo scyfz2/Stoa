@@ -1,29 +1,28 @@
 package com.nuoquan.pojo.vo;
 
 import java.util.Date;
-import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nuoquan.utils.EncryptUtils;
 
 public class UserVO {
 
-    private String id;
-    private String email;
+    private String  id;
+    private String  email;
     @JsonIgnore //不返回密码
-    private String password;
-    private String nickname;
-    private String signature;
-    private Date createDate;
-    private String faceImg;
-    private String faceImgThumb;
+    private String  password;
+    private String  nickname;
+    private String  signature;
+    private Date    createDate;
+    private String  faceImg;
+    private String  faceImgThumb;
     private Integer followNum;
     private Integer fansNum;
     /**
      * 0 = female, 1 = male, 2 = others
      */
-    private Byte gender;
-    private String major;
+    private Byte    gender;
+    private String  major;
     /**
      * Example: 2022
      */
@@ -31,13 +30,13 @@ public class UserVO {
     /**
      * 0 = high school, 1 = undergraduate, 2 = graduate
      */
-    private Byte degree;
+    private Byte    degree;
     private Integer receiveLikeCounts;
     private Integer state;
     /**
      * Client-id 设备id，用于消息推送
      */
-    private String cid;
+    private String  cid;
     private Integer reputation;
 
     // 功德值
@@ -46,17 +45,25 @@ public class UserVO {
     // 排序
     private Integer sort;
 
-
     /**
      * 用户最近登录时间
      */
-    private Date latestLogin;
+    private Date    latestLogin;
 
-    private boolean isFollow; // 是否关注该用户
+    private boolean isFollow;         // 是否关注该用户
 
-    private Integer authType; // 认证类型
-    
-    
+    private Integer authType;         // 认证类型
+
+    private String  uniAppOpenId;     // 小程序 openId
+
+    public String getUniAppOpenId() {
+        return uniAppOpenId;
+    }
+
+    public void setUniAppOpenId(String uniAppOpenId) {
+        this.uniAppOpenId = uniAppOpenId;
+    }
+
     /**
      * @return id
      */
@@ -75,8 +82,8 @@ public class UserVO {
      * @return email
      */
     public String getEmail() {
-//        return email;
-        if (email!=null && !email.endsWith("@nottingham.edu.cn")){
+        //        return email;
+        if (email != null && !email.endsWith("@nottingham.edu.cn")) {
             email = EncryptUtils.base64Decode(email);
         }
         return email;
@@ -307,37 +314,37 @@ public class UserVO {
         this.cid = cid;
     }
 
-	public boolean isFollow() {
-		return isFollow;
-	}
+    public boolean isFollow() {
+        return isFollow;
+    }
 
-	public void setFollow(boolean isFollow) {
-		this.isFollow = isFollow;
-	}
+    public void setFollow(boolean isFollow) {
+        this.isFollow = isFollow;
+    }
 
-	public Integer getReputation() {
-		return reputation;
-	}
+    public Integer getReputation() {
+        return reputation;
+    }
 
-	public void setReputation(Integer reputation) {
-		this.reputation = reputation;
-	}
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
+    }
 
-	public Date getLatestLogin() {
-		return latestLogin;
-	}
+    public Date getLatestLogin() {
+        return latestLogin;
+    }
 
-	public void setLatestLogin(Date latestLogin) {
-		this.latestLogin = latestLogin;
-	}
+    public void setLatestLogin(Date latestLogin) {
+        this.latestLogin = latestLogin;
+    }
 
-	public String getSignature() {
-		return signature;
-	}
+    public String getSignature() {
+        return signature;
+    }
 
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
     public Integer getAuthType() {
         return authType;

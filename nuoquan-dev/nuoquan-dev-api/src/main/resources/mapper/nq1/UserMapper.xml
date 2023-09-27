@@ -25,6 +25,7 @@
     <result column="merit" property="merit" jdbcType="INTEGER" />
     <result column="abandon_date" property="abandonDate" jdbcType="TIMESTAMP" />
     <result column="latest_login" property="latestLogin" jdbcType="TIMESTAMP" />
+    <result column="uni_app_open_id" property="uniAppOpenId" jdbcType="VARCHAR" />
   </resultMap>
 
   <select id="list" resultMap="BaseResultMap">

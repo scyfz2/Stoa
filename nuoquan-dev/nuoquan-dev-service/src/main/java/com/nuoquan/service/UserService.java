@@ -60,6 +60,10 @@ public interface UserService {
      */
     public UserVO getUserById(String userId);
 
+
+    UserVO getUserVOByUniAppOpenId(String openId);
+    User getUserByUniAppOpenId(String openId);
+
     /**
      * @Description 增加用户粉丝关系
      * @param userId
@@ -136,6 +140,8 @@ public interface UserService {
     public boolean updateReputation(String userId, Integer value, int op);
 
     boolean updateMerit(String userId, Integer value, int op);
+
+    boolean updateUniAppOpenId(String userId,String openId);
 
     /**
      * 更新用户最近登录的时间

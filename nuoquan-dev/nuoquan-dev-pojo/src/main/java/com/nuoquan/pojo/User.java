@@ -1,32 +1,35 @@
 package com.nuoquan.pojo;
 
-import com.nuoquan.utils.EncryptUtils;
 import java.util.Date;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+
+import com.nuoquan.utils.EncryptUtils;
 
 public class User {
     @Id
-    private String id;
+    private String  id;
 
-    private String email;
+    private String  email;
 
-    private String password;
+    private String  password;
 
-    private String nickname;
+    private String  nickname;
 
-    private String signature;
+    private String  signature;
 
     @Column(name = "create_date")
-    private Date createDate;
+    private Date    createDate;
 
     @Column(name = "face_img")
-    private String faceImg;
+    private String  faceImg;
 
     /**
      * 小头像
      */
     @Column(name = "face_img_thumb")
-    private String faceImgThumb;
+    private String  faceImgThumb;
 
     /**
      * 关注数
@@ -43,9 +46,9 @@ public class User {
     /**
      * 0 = female, 1 = male, 2 = others
      */
-    private Byte gender;
+    private Byte    gender;
 
-    private String major;
+    private String  major;
 
     /**
      * Example: 2022
@@ -56,7 +59,7 @@ public class User {
     /**
      * 0 = high school, 1 = undergraduate, 2 = graduate
      */
-    private Byte degree;
+    private Byte    degree;
 
     @Column(name = "receive_like_counts")
     private Integer receiveLikeCounts;
@@ -70,7 +73,7 @@ public class User {
     /**
      * Client-id 设备id，用于消息推送
      */
-    private String cid;
+    private String  cid;
 
     private Integer reputation;
 
@@ -87,8 +90,13 @@ public class User {
      * 用户最近登录的时间
      */
     @Column(name = "latest_login")
-    private Date latestLogin;
+    private Date    latestLogin;
 
+    /**
+     * 小程序 openId
+     */
+    @Column(name = "uni_app_open_id")
+    private String  uniAppOpenId;
 
     /**
      * @return id
@@ -115,7 +123,7 @@ public class User {
      * @param email
      */
     public void setEmail(String email) {
-        if (email!=null && email.endsWith("@nottingham.edu.cn")){
+        if (email != null && email.endsWith("@nottingham.edu.cn")) {
             email = EncryptUtils.base64Encode(email);
         }
         this.email = email;
@@ -339,29 +347,29 @@ public class User {
         this.cid = cid;
     }
 
-	public Integer getReputation() {
-		return reputation;
-	}
+    public Integer getReputation() {
+        return reputation;
+    }
 
-	public void setReputation(Integer reputation) {
-		this.reputation = reputation;
-	}
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
+    }
 
-	public Date getLatestLogin() {
-		return latestLogin;
-	}
+    public Date getLatestLogin() {
+        return latestLogin;
+    }
 
-	public void setLatestLogin(Date latestLogin) {
-		this.latestLogin = latestLogin;
-	}
+    public void setLatestLogin(Date latestLogin) {
+        this.latestLogin = latestLogin;
+    }
 
-	public String getSignature() {
-		return signature;
-	}
+    public String getSignature() {
+        return signature;
+    }
 
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
     public Integer getMerit() {
         return merit;
@@ -377,5 +385,13 @@ public class User {
 
     public void setAbandonDate(Date abandonDate) {
         this.abandonDate = abandonDate;
+    }
+
+    public String getUniAppOpenId() {
+        return uniAppOpenId;
+    }
+
+    public void setUniAppOpenId(String uniAppOpenId) {
+        this.uniAppOpenId = uniAppOpenId;
     }
 }

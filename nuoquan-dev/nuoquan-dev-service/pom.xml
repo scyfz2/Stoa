@@ -12,5 +12,11 @@
   		<artifactId>nuoquan-dev-mapper</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+      <!--微信小程序-->
+      <dependency>
+          <groupId>com.github.binarywang</groupId>
+          <artifactId>weixin-java-miniapp</artifactId>
+          <version>4.5.0</version>
+      </dependency>
   </dependencies>
 </project>
