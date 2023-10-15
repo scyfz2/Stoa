@@ -10,10 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 import com.nuoquan.enums.MsgActionEnum;
 import com.nuoquan.pojo.netty.ChatMessage;
 import com.nuoquan.pojo.netty.DataContent;
+import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.service.ArticleService;
 import com.nuoquan.service.UserService;
 import com.nuoquan.utils.JsonUtils;
 import com.nuoquan.utils.SpringUtil;
+import com.nuoquan.wechat.WechatUniAppService;
+import com.nuoquan.wechat.WxTemplateMsg;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -36,7 +39,7 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
     // 所以用 SpringUtil 手动获取被 Spring 管理的 bean 对象。
     // (使用普通的java类调用托管给spring的service)
     UserService                userService    = (UserService) SpringUtil.getBean("userServiceImpl");
-    //    WechatService              uniAppService  = (WechatService) SpringUtil.getBean("uniAppService");
+    WechatUniAppService        uniAppService  = (WechatUniAppService) SpringUtil.getBean("wechatUniAppService");
     ArticleService             articleService = (ArticleService) SpringUtil.getBean("articleServiceImpl");
 
     //	WeChatService weChatService = (WeChatService) SpringUtil.getBean("WeChatServiceImpl");
@@ -74,17 +77,20 @@ public class MsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> 
             // java.util.LinkedHashMap
             String receiverId = chatMessage.getReceiverId();
 
+            String senderId = chatMessage.getSenderId();
+
             String msgId = userService.saveMsg(chatMessage); // 保存后获取返回的 msgId
             chatMessage.setMsgId(msgId);
             dataContent.setData(chatMessage);
             // 发送消息给对方
             sendMsgTo(receiverId, dataContent);
 
-            // todo 发送微信小程序通知
-            //            WxTemplateMsg wxTemplateMsg = new WxTemplateMsg();
-            //            User userById = userService.getUserByUniAppOpenId(receiverId);
-            //            wxTemplateMsg.setName1(userById.getNickname());
-            //            uniAppService.sendTemplateMsg(0, userById.getUniAppOpenId(), wxTemplateMsg);
+            //  发送微信小程序通知
+            WxTemplateMsg wxTemplateMsg = new WxTemplateMsg();
+            UserVO sendUser = userService.getUserById(senderId);
+            UserVO receiverUser = userService.getUserById(receiverId);
+            wxTemplateMsg.setName1(sendUser.getNickname());
+            uniAppService.sendTemplateMsg(0, receiverUser.getUniAppOpenId(), wxTemplateMsg);
 
         } else if (action == MsgActionEnum.SIGNED.type) {
             // 2.3 签收消息类型，修改数据库对应消息的签收状态[已签收]

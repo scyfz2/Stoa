@@ -15,6 +15,8 @@ import com.nuoquan.pojo.MeriHistoryExample;
 import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.service.MeriHistoryService;
 import com.nuoquan.service.UserService;
+import com.nuoquan.wechat.WechatUniAppService;
+import com.nuoquan.wechat.WxTemplateMsg;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
@@ -22,6 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import me.chanjar.weixin.common.error.WxErrorException;
 
 /**
  * UserApi
@@ -40,9 +43,8 @@ public class UserApi {
     @Autowired
     private UserService        userService;
 
-    //    @Autowired
-    //    @Qualifier("uniAppService")
-    //    private WechatService      uniAppService;
+    @Autowired
+    private WechatUniAppService uniAppService;
 
     @ApiOperation(value = "领取功德", notes = "分页跳转")
     @PostMapping("/signIn")
@@ -75,15 +77,16 @@ public class UserApi {
         return AjaxResult.successData(200, userVo);
     }
 
-//    @PostMapping("/test")
-//    public AjaxResult test(String userId) {
-//        WxTemplateMsg wxTemplateMsg = new WxTemplateMsg();
-//        wxTemplateMsg.setName1("123");
-//        try {
+    @PostMapping("/test")
+    public AjaxResult test(String userId) {
+        WxTemplateMsg wxTemplateMsg = new WxTemplateMsg();
+        wxTemplateMsg.setThing2("孙悟空000");
+        try {
 //            uniAppService.sendTemplateMsg(0, "oDwsO5DI_i4GgK4l1knfdVy1OXGA", wxTemplateMsg);
-//        } catch (WxErrorException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return AjaxResult.successData(200, "领取成功");
-//    }
+            uniAppService.sendTemplateMsg(3, "oDwsO5OBHV3ySBMuKiy8aUDFH0ds", wxTemplateMsg);
+        } catch (WxErrorException e) {
+            throw new RuntimeException(e);
+        }
+        return AjaxResult.successData(200, "领取成功");
+    }
 }

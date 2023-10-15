@@ -1,6 +1,7 @@
 package com.nuoquan.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,8 @@ import com.nuoquan.pojo.User;
 import com.nuoquan.service.NotifyRemindService;
 import com.nuoquan.utils.JSONResult;
 import com.nuoquan.utils.PagedResult;
+import com.nuoquan.wechat.WechatUniAppService;
+import com.nuoquan.wechat.WxTemplateMsg;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -27,8 +30,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/social")
 public class SocialController extends BasicController {
 
-    //    @Autowired
-    //    private WechatService wechatService;
+    @Autowired
+    private WechatUniAppService wechatUniAppService;
 
     @ApiOperation(value = "用户点赞")
     @ApiImplicitParams({
@@ -99,10 +102,11 @@ public class SocialController extends BasicController {
                 }
                 notifyRemindService.insert(fromUserId, NotifyRemindService.SenderAction.COMMENT, sourceId, targetType,
                         targetId, toUserId);
-                // todo 发送微信小程序通知
-                //                WxTemplateMsg msg = new WxTemplateMsg();
-                //                msg.setName1(userMapper.selectByPrimaryKey(toUserId).getNickname());
-                //                wechatService.sendTemplateMsg(1, user.getUniAppOpenId(), msg);
+                // 发送微信小程序通知
+                User toUser = userMapper.selectByPrimaryKey(toUserId);
+                WxTemplateMsg msg = new WxTemplateMsg();
+                msg.setThing2(user.getNickname());
+                wechatUniAppService.sendTemplateMsg(1, toUser.getUniAppOpenId(), msg);
             }
             return JSONResult.ok();
         } else {
