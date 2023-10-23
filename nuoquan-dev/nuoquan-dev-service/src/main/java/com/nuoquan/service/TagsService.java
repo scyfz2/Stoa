@@ -10,5 +10,8 @@ public interface TagsService {
 	 * 获取标签列表
 	 * @return
 	 */
-	public List<Tags> getTagsList();
+	public List<Tags> getTagsList(String keyWord);
+
+
+	void checkAndSaveTags(String tags);
 }

@@ -331,4 +331,20 @@ public class SocialController extends BasicController {
 
     }
 
+    @ApiOperation(value = "临时评论接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fromUserId", value = "评论人", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "toUserId", value = "被评论人", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "articleId", value = "评论对象ID", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "comment", value = "评论内容", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "underCommentId", value = "主评论id", required = false, dataType = "String", paramType = "form") })
+    @PostMapping("/temp/comment")
+    public JSONResult tempComment(String fromUserId, String toUserId, // 更方便判断是否为自己点赞，以及查询对方昵称
+                                  String articleId, String comment, String underCommentId) {
+        String s = socialService.insertComment(fromUserId, toUserId, PostType.ARTICLE, articleId, comment,
+                null);
+        return JSONResult.ok(s);
+
+    }
+
 }

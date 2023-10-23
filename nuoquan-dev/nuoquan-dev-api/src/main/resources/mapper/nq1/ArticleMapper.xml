@@ -20,6 +20,10 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="is_anonymous" jdbcType="TINYINT" property="isAnonymous" />
     <result column="view_num" property="viewNum" jdbcType="INTEGER" />
+    <result column="top" jdbcType="TINYINT" property="top" />
+    <result column="top_order" property="topOrder" jdbcType="INTEGER" />
+    <result column="essence" jdbcType="TINYINT" property="essence" />
+    <result column="part" jdbcType="VARCHAR" property="part" />
   </resultMap>
 
   <update id="addLikeCount" parameterType="String">

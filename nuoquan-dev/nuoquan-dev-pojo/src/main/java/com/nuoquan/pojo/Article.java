@@ -1,22 +1,24 @@
 package com.nuoquan.pojo;
 
 import java.util.Date;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
 
 public class Article {
     @Id
-    private String id;
+    private String  id;
 
     @Column(name = "article_title")
-    private String articleTitle;
+    private String  articleTitle;
 
     @Column(name = "user_id")
-    private String userId;
+    private String  userId;
 
-    private String tags;
+    private String  tags;
 
     @Column(name = "article_content")
-    private String articleContent;
+    private String  articleContent;
 
     @Column(name = "like_num")
     private Integer likeNum;
@@ -26,7 +28,7 @@ public class Article {
 
     @Column(name = "comment_num")
     private Integer commentNum;
-    
+
     @Column(name = "collect_num")
     private Integer collectNum;
 
@@ -41,19 +43,41 @@ public class Article {
     private Integer status;
 
     @Column(name = "create_date")
-    private Date createDate;
+    private Date    createDate;
 
     /**
      * 0 = not anonymous, 1 = anonymous
      */
     @Column(name = "is_anonymous")
-    private Byte isAnonymous;
+    private Byte    isAnonymous;
 
     /**
      * 浏览量
      */
     @Column(name = "view_num")
     private Integer viewNum;
+    /**
+     * 是否置顶
+     */
+    @Column(name = "top")
+    private Byte    top;
+    /**
+     * 置顶排序
+     */
+    @Column(name = "top_order")
+    private Integer topOrder;
+
+    /**
+     * 是否精华
+     */
+    @Column(name = "essence")
+    private Byte    essence;
+
+    /**
+     * 分区
+     */
+    @Column(name = "part")
+    private String  part;
 
     /**
      * @return id
@@ -166,20 +190,20 @@ public class Article {
     public void setCommentNum(Integer commentNum) {
         this.commentNum = commentNum;
     }
-    
+
     /**
      * @return collect_num
      */
     public Integer getCollectNum() {
-		return collectNum;
-	}
-    
+        return collectNum;
+    }
+
     /**
      * @param collectNum
      */
-	public void setCollectNum(Integer collectNum) {
-		this.collectNum = collectNum;
-	}
+    public void setCollectNum(Integer collectNum) {
+        this.collectNum = collectNum;
+    }
 
     public Integer getReportedNum() {
         return reportedNum;
@@ -269,5 +293,39 @@ public class Article {
      */
     public void setViewNum(Integer viewNum) {
         this.viewNum = viewNum;
+    }
+
+
+
+    public Integer getTopOrder() {
+        return topOrder;
+    }
+
+    public void setTopOrder(Integer topOrder) {
+        this.topOrder = topOrder;
+    }
+
+    public Byte getTop() {
+        return top;
+    }
+
+    public void setTop(Byte top) {
+        this.top = top;
+    }
+
+    public Byte getEssence() {
+        return essence;
+    }
+
+    public void setEssence(Byte essence) {
+        this.essence = essence;
+    }
+
+    public String getPart() {
+        return part;
+    }
+
+    public void setPart(String part) {
+        this.part = part;
     }
 }

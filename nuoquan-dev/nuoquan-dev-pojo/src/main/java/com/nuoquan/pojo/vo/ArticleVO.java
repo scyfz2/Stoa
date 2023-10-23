@@ -8,6 +8,10 @@ import com.nuoquan.pojo.ArticleImage;
 import javax.persistence.Column;
 
 public class ArticleVO {
+
+    public ArticleVO() {
+    }
+
     private String id;
     private String articleTitle;
     private String userId;
@@ -28,6 +32,21 @@ public class ArticleVO {
     private List<ArticleImage> imgList; // 文章图片列表
     private Boolean isLike; // 用户是否喜欢该文章
     private Boolean isCollect; // 用户是否收藏该文章
+    private Byte    top;
+    /**
+     * 置顶排序
+     */
+    private Integer topOrder;
+
+    /**
+     * 是否精华
+     */
+    private Byte    essence;
+
+    /**
+     * 分区
+     */
+    private String  part;
     
     private String nickname;
     private String faceImg;
@@ -299,4 +318,54 @@ public class ArticleVO {
 	public void setCollectNum(Integer collectNum) {
 		this.collectNum = collectNum;
 	}
+
+    public Boolean getLike() {
+        return isLike;
+    }
+
+    public void setLike(Boolean like) {
+        isLike = like;
+    }
+
+    public Boolean getCollect() {
+        return isCollect;
+    }
+
+    public void setCollect(Boolean collect) {
+        isCollect = collect;
+    }
+
+    public Byte getTop() {
+        return top;
+    }
+
+    public void setTop(Byte top) {
+        this.top = top;
+    }
+
+    public Byte getEssence() {
+        return essence;
+    }
+
+    public void setEssence(Byte essence) {
+        this.essence = essence;
+    }
+
+    public Integer getTopOrder() {
+        return topOrder;
+    }
+
+    public void setTopOrder(Integer topOrder) {
+        this.topOrder = topOrder;
+    }
+
+
+
+    public String getPart() {
+        return part;
+    }
+
+    public void setPart(String part) {
+        this.part = part;
+    }
 }
