@@ -12,11 +12,11 @@
   </resultMap>
   
   <select id="getVoteImgs" resultMap="BaseResultMap">
-  	select * from nuoquan.vote_image
+  	select * from vote_image
   	where
   		1 = 1
   		and vote_id = #{voteId}
-  	order by nuoquan.vote_image.image_order asc
+  	order by vote_image.image_order asc
   </select>
   
 </mapper>

@@ -14,8 +14,8 @@
   
    <select id="queryFansInfo" resultMap="BaseResultMap">
   	
- 	select u.* from nuoquan.user_fans f
-   	left join nuoquan.user u on u.id = f.fans_id
+ 	select u.* from user_fans f
+   	left join user u on u.id = f.fans_id
   	where
   		1 = 1
   		and f.user_id = #{userId}
@@ -23,8 +23,8 @@
   
   <select id="queryFollowInfo" resultMap="BaseResultMap">
   	
- 	select u.* from nuoquan.user_fans f
-   	left join nuoquan.user u on u.id = f.user_id
+ 	select u.* from user_fans f
+   	left join user u on u.id = f.user_id
   	where
   		1 = 1
   		and f.fans_id = #{userId}

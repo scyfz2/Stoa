@@ -10,9 +10,9 @@
     </resultMap>
 
     <select id="queryAllFeaturedArticles" resultMap="BaseResultMap">
-        select * from nuoquan.featured_article fa left join (
-            select a.article_title, a.id article_id, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.article a
-                left join nuoquan.user u on u.id = a.user_id
+        select * from featured_article fa left join (
+            select a.article_title, a.id article_id, u.nickname as nickname, u.face_img, u.face_img_thumb from article a
+                left join user u on u.id = a.user_id
             where
                 1 = 1
               and a.status = 1

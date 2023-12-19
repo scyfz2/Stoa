@@ -26,16 +26,16 @@
   </resultMap>
   
   <select id="list" resultMap="BaseResultMap">
- 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.vote v
-   	left join nuoquan.user u on u.id = v.user_id
+ 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from vote v
+   	left join user u on u.id = v.user_id
   	where
   		1 = 1
   	order by v.create_date desc
   </select>
   
   <select id="listCheckOnly" resultMap="BaseResultMap">
- 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.vote v
-   	left join nuoquan.user u on u.id = v.user_id
+ 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from vote v
+   	left join user u on u.id = v.user_id
   	where
   		1 = 1
   		and v.status = 2
@@ -43,8 +43,8 @@
   </select>
   
   <select id="queryAllVotes" resultMap="BaseResultMap">
- 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.vote v
-   	left join nuoquan.user u on u.id = v.user_id
+ 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from vote v
+   	left join user u on u.id = v.user_id
   	where
   		1 = 1
   		and v.status = 1
@@ -53,20 +53,20 @@
   </select>
   
   <update id="addVoteCommentCount" parameterType="String">
-  	update nuoquan.vote set comment_num=comment_num+1 where id=#{voteId}
+  	update vote set comment_num=comment_num+1 where id=#{voteId}
   </update>
   
   <select id="getVoteById" resultMap="BaseResultMap" parameterType="String">
-  	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.vote v
-   	left join nuoquan.user u on u.id = v.user_id
+  	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from vote v
+   	left join user u on u.id = v.user_id
   	where
   		1 = 1
   		and v.id = #{voteId}
   </select>
   
   <select id="getSpecifiedVote" resultMap="BaseResultMap">
- 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.vote v
-   	left join nuoquan.user u on u.id = v.user_id
+ 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from vote v
+   	left join user u on u.id = v.user_id
   	where
   		1 = 1
   		and v.status = 1
@@ -75,8 +75,8 @@
   </select>
   
   <select id="queryAllMyHisVote" resultMap="BaseResultMap" parameterType="String">
- 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.vote v
-   	left join nuoquan.user u on u.id = v.user_id
+ 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from vote v
+   	left join user u on u.id = v.user_id
   	where
   		1 = 1
   		and v.user_id = #{userId}
@@ -84,8 +84,8 @@
   </select>
   
   <select id="queryOthersLegalHisVote" resultMap="BaseResultMap" parameterType="String">
- 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from nuoquan.vote v
-   	left join nuoquan.user u on u.id = v.user_id
+ 	select v.*, u.nickname as nickname, u.face_img, u.face_img_thumb from vote v
+   	left join user u on u.id = v.user_id
   	where
   		1 = 1
   		and v.user_id = #{targetId}

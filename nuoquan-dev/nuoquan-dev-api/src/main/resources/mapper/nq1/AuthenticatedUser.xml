@@ -12,7 +12,7 @@
     </resultMap>
 
     <select id="list" resultMap="BaseResultMap">
-        select au.* from nuoquan.authenticated_user au
+        select au.* from authenticated_user au
         where
             1 = 1
         and type != 0
@@ -20,7 +20,7 @@
     </select>
 
     <select id="listOfficialOnly" resultMap="BaseResultMap">
-        select au.* from nuoquan.authenticated_user au
+        select au.* from authenticated_user au
         where
             1 = 1
           and type = 1
@@ -28,7 +28,7 @@
     </select>
 
     <select id="listNormalAuthOnly" resultMap="BaseResultMap">
-        select au.* from nuoquan.authenticated_user au
+        select au.* from authenticated_user au
         where
             1 = 1
           and type = 2
@@ -36,7 +36,7 @@
     </select>
 
     <select id="getAuthUserById" resultMap="BaseResultMap" parameterType="String">
-        select au.* from nuoquan.authenticated_user au
+        select au.* from authenticated_user au
         where
             1 = 1
           and au.user_id = #{userId}

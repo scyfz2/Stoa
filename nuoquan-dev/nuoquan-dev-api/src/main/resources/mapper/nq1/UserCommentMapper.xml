@@ -22,42 +22,42 @@
   </resultMap>
 
   <update id="addLikeCount" parameterType="String">
-    update nuoquan.user_comment set like_num=like_num+1 where id=#{commentId}
+    update user_comment set like_num=like_num+1 where id=#{commentId}
   </update>
 
   <update id="reduceLikeCount" parameterType="String">
-    update nuoquan.user_comment set like_num=like_num-1 where id=#{commentId}
+    update user_comment set like_num=like_num-1 where id=#{commentId}
   </update>
 
   <update id="addCommentCount" parameterType="String">
-    update nuoquan.user_comment set comment_num=comment_num+1 where id=#{commentId}
+    update user_comment set comment_num=comment_num+1 where id=#{commentId}
   </update>
 
   <update id="reduceCommentCount" parameterType="String">
-    update nuoquan.user_comment set comment_num=comment_num-1 where id=#{commentId}
+    update user_comment set comment_num=comment_num-1 where id=#{commentId}
   </update>
 
   <update id="addReportedCount" parameterType="String">
-    update nuoquan.user_comment set reported_num=reported_num+1 where id=#{commentId}
+    update user_comment set reported_num=reported_num+1 where id=#{commentId}
   </update>
 
   <select id="queryReportedCommentByCreateTime" resultMap="BaseResultMap">
-    select * from nuoquan.user_comment uc where reported_num!=0 order by uc.create_date desc
+    select * from user_comment uc where reported_num!=0 order by uc.create_date desc
   </select>
 
   <select id="queryReportedCommentByReportedNum" resultMap="BaseResultMap">
-    select * from nuoquan.user_comment uc where reported_num!=0 order by uc.reported_num desc
+    select * from user_comment uc where reported_num!=0 order by uc.reported_num desc
   </select>
 
   <select id="queryCommentToMe" resultMap="BaseResultMap">
-    select * from nuoquan.user_comment uc where to_user_id=#{userId} order by uc.create_date desc
+    select * from user_comment uc where to_user_id=#{userId} order by uc.create_date desc
   </select>
 
   <select id="querySubCommentNum" resultType="Integer">
-    select comment_num from nuoquan.user_comment uc where uc.id=#{commentId}
+    select comment_num from user_comment uc where uc.id=#{commentId}
   </select>
 
   <select id="queryAllSubComment" resultMap="BaseResultMap">
-    select * from nuoquan.user_comment uc where uc.under_comment_id=#{commentId}
+    select * from user_comment uc where uc.under_comment_id=#{commentId}
   </select>
 </mapper>

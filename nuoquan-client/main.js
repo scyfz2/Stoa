@@ -226,7 +226,7 @@ Vue.prototype.myUser = function(user) {
 	// 分割邮箱地址
 	var email = user.email;
 	if (this.isNull(email)) {
-		email = "[Email]@nottingham.edu.cn";
+		email = "[Email]@wku.edu.cn";
 		console.log('email is null');
 	}
 	var list = email.split('@');

@@ -13,21 +13,21 @@
     </resultMap>
 
     <select id="getOrganizationImage" resultMap="BaseResultMap">
-        select * from nuoquan.organization_image
+        select * from organization_image
         where
         1 = 1
         and organization_id = #{organizationId}
-        order by nuoquan.organization_image.image_order asc
+        order by organization_image.image_order asc
     </select>
 
     <select id="getOrganizationImageByIdAndOrder" resultMap="BaseResultMap">
-        select * from nuoquan.organization_image
+        select * from organization_image
         where
         organization_id = #{organizationId}
         and image_order = #{imageOrder}
     </select>
 
     <update id="updateStatusToUnreadable" >
-        update nuoquan.organization_image set status=0 where organization_id=#{organizationId} and image_order=#{imageOrder}
+        update organization_image set status=0 where organization_id=#{organizationId} and image_order=#{imageOrder}
     </update>
 </mapper>

@@ -38,7 +38,7 @@ public class RankJob {
     Logger                     log = LoggerFactory.getLogger(RankJob.class);
 
 //    @Scheduled(cron = "0 0/10 * * * ? ")
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void test() {
         log.info("=====RankJob start=====");
         // 每天23:50 统计当日排行榜

@@ -19,7 +19,7 @@
     </resultMap>
 
     <select id="queryEventsCalendarByDate" resultMap="BaseResultMap" parameterType="Integer">
-        select ec.* from nuoquan.events_calendar ec
+        select ec.* from events_calendar ec
         where
             1 = 1
           and ec.status = 1
@@ -30,7 +30,7 @@
     </select>
 
     <select id="queryAllEventsCalendar" resultMap="BaseResultMap">
-        select ec.* from nuoquan.events_calendar ec
+        select ec.* from events_calendar ec
         where
             1 = 1
           and ec.status = 1

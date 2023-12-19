@@ -32,6 +32,7 @@ public class EncryptUtils {
         return decryptedText;
     }
 
+
     /**
      * @Description: 对字符串进行加密
      */
@@ -83,11 +84,13 @@ public class EncryptUtils {
     }
 
     public static void main(String[] args) {
-        String eMsg2 = base64Encode("1193874@wku.edu.cn");
+        String eMsg2 = base64Encode("xxdd@nottingham.edu.cn");
+        String eMsg3 = base64Encode("fan6666@nottingham.edu.cn");
         System.out.println(eMsg2);
+        System.out.println(eMsg3);
 //        String eMsg3 = md5Encode("oDwsO5FDozoraPzxqwIo9kx0RBxY");
-//        System.out.println(eMsg3);
+//        System.out.println(base64Decode("eHhkZEB3a3UuZWR1LmNu"));
+//        System.out.println(base64Decode("ZmFuNjY2NkB3a3UuZWR1LmNu"));
     }
-
 
 }
