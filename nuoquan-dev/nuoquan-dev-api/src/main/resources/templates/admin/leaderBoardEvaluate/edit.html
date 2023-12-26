@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('排行榜评论表修改')"/>
+</head>
+<body>
+<form class="layui-form" action=""  th:object="${LeaderBoardEvaluate}">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+						<div class="layui-form-item layui-hide">
+		                    <label class="layui-form-label">主键</label>
+		                    <div class="layui-input-block">
+		                        <input type="text" th:value="*{id}" name="id" lay-verify="title"
+		                               autocomplete="off" class="layui-input">
+		                    </div>
+		                </div>
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">榜单对象 ID</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{leaderBoardObjectId}" type="text" name="leaderBoardObjectId" autocomplete="off" placeholder="榜单对象 ID" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">用户 ID</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{userId}" type="text" name="userId" autocomplete="off" placeholder="用户 ID" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">评价分数</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{star}" type="text" name="star" autocomplete="off" placeholder="评价分数" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">评价内容</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{evaluateDesc}" type="text" name="evaluateDesc" autocomplete="off" placeholder="评价内容" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">点亮数</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{starNum}" type="text" name="starNum" autocomplete="off" placeholder="点亮数" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">发布时间</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{sendDate}" type="text" name="sendDate" autocomplete="off" placeholder="发布时间" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">创建人</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{createBy}" type="text" name="createBy" autocomplete="off" placeholder="创建人" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">创建时间</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{createTime}" type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">修改人</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{updateBy}" type="text" name="updateBy" autocomplete="off" placeholder="修改人" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">修改时间</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{updateTime}" type="text" name="updateTime" autocomplete="off" placeholder="修改时间" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">删除标识</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{delFlag}" type="text" name="delFlag" autocomplete="off" placeholder="删除标识" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+					                
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit=""
+                    lay-filter="leaderBoardEvaluate-update">
+                <i class="layui-icon layui-icon-ok"></i>
+				提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+				重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/LeaderBoardEvaluateController";
+
+
+        form.on('submit(leaderBoardEvaluate-update)', function (data) {
+        	let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH+'/edit',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("leaderBoardEvaluate-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

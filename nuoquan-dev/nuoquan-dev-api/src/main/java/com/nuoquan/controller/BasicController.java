@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import com.nuoquan.domain.ResultTable;
 import org.apache.commons.io.IOUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nuoquan.config.COSProperties;
 import com.nuoquan.config.ResourceConfig;
 import com.nuoquan.domain.AjaxResult;
+import com.nuoquan.domain.ResultTable;
 import com.nuoquan.mapper.nq1.UserMapper;
+import com.nuoquan.pojo.AdminUser;
 import com.nuoquan.pojo.User;
 import com.nuoquan.pojo.vo.TitleVO;
 import com.nuoquan.pojo.vo.UserLikeVO;
@@ -24,163 +27,164 @@ import com.nuoquan.service.*;
 import com.nuoquan.utils.RedisOperator;
 
 public class BasicController {
-	@Autowired
-	public RedisOperator redis;
-	@Autowired
-	public ArticleService articleService;
-	@Autowired
-	public UserService userService;
-	@Autowired
-	public VoteService voteService;
-	@Autowired
-	public WeChatService weChatService;
-	@Autowired
-	public TagsService tagsService;
-	@Value("${fdfs.groupName}")
-	public String fdfsGroupName;
-	@Autowired
-	public ResourceConfig resourceConfig;
-	@Autowired
-	public LongarticleService longarticleService;
-	@Autowired
-	public ResourceService resourceService;
-	@Autowired
-	public COSProperties cosProperties;
-	@Autowired
-	public SocialService socialService;
-	@Autowired
-	public NotifyRemindService notifyRemindService;
-	@Autowired
-	public AdvertService advertService;
-	@Autowired
-	public OrganizationService organizationService;
-	@Autowired
-	public EventsCalendarService eventsCalendarService;
-	@Autowired
-	public FeaturedArticleService featuredArticleService;
-	@Autowired
-	public UserMapper userMapper;
+    @Autowired
+    public RedisOperator          redis;
+    @Autowired
+    public ArticleService         articleService;
+    @Autowired
+    public UserService            userService;
+    @Autowired
+    public VoteService            voteService;
+    @Autowired
+    public WeChatService          weChatService;
+    @Autowired
+    public TagsService            tagsService;
+    @Value("${fdfs.groupName}")
+    public String                 fdfsGroupName;
+    @Autowired
+    public ResourceConfig         resourceConfig;
+    @Autowired
+    public LongarticleService     longarticleService;
+    @Autowired
+    public ResourceService        resourceService;
+    @Autowired
+    public COSProperties          cosProperties;
+    @Autowired
+    public SocialService          socialService;
+    @Autowired
+    public NotifyRemindService    notifyRemindService;
+    @Autowired
+    public AdvertService          advertService;
+    @Autowired
+    public OrganizationService    organizationService;
+    @Autowired
+    public EventsCalendarService  eventsCalendarService;
+    @Autowired
+    public FeaturedArticleService featuredArticleService;
+    @Autowired
+    public UserMapper             userMapper;
 
-	
-	// 每页分页的记录数
-	public static final Integer PAGE_SIZE = 10;
-	
-	public static final String USER_EMAIL_CODE = "user-email-code"; //Final 均大写
-	
+    // 每页分页的记录数
+    public static final Integer   PAGE_SIZE       = 10;
 
-	@Value("${upload.maxImageSize}")
-	public long MAX_IMAGE_SIZE;
+    public static final String    USER_EMAIL_CODE = "user-email-code"; //Final 均大写
 
-	@Value("${upload.maxVideoSize}")
-	public long MAX_Video_SIZE;
+    @Value("${upload.maxImageSize}")
+    public long                   MAX_IMAGE_SIZE;
 
-	@Deprecated //该方法移动到 UserService
-	public UserVO ConvertUserToUserVO (User user) {
-		UserVO userVO = new UserVO();
-		BeanUtils.copyProperties(user, userVO);
-		return userVO;
-	}
+    @Value("${upload.maxVideoSize}")
+    public long                   MAX_Video_SIZE;
 
-	/**
-	 * @param like can be UserLikeArticle or UserLikeComment
-	 * @return
-	 */
-	public UserLikeVO ConvertLikeToLikeVO (Object like) {
-		UserLikeVO likeVO = new UserLikeVO();
-		BeanUtils.copyProperties(like, likeVO);
-		return likeVO;
-	}
-	
-	/**
-	 * 上传文件
-	 * @param file
-	 * @param path
-	 * @throws Exception
-	 */
-	@Deprecated
-	public void uploadFile(MultipartFile file, String path) throws Exception {
-
-		FileOutputStream fileOutputStream = null;
-		InputStream inputStream = null;
-		try {
-			if (file != null) {
-
-				File outFile = new File(path);
-				if (outFile.getParentFile() != null || !outFile.getParentFile().isDirectory()) {
-					// Create the parent directory.
-					outFile.getParentFile().mkdirs();
-				}
-
-				fileOutputStream = new FileOutputStream(outFile);
-				inputStream = file.getInputStream();
-				IOUtils.copy(inputStream, fileOutputStream);
-			} else {
-				System.out.println("The file is null");
-				return;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (fileOutputStream != null) {
-				fileOutputStream.flush();
-				fileOutputStream.close();
-				inputStream.close();
-			}
-		}
-	}
-	
-	/**
-     * 设置标题通用方法
-     * @param map
-     */
-    public void setTitle(ModelMap map, TitleVO titleVo){
-    	//标题
-    	map.put("title",titleVo.getTitle());
-    	map.put("parenttitle",titleVo.getParenttitle());
-		//是否打开欢迎语
-    	map.put("isMsg",titleVo.isMsg());
-		//欢迎语
-    	map.put("msgHTML",titleVo.getMsgHtml());
-		//小控件
-    	map.put("isControl",titleVo.isControl());
-		map.put("isribbon", titleVo.isIsribbon());
+    @Deprecated //该方法移动到 UserService
+    public UserVO ConvertUserToUserVO(User user) {
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
     }
 
+    /**
+     * @param like can be UserLikeArticle or UserLikeComment
+     * @return
+     */
+    public UserLikeVO ConvertLikeToLikeVO(Object like) {
+        UserLikeVO likeVO = new UserLikeVO();
+        BeanUtils.copyProperties(like, likeVO);
+        return likeVO;
+    }
 
-	/**
-	 * 响应返回结果
-	 *
-	 * @param rows 影响行数
-	 * @return 操作结果
-	 */
-	protected AjaxResult toAjax(int rows)
-	{
-		return rows > 0 ? success() : error();
-	}
+    /**
+     * 上传文件
+     * 
+     * @param file
+     * @param path
+     * @throws Exception
+     */
+    @Deprecated
+    public void uploadFile(MultipartFile file, String path) throws Exception {
 
-	/**
-	 * 返回成功
-	 */
-	public AjaxResult success()
-	{
-		return AjaxResult.success();
-	}
+        FileOutputStream fileOutputStream = null;
+        InputStream inputStream = null;
+        try {
+            if (file != null) {
 
-	/**
-	 * 返回失败消息
-	 */
-	public AjaxResult error()
-	{
-		return AjaxResult.error();
-	}
+                File outFile = new File(path);
+                if (outFile.getParentFile() != null || !outFile.getParentFile().isDirectory()) {
+                    // Create the parent directory.
+                    outFile.getParentFile().mkdirs();
+                }
 
+                fileOutputStream = new FileOutputStream(outFile);
+                inputStream = file.getInputStream();
+                IOUtils.copy(inputStream, fileOutputStream);
+            } else {
+                System.out.println("The file is null");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fileOutputStream != null) {
+                fileOutputStream.flush();
+                fileOutputStream.close();
+                inputStream.close();
+            }
+        }
+    }
 
-	/**
-	 * Describe: 返回数据表格数据 分页
-	 * Param data
-	 * Return 表格分页数据
-	 * */
-	protected  static ResultTable pageTable(Object data, long count){
-		return ResultTable.pageTable(count,data);
-	}
+    /**
+     * 设置标题通用方法
+     * 
+     * @param map
+     */
+    public void setTitle(ModelMap map, TitleVO titleVo) {
+        //标题
+        map.put("title", titleVo.getTitle());
+        map.put("parenttitle", titleVo.getParenttitle());
+        //是否打开欢迎语
+        map.put("isMsg", titleVo.isMsg());
+        //欢迎语
+        map.put("msgHTML", titleVo.getMsgHtml());
+        //小控件
+        map.put("isControl", titleVo.isControl());
+        map.put("isribbon", titleVo.isIsribbon());
+    }
+
+    public AdminUser getLoginUser() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            return (AdminUser) subject.getPrincipal();
+        }
+        return null;
+    }
+
+    /**
+     * 响应返回结果
+     *
+     * @param rows 影响行数
+     * @return 操作结果
+     */
+    protected AjaxResult toAjax(int rows) {
+        return rows > 0 ? success() : error();
+    }
+
+    /**
+     * 返回成功
+     */
+    public AjaxResult success() {
+        return AjaxResult.success();
+    }
+
+    /**
+     * 返回失败消息
+     */
+    public AjaxResult error() {
+        return AjaxResult.error();
+    }
+
+    /**
+     * Describe: 返回数据表格数据 分页 Param data Return 表格分页数据
+     */
+    protected static ResultTable pageTable(Object data, long count) {
+        return ResultTable.pageTable(count, data);
+    }
 }

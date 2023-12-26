@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('排行榜主表修改')"/>
+</head>
+<body>
+<form class="layui-form" action=""  th:object="${LeaderBoard}">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+						<div class="layui-form-item layui-hide">
+		                    <label class="layui-form-label">主键</label>
+		                    <div class="layui-input-block">
+		                        <input type="text" th:value="*{id}" name="id" lay-verify="title"
+		                               autocomplete="off" class="layui-input">
+		                    </div>
+		                </div>
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">榜单名称</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{name}" type="text" name="name" autocomplete="off" placeholder="榜单名称" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">榜单背景图片</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{imgUrl0}" type="text" name="imgUrl0" autocomplete="off" id="imgUrl0" placeholder="榜单背景图片0" class="layui-input">
+		                    </div>
+							<div class="layui-upload-list">
+								<img id="qrshow" th:src="*{imgUrl0}" r class="layui-upload-img"
+									 style="height:100px;width:100px;border:1px solid black;">
+							</div>
+							<div class="layui-upload-list">
+								<input type="file" name="file">
+							</div>
+		                </div>
+					                
+
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">分区类型</label>
+		                    <div class="layui-input-block">
+<!--		                        <input th:value="*{tag}" type="text" name="tag" autocomplete="off" placeholder="分区类型 可以多选" class="layui-input">-->
+								<input th:each="list:${tagsList}" th:value="${list.id}" th:title="${list.tagName}" th:checked="${list.checkFlag}"
+									   type="checkbox"  lay-skin="primary">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">分数</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{star}" type="text" name="star" autocomplete="off" placeholder="分数 最多一位小数" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">评分人数</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{evaluateNums}" type="text" name="evaluateNums" autocomplete="off" placeholder="评分人数" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">榜单简介</label>
+		                    <div class="layui-input-block">
+		                        <input th:value="*{leaderBoardDesc}" type="text" name="leaderBoardDesc" autocomplete="off" placeholder="榜单简介" class="layui-input">
+		                    </div>
+		                </div>
+					                
+		
+					
+						<div class="layui-form-item">
+		                    <label class="layui-form-label">审核状态</label>
+		                    <div class="layui-input-block">
+<!--		                        <input th:value="*{status}" type="text" name="status" autocomplete="off" placeholder="审核状态" class="layui-input">-->
+								<select name="status"  class="form-control" id="status" >
+									<option th:each="entry : ${approvalStatus.entrySet()}"
+											th:value="${entry.key}"
+											th:text="${entry.value}">
+									</option>
+								</select>
+		                    </div>
+		                </div>
+					                
+		
+					
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">创建人</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{createBy}" type="text" name="createBy" autocomplete="off" placeholder="创建人" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">创建时间</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{createTime}" type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">修改人</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{updateBy}" type="text" name="updateBy" autocomplete="off" placeholder="修改人" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">修改时间</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{updateTime}" type="text" name="updateTime" autocomplete="off" placeholder="修改时间" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+<!--					                -->
+<!--		-->
+<!--					-->
+<!--						<div class="layui-form-item">-->
+<!--		                    <label class="layui-form-label">删除标识</label>-->
+<!--		                    <div class="layui-input-block">-->
+<!--		                        <input th:value="*{delFlag}" type="text" name="delFlag" autocomplete="off" placeholder="删除标识" class="layui-input">-->
+<!--		                    </div>-->
+<!--		                </div>-->
+					                
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit=""
+                    lay-filter="leaderBoard-update">
+                <i class="layui-icon layui-icon-ok"></i>
+				提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+				重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','jquery','upload'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/LeaderBoardController";
+
+		var upload = layui.upload;
+		var uploadInst = upload.render({
+			elem: 'input[name="file"]',
+			url: '/common/file/upload',
+			done: function (res) {
+				console.log(res);
+				$("#imgUrl0").val(res.data);
+				$("#qrshow").attr("src", res.data);
+			},
+			error: function () {
+				//请求异常回调
+				alert("异常");
+			}
+		});
+
+        form.on('submit(leaderBoard-update)', function (data) {
+        	let loader = layer.load();
+			let tagIds = "";
+			$('input[type=checkbox]:checked').each(function () {
+				tagIds += $(this).val() + ",";
+			});
+			tagIds = tagIds.substr(0, tagIds.length - 1);
+			data.field.tag = tagIds;
+            $.ajax({
+                url: MODULE_PATH+'/edit',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("leaderBoard-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

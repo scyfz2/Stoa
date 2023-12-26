@@ -15,10 +15,10 @@ import org.apache.commons.lang3.tuple.Triple;
  */
 public class CommonUtil {
 
-    public final static Map<Character, Integer>                 digit     = new HashMap<>();
-    public final static Map<Character, Integer>                 position  = new HashMap<>();
-
-    public static final List<Triple<Integer, Integer, Integer>> prizeList = new ArrayList<>();
+    public final static Map<Character, Integer>                 digit          = new HashMap<>();
+    public final static Map<Character, Integer>                 position       = new HashMap<>();
+    public final static Map<String, String>                     approvalStatus = new HashMap<>();
+    public static final List<Triple<Integer, Integer, Integer>> prizeList      = new ArrayList<>();
 
     static {
         digit.put('零', 0);
@@ -40,6 +40,11 @@ public class CommonUtil {
         prizeList.add(Triple.of(2, 100, 299));
         prizeList.add(Triple.of(3, 300, 899));
         prizeList.add(Triple.of(4, 900, Integer.MAX_VALUE));
+
+        // 审核状态
+        approvalStatus.put("1", "审核中");
+        approvalStatus.put("2", "审核通过");
+        approvalStatus.put("3", "审核拒绝");
 
     }
 

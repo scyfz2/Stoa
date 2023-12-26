@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('排行榜评论表新增')"/>
+</head>
+<body>
+<form class="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">榜单对象 ID</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="leaderBoardObjectId" autocomplete="off" placeholder="榜单对象 ID" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">用户 ID</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="userId" autocomplete="off" placeholder="用户 ID" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">评价分数</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="star" autocomplete="off" placeholder="评价分数" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">评价内容</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="evaluateDesc" autocomplete="off" placeholder="评价内容" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">点亮数</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="starNum" autocomplete="off" placeholder="点亮数" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">发布时间</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="sendDate" autocomplete="off" placeholder="发布时间" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+<!--							<div class="layui-form-item">-->
+<!--			                    <label class="layui-form-label">创建人</label>-->
+<!--			                    <div class="layui-input-block">-->
+<!--			                        <input type="text" name="createBy" autocomplete="off" placeholder="创建人" class="layui-input">-->
+<!--			                    </div>-->
+<!--			                </div>-->
+<!--		-->
+
+<!--							<div class="layui-form-item">-->
+<!--			                    <label class="layui-form-label">创建时间</label>-->
+<!--			                    <div class="layui-input-block">-->
+<!--			                        <input type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input">-->
+<!--			                    </div>-->
+<!--			                </div>-->
+<!--		-->
+
+<!--							<div class="layui-form-item">-->
+<!--			                    <label class="layui-form-label">修改人</label>-->
+<!--			                    <div class="layui-input-block">-->
+<!--			                        <input type="text" name="updateBy" autocomplete="off" placeholder="修改人" class="layui-input">-->
+<!--			                    </div>-->
+<!--			                </div>-->
+<!--		-->
+
+<!--							<div class="layui-form-item">-->
+<!--			                    <label class="layui-form-label">修改时间</label>-->
+<!--			                    <div class="layui-input-block">-->
+<!--			                        <input type="text" name="updateTime" autocomplete="off" placeholder="修改时间" class="layui-input">-->
+<!--			                    </div>-->
+<!--			                </div>-->
+<!--		-->
+
+<!--							<div class="layui-form-item">-->
+<!--			                    <label class="layui-form-label">删除标识</label>-->
+<!--			                    <div class="layui-input-block">-->
+<!--			                        <input type="text" name="delFlag" autocomplete="off" placeholder="删除标识" class="layui-input">-->
+<!--			                    </div>-->
+<!--			                </div>-->
+		
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="leaderBoardEvaluate-save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/LeaderBoardEvaluateController";
+
+
+        //保存
+        form.on('submit(leaderBoardEvaluate-save)', function (data) {
+        	let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH+'/add',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("leaderBoardEvaluate-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+</html>
