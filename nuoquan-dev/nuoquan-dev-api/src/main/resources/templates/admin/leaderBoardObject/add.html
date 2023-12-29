@@ -10,55 +10,54 @@
             <div class="main-container">
 
 							<div class="layui-form-item">
-			                    <label class="layui-form-label">榜单对象名</label>
+			                    <label class="layui-form-label">对象名</label>
 			                    <div class="layui-input-block">
 			                        <input type="text" name="name" autocomplete="off" placeholder="榜单对象名" class="layui-input">
 			                    </div>
 			                </div>
-		
+<!--		-->
 
 							<div class="layui-form-item">
-			                    <label class="layui-form-label">榜单 ID</label>
+			                    <label class="layui-form-label">榜单</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="leaderBoardId" autocomplete="off" placeholder="榜单 ID" class="layui-input">
+<!--			                        <input type="text" name="leaderBoardId" autocomplete="off" placeholder="榜单 ID" class="layui-input">-->
+									<select name="leaderBoardId" class="form-control" id="leaderBoardId">
+										<option th:each="list:${leaderBoards}"
+												th:value="${list.id}"
+												th:text="${list.name}">
+										</option>
+									</select>
 			                    </div>
 			                </div>
-		
+
 
 							<div class="layui-form-item">
-			                    <label class="layui-form-label">榜单背景图片0</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="imgUrl0" autocomplete="off" placeholder="榜单背景图片0" class="layui-input">
-			                    </div>
-			                </div>
+								<label class="layui-form-label">榜单对象图片</label>
+								<div class="layui-input-block">
+									<input type="text" name="imgUrl0" autocomplete="off" placeholder="榜单背景图片" id="imgUrl0"
+										   class="layui-input">
+								</div>
+								<div class="layui-upload-list">
+									<img id="qrshow" src="" r class="layui-upload-img"
+										 style="height:100px;width:100px;border:1px solid black;">
+								</div>
+								<div class="layui-upload-list">
+									<input type="file" name="file">
+								</div>
+							</div>
+
 		
 
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">榜单背景图片1</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="imgUrl1" autocomplete="off" placeholder="榜单背景图片1" class="layui-input">
-			                    </div>
-			                </div>
-		
+<!--							<div class="layui-form-item">-->
+<!--			                    <label class="layui-form-label">分区类型 可以多选</label>-->
+<!--			                    <div class="layui-input-block">-->
+<!--			                        <input type="text" name="tag" autocomplete="off" placeholder="分区类型 可以多选" class="layui-input">-->
+<!--			                    </div>-->
+<!--			                </div>-->
+<!--		-->
 
 							<div class="layui-form-item">
-			                    <label class="layui-form-label">榜单背景图片2</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="imgUrl2" autocomplete="off" placeholder="榜单背景图片2" class="layui-input">
-			                    </div>
-			                </div>
-		
-
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">分区类型 可以多选</label>
-			                    <div class="layui-input-block">
-			                        <input type="text" name="tag" autocomplete="off" placeholder="分区类型 可以多选" class="layui-input">
-			                    </div>
-			                </div>
-		
-
-							<div class="layui-form-item">
-			                    <label class="layui-form-label">分数 最多一位小数</label>
+			                    <label class="layui-form-label">分数</label>
 			                    <div class="layui-input-block">
 			                        <input type="text" name="star" autocomplete="off" placeholder="分数 最多一位小数" class="layui-input">
 			                    </div>
@@ -74,7 +73,7 @@
 		
 
 							<div class="layui-form-item">
-			                    <label class="layui-form-label">榜单简介</label>
+			                    <label class="layui-form-label">榜单对象简介</label>
 			                    <div class="layui-input-block">
 			                        <input type="text" name="leaderBoardDesc" autocomplete="off" placeholder="榜单简介" class="layui-input">
 			                    </div>
@@ -84,7 +83,13 @@
 							<div class="layui-form-item">
 			                    <label class="layui-form-label">审核状态</label>
 			                    <div class="layui-input-block">
-			                        <input type="text" name="status" autocomplete="off" placeholder="审核状态" class="layui-input">
+<!--			                        <input type="text" name="status" autocomplete="off" placeholder="审核状态" class="layui-input">-->
+									<select name="status" class="form-control" id="status">
+										<option th:each="entry : ${approvalStatus.entrySet()}"
+												th:value="${entry.key}"
+												th:text="${entry.value}">
+										</option>
+									</select>
 			                    </div>
 			                </div>
 		
@@ -109,12 +114,25 @@
 </form>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['form','laydate','jquery'], function () {
+    layui.use(['form','laydate','jquery','upload'], function () {
         let form = layui.form;
         let $ = layui.jquery;
         let MODULE_PATH = rootPath+"/LeaderBoardObjectController";
 
-
+		var upload = layui.upload;
+		var uploadInst = upload.render({
+			elem: 'input[name="file"]',
+			url: '/common/file/upload',
+			done: function (res) {
+				console.log(res);
+				$("#imgUrl0").val(res.data);
+				$("#qrshow").attr("src", res.data);
+			},
+			error: function () {
+				//请求异常回调
+				alert("异常");
+			}
+		});
         //保存
         form.on('submit(leaderBoardObject-save)', function (data) {
         	let loader = layer.load();

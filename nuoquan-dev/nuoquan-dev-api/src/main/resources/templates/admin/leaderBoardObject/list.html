@@ -78,9 +78,17 @@
 	    });
 	    return flag ? str : '';
 	}
-</script>	
-	
+</script>
 
+<script type="text/html" id="imgTpl">
+    <img src="{{ d.imgUrl0 }}">
+</script>
+<style type="text/css">
+    .layui-table-cell{
+        height: auto!important;
+        white-space: normal;
+    }
+</style>
 
 <th:block th:include="include :: footer"/>
 <script>
@@ -98,17 +106,17 @@
                 	
                {title: '榜单对象名', field: 'name', align: 'center'},
                 	
-               {title: '榜单 ID', field: 'leaderBoardId', align: 'center'},
+               {title: '榜单名', field: 'leaderBoardId', align: 'center'},
                 	
-               {title: '榜单背景图片0', field: 'imgUrl0', align: 'center'},
+               {title: '榜单背景图片', field: 'imgUrl0', align: 'center',templet: '#imgTpl'},
                 	
-               {title: '榜单背景图片1', field: 'imgUrl1', align: 'center'},
+               // {title: '榜单背景图片1', field: 'imgUrl1', align: 'center'},
+               //
+               // {title: '榜单背景图片2', field: 'imgUrl2', align: 'center'},
+               //
+               // {title: '分区类型', field: 'tag', align: 'center'},
                 	
-               {title: '榜单背景图片2', field: 'imgUrl2', align: 'center'},
-                	
-               {title: '分区类型 可以多选', field: 'tag', align: 'center'},
-                	
-               {title: '分数 最多一位小数', field: 'star', align: 'center'},
+               {title: '分数', field: 'star', align: 'center'},
                 	
                {title: '评分人数', field: 'evaluateNums', align: 'center'},
                 	
@@ -124,7 +132,7 @@
                 	
                {title: '修改时间', field: 'updateTime', align: 'center'},
                 	
-               {title: '删除标识', field: 'delFlag', align: 'center'},
+               // {title: '删除标识', field: 'delFlag', align: 'center'},
                 
                {title: '操作', toolbar: '#leaderBoardObject-bar', align: 'center'}
             ]
@@ -178,7 +186,7 @@
                 type: 2,
                 title: '新增',
                 shade: 0.1,
-                area: ['500px', '500px'],
+                area: ['800px', '800px'],
                 content: MODULE_PATH + 'add'
             });
         }
@@ -188,7 +196,7 @@
                 type: 2,
                 title: '修改',
                 shade: 0.1,
-                area: ['500px', '500px'],
+                area: ['800px', '800px'],
                 content: MODULE_PATH + 'edit/' + obj.data['id']
             });
         }
