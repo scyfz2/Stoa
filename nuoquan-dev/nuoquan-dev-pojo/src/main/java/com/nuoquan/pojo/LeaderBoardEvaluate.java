@@ -5,49 +5,54 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import cn.hutool.core.date.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class LeaderBoardEvaluate implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-	
+
 	@ApiModelProperty(value = "主键")
 	private Long id;
-	
+
 	@ApiModelProperty(value = "榜单对象 ID")
 	private Long leaderBoardObjectId;
-	
+
 	@ApiModelProperty(value = "用户 ID")
 	private String userId;
-	
+
 	@ApiModelProperty(value = "评价分数")
 	private BigDecimal star;
-	
+
 	@ApiModelProperty(value = "评价内容")
 	private String evaluateDesc;
-	
+
 	@ApiModelProperty(value = "点亮数")
 	private Integer starNum;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "发布时间")
 	private Date sendDate;
-	
+
 	@ApiModelProperty(value = "创建人")
 	private String createBy;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "创建时间")
 	private Date createTime;
-	
+
 	@ApiModelProperty(value = "修改人")
 	private String updateBy;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "修改时间")
 	private Date updateTime;
-	
+
 	@ApiModelProperty(value = "删除标识")
 	private Integer delFlag;
-	
+
 	@JsonProperty("id")
 	public Long getId() {
 		return id;
@@ -147,35 +152,35 @@ public class LeaderBoardEvaluate implements Serializable {
 
 
 	public LeaderBoardEvaluate(Long id,Long leaderBoardObjectId,String userId,BigDecimal star,String evaluateDesc,Integer starNum,Date sendDate,String createBy,Date createTime,String updateBy,Date updateTime,Integer delFlag) {
-		
+
 		this.id = id;
-		
+
 		this.leaderBoardObjectId = leaderBoardObjectId;
-		
+
 		this.userId = userId;
-		
+
 		this.star = star;
-		
+
 		this.evaluateDesc = evaluateDesc;
-		
+
 		this.starNum = starNum;
-		
+
 		this.sendDate = sendDate;
-		
+
 		this.createBy = createBy;
-		
+
 		this.createTime = createTime;
-		
+
 		this.updateBy = updateBy;
-		
+
 		this.updateTime = updateTime;
-		
+
 		this.delFlag = delFlag;
-		
+
 	}
 
 	public LeaderBoardEvaluate() {
-	    super();
+		super();
 	}
 
 	public String dateToStringConvert(Date date) {
@@ -184,6 +189,6 @@ public class LeaderBoardEvaluate implements Serializable {
 		}
 		return "";
 	}
-	
+
 
 }
