@@ -15,7 +15,7 @@ public class LeaderBoardEvaluateStar implements Serializable {
 	@ApiModelProperty(value = "主键")
 	private Long id;
 	
-	@ApiModelProperty(value = "榜单 ID")
+	@ApiModelProperty(value = "榜单对象 ID")
 	private Long leaderBoardObjectId;
 	
 	@ApiModelProperty(value = "评论 ID")

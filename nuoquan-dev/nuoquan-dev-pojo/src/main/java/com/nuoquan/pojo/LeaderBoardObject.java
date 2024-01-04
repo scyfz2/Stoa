@@ -19,7 +19,7 @@ public class LeaderBoardObject implements Serializable {
 	private String name;
 	
 	@ApiModelProperty(value = "榜单 ID")
-	private String leaderBoardId;
+	private Long leaderBoardId;
 	
 	@ApiModelProperty(value = "榜单背景图片0")
 	private String imgUrl0;
@@ -77,11 +77,11 @@ public class LeaderBoardObject implements Serializable {
 		this.name =  name;
 	}
 	@JsonProperty("leaderBoardId")
-	public String getLeaderBoardId() {
+	public Long getLeaderBoardId() {
 		return leaderBoardId;
 	}
 
-	public void setLeaderBoardId(String leaderBoardId) {
+	public void setLeaderBoardId(Long leaderBoardId) {
 		this.leaderBoardId =  leaderBoardId;
 	}
 	@JsonProperty("imgUrl0")
@@ -190,7 +190,7 @@ public class LeaderBoardObject implements Serializable {
 	}
 
 
-	public LeaderBoardObject(Long id,String name,String leaderBoardId,String imgUrl0,String imgUrl1,String imgUrl2,String tag,BigDecimal star,Integer evaluateNums,String leaderBoardDesc,String status,String createBy,Date createTime,String updateBy,Date updateTime,Integer delFlag) {
+	public LeaderBoardObject(Long id,String name,Long leaderBoardId,String imgUrl0,String imgUrl1,String imgUrl2,String tag,BigDecimal star,Integer evaluateNums,String leaderBoardDesc,String status,String createBy,Date createTime,String updateBy,Date updateTime,Integer delFlag) {
 		
 		this.id = id;
 		

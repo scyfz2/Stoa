@@ -8,6 +8,7 @@ import com.nuoquan.pojo.LeaderBoard;
 import com.nuoquan.pojo.LeaderBoardExample;
 import com.nuoquan.pojo.LeaderBoardObject;
 import com.nuoquan.pojo.admin.TableparV2;
+import com.nuoquan.pojo.vo.LeaderBoardObjectVO;
 import com.nuoquan.service.LeaderBoardObjectService;
 import com.nuoquan.service.LeaderBoardService;
 import com.nuoquan.utils.StringUtils;
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+import static com.nuoquan.admin.controller.BeanCopyUtils.mapBy;
 import static com.nuoquan.admin.controller.FunctionUtils.doIf;
 import static com.nuoquan.util.CommonUtil.approvalStatus;
+import static jdk.nashorn.internal.objects.NativeDebug.map;
 
 /**
  * 排行榜主表Controller
@@ -71,14 +74,18 @@ public class LeaderBoardObjectController extends BasicController {
     public ResultTable list(TableparV2 tablepar, LeaderBoardObject leaderBoardObject) {
         PageInfo<LeaderBoardObject> page = leaderBoardObjectService.list(tablepar, leaderBoardObject);
         List<LeaderBoardObject> list = page.getList();
-        list.stream().forEach(x -> {
+        List<LeaderBoardObjectVO> objects = mapBy(list, x -> BeanCopyUtils.map(x, LeaderBoardObjectVO.class));
+        objects.stream().forEach(x -> {
             doIf(StringUtils.isNotBlank(x.getStatus()), () -> x.setStatus(approvalStatus.get(x.getStatus())));
-            doIf(StringUtils.isNotEmpty(x.getLeaderBoardId()), () -> {
-                LeaderBoard leaderBoard = leaderBoardService.selectByPrimaryKey(x.getLeaderBoardId());
-                x.setLeaderBoardId(leaderBoard == null ? null : leaderBoard.getName());
+            doIf(x.getLeaderBoardId()!=null, () -> {
+                LeaderBoard leaderBoard = leaderBoardService.selectByPrimaryKey(x.getLeaderBoardId().toString());
+                x.setLeaderBoardName(leaderBoard == null ? null : leaderBoard.getName());
             });
         });
-        return pageTable(page.getList(), page.getTotal());
+        list.stream().forEach(x -> {
+            doIf(StringUtils.isNotBlank(x.getStatus()), () -> x.setStatus(approvalStatus.get(x.getStatus())));
+        });
+        return pageTable(objects, page.getTotal());
     }
 
     /**

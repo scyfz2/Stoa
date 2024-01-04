@@ -266,62 +266,62 @@ public class LeaderBoardObjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdEqualTo(String value) {
+        public Criteria andLeaderBoardIdEqualTo(Long value) {
             addCriterion("leader_board_id =", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdNotEqualTo(String value) {
+        public Criteria andLeaderBoardIdNotEqualTo(Long value) {
             addCriterion("leader_board_id <>", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdGreaterThan(String value) {
+        public Criteria andLeaderBoardIdGreaterThan(Long value) {
             addCriterion("leader_board_id >", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdGreaterThanOrEqualTo(String value) {
+        public Criteria andLeaderBoardIdGreaterThanOrEqualTo(Long value) {
             addCriterion("leader_board_id >=", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdLessThan(String value) {
+        public Criteria andLeaderBoardIdLessThan(Long value) {
             addCriterion("leader_board_id <", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdLessThanOrEqualTo(String value) {
+        public Criteria andLeaderBoardIdLessThanOrEqualTo(Long value) {
             addCriterion("leader_board_id <=", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdLike(String value) {
+        public Criteria andLeaderBoardIdLike(Long value) {
             addCriterion("leader_board_id like", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdNotLike(String value) {
+        public Criteria andLeaderBoardIdNotLike(Long value) {
             addCriterion("leader_board_id not like", value, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdIn(List<String> values) {
+        public Criteria andLeaderBoardIdIn(List<Long> values) {
             addCriterion("leader_board_id in", values, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdNotIn(List<String> values) {
+        public Criteria andLeaderBoardIdNotIn(List<Long> values) {
             addCriterion("leader_board_id not in", values, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdBetween(String value1, String value2) {
+        public Criteria andLeaderBoardIdBetween(Long value1, Long value2) {
             addCriterion("leader_board_id between", value1, value2, "leaderBoardId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderBoardIdNotBetween(String value1, String value2) {
+        public Criteria andLeaderBoardIdNotBetween(Long value1, Long value2) {
             addCriterion("leader_board_id not between", value1, value2, "leaderBoardId");
             return (Criteria) this;
         }

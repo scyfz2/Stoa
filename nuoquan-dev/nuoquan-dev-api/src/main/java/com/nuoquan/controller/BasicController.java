@@ -3,7 +3,9 @@ package com.nuoquan.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -186,5 +188,14 @@ public class BasicController {
      */
     protected static ResultTable pageTable(Object data, long count) {
         return ResultTable.pageTable(count, data);
+    }
+
+    public static ResultTable getDataTable(List<?> list) {
+        ResultTable resultTable = new ResultTable();
+        resultTable.setData(list);
+        resultTable.setCode(0);
+        resultTable.setCount(new PageInfo<>(list).getTotal());
+        resultTable.setMsg("请求成功");
+        return resultTable;
     }
 }

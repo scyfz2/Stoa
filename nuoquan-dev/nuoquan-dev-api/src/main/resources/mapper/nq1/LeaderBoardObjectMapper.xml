@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.nuoquan.pojo.LeaderBoardObject">
     <result column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="leader_board_id" jdbcType="VARCHAR" property="leaderBoardId" />
+    <result column="leader_board_id" jdbcType="BIGINT" property="leaderBoardId" />
     <result column="img_url0" jdbcType="VARCHAR" property="imgUrl0" />
     <result column="img_url1" jdbcType="VARCHAR" property="imgUrl1" />
     <result column="img_url2" jdbcType="VARCHAR" property="imgUrl2" />
@@ -152,7 +152,7 @@
     values (
      	#{id,jdbcType=BIGINT},
      	#{name,jdbcType=VARCHAR},
-     	#{leaderBoardId,jdbcType=VARCHAR},
+     	#{leaderBoardId,jdbcType=BIGINT},
      	#{imgUrl0,jdbcType=VARCHAR},
      	#{imgUrl1,jdbcType=VARCHAR},
      	#{imgUrl2,jdbcType=VARCHAR},
@@ -245,7 +245,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="leaderBoardId != null">
-        #{leaderBoardId,jdbcType=VARCHAR},
+        #{leaderBoardId,jdbcType=BIGINT},
       </if>
       <if test="imgUrl0 != null">
         #{imgUrl0,jdbcType=VARCHAR},
@@ -306,7 +306,7 @@
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.leaderBoardId != null">
-        leader_board_id = #{record.leaderBoardId,jdbcType=VARCHAR},
+        leader_board_id = #{record.leaderBoardId,jdbcType=BIGINT},
       </if>
       <if test="record.imgUrl0 != null">
         img_url0 = #{record.imgUrl0,jdbcType=VARCHAR},
@@ -363,7 +363,7 @@
     	 
     	 name = #{record.name,jdbcType=VARCHAR},
     	 
-    	 leader_board_id = #{record.leaderBoardId,jdbcType=VARCHAR},
+    	 leader_board_id = #{record.leaderBoardId,jdbcType=BIGINT},
     	 
     	 img_url0 = #{record.imgUrl0,jdbcType=VARCHAR},
     	 
@@ -406,7 +406,7 @@
       </if>
       
       <if test="leaderBoardId != null and leaderBoardId != ''">
-        leader_board_id = #{leaderBoardId,jdbcType=VARCHAR},
+        leader_board_id = #{leaderBoardId,jdbcType=BIGINT},
       </if>
       
       <if test="imgUrl0 != null and imgUrl0 != ''">
@@ -476,7 +476,7 @@
 	  
 		name = #{name,jdbcType=VARCHAR},
 	  
-		leader_board_id = #{leaderBoardId,jdbcType=VARCHAR},
+		leader_board_id = #{leaderBoardId,jdbcType=BIGINT},
 	  
 		img_url0 = #{imgUrl0,jdbcType=VARCHAR},
 	  
