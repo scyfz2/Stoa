@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import com.nuoquan.controller.BasicController;
@@ -48,6 +49,9 @@ public class LeaderBoardApi extends BasicController {
     @Autowired
     private UserService                    userService;
 
+    @Value("${leaderBoard.approval.auto}")
+    private boolean                        approvalFlag;
+
     @ApiOperation(value = "获取TAG", notes = "获取TAG")
     @GetMapping("/tag/list")
     public AjaxResult tag() {
@@ -57,8 +61,8 @@ public class LeaderBoardApi extends BasicController {
 
     @ApiOperation(value = "获取排行榜", notes = "获取排行榜")
     @GetMapping("/list")
-    public AjaxResult view(Integer page, Integer pageSize, String tag) {
-        startPage(page, pageSize);
+    public AjaxResult view(Integer pageNum, Integer pageSize, String tag) {
+        startPage(pageNum, pageSize);
         LeaderBoardExample example = new LeaderBoardExample();
         LeaderBoardExample.Criteria criteria = example.createCriteria();
         doIf(StringUtils.isNotBlank(tag), () -> criteria.andTagLike("%" + tag + "%"));
@@ -68,10 +72,60 @@ public class LeaderBoardApi extends BasicController {
         return AjaxResult.successData(200, getDataTable(list));
     }
 
+    @ApiOperation(value = "创建排行榜", notes = "创建排行榜")
+    @PostMapping("/create")
+    public AjaxResult view(@RequestBody LeaderBoard leaderBoard) {
+        if (leaderBoard.getName() == null || leaderBoard.getTag() == null) {
+            return AjaxResult.error(500, "参数不正确");
+        }
+        LeaderBoardExample example = new LeaderBoardExample();
+        LeaderBoardExample.Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo(leaderBoard.getName());
+        criteria.andStatusEqualTo("2");
+        List<LeaderBoard> leaderBoards = leaderBoardService.selectByExample(example);
+        if (!leaderBoards.isEmpty()) {
+            return AjaxResult.error(500, "排行榜已存在！");
+        }
+        // 审核状态
+        leaderBoard.setStatus("1");
+        if (approvalFlag) {
+            leaderBoard.setStatus("2");
+        }
+        leaderBoard.setCreateTime(new Date());
+        return AjaxResult.successData(200, leaderBoardService.insertSelective(leaderBoard));
+    }
+
+
+    @ApiOperation(value = "创建排行榜对象", notes = "创建排行榜对象")
+    @PostMapping("/create/object")
+    public AjaxResult view(@RequestBody LeaderBoardObject leaderBoardObject) {
+        if (leaderBoardObject.getName() == null || leaderBoardObject.getLeaderBoardId() == null) {
+            return AjaxResult.error(500, "参数不正确");
+        }
+        LeaderBoardObjectExample example = new LeaderBoardObjectExample();
+        LeaderBoardObjectExample.Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo(leaderBoardObject.getName());
+        criteria.andLeaderBoardIdEqualTo(leaderBoardObject.getLeaderBoardId());
+        criteria.andStatusEqualTo("2");
+        List<LeaderBoardObject> leaderBoards = leaderBoardObjectService.selectByExample(example);
+        if (!leaderBoards.isEmpty()) {
+            return AjaxResult.error(500, "排行榜对象已存在！");
+        }
+        // 审核状态
+        leaderBoardObject.setStatus("1");
+        if (approvalFlag) {
+            leaderBoardObject.setStatus("2");
+        }
+        return AjaxResult.successData(200, leaderBoardObjectService.insertSelective(leaderBoardObject));
+    }
+
+
+
+
     @ApiOperation(value = "获取排行榜对象", notes = "获取排行榜对象")
     @GetMapping("/object/list")
-    public AjaxResult objectList(Integer page, Integer pageSize, Long leaderBoardId) {
-        startPage(page, pageSize);
+    public AjaxResult objectList(Integer pageNum, Integer pageSize, Long leaderBoardId) {
+        startPage(pageNum, pageSize);
         if (leaderBoardId == null) {
             return AjaxResult.error(500, "leaderBoardId 不能为空！");
         }
