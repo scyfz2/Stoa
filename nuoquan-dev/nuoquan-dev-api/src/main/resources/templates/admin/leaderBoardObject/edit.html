@@ -101,6 +101,7 @@
                         <select name="status" class="form-control" id="status">
                             <option th:each="entry : ${approvalStatus.entrySet()}"
                                     th:value="${entry.key}"
+                                    th:field="*{status}"
                                     th:text="${entry.value}">
                             </option>
                         </select>

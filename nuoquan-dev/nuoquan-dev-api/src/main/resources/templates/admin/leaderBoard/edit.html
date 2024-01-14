@@ -85,9 +85,10 @@
 		                    <label class="layui-form-label">审核状态</label>
 		                    <div class="layui-input-block">
 <!--		                        <input th:value="*{status}" type="text" name="status" autocomplete="off" placeholder="审核状态" class="layui-input">-->
-								<select name="status"  class="form-control" id="status" >
+								<select name="status"  class="form-control" id="status">
 									<option th:each="entry : ${approvalStatus.entrySet()}"
 											th:value="${entry.key}"
+											th:field="*{status}"
 											th:text="${entry.value}">
 									</option>
 								</select>

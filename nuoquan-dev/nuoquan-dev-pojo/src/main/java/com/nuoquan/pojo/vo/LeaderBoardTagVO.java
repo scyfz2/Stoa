@@ -5,7 +5,7 @@ import com.nuoquan.pojo.LeaderBoardTag;
 /**
  * LeaderBoardVO
  *
- * @author xuxiaoding
+ * @author xxdd
  * @date 2023-12-25 23:49
  */
 public class LeaderBoardTagVO extends LeaderBoardTag {

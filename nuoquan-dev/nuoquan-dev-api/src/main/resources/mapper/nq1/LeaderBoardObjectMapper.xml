@@ -441,15 +441,15 @@
         status = #{status,jdbcType=VARCHAR},
       </if>
       
-      <if test="createBy != null and createBy != ''">
+      <if test="createBy != null">
         create_by = #{createBy,jdbcType=VARCHAR},
       </if>
       
-      <if test="createTime != null and createTime != ''">
+      <if test="createTime != null ">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       
-      <if test="updateBy != null and updateBy != ''">
+      <if test="updateBy != null ">
         update_by = #{updateBy,jdbcType=VARCHAR},
       </if>
       

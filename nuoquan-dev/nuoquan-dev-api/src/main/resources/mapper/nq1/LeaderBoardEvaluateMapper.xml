@@ -353,7 +353,7 @@
         evaluate_desc = #{evaluateDesc,jdbcType=VARCHAR},
       </if>
       
-      <if test="starNum != null and starNum != ''">
+      <if test="starNum != null">
         star_num = #{starNum,jdbcType=INTEGER},
       </if>
       

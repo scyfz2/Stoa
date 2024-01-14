@@ -1,6 +1,8 @@
 package com.nuoquan.api;
 
 import static com.github.pagehelper.page.PageMethod.startPage;
+import static com.nuoquan.admin.controller.BeanCopyUtils.map;
+import static com.nuoquan.admin.controller.BeanCopyUtils.mapBy;
 import static com.nuoquan.admin.controller.FunctionUtils.doIf;
 
 import java.util.Date;
@@ -10,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import com.nuoquan.api.service.CommonService;
 import com.nuoquan.controller.BasicController;
 import com.nuoquan.domain.AjaxResult;
 import com.nuoquan.pojo.*;
+import com.nuoquan.pojo.vo.LeaderBoardObjectVO;
+import com.nuoquan.pojo.vo.LeaderBoardVO;
 import com.nuoquan.service.*;
 import com.nuoquan.utils.StringUtils;
 
@@ -48,6 +53,8 @@ public class LeaderBoardApi extends BasicController {
 
     @Autowired
     private UserService                    userService;
+    @Autowired
+    private CommonService                  commonService;
 
     @Value("${leaderBoard.approval.auto}")
     private boolean                        approvalFlag;
@@ -69,12 +76,16 @@ public class LeaderBoardApi extends BasicController {
         // 审核通过
         criteria.andStatusEqualTo("2");
         List<LeaderBoard> list = leaderBoardService.selectByExample(example);
-        return AjaxResult.successData(200, getDataTable(list));
+        List<LeaderBoardVO> leaderBoardVOS = mapBy(list, x -> map(x, LeaderBoardVO.class));
+        leaderBoardVOS.forEach(x -> {
+            x.setLeaderBoardObjectList(commonService.topThreeObject(x.getId()));
+        });
+        return AjaxResult.successData(200, getDataTable(leaderBoardVOS));
     }
 
     @ApiOperation(value = "创建排行榜", notes = "创建排行榜")
     @PostMapping("/create")
-    public AjaxResult view(@RequestBody LeaderBoard leaderBoard) {
+    public AjaxResult view(@RequestBody LeaderBoardVO leaderBoard) {
         if (leaderBoard.getName() == null || leaderBoard.getTag() == null) {
             return AjaxResult.error(500, "参数不正确");
         }
@@ -86,15 +97,8 @@ public class LeaderBoardApi extends BasicController {
         if (!leaderBoards.isEmpty()) {
             return AjaxResult.error(500, "排行榜已存在！");
         }
-        // 审核状态
-        leaderBoard.setStatus("1");
-        if (approvalFlag) {
-            leaderBoard.setStatus("2");
-        }
-        leaderBoard.setCreateTime(new Date());
-        return AjaxResult.successData(200, leaderBoardService.insertSelective(leaderBoard));
+        return AjaxResult.successData(200, commonService.insertLeaderBoard(leaderBoard));
     }
-
 
     @ApiOperation(value = "创建排行榜对象", notes = "创建排行榜对象")
     @PostMapping("/create/object")
@@ -119,12 +123,9 @@ public class LeaderBoardApi extends BasicController {
         return AjaxResult.successData(200, leaderBoardObjectService.insertSelective(leaderBoardObject));
     }
 
-
-
-
     @ApiOperation(value = "获取排行榜对象", notes = "获取排行榜对象")
     @GetMapping("/object/list")
-    public AjaxResult objectList(Integer pageNum, Integer pageSize, Long leaderBoardId) {
+    public AjaxResult objectList(Integer pageNum, Integer pageSize, Long leaderBoardId, String sortType) {
         startPage(pageNum, pageSize);
         if (leaderBoardId == null) {
             return AjaxResult.error(500, "leaderBoardId 不能为空！");
@@ -134,8 +135,31 @@ public class LeaderBoardApi extends BasicController {
         criteria.andLeaderBoardIdEqualTo(leaderBoardId);
         // 审核通过
         criteria.andStatusEqualTo("2");
-        example.setOrderByClause("star desc");
+        doIf("nums".equals(sortType), () -> example.setOrderByClause("evaluate_nums desc"));
+        doIf("times".equals(sortType), () -> example.setOrderByClause("create_time desc"));
         List<LeaderBoardObject> list = leaderBoardObjectService.selectByExample(example);
+        List<LeaderBoardObjectVO> leaderBoardObjects = mapBy(list, x -> map(x, LeaderBoardObjectVO.class));
+
+        // 设置评论
+        leaderBoardObjects.forEach(x -> {
+            x.setLeaderBoardEvaluateList(commonService.topEvaluate(x.getId()));
+        });
+
+        return AjaxResult.successData(200, getDataTable(leaderBoardObjects));
+    }
+
+    @ApiOperation(value = "评论列表", notes = "评论列表")
+    @GetMapping("/evaluate/list")
+    public AjaxResult evaluateList(Integer pageNum, Integer pageSize, Long leaderBoardObjectId) {
+        startPage(pageNum, pageSize);
+        if (leaderBoardObjectId == null) {
+            return AjaxResult.error(500, "leaderBoardObjectId 不能为空！");
+        }
+        LeaderBoardEvaluateExample example = new LeaderBoardEvaluateExample();
+        LeaderBoardEvaluateExample.Criteria criteria = example.createCriteria();
+        criteria.andLeaderBoardObjectIdEqualTo(leaderBoardObjectId);
+        example.setOrderByClause("star_num desc");
+        List<LeaderBoardEvaluate> list = leaderBoardEvaluateService.selectByExample(example);
         return AjaxResult.successData(200, getDataTable(list));
     }
 
@@ -147,6 +171,8 @@ public class LeaderBoardApi extends BasicController {
             evaluate.setCreateBy(evaluate.getUserId());
             evaluate.setCreateTime(new Date());
             leaderBoardEvaluateService.insertSelective(evaluate);
+            // 评论数 + 1
+            commonService.addEvaluateCount(evaluate.getLeaderBoardObjectId());
         } else {
             evaluate.setUpdateBy(evaluate.getUserId());
             evaluate.setUpdateTime(new Date());
@@ -159,10 +185,11 @@ public class LeaderBoardApi extends BasicController {
     @PostMapping("/star")
     public AjaxResult star(@RequestBody LeaderBoardEvaluateStar star) {
         leaderBoardEvaluateStarService.insertSelective(star);
+        commonService.addStarNum(star.getEvaluateId());
         return AjaxResult.successData(200, star);
     }
 
-    @ApiOperation(value = "点亮", notes = "点亮")
+    @ApiOperation(value = "取消点亮", notes = "取消点亮")
     @PostMapping("/remove/star")
     public AjaxResult removeStar(@RequestBody LeaderBoardEvaluateStar star) {
         if (star.getUserId() == null) {
@@ -174,6 +201,7 @@ public class LeaderBoardApi extends BasicController {
         doIf(star.getLeaderBoardObjectId() != null, () -> criteria.andLeaderBoardObjectIdEqualTo(star.getLeaderBoardObjectId()));
         doIf(star.getEvaluateId() != null, () -> criteria.andEvaluateIdEqualTo(star.getEvaluateId()));
         int i = leaderBoardEvaluateStarService.deleteByExample(example);
+        commonService.removeStarNum(star.getEvaluateId());
         return AjaxResult.successData(200, i == 1);
     }
 }
