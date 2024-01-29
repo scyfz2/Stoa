@@ -32,7 +32,6 @@ public class CommonController extends BasicController {
     ResourceService resourceService;
 
     @PostMapping(value = "/file/upload")
-    @RequiresPermissions("gen:leaderBoard:view")
     public JSONResult uploadArticleImg(@ApiParam(value = "file", required = true) MultipartFile file) throws Exception {
         // 判断是否超出大小限制
         if (file.getSize() > MAX_IMAGE_SIZE) {

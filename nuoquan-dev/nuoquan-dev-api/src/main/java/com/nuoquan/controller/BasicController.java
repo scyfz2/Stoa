@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageInfo;
 import com.nuoquan.config.COSProperties;
 import com.nuoquan.config.ResourceConfig;
 import com.nuoquan.domain.AjaxResult;
@@ -195,6 +195,15 @@ public class BasicController {
         resultTable.setData(list);
         resultTable.setCode(0);
         resultTable.setCount(new PageInfo<>(list).getTotal());
+        resultTable.setMsg("请求成功");
+        return resultTable;
+    }
+
+    public static ResultTable getDataTable(List<?> list, long total) {
+        ResultTable resultTable = new ResultTable();
+        resultTable.setData(list);
+        resultTable.setCode(0);
+        resultTable.setCount(total);
         resultTable.setMsg("请求成功");
         return resultTable;
     }

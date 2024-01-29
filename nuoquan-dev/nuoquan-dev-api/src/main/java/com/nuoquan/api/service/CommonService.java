@@ -4,9 +4,13 @@ import static com.github.pagehelper.page.PageMethod.startPage;
 import static com.nuoquan.admin.controller.BeanCopyUtils.map;
 import static com.nuoquan.admin.controller.BeanCopyUtils.mapBy;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -53,6 +57,13 @@ public class CommonService extends BasicController {
         LeaderBoardObject leaderBoardObject = leaderBoardObjectService.selectByPrimaryKey(leaderBoardObjectId.toString());
         leaderBoardObject.setEvaluateNums(leaderBoardObject.getEvaluateNums() == null ? 1 : leaderBoardObject.getEvaluateNums() + 1);
         leaderBoardObjectService.updateVisible(leaderBoardObject);
+    }
+
+    public boolean checkStar(Long evaluateId, String userId) {
+        LeaderBoardEvaluateStarExample example = new LeaderBoardEvaluateStarExample();
+        example.createCriteria().andEvaluateIdEqualTo(evaluateId).andUserIdEqualTo(userId);
+        List<LeaderBoardEvaluateStar> leaderBoardEvaluateStars = leaderBoardEvaluateStarService.selectByExample(example);
+        return leaderBoardEvaluateStars.isEmpty();
     }
 
     public void addStarNum(Long evaluateId) {
@@ -107,6 +118,63 @@ public class CommonService extends BasicController {
         List<LeaderBoardEvaluate> leaderBoardEvaluates = leaderBoardEvaluateService.selectByExample(example);
         return mapBy(leaderBoardEvaluates, x -> map(x, LeaderBoardEvaluateVO.class));
     }
+
+    public boolean checkEvaluate(Long leaderBoardObjectId, String userId) {
+        LeaderBoardEvaluateExample example = new LeaderBoardEvaluateExample();
+        LeaderBoardEvaluateExample.Criteria criteria = example.createCriteria();
+        criteria.andLeaderBoardObjectIdEqualTo(leaderBoardObjectId);
+        criteria.andUserIdEqualTo(userId);
+        List<LeaderBoardEvaluate> leaderBoardEvaluates = leaderBoardEvaluateService.selectByExample(example);
+        return leaderBoardEvaluates.isEmpty();
+    }
+
+
+    public Map<Integer,String> starMap(Long leaderBoardObjectId) {
+        LeaderBoardEvaluateExample example = new LeaderBoardEvaluateExample();
+        LeaderBoardEvaluateExample.Criteria criteria = example.createCriteria();
+        criteria.andLeaderBoardObjectIdEqualTo(leaderBoardObjectId);
+        List<LeaderBoardEvaluate> leaderBoardList = leaderBoardEvaluateService.selectByExample(example);
+        // 初始化分组统计的 Map
+        Map<Integer, Integer> groupCountMap = new HashMap<>();
+        int totalCount = 0;
+
+        // 遍历对象列表，统计每个分组的数量
+        for (LeaderBoardEvaluate item : leaderBoardList) {
+            BigDecimal star = item.getStar();
+            int group = star.intValue(); // 取整数部分作为分组
+            groupCountMap.put(group, groupCountMap.getOrDefault(group, 0) + 1);
+            totalCount++;
+        }
+
+        // 计算百分比并存储结果的 Map
+        Map<Integer, String> result = new HashMap<>();
+        for (int i = 1; i <= 5; i++) {
+            int count = groupCountMap.getOrDefault(i, 0);
+            double percentage = (double) count / totalCount * 100;
+            result.put(i, String.format("%.2f", percentage));
+        }
+        return result;
+    }
+
+    public void averageStar(Long leaderBoardObjectId) {
+        LeaderBoardEvaluateExample example = new LeaderBoardEvaluateExample();
+        LeaderBoardEvaluateExample.Criteria criteria = example.createCriteria();
+        criteria.andLeaderBoardObjectIdEqualTo(leaderBoardObjectId);
+        List<LeaderBoardEvaluate> leaderBoardList = leaderBoardEvaluateService.selectByExample(example);
+        BigDecimal sum = new BigDecimal(0);
+        for (LeaderBoardEvaluate item : leaderBoardList) {
+            sum = sum.add(item.getStar());
+        }
+        BigDecimal divide = sum.divide(new BigDecimal(leaderBoardList.size()), 2, BigDecimal.ROUND_HALF_UP);
+        LeaderBoardObject leaderBoardObject = leaderBoardObjectService.selectByPrimaryKey(String.valueOf(leaderBoardObjectId));
+        if(leaderBoardObject == null){
+            return;
+        }
+        leaderBoardObject.setStar(divide);
+        leaderBoardObjectService.updateVisible(leaderBoardObject);
+    }
+
+
 
     @Transactional(rollbackFor = Exception.class)
     public int insertLeaderBoard(LeaderBoardVO leaderBoard) {

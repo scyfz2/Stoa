@@ -1,6 +1,7 @@
 package com.nuoquan.pojo.vo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.nuoquan.pojo.LeaderBoardObject;
 
@@ -11,7 +12,27 @@ import com.nuoquan.pojo.LeaderBoardObject;
  * @date 2024-01-04 22:42
  */
 public class LeaderBoardObjectVO extends LeaderBoardObject {
-    private String                      leaderBoardName;
+    private String               leaderBoardName;
+
+    private Boolean              evaluateFlag;
+
+    private Map<Integer, String> starMap;
+
+    public Map<Integer, String> getStarMap() {
+        return starMap;
+    }
+
+    public void setStarMap(Map<Integer, String> starMap) {
+        this.starMap = starMap;
+    }
+
+    public Boolean getEvaluateFlag() {
+        return evaluateFlag;
+    }
+
+    public void setEvaluateFlag(Boolean evaluateFlag) {
+        this.evaluateFlag = evaluateFlag;
+    }
 
     private List<LeaderBoardEvaluateVO> leaderBoardEvaluateList;
 
