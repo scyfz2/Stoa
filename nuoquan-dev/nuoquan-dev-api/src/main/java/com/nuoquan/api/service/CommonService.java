@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -128,8 +127,7 @@ public class CommonService extends BasicController {
         return leaderBoardEvaluates.isEmpty();
     }
 
-
-    public Map<Integer,String> starMap(Long leaderBoardObjectId) {
+    public Map<Integer, String> starMap(Long leaderBoardObjectId) {
         LeaderBoardEvaluateExample example = new LeaderBoardEvaluateExample();
         LeaderBoardEvaluateExample.Criteria criteria = example.createCriteria();
         criteria.andLeaderBoardObjectIdEqualTo(leaderBoardObjectId);
@@ -146,12 +144,14 @@ public class CommonService extends BasicController {
             totalCount++;
         }
 
-        // 计算百分比并存储结果的 Map
+        // 计算百分比并存储结果的 Map [1,2,3,4,5,6,7,8,9]
         Map<Integer, String> result = new HashMap<>();
-        for (int i = 1; i <= 5; i++) {
-            int count = groupCountMap.getOrDefault(i, 0);
-            double percentage = (double) count / totalCount * 100;
-            result.put(i, String.format("%.2f", percentage));
+        for (int i = 0; i < 5; i++) {
+            // 0 1 2 3 4
+            int count = groupCountMap.getOrDefault(i * 2 + 1, 0);
+            int count1 = groupCountMap.getOrDefault(i * 2 + 2, 0);
+            double percentage = (double) (count + count1) / totalCount * 100;
+            result.put(i, String.format("%.2f", percentage) == null ? "0" : String.format("%.2f", percentage));
         }
         return result;
     }
@@ -167,14 +167,12 @@ public class CommonService extends BasicController {
         }
         BigDecimal divide = sum.divide(new BigDecimal(leaderBoardList.size()), 2, BigDecimal.ROUND_HALF_UP);
         LeaderBoardObject leaderBoardObject = leaderBoardObjectService.selectByPrimaryKey(String.valueOf(leaderBoardObjectId));
-        if(leaderBoardObject == null){
+        if (leaderBoardObject == null) {
             return;
         }
         leaderBoardObject.setStar(divide);
         leaderBoardObjectService.updateVisible(leaderBoardObject);
     }
-
-
 
     @Transactional(rollbackFor = Exception.class)
     public int insertLeaderBoard(LeaderBoardVO leaderBoard) {
