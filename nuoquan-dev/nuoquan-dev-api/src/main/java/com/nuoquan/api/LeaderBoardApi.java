@@ -20,6 +20,7 @@ import com.nuoquan.pojo.*;
 import com.nuoquan.pojo.vo.LeaderBoardEvaluateVO;
 import com.nuoquan.pojo.vo.LeaderBoardObjectVO;
 import com.nuoquan.pojo.vo.LeaderBoardVO;
+import com.nuoquan.pojo.vo.UserVO;
 import com.nuoquan.service.*;
 import com.nuoquan.utils.StringUtils;
 
@@ -107,7 +108,7 @@ public class LeaderBoardApi extends BasicController {
     @ApiOperation(value = "创建排行榜", notes = "创建排行榜")
     @PostMapping("/create")
     public AjaxResult view(@RequestBody LeaderBoardVO leaderBoard) {
-        if (leaderBoard.getName() == null ) {
+        if (leaderBoard.getName() == null) {
             return AjaxResult.error(500, "参数不正确");
         }
         LeaderBoardExample example = new LeaderBoardExample();
@@ -217,6 +218,11 @@ public class LeaderBoardApi extends BasicController {
 
         leaderBoardEvaluateVOS.forEach(x -> {
             x.setStarFlag(!commonService.checkStar(x.getId(), userId));
+            UserVO vo = userService.getUserById(x.getUserId());
+            doIf(vo != null, () -> {
+                x.setNickname(vo.getNickname());
+                x.setFaceImg(vo.getFaceImg());
+            });
         });
 
         return AjaxResult.successData(200, getDataTable(leaderBoardEvaluateVOS, total));
