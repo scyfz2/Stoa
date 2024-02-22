@@ -56,6 +56,9 @@ public class CommonService extends BasicController {
         LeaderBoardObject leaderBoardObject = leaderBoardObjectService.selectByPrimaryKey(leaderBoardObjectId.toString());
         leaderBoardObject.setEvaluateNums(leaderBoardObject.getEvaluateNums() == null ? 1 : leaderBoardObject.getEvaluateNums() + 1);
         leaderBoardObjectService.updateVisible(leaderBoardObject);
+        LeaderBoard leaderBoard = leaderBoardService.selectByPrimaryKey(leaderBoardObject.getLeaderBoardId().toString());
+        leaderBoard.setEvaluateNums(leaderBoard.getEvaluateNums() == null ? 1 : leaderBoard.getEvaluateNums() + 1);
+        leaderBoardService.updateVisible(leaderBoard);
     }
 
     public boolean checkStar(Long evaluateId, String userId) {
@@ -151,6 +154,7 @@ public class CommonService extends BasicController {
             int count = groupCountMap.getOrDefault(i * 2 + 1, 0);
             int count1 = groupCountMap.getOrDefault(i * 2 + 2, 0);
             double percentage = (double) (count + count1) / totalCount * 100;
+            percentage = Double.isNaN(percentage) ? 0 : percentage;
             result.put(i, String.format("%.2f", percentage) == null ? "0" : String.format("%.2f", percentage));
         }
         return result;

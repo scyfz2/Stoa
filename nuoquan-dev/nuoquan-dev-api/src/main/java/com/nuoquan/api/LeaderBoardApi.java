@@ -98,13 +98,16 @@ public class LeaderBoardApi extends BasicController {
         List<LeaderBoard> list = leaderBoardService.selectByExample(example);
         long total = new PageInfo<>(list).getTotal();
         List<LeaderBoardVO> leaderBoardVOS = mapBy(list, x -> map(x, LeaderBoardVO.class));
+        leaderBoardVOS.forEach(x -> {
+            x.setLeaderBoardObjectList(commonService.topThreeObject(x.getId()));
+        });
         return AjaxResult.successData(200, getDataTable(leaderBoardVOS, total));
     }
 
     @ApiOperation(value = "创建排行榜", notes = "创建排行榜")
     @PostMapping("/create")
     public AjaxResult view(@RequestBody LeaderBoardVO leaderBoard) {
-        if (leaderBoard.getName() == null || leaderBoard.getTag() == null) {
+        if (leaderBoard.getName() == null ) {
             return AjaxResult.error(500, "参数不正确");
         }
         LeaderBoardExample example = new LeaderBoardExample();
