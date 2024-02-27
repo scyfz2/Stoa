@@ -15,6 +15,15 @@ public class LeaderBoardObjectVO extends LeaderBoardObject {
     private String               leaderBoardName;
 
     private Boolean              evaluateFlag;
+    private String              createByNickname;
+
+    public String getCreateByNickname() {
+        return createByNickname;
+    }
+
+    public void setCreateByNickname(String createByNickname) {
+        this.createByNickname = createByNickname;
+    }
 
     private Map<Integer, String> starMap;
 

@@ -198,6 +198,8 @@ public class LeaderBoardApi extends BasicController {
         vo.setLeaderBoardEvaluateList(commonService.topEvaluate(vo.getId()));
         vo.setStarMap(commonService.starMap(vo.getId()));
         vo.setEvaluateFlag(!commonService.checkEvaluate(id, userId));
+        UserVO vo1 = userService.getUserById(vo.getCreateBy());
+        doIf(vo1 != null,()->vo.setCreateByNickname(vo1.getNickname()));
         return AjaxResult.successData(200, vo);
     }
 
