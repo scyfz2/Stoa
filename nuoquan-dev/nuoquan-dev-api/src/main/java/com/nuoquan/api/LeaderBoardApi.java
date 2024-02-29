@@ -165,6 +165,8 @@ public class LeaderBoardApi extends BasicController {
         // 设置评论
         leaderBoardObjects.forEach(x -> {
             x.setLeaderBoardEvaluateList(commonService.topEvaluate(x.getId()));
+            UserVO vo1 = userService.getUserById(x.getCreateBy());
+            doIf(vo1 != null, () -> x.setCreateByNickname(vo1.getNickname()));
         });
         return AjaxResult.successData(200, getDataTable(leaderBoardObjects, total));
     }
@@ -199,7 +201,7 @@ public class LeaderBoardApi extends BasicController {
         vo.setStarMap(commonService.starMap(vo.getId()));
         vo.setEvaluateFlag(!commonService.checkEvaluate(id, userId));
         UserVO vo1 = userService.getUserById(vo.getCreateBy());
-        doIf(vo1 != null,()->vo.setCreateByNickname(vo1.getNickname()));
+        doIf(vo1 != null, () -> vo.setCreateByNickname(vo1.getNickname()));
         return AjaxResult.successData(200, vo);
     }
 
